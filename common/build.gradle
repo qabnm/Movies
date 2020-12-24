@@ -1,0 +1,68 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+def ext = rootProject.ext
+def cfg = ext.android
+
+android {
+    compileSdkVersion cfg.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion cfg.minSdkVersion
+        targetSdkVersion cfg.targetSdkVersion
+        versionCode cfg.versionCode
+        versionName cfg.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        kapt {
+            arguments {
+                arg("AROUTER_MODULE_NAME", project.getName())
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    api "androidx.core:core-ktx:$ext.core_ktx_version"
+    api "androidx.appcompat:appcompat:$ext.appcompact_version"
+    api "androidx.constraintlayout:constraintlayout:$ext.constraintlayout_version"
+    api "androidx.recyclerview:recyclerview:$ext.rv_version"
+    api 'com.google.android.material:material:1.2.1'
+
+    api "com.squareup.retrofit2:retrofit:$ext.retrofit_version"//导入retrofit
+    api "com.google.code.gson:gson:$ext.gson_version"//Gson 库
+    implementation "com.squareup.retrofit2:converter-gson:$ext.convert_gson_version"
+    implementation "com.squareup.okhttp3:okhttp:$ext.okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$ext.interceptor_version"
+    api 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ext.coroutines_core_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ext.coroutines_android_version"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$ext.viewmodel_version"
+//    api project(path: ':download')
+
+
+    //aroute
+    api "com.alibaba:arouter-api:$ext.arouter_version"
+    kapt "com.alibaba:arouter-compiler:$ext.arouter_version"
+
+    api 'com.github.bumptech.glide:glide:4.11.0'
+    kapt 'com.github.bumptech.glide:compiler:4.11.0'
+
+}
