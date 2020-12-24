@@ -4,6 +4,9 @@ apply plugin: 'kotlin-android-extensions'
 def ext = rootProject.ext
 def cfg = ext.android
 
+static def buildTime() {
+    return new Date().format("yyyyMMdd")
+}
 android {
     compileSdkVersion cfg.compileSdkVersion
 
@@ -12,6 +15,8 @@ android {
         targetSdkVersion cfg.targetSdkVersion
         versionCode cfg.versionCode
         versionName cfg.versionName
+        //打包时间
+        resValue "string", "build_time", buildTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
@@ -19,8 +24,29 @@ android {
 
     buildTypes {
         release {
+            //更改AndroidManifest.xml中预先定义好占位符信息
+            //manifestPlaceholders = [app_icon: "@drawable/icon"]
+            // 不显示Log
+            buildConfigField "boolean", "LEO_DEBUG", "false"
+            //是否zip对齐
+            zipAlignEnabled true
+            // 缩减resource文件
+            shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            //签名
+//            signingConfig signingConfigs.release
+        }
+
+        debug {
+            //给applicationId添加后缀“.debug”
+            applicationIdSuffix ".debug"
+            //manifestPlaceholders = [app_icon: "@drawable/launch_beta"]
+            buildConfigField "boolean", "LOG_DEBUG", "true"
+            zipAlignEnabled false
+            shrinkResources false
+            minifyEnabled false
+            debuggable true
         }
     }
 
@@ -36,6 +62,19 @@ android {
             res.srcDirs = ['src/main/res']
         }
     }
+
+//    signingConfigs {
+//        release {
+////            keyAlias 'guiying712'
+////            keyPassword 'guiying712'
+////            storeFile file('/mykey.jks')
+////            storePassword 'guiying712'
+//        }
+//
+//        debug{
+//
+//        }
+//    }
 }
 
 dependencies {
@@ -45,5 +84,6 @@ dependencies {
         implementation project(path: ':common')
     }else{
         //在集成模式下app壳工程必须依赖所有在应用Application中声明的业务组件，并且不需要再依赖任何功能组件。
+        implementation project(path: ':common')
     }
 }
