@@ -2,7 +2,7 @@ package com.junliu.liu.common.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.junliu.liu.common.BaseApplication
+import com.junliu.common.BaseApplication
 
 /**
  * @author: jun.liu

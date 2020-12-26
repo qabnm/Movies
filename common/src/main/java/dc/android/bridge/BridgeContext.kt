@@ -12,5 +12,6 @@ class BridgeContext {
         const val CONNECTION_ERROR = "连接异常"
         const val RUNTIME_ERROR="运行异常"
         const val TOKEN_ERROR = "登录超时"
+
     }
 }

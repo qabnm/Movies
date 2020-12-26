@@ -1,3 +1,4 @@
+include ':weichat'
 include ':app'
 include ':common'
 rootProject.name = "Movies"
