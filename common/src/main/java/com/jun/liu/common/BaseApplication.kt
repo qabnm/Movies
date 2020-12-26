@@ -15,6 +15,7 @@ open class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Utils.init(this)
         baseCtx = this.applicationContext
         initARouter()
         initUmeng()
