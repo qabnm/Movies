@@ -9,7 +9,7 @@ import android.widget.FrameLayout;
 import androidx.annotation.RequiresApi;
 
 
-import com.jun.liu.common.R;
+import com.junliu.common.R;
 
 import dc.android.bridge.view.BaseActivity;
 

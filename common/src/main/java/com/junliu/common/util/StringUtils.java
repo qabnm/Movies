@@ -1,4 +1,4 @@
-package com.jun.liu.common.util;
+package com.junliu.common.util;
 
 /**
  * 字符串相关工具类

@@ -1,6 +1,6 @@
 package com.junliu.movies
 
-import com.jun.liu.common.BaseApplication
+import com.junliu.liu.common.BaseApplication
 
 /**
  * @author: jun.liu

@@ -1,4 +1,4 @@
-package com.jun.liu.common
+package com.junliu.liu.common
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

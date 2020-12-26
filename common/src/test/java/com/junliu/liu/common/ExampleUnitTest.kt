@@ -1,4 +1,4 @@
-package com.jun.liu.common
+package com.junliu.liu.common
 
 import org.junit.Test
 

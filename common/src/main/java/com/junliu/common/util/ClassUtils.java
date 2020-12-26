@@ -1,4 +1,4 @@
-package com.jun.liu.common.util;
+package com.junliu.common.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

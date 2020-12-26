@@ -1,7 +1,6 @@
-package com.jun.liu.common.util;
+package com.junliu.common.util;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;

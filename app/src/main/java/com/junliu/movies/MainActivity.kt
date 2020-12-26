@@ -3,8 +3,7 @@ package com.junliu.movies
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import com.jun.liu.common.util.Preference
-import com.jun.liu.common.util.SharedPreferencesHelper
+import com.junliu.liu.common.util.SharedPreferencesHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

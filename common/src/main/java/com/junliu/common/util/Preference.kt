@@ -1,10 +1,10 @@
-package com.jun.liu.common.util
+package com.junliu.liu.common.util
 
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
 import android.util.Log
-import com.jun.liu.common.BaseApplication
+import com.junliu.liu.common.BaseApplication
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.ObjectInputStream

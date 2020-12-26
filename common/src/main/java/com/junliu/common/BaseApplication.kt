@@ -1,12 +1,10 @@
-package com.jun.liu.common
+package com.junliu.liu.common
 
 import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
-import com.jun.liu.common.util.ClassUtils
-import com.jun.liu.common.util.Utils
+import com.junliu.common.util.Utils
 import com.umeng.commonsdk.UMConfigure
-import dc.android.bridge.view.BaseFragment
 
 open class BaseApplication : Application() {
     companion object {

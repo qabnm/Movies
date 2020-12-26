@@ -1,13 +1,13 @@
-package com.jun.liu.common.util
+package com.junliu.liu.common.util
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.jun.liu.common.BaseApplication
+import com.junliu.liu.common.BaseApplication
 
 /**
  * @author: jun.liu
  * @date: 2020/12/26 10:42
- * @des:
+ * @des: 本地数据存储工具类
  */
 class SharedPreferencesHelper private constructor() {
     private val preference: SharedPreferences
