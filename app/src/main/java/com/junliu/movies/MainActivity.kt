@@ -1,8 +1,8 @@
 package com.junliu.movies
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import com.junliu.liu.common.util.SharedPreferencesHelper
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
 
         btnSet.setOnClickListener {
             SharedPreferencesHelper.helper.setValue("age","小明")
+//            WeiChatTool.regToQQ(applicationContext)
         }
 
         btnGet.setOnClickListener {
@@ -25,5 +26,4 @@ class MainActivity : AppCompatActivity() {
             SharedPreferencesHelper.helper.remove("age")
         }
     }
-
 }

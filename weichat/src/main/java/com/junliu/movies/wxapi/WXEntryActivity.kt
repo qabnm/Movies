@@ -2,6 +2,7 @@ package com.junliu.movies.wxapi
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.BaseAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.junliu.weichat.R
@@ -11,6 +12,7 @@ import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
+import com.tencent.mm.opensdk.openapi.WXAPIFactory
 import dc.android.tools.LiveDataBus
 
 /**
@@ -22,6 +24,7 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WeiChatTool.regToWx(applicationContext)
         WeiChatTool.weiChatApi?.handleIntent(intent, this)
     }
 

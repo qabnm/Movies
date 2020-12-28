@@ -34,7 +34,7 @@ open class BaseApplication : Application() {
         //初始化友盟统计
         UMConfigure.init(applicationContext, "", "", 0, "")
         //注册app到微信 实现分享 三方登录等
-        WeiChatTool.regToWx(applicationContext)
+//        WeiChatTool.regToWx(applicationContext)
     }
 
     override fun onTerminate() {
