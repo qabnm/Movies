@@ -11,6 +11,7 @@ import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
+import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu
@@ -41,6 +42,8 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
                 if (resp.type == ConstantsAPI.COMMAND_SENDAUTH) {
                     result = "授权成功"
                     val code = (resp as SendAuth.Resp).code
+                    //通过此code换取access_token参数
+                    LiveDataBus.get().with("code").value = code
                 } else if (resp.type == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {
                     result = "分享成功"
                 }
