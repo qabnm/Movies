@@ -1,4 +1,4 @@
-package com.junliu.liu.common
+package com.junliu.common
 
 /**
  * @author: jun.liu

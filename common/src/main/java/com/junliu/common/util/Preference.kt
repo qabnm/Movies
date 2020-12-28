@@ -1,4 +1,4 @@
-package com.junliu.liu.common.util
+package com.junliu.common.util
 
 import android.annotation.SuppressLint
 import android.content.Context
