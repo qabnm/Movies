@@ -1,4 +1,4 @@
-package com.junliu.movies
+package com.junliu.main
 
 import android.os.Bundle
 import android.util.Log

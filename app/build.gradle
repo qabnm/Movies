@@ -84,6 +84,6 @@ dependencies {
         implementation project(path: ':common')
     }else{
         //在集成模式下app壳工程必须依赖所有在应用Application中声明的业务组件，并且不需要再依赖任何功能组件。
-        implementation project(path: ':common')
+        implementation project(path: ':main')
     }
 }
