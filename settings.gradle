@@ -1,5 +1,6 @@
-include ':movie'
+include ':hotspot'
 include ':personal'
+include ':movie'
 include ':cinema'
 include ':main'
 include ':tools'
