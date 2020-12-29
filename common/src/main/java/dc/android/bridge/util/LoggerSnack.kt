@@ -1,4 +1,4 @@
-package dc.android.bridge
+package dc.android.bridge.util
 
 import android.app.Activity
 import android.content.Context
@@ -12,15 +12,27 @@ import com.google.android.material.snackbar.Snackbar
 class LoggerSnack {
     companion object {
         fun show(ctx: Context, str: String?) {
-            show(((ctx as Activity).window.decorView), str, Snackbar.LENGTH_SHORT)
+            show(
+                ((ctx as Activity).window.decorView),
+                str,
+                Snackbar.LENGTH_SHORT
+            )
         }
 
         fun show(ctx: Context, strId: Int) {
-            show(((ctx as Activity).window.decorView), strId, Snackbar.LENGTH_SHORT)
+            show(
+                ((ctx as Activity).window.decorView),
+                strId,
+                Snackbar.LENGTH_SHORT
+            )
         }
 
         fun show(view: View, strId: Int) {
-            show(view, strId, Snackbar.LENGTH_SHORT)
+            show(
+                view,
+                strId,
+                Snackbar.LENGTH_SHORT
+            )
         }
 
         fun show(view: View, strId: Int, duration: Int) {

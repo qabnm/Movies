@@ -1,13 +1,12 @@
 package dc.android.bridge.view
 
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
 import dc.android.bridge.BridgeContext.Companion.NETWORK_ERROR
 import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
 import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
-import dc.android.bridge.LoggerSnack
+import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
 import java.net.ConnectException

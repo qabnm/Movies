@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TopBarLayout">
+        <attr name="backSrc" format="reference"/>
+        <attr name="contentTitle" format="string"/>
+        <attr name="contentTextColor" format="color"/>
+        <attr name="contentTextSize" format="dimension"/>
+        <attr name="rightVisible" format="enum">
+            <enum name="VISIBLE" value="1"/>
+            <enum name="GONE" value="2"/>
+        </attr>
+        <attr name="rightText" format="string"/>
+        <attr name="rightTextSize" format="dimension"/>
+        <attr name="rightTextColor" format="color"/>
+
+    </declare-styleable>
+</resources>

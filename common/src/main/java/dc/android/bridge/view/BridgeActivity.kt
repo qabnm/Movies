@@ -3,7 +3,7 @@ package dc.android.bridge.view
 import android.graphics.Color
 import android.view.LayoutInflater
 import androidx.annotation.ColorInt
-import dc.android.bridge.StatusBarWrapper
+import dc.android.bridge.util.StatusBarWrapper
 
 /**
  * @author: jun.liu

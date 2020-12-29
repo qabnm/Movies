@@ -1,4 +1,4 @@
-package dc.android.bridge;
+package dc.android.bridge.util;
 
 import android.app.Activity;
 import android.os.Build;

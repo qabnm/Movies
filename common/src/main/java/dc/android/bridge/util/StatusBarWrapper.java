@@ -1,4 +1,4 @@
-package dc.android.bridge;
+package dc.android.bridge.util;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi;
 
 import com.junliu.common.R;
 
+import dc.android.bridge.util.OsUtils;
 import dc.android.bridge.view.BaseActivity;
 
 
