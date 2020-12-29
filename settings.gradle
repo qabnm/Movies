@@ -1,3 +1,6 @@
+include ':movie'
+include ':personal'
+include ':cinema'
 include ':main'
 include ':tools'
 include ':weichat'
