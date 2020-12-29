@@ -1,5 +1,6 @@
-package com.junliu.cinema
+package com.junliu.cinema.view
 
+import com.junliu.cinema.R
 import dc.android.bridge.view.BaseFragment
 
 /**

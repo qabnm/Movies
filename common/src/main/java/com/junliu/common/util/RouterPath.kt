@@ -7,5 +7,9 @@ package com.junliu.common.util
  */
 class RouterPath {
     companion object{
+        const val PATH_CINEMA = ""
+        const val PATH_HOTSPOT = ""
+        const val PATH_MOVIE = ""
+        const val PATH_PERSONAL = ""
     }
 }

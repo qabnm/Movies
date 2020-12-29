@@ -1,5 +1,6 @@
-package com.junliu.personal
+package com.junliu.personal.view
 
+import com.junliu.personal.R
 import dc.android.bridge.view.BaseFragment
 
 /**

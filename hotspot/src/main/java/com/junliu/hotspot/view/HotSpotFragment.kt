@@ -1,5 +1,6 @@
-package com.junliu.hotspot
+package com.junliu.hotspot.view
 
+import com.junliu.hotspot.R
 import dc.android.bridge.view.BaseFragment
 
 /**
