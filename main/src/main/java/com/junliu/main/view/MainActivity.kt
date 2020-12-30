@@ -4,15 +4,19 @@ import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.common.util.RouterPath
 import com.junliu.main.R
+import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseFragment
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.logging.Logger
+import kotlin.system.exitProcess
 
 /**
  * 首页activity
  */
 class MainActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_main
+    private var exitTime = 0L
 
     private var cinemaFragment: BaseFragment? = null
     private var hotSpotFragment: BaseFragment? = null
@@ -66,5 +70,15 @@ class MainActivity : BridgeActivity() {
         hotSpotFragment?.let { transaction.hide(it) }
         movieFragment?.let { transaction.hide(it) }
         mineFragment?.let { transaction.hide(it) }
+    }
+
+    override fun onBackPressed() {
+        if (System.currentTimeMillis() - exitTime > 2000){
+            LoggerSnack.show(this , "再按一次退出程序")
+            exitTime = System.currentTimeMillis()
+        }else{
+            finish()
+            exitProcess(0)
+        }
     }
 }
