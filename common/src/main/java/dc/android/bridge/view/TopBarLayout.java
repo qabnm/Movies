@@ -55,11 +55,11 @@ public class TopBarLayout extends RelativeLayout {
         imgSrc = array.getResourceId(R.styleable.TopBarLayout_backSrc, R.drawable.back);
         contentTitle = array.getString(R.styleable.TopBarLayout_contentTitle);
         contentTitleColor = array.getColor(R.styleable.TopBarLayout_contentTextColor, Color.BLACK);
-        contentTitleSize = array.getDimension(R.styleable.TopBarLayout_contentTextSize, 18f);
+        contentTitleSize = array.getDimension(R.styleable.TopBarLayout_contentTextSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,17,context.getResources().getDisplayMetrics()));
         visible = array.getInt(R.styleable.TopBarLayout_rightVisible, 2);
         rightText = array.getString(R.styleable.TopBarLayout_rightText);
         rightTextColor = array.getColor(R.styleable.TopBarLayout_rightTextColor, Color.parseColor("#333333"));
-        rightTextSize = array.getDimension(R.styleable.TopBarLayout_rightTextSize, 16f);
+        rightTextSize = array.getDimension(R.styleable.TopBarLayout_rightTextSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP,16,context.getResources().getDisplayMetrics()));
 
         array.recycle();
         initLayout(context);

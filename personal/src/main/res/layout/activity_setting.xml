@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorF0F0F0"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <dc.android.bridge.view.TopBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/colorFFFFFF"
+        app:contentTitle="设置" />
+
+    <LinearLayout
+        style="@style/centerLinear"
+        android:layout_marginTop="@dimen/dp_10">
+
+        <TextView
+            style="@style/commonText"
+            android:text="清除缓存" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/color999999"
+            android:textSize="@dimen/sp_15"
+            tools:text="17.6MB" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="推送通知" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/centerLinear"
+        android:layout_marginTop="@dimen/dp_10">
+
+        <TextView
+            style="@style/commonText"
+            android:text="推荐给好友" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="黑名单" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="联系客服" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="用户协议" />
+    </LinearLayout>
+
+    <LinearLayout style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="隐私政策" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/centerLinear"
+        android:layout_marginTop="@dimen/dp_10">
+
+        <TextView
+            style="@style/commonText"
+            android:text="检查版本" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/color999999"
+            android:textSize="@dimen/sp_15"
+            tools:text="1.0.2" />
+    </LinearLayout>
+</LinearLayout>

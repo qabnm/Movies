@@ -38,8 +38,11 @@ android {
             res.srcDirs = ['src/main/res']
             jniLibs.srcDirs = ['libs']
 
-            manifest.srcFile 'src/main/AndroidManifest.xml'
-            if (!isModule.toBoolean()) {
+            if (isModule.toBoolean()) {
+                //组件开发模式 是一个单独的应用
+                manifest.srcFile 'src/main/module/AndroidManifest.xml'
+            } else {
+                manifest.srcFile 'src/main/AndroidManifest.xml'
                 java {
                     //集成开发模式下排除debug文件夹中的所有Java文件
                     exclude 'debug/**'
