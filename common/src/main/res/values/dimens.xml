@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!--修改默认（未选中）的文字大小 -->
+    <dimen name="design_bottom_navigation_text_size" tools:override="true">11sp</dimen>
+    <!--修改选中的文字大小 -->
+    <dimen name="design_bottom_navigation_active_text_size" tools:override="true">12sp</dimen>
+
     <dimen name="dp_0">0dp</dimen>
     <dimen name="dp_0_1">0.1dp</dimen>
     <dimen name="dp_0_5">0.5dp</dimen>

@@ -20,6 +20,7 @@ class MainActivity : BridgeActivity() {
     private var mineFragment: BaseFragment? = null
 
     override fun initData() {
+        navigation.itemIconTintList = null
         navigation.setOnNavigationItemSelectedListener {
             val ts = supportFragmentManager.beginTransaction()
             hideAllFragment(ts)
@@ -32,6 +33,7 @@ class MainActivity : BridgeActivity() {
             ts.commitAllowingStateLoss()
             true
         }
+        navigation.selectedItemId = R.id.action_main
     }
 
     private fun showFragment(
@@ -40,7 +42,7 @@ class MainActivity : BridgeActivity() {
         path: String
     ) {
         fragment.takeIf { null != fragment }?.also { transaction.show(it) } ?: run {
-            (ARouter.getInstance().build(path).navigation() as BaseFragment).let {
+            (ARouter.getInstance().build(path).navigation() as? BaseFragment)?.let {
                 getFragment(path, it)
                 transaction.add(R.id.layoutContainer, it, path)
             }

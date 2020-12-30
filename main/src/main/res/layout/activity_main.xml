@@ -27,6 +27,7 @@
         android:layout_height="@dimen/dp_49"
         android:background="@color/colorFFFFFF"
         app:itemIconSize="@dimen/dp_22"
+        app:itemTextColor="@drawable/selector_tab_text_color"
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"

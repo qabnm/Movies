@@ -20,7 +20,7 @@ android {
 
         kapt {
             arguments {
-                arg("AROUTER_MODULE_NAME", model.getName())
+                arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
     }
