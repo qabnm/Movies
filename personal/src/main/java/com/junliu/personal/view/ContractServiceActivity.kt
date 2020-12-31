@@ -12,6 +12,6 @@ import dc.android.bridge.view.BridgeActivity
  *
  */
 @Route(path = PATH_CONTRACT_SERVICE_ACTIVITY)
-class ContractServiceActivity :BridgeActivity(){
+class ContractServiceActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_contract_service
 }

@@ -35,6 +35,6 @@ class RouterPath {
         /**
          * 联系客服
          */
-        const val PATH_CONTRACT_SERVICE_ACTIVITY = "personal/ContractServiceActivity"
+        const val PATH_CONTRACT_SERVICE_ACTIVITY = "/personal/ContractServiceActivity"
     }
 }
