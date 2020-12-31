@@ -18,8 +18,7 @@
         android:layout_height="@dimen/dp_10"
         android:background="@color/colorF2F2F2" />
 
-    <LinearLayout
-        style="@style/centerLinear">
+    <LinearLayout style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
@@ -54,10 +53,7 @@
             style="@style/commonText"
             android:text="推荐给好友" />
 
-        <ImageView
-            android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18"
-            android:src="@drawable/more_icon" />
+        <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
     <View style="@style/centerIconLine" />
@@ -68,10 +64,7 @@
             style="@style/commonText"
             android:text="黑名单" />
 
-        <ImageView
-            android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18"
-            android:src="@drawable/more_icon" />
+        <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
     <View style="@style/centerIconLine" />
@@ -84,10 +77,7 @@
             style="@style/commonText"
             android:text="联系客服" />
 
-        <ImageView
-            android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18"
-            android:src="@drawable/more_icon" />
+        <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
     <View style="@style/centerIconLine" />
@@ -98,10 +88,7 @@
             style="@style/commonText"
             android:text="用户协议" />
 
-        <ImageView
-            android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18"
-            android:src="@drawable/more_icon" />
+        <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
     <View style="@style/centerIconLine" />
@@ -112,10 +99,7 @@
             style="@style/commonText"
             android:text="隐私政策" />
 
-        <ImageView
-            android:layout_width="@dimen/dp_18"
-            android:layout_height="@dimen/dp_18"
-            android:src="@drawable/more_icon" />
+        <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
     <View

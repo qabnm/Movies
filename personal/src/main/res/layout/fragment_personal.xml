@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFF">
 
-
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imageIcon"
         android:layout_width="@dimen/dp_68"
@@ -44,8 +43,9 @@
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@+id/vDivider">
 
-        <LinearLayout style="@style/centerIconLinear"
-            android:id="@+id/layoutHistory">
+        <LinearLayout
+            android:id="@+id/layoutHistory"
+            style="@style/centerIconLinear">
 
             <ImageView
                 android:layout_width="@dimen/dp_22"
@@ -57,16 +57,14 @@
                 style="@style/centerIconText"
                 android:text="观看历史" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@drawable/more_icon" />
+            <ImageView style="@style/centerMoreInfo" />
         </LinearLayout>
 
         <View style="@style/centerIconLine" />
 
-        <LinearLayout style="@style/centerIconLinear"
-            android:id="@+id/layoutDownload">
+        <LinearLayout
+            android:id="@+id/layoutDownload"
+            style="@style/centerIconLinear">
 
             <ImageView
                 android:layout_width="@dimen/dp_22"
@@ -77,16 +75,14 @@
                 style="@style/centerIconText"
                 android:text="我的下载" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@drawable/more_icon" />
+            <ImageView style="@style/centerMoreInfo" />
         </LinearLayout>
 
         <View style="@style/centerIconLine" />
 
-        <LinearLayout style="@style/centerIconLinear"
-            android:id="@+id/layoutCollection">
+        <LinearLayout
+            android:id="@+id/layoutCollection"
+            style="@style/centerIconLinear">
 
             <ImageView
                 android:layout_width="@dimen/dp_22"
@@ -97,16 +93,14 @@
                 style="@style/centerIconText"
                 android:text="我的收藏" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@drawable/more_icon" />
+            <ImageView style="@style/centerMoreInfo" />
         </LinearLayout>
 
         <View style="@style/centerIconLine" />
 
-        <LinearLayout style="@style/centerIconLinear"
-            android:id="@+id/layoutShare">
+        <LinearLayout
+            android:id="@+id/layoutShare"
+            style="@style/centerIconLinear">
 
             <ImageView
                 android:layout_width="@dimen/dp_22"
@@ -117,10 +111,7 @@
                 style="@style/centerIconText"
                 android:text="推荐好友" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@drawable/more_icon" />
+            <ImageView style="@style/centerMoreInfo" />
         </LinearLayout>
 
         <View
@@ -128,8 +119,9 @@
             android:layout_height="@dimen/dp_10"
             android:background="@color/colorF2F2F2" />
 
-        <LinearLayout style="@style/centerIconLinear"
-            android:id="@+id/layoutContract">
+        <LinearLayout
+            android:id="@+id/layoutContract"
+            style="@style/centerIconLinear">
 
             <ImageView
                 android:layout_width="@dimen/dp_22"
@@ -140,16 +132,14 @@
                 style="@style/centerIconText"
                 android:text="问题反馈" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@drawable/more_icon" />
+            <ImageView style="@style/centerMoreInfo" />
         </LinearLayout>
 
         <View style="@style/centerIconLine" />
 
-        <LinearLayout style="@style/centerIconLinear"
-            android:id="@+id/layoutSetting">
+        <LinearLayout
+            android:id="@+id/layoutSetting"
+            style="@style/centerIconLinear">
 
             <ImageView
                 android:layout_width="@dimen/dp_22"
@@ -160,16 +150,14 @@
                 style="@style/centerIconText"
                 android:text="系统设置" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@drawable/more_icon" />
+            <ImageView style="@style/centerMoreInfo" />
         </LinearLayout>
 
         <View style="@style/centerIconLine" />
 
-        <LinearLayout style="@style/centerIconLinear"
-            android:id="@+id/layoutAbout">
+        <LinearLayout
+            android:id="@+id/layoutAbout"
+            style="@style/centerIconLinear">
 
             <ImageView
                 android:layout_width="@dimen/dp_22"
@@ -180,10 +168,7 @@
                 style="@style/centerIconText"
                 android:text="关于我们" />
 
-            <ImageView
-                android:layout_width="@dimen/dp_18"
-                android:layout_height="@dimen/dp_18"
-                android:src="@drawable/more_icon" />
+            <ImageView style="@style/centerMoreInfo" />
         </LinearLayout>
     </LinearLayout>
 

@@ -28,4 +28,10 @@
         <item name="android:layout_marginLeft">@dimen/dp_12</item>
         <item name="android:layout_marginRight">@dimen/dp_12</item>
     </style>
+
+    <style name="centerMoreInfo">
+        <item name="android:layout_width">@dimen/dp_18</item>
+        <item name="android:layout_height">@dimen/dp_18</item>
+        <item name="android:src">@drawable/more_icon</item>
+    </style>
 </resources>
