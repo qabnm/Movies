@@ -54,7 +54,8 @@
             android:text="黑名单" />
     </LinearLayout>
 
-    <LinearLayout style="@style/centerLinear">
+    <LinearLayout style="@style/centerLinear"
+        android:id="@+id/layoutContract">
 
         <TextView
             style="@style/commonText"

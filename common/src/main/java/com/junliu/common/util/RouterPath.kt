@@ -7,9 +7,34 @@ package com.junliu.common.util
  */
 class RouterPath {
     companion object{
+        /**
+         * 首页
+         */
         const val PATH_CINEMA = "/cinema/CinemaFragment"
+
+        /**
+         * 热点
+         */
         const val PATH_HOTSPOT = "/hotspot/HotSpotFragment"
+
+        /**
+         * 发现
+         */
         const val PATH_MOVIE = "/movie/MovieFragment"
+
+        /**
+         * 个人中心
+         */
         const val PATH_PERSONAL = "/personal/PersonalFragment"
+
+        /**
+         * 设置页面
+         */
+        const val PATH_SETTING_ACTIVITY = "/personal/SettingActivity"
+
+        /**
+         * 联系客服
+         */
+        const val PATH_CONTRACT_SERVICE_ACTIVITY = "personal/ContractServiceActivity"
     }
 }
