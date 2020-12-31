@@ -4,19 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorF0F0F0"
+    android:background="@color/colorFFFFFF"
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
     <dc.android.bridge.view.TopBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
-        android:background="@color/colorFFFFFF"
         app:contentTitle="设置" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/colorF2F2F2" />
+
     <LinearLayout
-        style="@style/centerLinear"
-        android:layout_marginTop="@dimen/dp_10">
+        style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
@@ -27,9 +30,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@color/color999999"
-            android:textSize="@dimen/sp_15"
+            android:textSize="@dimen/sp_13"
             tools:text="17.6MB" />
     </LinearLayout>
+
+    <View style="@style/centerIconLine" />
 
     <LinearLayout style="@style/centerLinear">
 
@@ -38,47 +43,88 @@
             android:text="推送通知" />
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/centerLinear"
-        android:layout_marginTop="@dimen/dp_10">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/colorF2F2F2" />
+
+    <LinearLayout style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
             android:text="推荐给好友" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:src="@drawable/more_icon" />
     </LinearLayout>
+
+    <View style="@style/centerIconLine" />
 
     <LinearLayout style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
             android:text="黑名单" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:src="@drawable/more_icon" />
     </LinearLayout>
 
-    <LinearLayout style="@style/centerLinear"
-        android:id="@+id/layoutContract">
+    <View style="@style/centerIconLine" />
+
+    <LinearLayout
+        android:id="@+id/layoutContract"
+        style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
             android:text="联系客服" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:src="@drawable/more_icon" />
     </LinearLayout>
+
+    <View style="@style/centerIconLine" />
 
     <LinearLayout style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
             android:text="用户协议" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:src="@drawable/more_icon" />
     </LinearLayout>
+
+    <View style="@style/centerIconLine" />
 
     <LinearLayout style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
             android:text="隐私政策" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_18"
+            android:layout_height="@dimen/dp_18"
+            android:src="@drawable/more_icon" />
     </LinearLayout>
 
-    <LinearLayout
-        style="@style/centerLinear"
-        android:layout_marginTop="@dimen/dp_10">
+    <View
+        android:id="@+id/vDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/colorF2F2F2" />
+
+    <LinearLayout style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
@@ -89,7 +135,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:textColor="@color/color999999"
-            android:textSize="@dimen/sp_15"
+            android:textSize="@dimen/sp_13"
             tools:text="1.0.2" />
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorF2F2F2" />
 </LinearLayout>

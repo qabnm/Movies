@@ -1,17 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:background="@color/colorFFFFFF">
+
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imageIcon"
+        android:layout_width="@dimen/dp_68"
+        android:layout_height="@dimen/dp_68"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_44"
+        android:scaleType="centerCrop"
+        android:src="@drawable/center_icon"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/StyleShapeAppearanceImage" />
 
     <TextView
-        android:id="@+id/tvMine"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="我的"
-        android:textSize="@dimen/sp_24"
+        android:layout_marginLeft="@dimen/dp_20"
+        android:text="用户12090813"
+        android:textColor="@color/color333333"
+        android:textSize="@dimen/sp_16"
+        app:layout_constraintBottom_toBottomOf="@+id/imageIcon"
+        app:layout_constraintLeft_toRightOf="@+id/imageIcon"
+        app:layout_constraintTop_toTopOf="@+id/imageIcon" />
+
+    <View
+        android:id="@+id/vDivider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_27"
+        android:background="@color/colorF2F2F2"
+        app:layout_constraintTop_toBottomOf="@+id/imageIcon" />
+
+    <LinearLayout
+        android:id="@+id/layoutContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/vDivider">
+
+        <LinearLayout style="@style/centerIconLinear"
+            android:id="@+id/layoutHistory">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@drawable/person_history" />
+
+            <TextView
+                android:id="@+id/tvHistory"
+                style="@style/centerIconText"
+                android:text="观看历史" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/more_icon" />
+        </LinearLayout>
+
+        <View style="@style/centerIconLine" />
+
+        <LinearLayout style="@style/centerIconLinear"
+            android:id="@+id/layoutDownload">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@drawable/person_download" />
+
+            <TextView
+                style="@style/centerIconText"
+                android:text="我的下载" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/more_icon" />
+        </LinearLayout>
+
+        <View style="@style/centerIconLine" />
+
+        <LinearLayout style="@style/centerIconLinear"
+            android:id="@+id/layoutCollection">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@drawable/person_collection" />
+
+            <TextView
+                style="@style/centerIconText"
+                android:text="我的收藏" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/more_icon" />
+        </LinearLayout>
+
+        <View style="@style/centerIconLine" />
+
+        <LinearLayout style="@style/centerIconLinear"
+            android:id="@+id/layoutShare">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@drawable/person_share" />
+
+            <TextView
+                style="@style/centerIconText"
+                android:text="推荐好友" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/more_icon" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_10"
+            android:background="@color/colorF2F2F2" />
+
+        <LinearLayout style="@style/centerIconLinear"
+            android:id="@+id/layoutContract">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@drawable/person_contract" />
+
+            <TextView
+                style="@style/centerIconText"
+                android:text="问题反馈" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/more_icon" />
+        </LinearLayout>
+
+        <View style="@style/centerIconLine" />
+
+        <LinearLayout style="@style/centerIconLinear"
+            android:id="@+id/layoutSetting">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@drawable/person_setting" />
+
+            <TextView
+                style="@style/centerIconText"
+                android:text="系统设置" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/more_icon" />
+        </LinearLayout>
+
+        <View style="@style/centerIconLine" />
+
+        <LinearLayout style="@style/centerIconLinear"
+            android:id="@+id/layoutAbout">
+
+            <ImageView
+                android:layout_width="@dimen/dp_22"
+                android:layout_height="@dimen/dp_22"
+                android:src="@drawable/person_contract" />
+
+            <TextView
+                style="@style/centerIconText"
+                android:text="关于我们" />
+
+            <ImageView
+                android:layout_width="@dimen/dp_18"
+                android:layout_height="@dimen/dp_18"
+                android:src="@drawable/more_icon" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/colorF2F2F2"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutContent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

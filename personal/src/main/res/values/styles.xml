@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="centerIconText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingLeft">@dimen/dp_9</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/sp_15</item>
+        <item name="android:textColor">@color/color212121</item>
+
+    </style>
+    
+    <style name="centerIconLinear">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_50</item>
+        <item name="android:paddingLeft">@dimen/dp_12</item>
+        <item name="android:paddingRight">@dimen/dp_12</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@drawable/white_click_background</item>
+    </style>
+
+    <style name="centerIconLine">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dp_0_5</item>
+        <item name="android:background">@color/colorF2F2F2</item>
+        <item name="android:layout_marginLeft">@dimen/dp_12</item>
+        <item name="android:layout_marginRight">@dimen/dp_12</item>
+    </style>
+</resources>
