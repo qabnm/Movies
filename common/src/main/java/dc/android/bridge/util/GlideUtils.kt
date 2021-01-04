@@ -1,4 +1,4 @@
-package com.junliu.common.util
+package dc.android.bridge.util
 
 /**
  * @author: jun.liu

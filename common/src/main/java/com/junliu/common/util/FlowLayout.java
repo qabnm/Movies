@@ -12,11 +12,11 @@ import android.widget.TextView;
 
 import com.junliu.common.R;
 
-import net.lucode.hackware.magicindicator.buildins.UIUtil;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import dc.android.bridge.util.OsUtils;
 
 /**
  * @author : liujun
@@ -86,14 +86,14 @@ public class FlowLayout extends ViewGroup {
         if (null != listData && listData.size() > 0) {
             //往容器内添加TextView数据
             LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-            layoutParams.setMargins(0, 0, UIUtil.dip2px(getContext(), 10), UIUtil.dip2px(getContext(), 10));
+            layoutParams.setMargins(0, 0, OsUtils.dip2px(getContext(), 10), OsUtils.dip2px(getContext(), 10));
             removeAllViews();
             for (int i = 0; i < listData.size(); i++) {
                 TextView tv = new TextView(getContext());
-                tv.setPadding(UIUtil.dip2px(getContext(), 10), 0, UIUtil.dip2px(getContext(), 10), 0);
+                tv.setPadding(OsUtils.dip2px(getContext(), 10), 0, OsUtils.dip2px(getContext(), 10), 0);
                 tv.setText(listData.get(i));
                 tv.setSingleLine();
-                layoutParams.height = UIUtil.dip2px(getContext(), 28);
+                layoutParams.height = OsUtils.dip2px(getContext(), 28);
                 tv.setEllipsize(TextUtils.TruncateAt.END);
                 tv.setTextColor(getResources().getColor(R.color.color000000));
                 tv.setBackground(getResources().getDrawable(R.drawable.shape_radius15_solid_f5f5f5));

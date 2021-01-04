@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import dc.android.bridge.util.StringUtils;
+
 /**
  * <p>Utils初始化相关 </p>
  */
@@ -103,17 +105,6 @@ public class Utils {
         transaction.add(frameId, fragment);
         transaction.commit();
     }
-
-    public static int dip2px(Context context, float dipValue){
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(dipValue * scale + 0.5f);
-    }
-    public static int px2dip(Context context, float pxValue){
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(pxValue / scale + 0.5f);
-    }
-
-
 
     public static <T> T checkNotNull(T obj) {
         if (obj == null) {

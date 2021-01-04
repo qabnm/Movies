@@ -12,9 +12,9 @@ import com.junliu.cinema.HistoryUtil
 import com.junliu.cinema.R
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.SharedPreferencesHelper
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_search.*
-import net.lucode.hackware.magicindicator.buildins.UIUtil
 
 /**
  * @author: jun.liu
@@ -33,12 +33,7 @@ class SearchActivity : BridgeActivity() {
             layoutHistory.clear()
         }
         tvCancel.setOnClickListener {
-            if (!TextUtils.isEmpty(etSearch.text)) {
-                //保存搜索的记录到本地
-                HistoryUtil.save(etSearch.text.toString())
-            } else {
-                finish()
-            }
+            if (!TextUtils.isEmpty(etSearch.text)) HistoryUtil.save(etSearch.text.toString()) else finish()
         }
 
         etSearch.addTextChangedListener(object : TextWatcher {
@@ -46,51 +41,33 @@ class SearchActivity : BridgeActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 tvCancel.text = if (TextUtils.isEmpty(etSearch.text)) "取消" else "搜索"
             }
-
             override fun afterTextChanged(s: Editable?) {}
         })
         setSearchHistory()
     }
 
-    private fun setSearchHistory(){
+    private fun setSearchHistory() {
         val history = HistoryUtil.getLocalHistory()
         Log.i("his", history.toString())
         layoutHistory.setData(history)
         if (history.isEmpty()) imgMore.visibility = View.GONE
         val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
-        if (layoutHistory.isSingLine){
-            layoutParams.height = UIUtil.dip2px(this , 38.0)
+        if (layoutHistory.isSingLine) {
+            layoutParams.height = OsUtils.dip2px(this, 38f)
             imgMore.visibility = View.GONE
-        }else{
-            layoutParams.height = UIUtil.dip2px(this , 76.0)
+        } else {
+            layoutParams.height = OsUtils.dip2px(this, 76f)
             imgMore.visibility = View.VISIBLE
         }
     }
 
+    /**
+     * 展开所有的本地搜索记录
+     */
     private fun onMoreClick() {
         val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
         //展开所有的记录
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
         imgMore.visibility = View.GONE
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

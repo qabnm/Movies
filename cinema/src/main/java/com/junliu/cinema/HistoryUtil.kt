@@ -1,10 +1,9 @@
 package com.junliu.cinema
 
-import android.util.Log
 import com.google.gson.Gson
 import com.junliu.cinema.CinemaContext.Companion.local
 import com.junliu.common.util.SharedPreferencesHelper
-import com.junliu.common.util.StringUtils
+import dc.android.bridge.util.StringUtils
 import org.json.JSONArray
 
 /**
@@ -20,7 +19,6 @@ class HistoryUtil {
          */
         fun getLocalHistory(): List<String> {
             val json = SharedPreferencesHelper.helper.getValue(local, "") as String
-            Log.i("his",json)
             val data = ArrayList<String>()
             if (!StringUtils.isEmpty(json)) {
                 val array = JSONArray(json)
@@ -33,11 +31,11 @@ class HistoryUtil {
             return data
         }
 
-
+        /**
+         * 保存搜索记录
+         */
         fun save(keyWord: String) {
-            Log.i("his","方法执行了")
             val history: String = SharedPreferencesHelper.helper.getValue(local, "") as String
-            Log.i("his",history)
             val data = ArrayList<String>()
             //本地还没有保存
             if (StringUtils.isEmpty(history)) {
