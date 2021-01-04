@@ -36,5 +36,10 @@ class RouterPath {
          * 联系客服
          */
         const val PATH_CONTRACT_SERVICE_ACTIVITY = "/personal/ContractServiceActivity"
+
+        /**
+         * 搜索
+         */
+        const val PATH_SEARCH_ACTIVITY = "/cinema/SearchActivity"
     }
 }

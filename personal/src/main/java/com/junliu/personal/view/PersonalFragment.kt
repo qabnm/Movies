@@ -1,10 +1,12 @@
 package com.junliu.personal.view
 
+import android.util.Log
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
 import com.junliu.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.junliu.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
+import com.junliu.common.util.SharedPreferencesHelper
 import com.junliu.personal.R
 import dc.android.bridge.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_personal.*
@@ -19,8 +21,11 @@ class PersonalFragment :BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_personal
 
     override fun initView() {
-        layoutHistory.setOnClickListener {  }
-        layoutDownload.setOnClickListener {  }
+        layoutHistory.setOnClickListener { SharedPreferencesHelper.helper.setValue("age",20) }
+        layoutDownload.setOnClickListener {
+            val age = SharedPreferencesHelper.helper.getValue("age",0) as Int
+            Log.i("age",age.toString())
+        }
         layoutCollection.setOnClickListener {  }
         layoutShare.setOnClickListener {  }
         layoutContract.setOnClickListener {
