@@ -78,6 +78,10 @@ public class FlowLayout extends ViewGroup {
         }
     }
 
+    public void clear(){
+        removeAllViews();
+    }
+
     public void setData(List<String> listData) {
         if (null != listData && listData.size() > 0) {
             //往容器内添加TextView数据

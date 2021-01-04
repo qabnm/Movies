@@ -4,7 +4,7 @@ package dc.android.bridge
  * @author: jun.liu
  * @date: 2020/9/24 : 11:31
  */
-class BridgeContext {
+open class BridgeContext {
     companion object{
         const val BASE_URL = "https://wanandroid.com/"
 

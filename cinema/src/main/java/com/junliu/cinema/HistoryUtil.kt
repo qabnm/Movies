@@ -2,6 +2,7 @@ package com.junliu.cinema
 
 import android.util.Log
 import com.google.gson.Gson
+import com.junliu.cinema.CinemaContext.Companion.local
 import com.junliu.common.util.SharedPreferencesHelper
 import com.junliu.common.util.StringUtils
 import org.json.JSONArray
@@ -13,8 +14,6 @@ import org.json.JSONArray
  */
 class HistoryUtil {
     companion object {
-        private const val local = "history"
-
         /**
          * 获取本地历史记录
          * @return List<String>
