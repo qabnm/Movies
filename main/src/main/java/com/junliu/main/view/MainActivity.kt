@@ -32,20 +32,10 @@ class MainActivity : BridgeActivity() {
         navigation.itemIconTintList = null
         if (savedInstanceState != null) {
             currentPosition = savedInstanceState.getInt(position)
-            cinemaFragment = supportFragmentManager.getFragment(
-                savedInstanceState,
-                PATH_CINEMA
-            ) as? BaseFragment?
-            hotSpotFragment = supportFragmentManager.getFragment(
-                savedInstanceState,
-                PATH_HOTSPOT
-            ) as? BaseFragment?
-            movieFragment =
-                supportFragmentManager.getFragment(savedInstanceState, PATH_MOVIE) as? BaseFragment?
-            mineFragment = supportFragmentManager.getFragment(
-                savedInstanceState,
-                PATH_PERSONAL
-            ) as? BaseFragment?
+            cinemaFragment = supportFragmentManager.getFragment(savedInstanceState, PATH_CINEMA) as? BaseFragment?
+            hotSpotFragment = supportFragmentManager.getFragment(savedInstanceState, PATH_HOTSPOT) as? BaseFragment?
+            movieFragment = supportFragmentManager.getFragment(savedInstanceState, PATH_MOVIE) as? BaseFragment?
+            mineFragment = supportFragmentManager.getFragment(savedInstanceState, PATH_PERSONAL) as? BaseFragment?
         }
         navigation.setOnNavigationItemSelectedListener {
             val ts = supportFragmentManager.beginTransaction()
@@ -62,6 +52,11 @@ class MainActivity : BridgeActivity() {
         navigation.selectedItemId = checkPage(currentPosition)
     }
 
+    /**
+     * 切换首页tab显示
+     * @param position Int
+     * @return Int
+     */
     private fun checkPage(position: Int) = when (position) {
         0 -> R.id.action_main
         1 -> R.id.action_hot
@@ -70,6 +65,10 @@ class MainActivity : BridgeActivity() {
         else -> R.id.action_main
     }
 
+    /**
+     * 意外退出时，保存当前的fragment
+     * @param outState Bundle
+     */
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(position, currentPosition)
         cinemaFragment?.let { supportFragmentManager.putFragment(outState, PATH_CINEMA, it) }
@@ -79,12 +78,7 @@ class MainActivity : BridgeActivity() {
         super.onSaveInstanceState(outState)
     }
 
-    private fun showFragment(
-        transaction: FragmentTransaction,
-        fragment: BaseFragment?,
-        path: String,
-        position: Int
-    ) {
+    private fun showFragment(transaction: FragmentTransaction, fragment: BaseFragment?, path: String, position: Int) {
         currentPosition = position
         fragment.takeIf { null != fragment }?.also { transaction.show(it) } ?: run {
             (ARouter.getInstance().build(path).navigation() as? BaseFragment)?.let {

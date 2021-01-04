@@ -38,6 +38,10 @@ open class BaseActivity : AppCompatActivity() {
 
     open fun initData() {}
 
+    /**
+     * 需要用到bundle参数时候可以使用这个方法
+     * @param savedInstanceState Bundle?
+     */
     open fun initData(savedInstanceState: Bundle?){}
 
     open fun startObserve() {}
