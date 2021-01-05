@@ -1,5 +1,6 @@
 package com.junliu.cinema.view
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
@@ -7,11 +8,13 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.junliu.cinema.CinemaContext
 import com.junliu.cinema.HistoryUtil
 import com.junliu.cinema.R
 import com.junliu.common.adapter.NavigatorAdapter
+import com.junliu.common.adapter.ViewPagerAdapter
 import com.junliu.common.util.FlowLayout
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.SharedPreferencesHelper
@@ -43,8 +46,18 @@ class SearchActivity : BridgeActivity() {
         }
         etSearch.addTextChangedListener(textChangeWatcher)
         setSearchHistory()
+        val data = listOf("热搜","电影","电视剧","美剧","韩剧","日剧")
+        val fragmentList = ArrayList<Fragment>()
+        for (i in data.indices){
+            val fragment = HotSearchFragment()
+            fragmentList.add(fragment)
+            val bundle = Bundle()
+            bundle.putString("type","type")
+            fragment.arguments = bundle
+        }
+        vpContainer.adapter = ViewPagerAdapter(supportFragmentManager,fragmentList)
         CommonNavigator(this).apply {
-            adapter = NavigatorAdapter(vpContainer , listOf("热搜","电影","电视剧","美剧"))
+            adapter = NavigatorAdapter(vpContainer , data)
             isAdjustMode = false
             indicator.navigator = this
         }
@@ -60,6 +73,8 @@ class SearchActivity : BridgeActivity() {
         layoutHistory.setData(history)
         if (history.isEmpty()) imgMore.visibility = View.GONE
         if (history.isNotEmpty()) {
+            layoutHistoryContainer.visibility = View.VISIBLE
+            layoutFlowLayout.visibility = View.VISIBLE
             val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
             if (layoutHistory.isSingLine) {
                 layoutParams.height = OsUtils.dip2px(this, 38f)
@@ -68,6 +83,9 @@ class SearchActivity : BridgeActivity() {
                 layoutParams.height = OsUtils.dip2px(this, 76f)
                 imgMore.visibility = View.VISIBLE
             }
+        }else{
+            layoutHistoryContainer.visibility = View.GONE
+            layoutFlowLayout.visibility = View.GONE
         }
     }
 

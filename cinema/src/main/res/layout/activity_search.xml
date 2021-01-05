@@ -51,11 +51,12 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutHistoryContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_19"
         android:gravity="center_vertical"
         android:orientation="horizontal"
+        android:layout_marginTop="@dimen/dp_19"
         android:paddingLeft="@dimen/dp_12"
         android:paddingRight="@dimen/dp_7">
 
@@ -77,6 +78,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/layoutFlowLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_15"
@@ -103,8 +105,7 @@
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_40"
-        android:layout_marginTop="@dimen/dp_10" />
+        android:layout_height="@dimen/dp_40" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vpContainer"

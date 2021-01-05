@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="@dimen/dp_14"
+    android:paddingBottom="@dimen/dp_24">
+
+    <TextView
+        android:id="@+id/tvRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/dp_9"
+        android:textColor="#EF0000"
+        android:textSize="@dimen/sp_14"
+        tools:text="1" />
+
+    <TextView
+        android:id="@+id/tvKeyWord"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:lines="1"
+        android:textColor="@color/color000000"
+        android:textSize="@dimen/sp_13"
+        tools:text="下一站是幸福" />
+</LinearLayout>
