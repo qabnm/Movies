@@ -29,6 +29,7 @@ class NavigatorAdapter(private val viewPager: ViewPager, private val data: List<
 
     override fun getIndicator(context: Context?) = LinePagerIndicator(context).run {
         mode = LinePagerIndicator.MODE_EXACTLY
+        context?.let {  setColors(ContextCompat.getColor(it, R.color.color567CE7))}
         lineHeight = UIUtil.dip2px(context, 2.0).toFloat()
         lineWidth = UIUtil.dip2px(context , 9.0).toFloat()
         this

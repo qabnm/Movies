@@ -52,9 +52,7 @@ class HistoryUtil {
                     }
                 }
                 //移除相同的数据
-                for (i in 0 until data.size) {
-                    if (keyWord == data[i]) data.removeAt(i)
-                }
+                for (i in 0 until data.size) if (keyWord == data[i]) data.removeAt(i)
                 //最多只保存20条记录
                 if (data.size == 20) data.removeAt(19)
                 //再保存数据

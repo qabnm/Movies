@@ -103,8 +103,8 @@
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_30" />
+        android:layout_height="@dimen/dp_40"
+        android:layout_marginTop="@dimen/dp_10" />
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/vpContainer"

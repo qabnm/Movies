@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -164,6 +165,8 @@ public class FlowLayout extends ViewGroup {
         void OnItemClick(String result);
 
         void isSingLine(boolean isSingLine);
+
+        void currentHeight(int height);
     }
 
     private boolean isSingLine;
@@ -229,6 +232,7 @@ public class FlowLayout extends ViewGroup {
         }
         //FlowLayout测量高度 = 当前行顶部已占高度 +当前行内子元素最大高度+FlowLayout的PaddingBottom
         flowMap.put("allChildHeight", columnHeight + rowsMaxHeight + getPaddingBottom());
+        if (onItemClickListener!= null)onItemClickListener.currentHeight(OsUtils.px2dip(getContext() , columnHeight + rowsMaxHeight + getPaddingBottom()));
         return flowMap;
     }
 }

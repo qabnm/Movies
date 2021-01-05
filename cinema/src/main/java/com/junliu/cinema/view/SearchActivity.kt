@@ -3,18 +3,24 @@ package com.junliu.cinema.view
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.View
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.junliu.cinema.CinemaContext
 import com.junliu.cinema.HistoryUtil
 import com.junliu.cinema.R
+import com.junliu.common.adapter.NavigatorAdapter
+import com.junliu.common.util.FlowLayout
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.SharedPreferencesHelper
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_search.*
+import net.lucode.hackware.magicindicator.ViewPagerHelper
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
+
 
 /**
  * @author: jun.liu
@@ -35,32 +41,63 @@ class SearchActivity : BridgeActivity() {
         tvCancel.setOnClickListener {
             if (!TextUtils.isEmpty(etSearch.text)) HistoryUtil.save(etSearch.text.toString()) else finish()
         }
-
-        etSearch.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                tvCancel.text = if (TextUtils.isEmpty(etSearch.text)) "取消" else "搜索"
-            }
-            override fun afterTextChanged(s: Editable?) {}
-        })
+        etSearch.addTextChangedListener(textChangeWatcher)
         setSearchHistory()
+        CommonNavigator(this).apply {
+            adapter = NavigatorAdapter(vpContainer , listOf("热搜","电影","电视剧","美剧"))
+            isAdjustMode = false
+            indicator.navigator = this
+        }
+        ViewPagerHelper.bind(indicator ,vpContainer)
     }
 
+    /**
+     * 处理历史记录的显示
+     */
     private fun setSearchHistory() {
+        layoutHistory.setOnItemClickListener(listener)
         val history = HistoryUtil.getLocalHistory()
-        Log.i("his", history.toString())
         layoutHistory.setData(history)
         if (history.isEmpty()) imgMore.visibility = View.GONE
-        val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
-        if (layoutHistory.isSingLine) {
-            layoutParams.height = OsUtils.dip2px(this, 38f)
-            imgMore.visibility = View.GONE
-        } else {
-            layoutParams.height = OsUtils.dip2px(this, 76f)
-            imgMore.visibility = View.VISIBLE
+        if (history.isNotEmpty()) {
+            val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
+            if (layoutHistory.isSingLine) {
+                layoutParams.height = OsUtils.dip2px(this, 38f)
+                imgMore.visibility = View.GONE
+            } else {
+                layoutParams.height = OsUtils.dip2px(this, 76f)
+                imgMore.visibility = View.VISIBLE
+            }
         }
     }
 
+    private val textChangeWatcher:TextWatcher = object :TextWatcher{
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            tvCancel.text = if (TextUtils.isEmpty(etSearch.text)) "取消" else "搜索"
+        }
+        override fun afterTextChanged(s: Editable?) {}
+    }
+
+    private var isFirstSet = true
+    private val listener: FlowLayout.OnItemClickListener = object : FlowLayout.OnItemClickListener {
+        override fun OnItemClick(result: String) {
+            //跳转到搜索的结果页面
+        }
+
+        override fun isSingLine(isSingLine: Boolean) {
+            if (isSingLine && isFirstSet){
+                isFirstSet = false
+                val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
+                layoutParams.height = OsUtils.dip2px(this@SearchActivity, 38f)
+                imgMore.visibility = View.GONE
+            }
+        }
+
+        override fun currentHeight(height: Int) {
+            imgMore.visibility = if (height>76) View.VISIBLE else View.GONE
+        }
+    }
     /**
      * 展开所有的本地搜索记录
      */
