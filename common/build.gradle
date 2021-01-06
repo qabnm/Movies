@@ -31,6 +31,13 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    sourceSets {
+        main {
+            java.srcDirs = ['src/main/java']
+            res.srcDirs = ['src/main/res']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -71,6 +78,13 @@ dependencies {
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha04"
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
+
+    api 'com.shuyu:gsyVideoPlayer-java:8.0.0'
+    //是否需要ExoPlayer模式
+    api 'com.shuyu:GSYVideoPlayer-exo2:8.0.0'
+    //更多ijk的编码支持
+    api 'com.shuyu:gsyVideoPlayer-ex_so:8.0.0'
+
 
     //aroute
     api "com.alibaba:arouter-api:$ext.arouter_version"

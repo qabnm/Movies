@@ -41,5 +41,10 @@ class RouterPath {
          * 搜索
          */
         const val PATH_SEARCH_ACTIVITY = "/cinema/SearchActivity"
+
+        /**
+         * 观看历史
+         */
+        const val PATH_WATCH_HISTORY = "/movie/WatchHistoryActivity"
     }
 }

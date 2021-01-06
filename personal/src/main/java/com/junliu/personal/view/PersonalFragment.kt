@@ -3,6 +3,7 @@ package com.junliu.personal.view
 import android.util.Log
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.junliu.common.util.RouterPath
 import com.junliu.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
 import com.junliu.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.junliu.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
@@ -21,7 +22,7 @@ class PersonalFragment :BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_personal
 
     override fun initView() {
-        layoutHistory.setOnClickListener { SharedPreferencesHelper.helper.setValue("age",20) }
+        layoutHistory.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation() }
         layoutDownload.setOnClickListener {
             val age = SharedPreferencesHelper.helper.getValue("age",0) as Int
             Log.i("age",age.toString())

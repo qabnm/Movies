@@ -9,7 +9,7 @@
     <item
         android:id="@+id/action_hot"
         android:icon="@drawable/selector_hot_tab"
-        android:title="热点" />
+        android:title="小视频" />
 
     <item
         android:id="@+id/action_discover"
