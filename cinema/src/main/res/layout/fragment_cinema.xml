@@ -29,15 +29,15 @@
         <ImageView
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
-            android:padding="@dimen/dp_4"
             android:layout_marginLeft="@dimen/dp_16"
-            android:src="@drawable/cinema_download" />
+            android:padding="@dimen/dp_4"
+            android:src="@drawable/common_download" />
 
         <ImageView
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
-            android:padding="@dimen/dp_4"
             android:layout_marginLeft="@dimen/dp_12"
-            android:src="@drawable/cinema_download" />
+            android:padding="@dimen/dp_4"
+            android:src="@drawable/common_download" />
     </LinearLayout>
 </LinearLayout>

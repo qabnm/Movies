@@ -5,7 +5,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.cinema.R
 import com.junliu.common.util.RouterPath
 import dc.android.bridge.view.BaseFragment
-import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_cinema.*
 
 /**
