@@ -32,7 +32,7 @@ class HotSpotFragment : BaseFragment() {
             bundle.putString("type", "type")
             fragment.arguments = bundle
         }
-        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
+        vpContainer.adapter = ViewPagerAdapter(fm = childFragmentManager, data = fragmentList)
         CommonNavigator(requireActivity()).apply {
             adapter = ScaleTitleNavAdapter(vpContainer, data)
             isAdjustMode = false
