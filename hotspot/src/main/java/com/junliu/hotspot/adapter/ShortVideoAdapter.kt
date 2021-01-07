@@ -16,14 +16,11 @@ import dc.android.bridge.util.GlideUtils
  * @date: 2021/1/7 : 11:01
  * 短视频
  */
-class ShortVideoAdapter :
-    BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.layout.item_short_video) {
+class ShortVideoAdapter : BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.layout.item_short_video) {
     override fun convert(holder: BaseViewHolder, item: ShortVideoBean) {
         holder.getView<StandardGSYVideoPlayer>(R.id.videoPlayer).apply {
-            setUp(item.url, true, "")
-            titleTextView.visibility = View.GONE  //增加title
+            setUp(item.url, true, item.title)
             backButton.visibility = View.GONE  //设置返回键
-
             //设置封面
             thumbImageViewLayout.visibility = View.VISIBLE
             ImageView(context).apply {

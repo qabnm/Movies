@@ -25,14 +25,6 @@ class ShortVideoFragment : BaseFragment() {
         rvList.layoutManager = LinearLayoutManager(requireActivity())
         videoAdapter = ShortVideoAdapter()
         rvList.adapter = videoAdapter
-        videoAdapter?.setOnItemChildClickListener(object :OnItemChildClickListener{
-            override fun onItemChildClick(
-                adapter: BaseQuickAdapter<*, *>,
-                view: View,
-                position: Int
-            ) {
-            }
-        })
     }
 
     override fun initData() {
