@@ -8,6 +8,7 @@ import com.junliu.common.util.RouterPath.Companion.PATH_HOTSPOT
 import com.junliu.common.util.RouterPath.Companion.PATH_MOVIE
 import com.junliu.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.junliu.main.R
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseFragment
 import dc.android.bridge.view.BridgeActivity
@@ -108,6 +109,7 @@ class MainActivity : BridgeActivity() {
     }
 
     override fun onBackPressed() {
+        if (GSYVideoManager.backFromWindowFull(this))return
         if (System.currentTimeMillis() - exitTime > 2000) {
             LoggerSnack.show(this, "再按一次退出程序")
             exitTime = System.currentTimeMillis()
@@ -115,5 +117,20 @@ class MainActivity : BridgeActivity() {
             finish()
             exitProcess(0)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        GSYVideoManager.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        GSYVideoManager.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        GSYVideoManager.releaseAllVideos()
     }
 }

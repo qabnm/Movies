@@ -1,6 +1,7 @@
 package com.junliu.hotspot.view
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.junliu.common.adapter.NavigatorAdapter
@@ -8,6 +9,7 @@ import com.junliu.common.adapter.ScaleTitleNavAdapter
 import com.junliu.common.adapter.ViewPagerAdapter
 import com.junliu.common.util.RouterPath
 import com.junliu.hotspot.R
+import com.shuyu.gsyvideoplayer.GSYVideoManager
 import dc.android.bridge.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_hotspot.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -39,5 +41,16 @@ class HotSpotFragment : BaseFragment() {
             indicator.navigator = this
         }
         ViewPagerHelper.bind(indicator, vpContainer)
+    }
+
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("hide",hidden.toString())
+        if (hidden) GSYVideoManager.onPause() else GSYVideoManager.onResume()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        GSYVideoManager.releaseAllVideos()
     }
 }
