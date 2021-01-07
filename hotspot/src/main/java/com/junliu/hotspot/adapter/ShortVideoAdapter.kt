@@ -1,5 +1,6 @@
 package com.junliu.hotspot.adapter
 
+import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -39,10 +40,9 @@ class ShortVideoAdapter : BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.lay
             isReleaseWhenLossAudio = false
             //全屏动画
             isShowFullAnimation = true
-            //小屏时不触摸滑动
-            setIsTouchWiget(false)
             //非wifi环境下，显示流量提醒
             isNeedShowWifiTip = true
+            isShowDragProgressTextOnSeekBar = true //拖动进度条时，是否在 seekbar 开始部位显示拖动进度
             setVideoAllCallBack(object : VideoPlayCallback() {
                 override fun onAutoComplete(url: String?, vararg objects: Any?) {
                     super.onAutoComplete(url, *objects)
