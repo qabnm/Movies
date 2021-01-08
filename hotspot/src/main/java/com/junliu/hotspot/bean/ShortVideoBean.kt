@@ -8,5 +8,6 @@ package com.junliu.hotspot.bean
 data class ShortVideoBean(
     val title: String,
     val coverUlr: String,
-    val url: String
+    val url: String,
+    var complete:Boolean = false
 )

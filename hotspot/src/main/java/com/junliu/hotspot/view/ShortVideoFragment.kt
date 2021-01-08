@@ -1,14 +1,9 @@
 package com.junliu.hotspot.view
 
-import android.util.Log
-import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.listener.OnItemChildClickListener
 import com.junliu.hotspot.R
 import com.junliu.hotspot.adapter.ShortVideoAdapter
 import com.junliu.hotspot.bean.ShortVideoBean
-import com.shuyu.gsyvideoplayer.GSYVideoManager
 import dc.android.bridge.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_short_video.*
 

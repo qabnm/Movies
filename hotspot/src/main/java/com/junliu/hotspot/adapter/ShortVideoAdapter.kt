@@ -1,6 +1,5 @@
 package com.junliu.hotspot.adapter
 
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -45,22 +44,22 @@ class ShortVideoAdapter : BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.lay
             isShowDragProgressTextOnSeekBar = true //拖动进度条时，是否在 seekbar 开始部位显示拖动进度
             setVideoAllCallBack(object : VideoPlayCallback() {
                 override fun onAutoComplete(url: String?, vararg objects: Any?) {
-                    super.onAutoComplete(url, *objects)
-                    onPlayComplete(holder = holder)
+                    item.complete = true
+                    notifyItemChanged(holder.layoutPosition)
                 }
             })
             holder.getView<TextView>(R.id.tvRePlay).setOnClickListener { onRePlay(holder, this) }
+            onPlayComplete(holder,item.complete)
         }
     }
 
     /**
      * 播放完成
      */
-    private fun onPlayComplete(holder: BaseViewHolder) {
+    private fun onPlayComplete(holder: BaseViewHolder,complete:Boolean) {
         //播放完成 隐藏掉播放器 显示出分享的界面
-        holder.setVisible(R.id.videoPlayer, false)//隐藏播放器
-        holder.setGone(R.id.layoutShare, false)//显示分享
-        notifyItemChanged(holder.layoutPosition)
+        holder.setVisible(R.id.videoPlayer, !complete)//隐藏播放器
+        holder.setGone(R.id.layoutShare, !complete)//显示分享
     }
 
     /**
