@@ -55,6 +55,7 @@ class HistoryUtil {
                 }
                 Log.i("his",data.size.toString())
                 //移除相同的数据
+                data.filterNot { it == keyWord }
                 for (i in 0 until data.size) {
                     if (keyWord == data[i]) {
                         data.removeAt(i)

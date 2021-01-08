@@ -10,4 +10,5 @@ import dc.android.bridge.view.BaseFragment
  */
 class SearchResultFragment :BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_search_result
+
 }
