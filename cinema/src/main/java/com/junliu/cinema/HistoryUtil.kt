@@ -1,5 +1,6 @@
 package com.junliu.cinema
 
+import android.util.Log
 import com.google.gson.Gson
 import com.junliu.cinema.CinemaContext.Companion.local
 import com.junliu.common.util.SharedPreferencesHelper
@@ -36,6 +37,7 @@ class HistoryUtil {
          */
         fun save(keyWord: String) {
             val history: String = SharedPreferencesHelper.helper.getValue(local, "") as String
+            Log.i("his",history)
             val data = ArrayList<String>()
             //本地还没有保存
             if (StringUtils.isEmpty(history)) {
@@ -51,8 +53,14 @@ class HistoryUtil {
                         data.add(jsonArray[i].toString())
                     }
                 }
+                Log.i("his",data.size.toString())
                 //移除相同的数据
-                for (i in 0 until data.size) if (keyWord == data[i]) data.removeAt(i)
+                for (i in 0 until data.size) {
+                    if (keyWord == data[i]) {
+                        data.removeAt(i)
+                        break
+                    }
+                }
                 //最多只保存20条记录
                 if (data.size == 20) data.removeAt(19)
                 //再保存数据

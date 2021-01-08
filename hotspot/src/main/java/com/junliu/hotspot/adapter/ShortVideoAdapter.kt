@@ -48,7 +48,7 @@ class ShortVideoAdapter : BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.lay
                     notifyItemChanged(holder.layoutPosition)
                 }
             })
-            holder.getView<TextView>(R.id.tvRePlay).setOnClickListener { onRePlay(holder, this) }
+            holder.getView<TextView>(R.id.layoutRePlay).setOnClickListener { onRePlay(holder, this) }
             onPlayComplete(holder,item.complete)
         }
     }
