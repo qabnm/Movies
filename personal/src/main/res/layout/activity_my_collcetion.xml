@@ -21,45 +21,49 @@
         android:layout_height="@dimen/dp_0_5"
         android:background="@color/colorF0F0F0" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvList"
+    <com.junliu.common.view.EmptyLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:scrollbars="none"
-        android:paddingBottom="@dimen/dp_10"/>
+        android:layout_height="match_parent"
+        app:emptyText="暂无收藏记录"
+        app:imgResource="@drawable/collection_empty">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_0_5"
-        android:background="@color/colorF0F0F0" />
-
-    <LinearLayout
-        android:id="@+id/layoutSelect"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_50"
-        android:visibility="gone"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvAllSelect"
-            android:layout_width="0dp"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="全选"
-            android:textColor="@color/color212121"
-            android:textSize="@dimen/sp_15" />
+            android:paddingBottom="@dimen/dp_10"
+            android:layout_above="@+id/layoutSelect"
+            android:scrollbars="none" />
 
-        <TextView
-            android:id="@+id/tvDelete"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="删除"
-            android:enabled="false"
-            android:textColor="#99F1303C"
-            android:textSize="@dimen/sp_15" />
-    </LinearLayout>
+        <LinearLayout
+            android:id="@+id/layoutSelect"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:orientation="horizontal"
+            android:background="@drawable/layer_list_f0f0f0_top"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvAllSelect"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="全选"
+                android:textColor="@color/color212121"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/tvDelete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="#99F1303C"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+    </com.junliu.common.view.EmptyLayout>
 </LinearLayout>

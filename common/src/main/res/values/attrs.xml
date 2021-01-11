@@ -15,4 +15,15 @@
         <attr name="rightTextColor" format="color"/>
 
     </declare-styleable>
+
+    <declare-styleable name="EmptyLayout">
+        <attr name="imgResource" format="reference"/>
+        <attr name="emptyText" format="string"/>
+        <attr name="visibility" format="enum">
+            <enum name="VISIBLE" value="1"/>
+            <enum name="GONE" value="2"/>
+        </attr>
+        <attr name="emptyTextSize" format="dimension"/>
+        <attr name="emptyTextColor" format="color"/>
+    </declare-styleable>
 </resources>

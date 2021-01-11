@@ -102,6 +102,10 @@ public class TopBarLayout extends RelativeLayout {
         tvRight.setText(text);
     }
 
+    public void setRightVisibility(int visibility){
+        tvRight.setVisibility(visibility);
+    }
+
     public interface OnBackClickListener {
         void onBackClick();
     }
