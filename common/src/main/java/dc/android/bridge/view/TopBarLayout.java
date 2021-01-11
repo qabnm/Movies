@@ -98,6 +98,10 @@ public class TopBarLayout extends RelativeLayout {
         tvTitle.setText(topTitle);
     }
 
+    public void setRightText(String text){
+        tvRight.setText(text);
+    }
+
     public interface OnBackClickListener {
         void onBackClick();
     }

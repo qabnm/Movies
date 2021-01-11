@@ -7,5 +7,8 @@
 
         <activity android:name=".view.ContractServiceActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.MyCollectionActivity"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

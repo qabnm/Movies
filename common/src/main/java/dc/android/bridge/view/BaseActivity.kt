@@ -20,11 +20,13 @@ open class BaseActivity : AppCompatActivity() {
         initAttach()
         initViewModel()
         initLayout()
+        initView()
         startObserve()
         initData()
         initData(savedInstanceState)
     }
 
+    open fun initView(){}
     open fun initViewModel() {}
 
     open fun isTranslucentStatus(): Boolean = false

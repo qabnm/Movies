@@ -46,5 +46,10 @@ class RouterPath {
          * 观看历史
          */
         const val PATH_WATCH_HISTORY = "/movie/WatchHistoryActivity"
+
+        /**
+         * 我的收藏
+         */
+        const val PATH_MY_COLLECTION = "/personal/MyCollectionActivity"
     }
 }

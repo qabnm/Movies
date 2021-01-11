@@ -2,7 +2,7 @@ package com.junliu.hotspot.adapter
 
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
+import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.junliu.common.listener.VideoPlayCallback
@@ -48,7 +48,7 @@ class ShortVideoAdapter : BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.lay
                     notifyItemChanged(holder.layoutPosition)
                 }
             })
-            holder.getView<TextView>(R.id.layoutRePlay).setOnClickListener { onRePlay(holder, this) }
+            holder.getView<LinearLayout>(R.id.layoutRePlay).setOnClickListener { onRePlay(holder, this) }
             onPlayComplete(holder,item.complete)
         }
     }

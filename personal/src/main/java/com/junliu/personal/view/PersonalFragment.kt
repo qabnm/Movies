@@ -27,7 +27,7 @@ class PersonalFragment :BaseFragment() {
             val age = SharedPreferencesHelper.helper.getValue("age",0) as Int
             Log.i("age",age.toString())
         }
-        layoutCollection.setOnClickListener {  }
+        layoutCollection.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation() }
         layoutShare.setOnClickListener {  }
         layoutContract.setOnClickListener {
             ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
