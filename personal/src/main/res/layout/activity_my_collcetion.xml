@@ -58,7 +58,8 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="删除"
-            android:textColor="#F1303C"
+            android:enabled="false"
+            android:textColor="#99F1303C"
             android:textSize="@dimen/sp_15" />
     </LinearLayout>
 </LinearLayout>

@@ -18,6 +18,7 @@ class MyCollectionAdapter : BaseQuickAdapter<MyCollectionBean, BaseViewHolder>(R
         holder.setText(R.id.tvName, item.name)
         holder.setText(R.id.tvWhere, item.where)
         holder.setGone(R.id.imgSelect , !isEdit)
+        holder.setImageResource(R.id.imgSelect , if (item.isSelect) R.drawable.personal_collection_selected else R.drawable.personal_collection_unselected)
     }
 
     fun isEdit(isEdit:Boolean){
