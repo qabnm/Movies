@@ -25,6 +25,7 @@ class MyCollectionActivity :BridgeActivity(){
     private var collectionAdapter :MyCollectionAdapter? =null
     private var isFirst = true
     private var selectCount = 0
+    private var isAllSelect = false
 
     override fun initView() {
         rvList.layoutManager = LinearLayoutManager(this)
@@ -40,14 +41,27 @@ class MyCollectionActivity :BridgeActivity(){
      * 全部选择
      */
     private fun allSelect(){
-        collectionAdapter?.let {
-            for (i in 0 until it.data.size){
-                it.data[i].isSelect = true
+        if (!isAllSelect){
+            isAllSelect = true //全选状态
+            collectionAdapter?.let {
+                for (i in 0 until it.data.size){
+                    it.data[i].isSelect = true
+                }
+                selectCount = it.data.size
             }
-            it.notifyDataSetChanged()
-            selectCount = it.data.size
-            setDeleteState()
+            tvAllSelect.text = "取消全选"
+        }else{
+            isAllSelect = false //非全选状态
+            collectionAdapter?.let {
+                for (i in 0 until it.data.size){
+                    it.data[i].isSelect = false
+                }
+                selectCount = 0
+            }
+            tvAllSelect.text = "全选"
         }
+        collectionAdapter?.notifyDataSetChanged()
+        setDeleteState()
     }
 
     private fun onClick(adapter: BaseQuickAdapter<Any?, BaseViewHolder>, view: View, position: Int) {

@@ -1,16 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:ignore="MissingDefaultResource">
+    android:background="@color/colorFFFFFF"
+    android:orientation="vertical">
 
-
-    <com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
-        android:id="@+id/videoPlayer"
+    <dc.android.bridge.view.TopBarLayout
+        android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_240"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_height="@dimen/dp_44"
+        app:contentTitle="观看历史"
+        app:rightText="编辑"
+        app:rightTextColor="@color/color567CE7"
+        app:rightTextSize="@dimen/sp_14"
+        app:rightVisible="VISIBLE" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/colorF0F0F0" />
+
+    <com.junliu.common.view.EmptyLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:emptyText="暂无收藏记录"
+        app:imgResource="@drawable/weichat">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="@dimen/dp_10"
+            android:layout_above="@+id/layoutSelect"
+            android:scrollbars="none" />
+
+        <LinearLayout
+            android:id="@+id/layoutSelect"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:orientation="horizontal"
+            android:background="@drawable/layer_list_f0f0f0_top"
+            android:layout_alignParentBottom="true"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/tvAllSelect"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="全选"
+                android:textColor="@color/color212121"
+                android:textSize="@dimen/sp_15" />
+
+            <TextView
+                android:id="@+id/tvDelete"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="删除"
+                android:textColor="#99F1303C"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+    </com.junliu.common.view.EmptyLayout>
+</LinearLayout>

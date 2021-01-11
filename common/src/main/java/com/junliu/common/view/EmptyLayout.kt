@@ -21,8 +21,8 @@ class EmptyLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ): RelativeLayout(context, attrs, defStyleAttr){
-    private lateinit var imgEmpty:ImageView
-    private lateinit var tvEmpty:TextView
+    private var imgEmpty:ImageView
+    private var tvEmpty:TextView
     private var imgSource = 0
     private var emptyText = ""
     private var visible = 2 //1 可见
