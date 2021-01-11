@@ -8,10 +8,12 @@
     android:paddingLeft="@dimen/dp_12"
     android:paddingRight="@dimen/dp_12">
 
-    <ImageView
+    <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgCover"
         android:layout_width="@dimen/dp_105"
         android:layout_height="@dimen/dp_146"
+        android:scaleType="centerCrop"
+        app:shapeAppearanceOverlay="@style/StyleShapeRounder3"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/colorBFBFBF" />
@@ -74,6 +76,7 @@
         app:layout_constraintLeft_toLeftOf="@+id/tvTitle" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
@@ -129,4 +132,9 @@
             tools:text="6" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_30"
+        app:layout_constraintTop_toBottomOf="@id/layoutTotal" />
 </androidx.constraintlayout.widget.ConstraintLayout>

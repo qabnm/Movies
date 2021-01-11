@@ -34,4 +34,9 @@
         <item name="cornerSize">50%</item>
     </style>
 
+    <style name="StyleShapeRounder3">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">@dimen/dp_3</item>
+    </style>
+
 </resources>

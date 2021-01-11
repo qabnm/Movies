@@ -12,5 +12,6 @@ data class SearchResultBean(
     val type: String,
     val county: String,
     val language: String,
-    val director: String
+    val director: String,
+    val totalLength:Int
 )

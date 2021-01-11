@@ -6,7 +6,9 @@ import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.junliu.cinema.HistoryUtil
 import com.junliu.cinema.R
+import com.junliu.cinema.listener.HistoryClickCallback
 import com.junliu.common.util.RouterPath
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_search.*
 
@@ -17,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_search.*
  * @des: 搜索页面
  */
 @Route(path = RouterPath.PATH_SEARCH_ACTIVITY)
-class SearchActivity : BridgeActivity() {
+class SearchActivity : BridgeActivity(),HistoryClickCallback {
     override fun getLayoutId() = R.layout.activity_search
     private var searchFragment: SearchFragment? = null
     private var searchResultFragment: SearchResultFragment? = null
@@ -27,15 +29,21 @@ class SearchActivity : BridgeActivity() {
         imgBack.setOnClickListener { finish() }
         tvCancel.setOnClickListener {
             if (!TextUtils.isEmpty(etSearch.text)) {
-                isSearchClick = true
-                if (searchFragment?.isVisible == true) searchFragment?.let { supportFragmentManager.beginTransaction().hide(it).commit() }
-                showSearchResultFragment()
-                HistoryUtil.save(etSearch.text.toString())
+                toResultFragment(etSearch.text.toString())
             } else finish()
         }
         //添加显示搜索记录的fragment
         showSearchFragment()
         etSearch.addTextChangedListener(textChangeWatcher)
+    }
+
+    private fun toResultFragment(result: String){
+        etSearch.clearFocus()
+        OsUtils.hideKeyboard(this)
+        isSearchClick = true
+        if (searchFragment?.isVisible == true) searchFragment?.let { supportFragmentManager.beginTransaction().hide(it).commit() }
+        showSearchResultFragment()
+        HistoryUtil.save(result)
     }
 
     private fun showSearchResultFragment() {
@@ -51,6 +59,7 @@ class SearchActivity : BridgeActivity() {
         val ts = supportFragmentManager.beginTransaction()
         searchFragment?.takeIf { null != searchFragment }?.also { ts.show(it) } ?: run {
             searchFragment = SearchFragment()
+            searchFragment?.setCallback(this)
             ts.add(R.id.layoutContainer, searchFragment!!)
         }
         ts.commit()
@@ -71,5 +80,10 @@ class SearchActivity : BridgeActivity() {
                 }
             }
         }
+    }
+
+    override fun onHistoryClick(result: String) {
+        etSearch.setText(result)
+        toResultFragment(result = result)
     }
 }

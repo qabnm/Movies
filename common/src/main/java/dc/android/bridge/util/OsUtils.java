@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
+import android.view.inputmethod.InputMethodManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,6 +50,17 @@ public class OsUtils {
         }
         return line;
     }
+
+    /**
+     * 隐藏软键盘
+     * @param context
+     */
+    public static void hideKeyboard(Activity context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        // 隐藏软键盘
+        imm.hideSoftInputFromWindow(context.getWindow().getDecorView().getWindowToken(), 0);
+    }
+
 
     /**
      * 获取状态栏的高度

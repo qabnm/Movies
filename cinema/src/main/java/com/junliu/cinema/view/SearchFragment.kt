@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import com.junliu.cinema.CinemaContext
 import com.junliu.cinema.HistoryUtil
 import com.junliu.cinema.R
+import com.junliu.cinema.listener.HistoryClickCallback
 import com.junliu.common.adapter.NavigatorAdapter
 import com.junliu.common.adapter.ViewPagerAdapter
 import com.junliu.common.util.FlowLayout
@@ -22,8 +23,13 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  * @date: 2021/1/8 14:19
  * @des:历史搜索 搜索热词
  */
-class SearchFragment :BaseFragment() {
+class SearchFragment :BaseFragment() ,HistoryClickCallback{
     override fun getLayoutId() = R.layout.fragment_search
+    private var cb:HistoryClickCallback?=null
+
+    fun setCallback(cb :HistoryClickCallback){
+        this.cb = cb
+    }
 
     override fun initView() {
         imgMore.setOnClickListener { onMoreClick() }
@@ -39,6 +45,7 @@ class SearchFragment :BaseFragment() {
         val fragmentList = ArrayList<Fragment>()
         for (i in data.indices){
             val fragment = HotSearchFragment()
+            fragment.setCallback(this)
             fragmentList.add(fragment)
             val bundle = Bundle()
             bundle.putString("type","type")
@@ -92,6 +99,7 @@ class SearchFragment :BaseFragment() {
     private val listener: FlowLayout.OnItemClickListener = object : FlowLayout.OnItemClickListener {
         override fun OnItemClick(result: String) {
             //跳转到搜索的结果页面
+            cb?.onHistoryClick(result)
         }
 
         override fun isSingLine(isSingLine: Boolean) {
@@ -106,5 +114,9 @@ class SearchFragment :BaseFragment() {
         override fun currentHeight(height: Int) {
             imgMore.visibility = if (height>76) View.VISIBLE else View.GONE
         }
+    }
+
+    override fun onHistoryClick(result: String) {
+        cb?.onHistoryClick(result)
     }
 }
