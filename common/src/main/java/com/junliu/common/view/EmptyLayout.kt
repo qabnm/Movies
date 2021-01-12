@@ -20,44 +20,53 @@ class EmptyLayout @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-): RelativeLayout(context, attrs, defStyleAttr){
-    private var imgEmpty:ImageView
-    private var tvEmpty:TextView
+) : RelativeLayout(context, attrs, defStyleAttr) {
+    private var imgEmpty: ImageView
+    private var tvEmpty: TextView
     private var imgSource = 0
     private var emptyText = ""
     private var visible = 2 //1 可见
     private var emptyTextColor = 0
     private var emptyTextSize = 0f
+
     init {
         val typeArray = context.obtainStyledAttributes(attrs, R.styleable.EmptyLayout)
         imgSource = typeArray.getResourceId(R.styleable.EmptyLayout_imgResource, 0)
         emptyText = typeArray.getString(R.styleable.EmptyLayout_emptyText).toString()
         visible = typeArray.getInt(R.styleable.EmptyLayout_visibility, 2)
-        emptyTextColor = typeArray.getColor(R.styleable.EmptyLayout_emptyTextColor, Color.parseColor("#869EED"))
-        emptyTextSize = typeArray.getDimension(R.styleable.EmptyLayout_emptyTextSize, TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12f, context.resources.displayMetrics))
+        emptyTextColor =
+            typeArray.getColor(R.styleable.EmptyLayout_emptyTextColor, Color.parseColor("#869EED"))
+        emptyTextSize = typeArray.getDimension(
+            R.styleable.EmptyLayout_emptyTextSize,
+            TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_SP,
+                12f,
+                context.resources.displayMetrics
+            )
+        )
         typeArray.recycle()
         val view = LayoutInflater.from(context).inflate(R.layout.layout_empty, this)
         imgEmpty = view.findViewById(R.id.imgEmpty)
         tvEmpty = view.findViewById(R.id.tvEmpty)
 
-        imgEmpty.visibility = if (visible ==1) View.VISIBLE else View.GONE
-        tvEmpty.visibility = if (visible ==1) View.VISIBLE else View.GONE
+        imgEmpty.visibility = if (visible == 1) View.VISIBLE else View.GONE
+        tvEmpty.visibility = if (visible == 1) View.VISIBLE else View.GONE
         imgEmpty.setImageResource(imgSource)
         tvEmpty.text = emptyText
         tvEmpty.setTextColor(emptyTextColor)
-        tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_PX , emptyTextSize)
+        tvEmpty.setTextSize(TypedValue.COMPLEX_UNIT_PX, emptyTextSize)
     }
 
-    fun setEmptyVisibility(visibility: Int){
+    fun setEmptyVisibility(visibility: Int) {
         imgEmpty.visibility = visibility
         tvEmpty.visibility = visibility
     }
 
-    fun setEmptyView(imgSource: Int){
+    fun setEmptyView(imgSource: Int) {
         imgEmpty.setImageResource(imgSource)
     }
 
-    fun setEmptyText(text: String){
+    fun setEmptyText(text: String) {
         tvEmpty.text = text
     }
 

@@ -19,7 +19,7 @@ import kotlinx.android.synthetic.main.activity_search.*
  * @des: 搜索页面
  */
 @Route(path = RouterPath.PATH_SEARCH_ACTIVITY)
-class SearchActivity : BridgeActivity(),HistoryClickCallback {
+class SearchActivity : BridgeActivity(), HistoryClickCallback {
     override fun getLayoutId() = R.layout.activity_search
     private var searchFragment: SearchFragment? = null
     private var searchResultFragment: SearchResultFragment? = null
@@ -37,11 +37,13 @@ class SearchActivity : BridgeActivity(),HistoryClickCallback {
         etSearch.addTextChangedListener(textChangeWatcher)
     }
 
-    private fun toResultFragment(result: String){
+    private fun toResultFragment(result: String) {
         etSearch.clearFocus()
         OsUtils.hideKeyboard(this)
         isSearchClick = true
-        if (searchFragment?.isVisible == true) searchFragment?.let { supportFragmentManager.beginTransaction().hide(it).commit() }
+        if (searchFragment?.isVisible == true) searchFragment?.let {
+            supportFragmentManager.beginTransaction().hide(it).commit()
+        }
         showSearchResultFragment()
         HistoryUtil.save(result)
     }
@@ -73,8 +75,10 @@ class SearchActivity : BridgeActivity(),HistoryClickCallback {
 
         override fun afterTextChanged(s: Editable?) {
             if (TextUtils.isEmpty(etSearch.text) && isSearchClick) {
-                if (searchResultFragment?.isVisible == true) searchResultFragment?.let { supportFragmentManager.beginTransaction().hide(it).commit() }
-                if (searchFragment?.isVisible == false){
+                if (searchResultFragment?.isVisible == true) searchResultFragment?.let {
+                    supportFragmentManager.beginTransaction().hide(it).commit()
+                }
+                if (searchFragment?.isVisible == false) {
                     showSearchFragment()
                     searchFragment?.setSearchHistory()
                 }

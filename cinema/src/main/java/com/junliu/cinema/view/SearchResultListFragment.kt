@@ -12,8 +12,8 @@ import kotlinx.android.synthetic.main.fragment_search_result_list.*
  * @date: 2021/1/8 16:59
  * @des:搜索结果的列表页
  */
-class SearchResultListFragment :BaseFragment() {
-    private var resultAdapter:SearchResultListAdapter?= null
+class SearchResultListFragment : BaseFragment() {
+    private var resultAdapter: SearchResultListAdapter? = null
 
     override fun getLayoutId() = R.layout.fragment_search_result_list
 
@@ -25,9 +25,10 @@ class SearchResultListFragment :BaseFragment() {
 
     override fun initData() {
         val data = ArrayList<SearchResultBean>()
-        val coverUrl = "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1274215983,3875630385&fm=26&gp=0.jpg"
-        for (i in 0 until 8){
-            data.add(SearchResultBean(coverUrl, "釜山行", "2015", "病毒", "韩国", "韩语","米花浩瀚",40))
+        val coverUrl =
+            "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=1274215983,3875630385&fm=26&gp=0.jpg"
+        for (i in 0 until 8) {
+            data.add(SearchResultBean(coverUrl, "釜山行", "2015", "病毒", "韩国", "韩语", "米花浩瀚", 40))
         }
         resultAdapter?.setList(data)
     }

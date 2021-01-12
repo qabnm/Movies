@@ -7,7 +7,7 @@ import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack
  * @date: 2021/1/7 : 15:28
  * 播放过程中的监听
  */
- open class VideoPlayCallback :VideoAllCallBack{
+open class VideoPlayCallback : VideoAllCallBack {
     override fun onStartPrepared(url: String?, vararg objects: Any?) {
     }
 

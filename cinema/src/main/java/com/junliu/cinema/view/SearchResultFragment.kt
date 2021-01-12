@@ -16,26 +16,26 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  * @date: 2021/1/8 14:54
  * @des:搜索结果
  */
-class SearchResultFragment :BaseFragment() {
+class SearchResultFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_search_result
 
     override fun initData() {
-        val data = listOf("全部","电影","电视剧","纪录片")
+        val data = listOf("全部", "电影", "电视剧", "纪录片")
         val fragmentList = ArrayList<Fragment>()
-        for (i in data.indices){
+        for (i in data.indices) {
             val fragment = SearchResultListFragment()
             fragmentList.add(fragment)
             val bundle = Bundle()
-            bundle.putString("type","type")
+            bundle.putString("type", "type")
             fragment.arguments = bundle
         }
-        vpContainer.adapter = ViewPagerAdapter(childFragmentManager,fragmentList)
+        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
         CommonNavigator(requireActivity()).apply {
-            adapter = NoLineIndicatorAdapter(vpContainer , data)
+            adapter = NoLineIndicatorAdapter(viewPager = vpContainer, data = data)
             isAdjustMode = false
             indicator.navigator = this
         }
-        ViewPagerHelper.bind(indicator ,vpContainer)
+        ViewPagerHelper.bind(indicator, vpContainer)
     }
 
 }

@@ -18,23 +18,27 @@ import kotlinx.android.synthetic.main.fragment_personal.*
  * 个人中心
  */
 @Route(path = PATH_PERSONAL)
-class PersonalFragment :BaseFragment() {
+class PersonalFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_personal
 
     override fun initView() {
-        layoutHistory.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation() }
-        layoutDownload.setOnClickListener {
-            val age = SharedPreferencesHelper.helper.getValue("age",0) as Int
-            Log.i("age",age.toString())
+        layoutHistory.setOnClickListener {
+            ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
         }
-        layoutCollection.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation() }
-        layoutShare.setOnClickListener {  }
+        layoutDownload.setOnClickListener {
+            val age = SharedPreferencesHelper.helper.getValue("age", 0) as Int
+            Log.i("age", age.toString())
+        }
+        layoutCollection.setOnClickListener {
+            ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
+        }
+        layoutShare.setOnClickListener { }
         layoutContract.setOnClickListener {
             ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
         }
         layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
         }
-        layoutAbout.setOnClickListener {  }
+        layoutAbout.setOnClickListener { }
     }
 }
