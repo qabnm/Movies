@@ -40,6 +40,6 @@ class MovieLibraryNavFragment : BaseFragment() {
             isAdjustMode = false
             indicator.navigator = this
         }
-        ViewPagerHelper.bind(indicator ,vpContainer)
+        ViewPagerHelper.bind(indicator, vpContainer)
     }
 }

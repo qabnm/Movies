@@ -4,10 +4,9 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="榜单"
-        android:textSize="@dimen/sp_30" />
+        android:layout_height="wrap_content"
+        android:scrollbars="none" />
 </LinearLayout>

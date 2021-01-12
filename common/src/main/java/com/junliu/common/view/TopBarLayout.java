@@ -1,4 +1,4 @@
-package dc.android.bridge.view;
+package com.junliu.common.view;
 
 import android.app.Activity;
 import android.content.Context;

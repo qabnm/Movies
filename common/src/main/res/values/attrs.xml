@@ -26,4 +26,9 @@
         <attr name="emptyTextSize" format="dimension"/>
         <attr name="emptyTextColor" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="RoundCornerLayout">
+        <attr name="radius" format="dimension"/>
+        <attr name="solidColor" format="color"/>
+    </declare-styleable>
 </resources>

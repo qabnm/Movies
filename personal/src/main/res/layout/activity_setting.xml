@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <dc.android.bridge.view.TopBarLayout
+    <com.junliu.common.view.TopBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
         app:contentTitle="设置" />
