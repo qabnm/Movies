@@ -8,6 +8,7 @@ import dc.android.bridge.view.BaseFragment
 /**
  * @author: jun.liu
  * @date: 2020/12/29 : 14:37
+ * 影片专题、片库、榜单
  */
 @Route(path = RouterPath.PATH_MOVIE)
 class MovieFragment :BaseFragment() {
