@@ -16,19 +16,25 @@ class ScalePagerTitleView(context: Context?) : SimplePagerTitleView(context) {
         this.selectTextSize = selectTextSize
     }
 
-    fun setUnSelectTextSize(unSelectTextSize: Int){
+    fun setUnSelectTextSize(unSelectTextSize: Int) {
         this.unSelectTextSize = unSelectTextSize
     }
 
     override fun onSelected(index: Int, totalCount: Int) {
         super.onSelected(index, totalCount)
-        setTextSize(TypedValue.COMPLEX_UNIT_PX,resources.getDimensionPixelSize(selectTextSize).toFloat())
+        setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            resources.getDimensionPixelSize(selectTextSize).toFloat()
+        )
         this.paint.isFakeBoldText = true
     }
 
     override fun onDeselected(index: Int, totalCount: Int) {
         super.onDeselected(index, totalCount)
-        setTextSize(TypedValue.COMPLEX_UNIT_PX,resources.getDimensionPixelSize(unSelectTextSize).toFloat())
+        setTextSize(
+            TypedValue.COMPLEX_UNIT_PX,
+            resources.getDimensionPixelSize(unSelectTextSize).toFloat()
+        )
         this.paint.isFakeBoldText = false
     }
 }

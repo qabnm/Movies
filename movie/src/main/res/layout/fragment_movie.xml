@@ -12,33 +12,24 @@
         android:layout_marginRight="@dimen/dp_2"
         android:padding="@dimen/dp_10"
         android:src="@drawable/movie_search"
-        app:layout_constraintBottom_toBottomOf="@+id/tvMovie"
+        app:layout_constraintBottom_toBottomOf="@+id/indicator"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tvMovie" />
+        app:layout_constraintTop_toTopOf="@+id/indicator" />
 
-    <TextView
-        android:id="@+id/tvMovie"
-        android:layout_width="@dimen/dp_55"
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/indicator"
+        android:layout_width="@dimen/dp_120"
         android:layout_height="@dimen/dp_44"
-        android:gravity="center"
-        android:includeFontPadding="false"
-        android:text="片库"
-        android:textColor="@color/color000000"
-        android:textSize="@dimen/sp_20"
-        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/tvRank"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/tvRank"
-        android:layout_width="@dimen/dp_55"
-        android:layout_height="@dimen/dp_44"
-        android:gravity="center"
-        android:text="榜单"
-        android:textColor="@color/color666666"
-        android:textSize="@dimen/sp_15"
-        app:layout_constraintLeft_toRightOf="@+id/tvMovie"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indicator" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,11 +23,11 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  * @date: 2021/1/8 14:19
  * @des:历史搜索 搜索热词
  */
-class SearchFragment :BaseFragment() ,HistoryClickCallback{
+class SearchFragment : BaseFragment(), HistoryClickCallback {
     override fun getLayoutId() = R.layout.fragment_search
-    private var cb:HistoryClickCallback?=null
+    private var cb: HistoryClickCallback? = null
 
-    fun setCallback(cb :HistoryClickCallback){
+    fun setCallback(cb: HistoryClickCallback) {
         this.cb = cb
     }
 
@@ -41,23 +41,23 @@ class SearchFragment :BaseFragment() ,HistoryClickCallback{
     }
 
     override fun initData() {
-        val data = listOf("热搜","电影","电视剧","美剧","韩剧","日剧")
+        val data = listOf("热搜", "电影", "电视剧", "美剧", "韩剧", "日剧")
         val fragmentList = ArrayList<Fragment>()
-        for (i in data.indices){
+        for (i in data.indices) {
             val fragment = HotSearchFragment()
             fragment.setCallback(this)
             fragmentList.add(fragment)
             val bundle = Bundle()
-            bundle.putString("type","type")
+            bundle.putString("type", "type")
             fragment.arguments = bundle
         }
-        vpContainer.adapter = ViewPagerAdapter(childFragmentManager,fragmentList)
+        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
         CommonNavigator(requireActivity()).apply {
-            adapter = NavigatorAdapter(vpContainer , data)
+            adapter = NavigatorAdapter(viewPager = vpContainer, data = data)
             isAdjustMode = false
             indicator.navigator = this
         }
-        ViewPagerHelper.bind(indicator ,vpContainer)
+        ViewPagerHelper.bind(indicator, vpContainer)
         setSearchHistory()
     }
 
@@ -79,7 +79,7 @@ class SearchFragment :BaseFragment() ,HistoryClickCallback{
                 layoutParams.height = OsUtils.dip2px(requireActivity(), 76f)
                 imgMore.visibility = View.VISIBLE
             }
-        }else{
+        } else {
             layoutHistoryContainer.visibility = View.GONE
             layoutFlowLayout.visibility = View.GONE
         }
@@ -103,7 +103,7 @@ class SearchFragment :BaseFragment() ,HistoryClickCallback{
         }
 
         override fun isSingLine(isSingLine: Boolean) {
-            if (isSingLine && isFirstSet){
+            if (isSingLine && isFirstSet) {
                 isFirstSet = false
                 val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
                 layoutParams.height = OsUtils.dip2px(requireActivity(), 38f)
@@ -112,7 +112,7 @@ class SearchFragment :BaseFragment() ,HistoryClickCallback{
         }
 
         override fun currentHeight(height: Int) {
-            imgMore.visibility = if (height>76) View.VISIBLE else View.GONE
+            imgMore.visibility = if (height > 76) View.VISIBLE else View.GONE
         }
     }
 
