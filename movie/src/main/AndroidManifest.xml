@@ -4,7 +4,10 @@
     <application>
         <activity
             android:name=".view.WatchHistoryActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait" />
+
+        <activity android:name=".view.MovieDetailActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"/>
     </application>
 </manifest>

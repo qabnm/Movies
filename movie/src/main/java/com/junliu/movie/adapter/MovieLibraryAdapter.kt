@@ -18,7 +18,7 @@ import dc.android.bridge.util.GlideUtils
 /**
  * @author: jun.liu
  * @date: 2021/1/13 9:45
- * @des:
+ * @des:片库
  */
 class MovieLibraryAdapter(private val context: Context, private val bean: MovieLibraryBean) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {

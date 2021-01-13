@@ -51,5 +51,10 @@ class RouterPath {
          * 我的收藏
          */
         const val PATH_MY_COLLECTION = "/personal/MyCollectionActivity"
+
+        /**
+         * 影片详情
+         */
+        const val PATH_MOVIE_DETAIL ="/movie/MovieDetailActivity"
     }
 }
