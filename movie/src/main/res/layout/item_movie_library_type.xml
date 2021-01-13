@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvType"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/dp_8"
+    android:paddingRight="@dimen/dp_25"
+    android:paddingBottom="@dimen/dp_8"
+    android:textColor="@color/color666666"
+    android:textSize="@dimen/sp_13"
+    tools:text="最近更新">
+
+</TextView>
