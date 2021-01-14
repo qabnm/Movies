@@ -40,6 +40,14 @@
         <TextView
             style="@style/commonText"
             android:text="推送通知" />
+
+        <ImageView
+            android:id="@+id/imgNotification"
+            android:layout_width="@dimen/dp_49"
+            android:layout_height="@dimen/dp_37"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingBottom="@dimen/dp_5"
+            android:src="@drawable/notification_open" />
     </LinearLayout>
 
     <View
