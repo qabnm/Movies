@@ -48,7 +48,9 @@ class MainPageAdapter(
     override fun getItemCount() = if (null != dataList) dataList.size + 3 else 3
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        when(holder){
+            is BannerViewHolder ->{bindBanner(holder = holder)}
+        }
     }
 
     override fun getItemViewType(position: Int) = when (position) {
