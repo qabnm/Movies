@@ -10,6 +10,7 @@ import kotlinx.android.synthetic.main.fragment_cinema.*
 /**
  * @author: jun.liu
  * @date: 2020/12/29 : 14:32
+ * 首页
  */
 @Route(path = RouterPath.PATH_CINEMA)
 class CinemaFragment : BaseFragment() {

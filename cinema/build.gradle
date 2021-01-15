@@ -63,4 +63,5 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
     api project(path: ':common')
     kapt "com.alibaba:arouter-compiler:$ext.arouter_version"
+    implementation "com.youth.banner:banner:$ext.banner_version"
 }
