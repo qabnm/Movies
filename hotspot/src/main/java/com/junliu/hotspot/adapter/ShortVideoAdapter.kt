@@ -6,6 +6,7 @@ import android.widget.LinearLayout
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.junliu.common.listener.VideoPlayCallback
+import com.junliu.common.util.SampleCoverVideo
 import com.junliu.hotspot.R
 import com.junliu.hotspot.bean.ShortVideoBean
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer
@@ -18,16 +19,12 @@ import dc.android.bridge.util.GlideUtils
  */
 class ShortVideoAdapter : BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.layout.item_short_video) {
     override fun convert(holder: BaseViewHolder, item: ShortVideoBean) {
-        holder.getView<StandardGSYVideoPlayer>(R.id.videoPlayer).apply {
+        holder.getView<SampleCoverVideo>(R.id.videoPlayer).apply {
             setUp(item.url, true, item.title)
             backButton.visibility = View.GONE  //设置返回键
             //设置封面
             thumbImageViewLayout.visibility = View.VISIBLE
-            ImageView(context).apply {
-                scaleType = ImageView.ScaleType.CENTER_CROP
-                GlideUtils.setImg(context, item.coverUlr, this)
-                thumbImageView = this
-            }
+            loadCoverImage(item.coverUlr,R.drawable.back)
             //设置全屏按键功能
             fullscreenButton.setOnClickListener { this.startWindowFullscreen(context, false, true) }
             //防止错位设置

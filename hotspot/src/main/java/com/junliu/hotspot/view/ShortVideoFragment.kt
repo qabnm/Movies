@@ -30,7 +30,7 @@ class ShortVideoFragment : BaseFragment() {
         val url1 = "http://mudan.iii-kuyunzy.com/20200121/10197_bbd984b4/index.m3u8"
         val url2 = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
         val data = ArrayList<ShortVideoBean>()
-        for (i in 0 until 20){
+        for (i in 0 until 15){
             if (i % 2 == 0){
                 data.add(ShortVideoBean("25岁当代单身女性尝试相亲APP的成果日记",coverUrlYang,url1))
             }else{
