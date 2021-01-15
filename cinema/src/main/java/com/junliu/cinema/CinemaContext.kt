@@ -10,5 +10,10 @@ import dc.android.bridge.BridgeContext
 class CinemaContext:BridgeContext() {
     companion object{
         const val local = "history"
+
+        const val TYPE_BANNER = 100
+        const val TYPE_TODAY_RECOMMEND = 200
+        const val TYPE_ALL_LOOK = 300
+        const val TYPE_RECOMMEND_LIST = 400
     }
 }

@@ -10,6 +10,7 @@
         android:layout_height="0dp"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
+        app:banner_loop_time="4000"
         app:layout_constraintDimensionRatio="27:13"
         app:layout_constraintTop_toTopOf="parent" />
 
