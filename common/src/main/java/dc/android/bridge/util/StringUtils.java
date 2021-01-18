@@ -1,5 +1,7 @@
 package dc.android.bridge.util;
 
+import androidx.exifinterface.media.ExifInterface;
+
 /**
  * 字符串相关工具类
  */
@@ -18,6 +20,11 @@ public class StringUtils {
             s.append(str);
         }
         return s.toString();
+    }
+
+    public static String getString(String str){
+        if (isEmpty(str)) return "";
+        return str;
     }
 
 

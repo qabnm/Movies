@@ -17,7 +17,7 @@ interface CinemaApiService {
     /**
      * 获取配置信息
      */
-    @GET("api/index")
+    @GET("api/config")
     suspend fun configure(): BaseResponseData<ConfigureBean>
 
     /**
@@ -33,7 +33,7 @@ interface CinemaApiService {
      * @param page Int
      * @return BaseResponseData<MainRecommendBean>
      */
-    @GET("")
+    @GET("api/index/recommend")
     suspend fun mainRecommend(
         @Query("page") page: Int,
         @Query("type_id") typeId: String = "0"
