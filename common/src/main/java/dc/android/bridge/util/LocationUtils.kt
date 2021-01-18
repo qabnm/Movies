@@ -34,6 +34,13 @@ class LocationUtils(private val context: Context) {
         getProviders()
     }
 
+    @SuppressLint("MissingPermission")
+    fun startLocation(){
+        bestProvider?.let {
+            locationManager.requestLocationUpdates(it, 0L ,0F,MyLocationListener())
+        }
+    }
+
     /**
      * 获取定位的方式
      */
