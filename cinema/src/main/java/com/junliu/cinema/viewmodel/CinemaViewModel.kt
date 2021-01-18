@@ -6,6 +6,8 @@ import com.junliu.cinema.bean.MainBean
 import com.junliu.cinema.bean.MainPageBean
 import com.junliu.cinema.bean.MainRecommendBean
 import com.junliu.cinema.repository.CinemaRepository
+import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseResponseData
 import dc.android.bridge.net.BaseViewModel
 import kotlinx.coroutines.async
@@ -16,10 +18,11 @@ import kotlinx.coroutines.async
  * @des:
  */
 class CinemaViewModel : BaseViewModel() {
-    private var configure:MutableLiveData<BaseResponseData<ConfigureBean>> = MutableLiveData()
-    private var mainPageData :MutableLiveData<BaseResponseData<MainPageBean>> = MutableLiveData()
-    private var mainRecommend : MutableLiveData<BaseResponseData<MainRecommendBean>> = MutableLiveData()
-    private var mainBean:MutableLiveData<MainBean> = MutableLiveData()
+    private var configure: MutableLiveData<BaseResponseData<ConfigureBean>> = MutableLiveData()
+    private var mainPageData: MutableLiveData<BaseResponseData<MainPageBean>> = MutableLiveData()
+    private var mainRecommend: MutableLiveData<BaseResponseData<MainRecommendBean>> =
+        MutableLiveData()
+    private var mainBean: MutableLiveData<MainBean> = MutableLiveData()
     private val repository = CinemaRepository()
 
     fun getConfigure() = configure
@@ -35,16 +38,17 @@ class CinemaViewModel : BaseViewModel() {
         val result = async { repository.configure() }
         val result1 = async { repository.mainPage() }
         val result2 = async { repository.mainRecommend(page) }
-        val bean = MainBean(result.await().data, result1.await().data,result2.await().data)
-        mainBean.postValue(bean)
+        val bean = MainBean(result.await().data, result1.await().data, result2.await().data)
+        if (result.await().code == SUCCESS && result1.await().code == SUCCESS && result2.await().code == SUCCESS) mainBean.postValue(bean)
     }
+
     /**
      * 首页配置
      * @return Job
      */
     fun configure() = request {
-        val result =repository.configure()
-        configure.postValue(result)
+        val result = repository.configure()
+       if (result.code == SUCCESS) configure.postValue(result)
     }
 
     /**
@@ -53,7 +57,7 @@ class CinemaViewModel : BaseViewModel() {
      */
     fun mainPage() = request {
         val result = repository.mainPage()
-        mainPageData.postValue(result)
+        if (result.code == SUCCESS)mainPageData.postValue(result)
     }
 
     /**
@@ -61,8 +65,8 @@ class CinemaViewModel : BaseViewModel() {
      * @param page Int
      * @return Job
      */
-    fun mainRecommend(page:Int) = request {
+    fun mainRecommend(page: Int) = request {
         val result = repository.mainRecommend(page = page)
-        mainRecommend.postValue(result)
+        if (result.code == SUCCESS) mainRecommend.postValue(result)
     }
 }

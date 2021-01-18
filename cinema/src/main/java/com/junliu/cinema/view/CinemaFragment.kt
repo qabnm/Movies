@@ -43,19 +43,32 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(),OnRefreshListene
             setOnRefreshListener(this@CinemaFragment)
             setOnLoadMoreListener(this@CinemaFragment)
         }
+        viewModel.getMain().observe(this , Observer {
+            val value = viewModel.getMain().value
+            if (null == adapter) {
+                adapter = MainPageAdapter(requireActivity(), value!!)
+                rvList.adapter = adapter
+            }else{
+                adapter?.notifyDataSetChanged()
+            }
+        })
+        viewModel.getMainRecommend().observe(this, Observer {
+            val value = viewModel.getMainRecommend().value
+
+        })
     }
 
     override fun initData() {
         viewModel.main(page = page)
-        viewModel.getMain().observe(this , Observer {
-            val value = viewModel.getMain().value
-            if (null == adapter) adapter = MainPageAdapter(requireActivity(),value!!)
-        })
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
+        page = 1
+        viewModel.main(page)
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
+        page++
+        viewModel.mainRecommend(page)
     }
 }
