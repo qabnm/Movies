@@ -79,11 +79,15 @@ dependencies {
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha04"
     api 'com.github.hackware1993:MagicIndicator:1.7.0'
 
-    api 'com.shuyu:gsyVideoPlayer-java:8.0.0'
+    api "com.shuyu:gsyVideoPlayer-java:$ext.video_version"
     //是否需要ExoPlayer模式
-    api 'com.shuyu:GSYVideoPlayer-exo2:8.0.0'
+    api "com.shuyu:GSYVideoPlayer-exo2:$ext.video_version"
     //更多ijk的编码支持
-    api 'com.shuyu:gsyVideoPlayer-ex_so:8.0.0'
+    api "com.shuyu:gsyVideoPlayer-ex_so:$ext.video_version"
+    //下拉刷新的
+    api  "com.scwang.smart:refresh-layout-kernel:$ext.refresh_version"      //核心必须依赖
+    api  "com.scwang.smart:refresh-header-classics:$ext.refresh_version"    //经典刷新头
+    api  "com.scwang.smart:refresh-footer-classics:$ext.refresh_version"    //经典加载
 
 
     //aroute

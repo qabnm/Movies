@@ -8,6 +8,11 @@ import com.junliu.cinema.R
 import com.junliu.cinema.adapter.MainPageAdapter
 import com.junliu.cinema.viewmodel.CinemaViewModel
 import com.junliu.common.util.RouterPath
+import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.view.BaseFragment
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema.*
@@ -21,7 +26,7 @@ import kotlinx.coroutines.launch
  * 首页
  */
 @Route(path = RouterPath.PATH_CINEMA)
-class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
+class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(),OnRefreshListener,OnLoadMoreListener {
     override fun getLayoutId() = R.layout.fragment_cinema
     override fun providerVMClass() = CinemaViewModel::class.java
     private var page = 1
@@ -32,6 +37,12 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY).navigation()
         }
         rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
+        refreshLayout.apply {
+            setRefreshHeader(ClassicsHeader(requireActivity()))
+            setRefreshFooter(ClassicsFooter(requireActivity()))
+            setOnRefreshListener(this@CinemaFragment)
+            setOnLoadMoreListener(this@CinemaFragment)
+        }
     }
 
     override fun initData() {
@@ -40,5 +51,11 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val value = viewModel.getMain().value
             if (null == adapter) adapter = MainPageAdapter(requireActivity(),value!!)
         })
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+    }
+
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
     }
 }
