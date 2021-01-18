@@ -6,8 +6,8 @@ package com.junliu.cinema.bean
  * @des:首页配置信息
  */
 data class ConfigureBean(
-    val category: List<Category>,
-    val columns: List<Column>,
+    val category: List<Category>?,
+    val columns: List<Column>?,
     val isRs: Boolean,
     val version: Version
 )

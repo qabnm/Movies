@@ -13,8 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.junliu.cinema.CinemaContext
 import com.junliu.cinema.R
 import com.junliu.cinema.bean.Category
-import com.junliu.cinema.bean.FilmRecommendBean
-import com.junliu.cinema.bean.MainPageBean
+import com.junliu.cinema.bean.MainBean
 import com.youth.banner.Banner
 import com.youth.banner.indicator.CircleIndicator
 import dc.android.bridge.util.GlideUtils
@@ -27,9 +26,7 @@ import dc.android.bridge.util.StringUtils
  */
 class MainPageAdapter(
     private val context: Context,
-    private val bean: MainPageBean,
-    private val category: List<Category>?,
-    private val dataList: List<FilmRecommendBean>?
+    private val bean: MainBean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
@@ -54,7 +51,8 @@ class MainPageAdapter(
         )
     }
 
-    override fun getItemCount() = if (null != dataList) dataList.size + 3 else 3
+    override fun getItemCount() =
+        if (null != bean.mainRecommendBean.recommends) bean.mainRecommendBean.recommends.size + 3 else 3
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -80,8 +78,9 @@ class MainPageAdapter(
      */
     private fun bindBanner(holder: BannerViewHolder) {
         holder.banner.addBannerLifecycleObserver(context as AppCompatActivity)
-            .setAdapter(BannerImgAdapter(bean.banner, context)).indicator =
+            .setAdapter(BannerImgAdapter(bean.mainPageBean.banner, context)).indicator =
             CircleIndicator(context)
+        val category = bean.configureBean.category
         if (null != category && category.isNotEmpty()) {
             holder.rvList.visibility = View.VISIBLE
             holder.rvList.adapter = MainCategoryAdapter(category as MutableList<Category>)
@@ -99,7 +98,7 @@ class MainPageAdapter(
     private fun bindTodayRecommend(holder: TodayRecommendViewHolder) {
         if (null == adapter) adapter = FilmRecommendAdapter()
         holder.rvList.adapter = adapter
-        adapter?.setList(bean.recommends)
+        adapter?.setList(bean.mainPageBean.recommends)
     }
 
     /**
@@ -107,7 +106,7 @@ class MainPageAdapter(
      * @param holder AllLookViewHolder
      */
     private fun bindAllLook(holder: AllLookViewHolder) {
-        holder.rvList.adapter = FilmAllLookAdapter(bean.playRecommends)
+        holder.rvList.adapter = FilmAllLookAdapter(bean.mainPageBean.playRecommends)
     }
 
     /**
@@ -116,6 +115,7 @@ class MainPageAdapter(
      * @param position Int
      */
     private fun bindRecommend(holder: RecommendViewHolder, position: Int) {
+        val dataList = bean.mainRecommendBean.recommends
         if (dataList != null && dataList.isNotEmpty()) {
             GlideUtils.setImg(context, dataList[position].cover_url, holder.coverImg)
             holder.tvName.text = dataList[position].vod_name
@@ -178,3 +178,4 @@ class MainPageAdapter(
             }
     }
 }
+

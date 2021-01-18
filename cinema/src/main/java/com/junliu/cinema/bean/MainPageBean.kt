@@ -7,8 +7,8 @@ package com.junliu.cinema.bean
  */
 data class MainPageBean(
     val banner: List<Banner>,
-    val playRecommends: List<FilmRecommendBean>,
-    val recommends: List<FilmRecommendBean>
+    val playRecommends: List<FilmRecommendBean>?,
+    val recommends: List<FilmRecommendBean>?
 )
 
 data class Banner(
