@@ -19,12 +19,15 @@ import kotlinx.android.synthetic.main.fragment_cinema.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import permissions.dispatcher.NeedsPermission
+import permissions.dispatcher.RuntimePermissions
 
 /**
  * @author: jun.liu
  * @date: 2020/12/29 : 14:32
  * 首页
  */
+@RuntimePermissions
 @Route(path = RouterPath.PATH_CINEMA)
 class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(),OnRefreshListener,OnLoadMoreListener {
     override fun getLayoutId() = R.layout.fragment_cinema
@@ -56,6 +59,11 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(),OnRefreshListene
             val value = viewModel.getMainRecommend().value
 
         })
+    }
+
+    @NeedsPermission()
+    fun location(){
+
     }
 
     override fun initData() {
