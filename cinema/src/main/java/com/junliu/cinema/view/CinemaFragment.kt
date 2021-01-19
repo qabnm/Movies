@@ -1,20 +1,18 @@
 package com.junliu.cinema.view
 
 import android.Manifest
-import android.annotation.SuppressLint
-import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.junliu.cinema.CinemaContext
 import com.junliu.cinema.CinemaContext.Companion.ADDRESS
 import com.junliu.cinema.R
 import com.junliu.cinema.adapter.MainPageAdapter
 import com.junliu.cinema.viewmodel.CinemaViewModel
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.SharedPreferencesHelper
+import com.permissionx.guolindev.PermissionX
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -25,15 +23,12 @@ import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema.*
-import permissions.dispatcher.NeedsPermission
-import permissions.dispatcher.RuntimePermissions
 
 /**
  * @author: jun.liu
  * @date: 2020/12/29 : 14:32
  * 首页
  */
-@RuntimePermissions
 @Route(path = RouterPath.PATH_CINEMA)
 class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(), OnRefreshListener,
     OnLoadMoreListener {
@@ -68,13 +63,21 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(), OnRefreshListen
         })
     }
 
-    @NeedsPermission(
-        Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION
-    )
-    fun location() {
-        locationUtils = LocationUtils(requireActivity(), LocationListener())
-        locationUtils?.startLocation()
+    private fun location() {
+        PermissionX.init(this).permissions(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ).onExplainRequestReason { scope, deniedList ->
+            val msg = "多多影视需要获取您以下权限"
+            scope.showRequestReasonDialog(deniedList, msg, "确定", "取消")
+        }.request { allGranted, grantedList, deniedList ->
+            if (allGranted) {
+                locationUtils = LocationUtils(requireActivity(), LocationListener())
+                locationUtils?.startLocation()
+            } else {
+
+            }
+        }
     }
 
     override fun initData() {
@@ -109,13 +112,5 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(), OnRefreshListen
                 )}\",\"d\":\"${StringUtils.getDecodeStr(bean.subAdminArea)}\"}"
             )
         }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        onRequestPermissionsResult(requestCode, grantResults)
     }
 }

@@ -64,5 +64,4 @@ dependencies {
     api project(path: ':common')
     kapt "com.alibaba:arouter-compiler:$ext.arouter_version"
     implementation "com.youth.banner:banner:$ext.banner_version"
-    kapt "org.permissionsdispatcher:permissionsdispatcher-processor:4.8.0"
 }

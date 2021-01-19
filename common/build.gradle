@@ -88,8 +88,8 @@ dependencies {
     api  "com.scwang.smart:refresh-layout-kernel:$ext.refresh_version"      //核心必须依赖
     api  "com.scwang.smart:refresh-header-classics:$ext.refresh_version"    //经典刷新头
     api  "com.scwang.smart:refresh-footer-classics:$ext.refresh_version"    //经典加载
-    api "org.permissionsdispatcher:permissionsdispatcher:4.8.0"
 
+    api 'com.permissionx.guolindev:permissionx:1.4.0'
 
     //aroute
     api "com.alibaba:arouter-api:$ext.arouter_version"
