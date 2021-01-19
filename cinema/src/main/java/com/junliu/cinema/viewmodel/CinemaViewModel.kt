@@ -1,6 +1,8 @@
 package com.junliu.cinema.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.junliu.cinema.bean.ConfigureBean
 import com.junliu.cinema.bean.MainBean
 import com.junliu.cinema.bean.MainPageBean
@@ -11,6 +13,7 @@ import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseResponseData
 import dc.android.bridge.net.BaseViewModel
 import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 /**
  * @author: jun.liu
@@ -38,8 +41,24 @@ class CinemaViewModel : BaseViewModel() {
         val result = async { repository.configure() }
         val result1 = async { repository.mainPage() }
         val result2 = async { repository.mainRecommend(page) }
-        val bean = MainBean(result.await().data, result1.await().data, result2.await().data)
-        if (result.await().code == SUCCESS && result1.await().code == SUCCESS && result2.await().code == SUCCESS) mainBean.postValue(bean)
+        if (result.await().code == SUCCESS && result1.await().code == SUCCESS && result2.await().code == SUCCESS) {
+            val bean = MainBean(result.await().data, result1.await().data, result2.await().data)
+            mainBean.postValue(bean)
+        }
+    }
+
+    fun hah(page: Int){
+        viewModelScope.launch {
+            val job1 = async { repository.configure() }
+            val job2 = async { repository.mainPage() }
+            val job3b = async { repository.mainRecommend(page) }
+            try {
+                val bean = MainBean(job1.await().data, job2.await().data,job3b.await().data)
+                mainBean.postValue(bean)
+            }catch (e:Exception){
+                Log.e("e",e.toString())
+            }
+        }
     }
 
     /**
@@ -48,7 +67,7 @@ class CinemaViewModel : BaseViewModel() {
      */
     fun configure() = request {
         val result = repository.configure()
-       if (result.code == SUCCESS) configure.postValue(result)
+        if (result.code == SUCCESS) configure.postValue(result)
     }
 
     /**
@@ -57,7 +76,7 @@ class CinemaViewModel : BaseViewModel() {
      */
     fun mainPage() = request {
         val result = repository.mainPage()
-        if (result.code == SUCCESS)mainPageData.postValue(result)
+        if (result.code == SUCCESS) mainPageData.postValue(result)
     }
 
     /**

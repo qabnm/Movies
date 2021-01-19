@@ -3,7 +3,6 @@ package dc.android.bridge.net
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
-import java.util.logging.Logger
 
 /**
  * @author: jun.liu

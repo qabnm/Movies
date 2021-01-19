@@ -1,6 +1,10 @@
 package dc.android.bridge.util;
 
+import android.util.Base64;
+
 import androidx.exifinterface.media.ExifInterface;
+
+import java.io.UnsupportedEncodingException;
 
 /**
  * 字符串相关工具类
@@ -25,6 +29,28 @@ public class StringUtils {
     public static String getString(String str){
         if (isEmpty(str)) return "";
         return str;
+    }
+
+    /**
+     * 字符串编码
+     * @param str
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String toUTF_8(String str) throws UnsupportedEncodingException {
+        return changeCharset(str , "UTF_8");
+    }
+
+    public static String getDecodeStr(String str) throws UnsupportedEncodingException {
+        if (isEmpty(str)) return "";
+        final byte[] bytes = str.getBytes("UTF_8");
+        return Base64.encodeToString(bytes, Base64.DEFAULT);
+    }
+
+    private static String changeCharset(String str,String newCharSet) throws UnsupportedEncodingException {
+        if (isEmpty(str)) return "";
+        byte[] bs = str.getBytes();
+        return new String(bs, newCharSet);
     }
 
 
