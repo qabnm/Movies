@@ -15,6 +15,7 @@ open class BridgeContext {
 
         const val NOTIFICATION = "notification"
         const val ADDRESS = "address"
+        const val ID = "id"
         const val SUCCESS = 200
 
     }

@@ -1,28 +1,30 @@
 package com.junliu.cinema.view
 
 import android.Manifest
+import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.cinema.R
-import com.junliu.cinema.adapter.MainPageAdapter
+import com.junliu.cinema.bean.Column
 import com.junliu.cinema.viewmodel.CinemaViewModel
+import com.junliu.common.adapter.ScaleTitleNavAdapter
+import com.junliu.common.adapter.ViewPagerAdapter
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.SharedPreferencesHelper
 import com.permissionx.guolindev.PermissionX
-import com.scwang.smart.refresh.footer.ClassicsFooter
-import com.scwang.smart.refresh.header.ClassicsHeader
-import com.scwang.smart.refresh.layout.api.RefreshLayout
-import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
-import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
+import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.domain.LocationBean
 import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema.*
+import net.lucode.hackware.magicindicator.ViewPagerHelper
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 
 /**
  * @author: jun.liu
@@ -30,37 +32,45 @@ import kotlinx.android.synthetic.main.fragment_cinema.*
  * 首页
  */
 @Route(path = RouterPath.PATH_CINEMA)
-class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(), OnRefreshListener,
-    OnLoadMoreListener {
+class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     override fun getLayoutId() = R.layout.fragment_cinema
     override fun providerVMClass() = CinemaViewModel::class.java
-    private var page = 1
-    private var adapter: MainPageAdapter? = null
     private var locationUtils: LocationUtils? = null
 
     override fun initView() {
         tvSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY).navigation()
         }
-        rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
-        refreshLayout.apply {
-            setRefreshHeader(ClassicsHeader(requireActivity()))
-            setRefreshFooter(ClassicsFooter(requireActivity()))
-            setOnRefreshListener(this@CinemaFragment)
-            setOnLoadMoreListener(this@CinemaFragment)
+        viewModel.getConfigure().observe(this, Observer {
+            val result = viewModel.getConfigure().value?.data
+            val columns = result?.columns
+            initFragment(columns)
+        })
+    }
+
+    /**
+     * 创建首页fragment
+     * @param columns List<Column>?
+     */
+    private fun initFragment(columns: List<Column>?) {
+        if (columns?.isEmpty() == true) return
+        val titleList = ArrayList<String>()
+        val fragmentList = ArrayList<Fragment>()
+        for (i in columns!!.indices) {
+            val fragment = CinemaListFragment()
+            val bundle = Bundle()
+            bundle.putString(ID, columns[i].id)
+            fragment.arguments = bundle
+            fragmentList.add(fragment)
+            titleList.add(columns[i].name)
         }
-        viewModel.getMain().observe(this, Observer {
-            val value = viewModel.getMain().value
-            if (null == adapter) {
-                adapter = MainPageAdapter(requireActivity(), value!!)
-                rvList.adapter = adapter
-            } else {
-                adapter?.notifyDataSetChanged()
-            }
-        })
-        viewModel.getMainRecommend().observe(this, Observer {
-            val value = viewModel.getMainRecommend().value
-        })
+        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
+        CommonNavigator(requireActivity()).apply {
+            adapter = ScaleTitleNavAdapter(vpContainer, titleList)
+            isAdjustMode = false
+            indicator.navigator = this
+        }
+        ViewPagerHelper.bind(indicator, vpContainer)
     }
 
     private fun location() {
@@ -83,18 +93,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(), OnRefreshListen
     override fun initData() {
         location()
         Log.i("address", SharedPreferencesHelper.helper.getValue(ADDRESS, "") as String)
-//        viewModel.hah(page = page)
-//        viewModel.configure()
-    }
-
-    override fun onRefresh(refreshLayout: RefreshLayout) {
-        page = 1
-        viewModel.main(page)
-    }
-
-    override fun onLoadMore(refreshLayout: RefreshLayout) {
-        page++
-        viewModel.mainRecommend(page)
+        viewModel.configure()
     }
 
     private inner class LocationListener : LocationUtils.LbsLocationListener {

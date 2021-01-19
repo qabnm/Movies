@@ -41,16 +41,14 @@
             android:src="@drawable/common_download" />
     </LinearLayout>
 
-    <com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
+    <net.lucode.hackware.magicindicator.MagicIndicator
+        android:id="@+id/indicator"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="@dimen/dp_44" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvList"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbars="none" />
-    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
-
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/vpContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" />
 </LinearLayout>
