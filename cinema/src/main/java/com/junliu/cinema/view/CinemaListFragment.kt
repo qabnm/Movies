@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_cinema_list.*
 /**
  * @author: jun.liu
  * @date: 2021/1/19 17:36
- * @des:
+ * @des:首页
  */
 class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefreshListener,
     OnLoadMoreListener {
@@ -56,11 +56,11 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
         page = 1
-        viewModel.main(page)
+        viewModel.main(page, column = column)
     }
 
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
-        viewModel.mainRecommend(page)
+        viewModel.mainRecommend(page, column = column)
     }
 }

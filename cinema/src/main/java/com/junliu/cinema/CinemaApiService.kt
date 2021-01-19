@@ -25,7 +25,7 @@ interface CinemaApiService {
      * @return BaseResponseData<MainPageBean>
      */
     @GET("api/index")
-    suspend fun mainPage(): BaseResponseData<MainPageBean>
+    suspend fun mainPage(@Query("column") column:String): BaseResponseData<MainPageBean>
 
     /**
      * 首页推荐
@@ -36,6 +36,6 @@ interface CinemaApiService {
     @GET("api/index/recommend")
     suspend fun mainRecommend(
         @Query("page") page: Int,
-        @Query("type_id") typeId: String = "0"
+        @Query("column") typeId: String
     ): BaseResponseData<MainRecommendBean>
 }

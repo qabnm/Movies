@@ -22,7 +22,8 @@ import kotlinx.coroutines.launch
  */
 class CinemaListViewModel : BaseViewModel() {
     private var mainPageData: MutableLiveData<BaseResponseData<MainPageBean>> = MutableLiveData()
-    private var mainRecommend: MutableLiveData<BaseResponseData<MainRecommendBean>> = MutableLiveData()
+    private var mainRecommend: MutableLiveData<BaseResponseData<MainRecommendBean>> =
+        MutableLiveData()
     private var mainBean: MutableLiveData<MainBean> = MutableLiveData()
     private val repository = CinemaRepository()
 
@@ -34,26 +35,26 @@ class CinemaListViewModel : BaseViewModel() {
      * 合并首页三个请求接口
      * @param page Int
      */
-    fun main(page: Int) = request {
+    fun main(page: Int, column: String) = request {
         val result = async { repository.configure() }
-        val result1 = async { repository.mainPage() }
-        val result2 = async { repository.mainRecommend(page) }
+        val result1 = async { repository.mainPage(column) }
+        val result2 = async { repository.mainRecommend(page, column) }
         if (result.await().code == SUCCESS && result1.await().code == SUCCESS && result2.await().code == SUCCESS) {
             val bean = MainBean(result.await().data, result1.await().data, result2.await().data)
             mainBean.postValue(bean)
         }
     }
 
-    fun hah(page: Int){
+    fun hah(page: Int, column: String) {
         viewModelScope.launch {
             val job1 = async { repository.configure() }
-            val job2 = async { repository.mainPage() }
-            val job3b = async { repository.mainRecommend(page) }
+            val job2 = async { repository.mainPage(column) }
+            val job3b = async { repository.mainRecommend(page, column) }
             try {
-                val bean = MainBean(job1.await().data, job2.await().data,job3b.await().data)
+                val bean = MainBean(job1.await().data, job2.await().data, job3b.await().data)
                 mainBean.postValue(bean)
-            }catch (e:Exception){
-                Log.e("e",e.toString())
+            } catch (e: Exception) {
+                Log.e("e", e.toString())
             }
         }
     }
@@ -63,8 +64,8 @@ class CinemaListViewModel : BaseViewModel() {
      * 首页列表
      * @return Job
      */
-    fun mainPage() = request {
-        val result = repository.mainPage()
+    fun mainPage(column: String) = request {
+        val result = repository.mainPage(column = column)
         if (result.code == SUCCESS) mainPageData.postValue(result)
     }
 
@@ -73,8 +74,8 @@ class CinemaListViewModel : BaseViewModel() {
      * @param page Int
      * @return Job
      */
-    fun mainRecommend(page: Int) = request {
-        val result = repository.mainRecommend(page = page)
+    fun mainRecommend(page: Int, column: String) = request {
+        val result = repository.mainRecommend(page = page, column = column)
         if (result.code == SUCCESS) mainRecommend.postValue(result)
     }
 }
