@@ -53,6 +53,22 @@ public class StringUtils {
         return new String(bs, newCharSet);
     }
 
+    /*
+     * 中文转unicode编码
+     */
+    public static String gbEncoding(final String gbString) {
+        char[] utfBytes = gbString.toCharArray();
+        String unicodeBytes = "";
+        for (int i = 0; i < utfBytes.length; i++) {
+            String hexB = Integer.toHexString(utfBytes[i]);
+            if (hexB.length() <= 2) {
+                hexB = "00" + hexB;
+            }
+            unicodeBytes = unicodeBytes + "\\u" + hexB;
+        }
+        return unicodeBytes;
+    }
+
 
     /**
      * 判断字符串是否为null或长度为0

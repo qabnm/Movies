@@ -6,7 +6,6 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.junliu.cinema.CinemaContext.Companion.ADDRESS
 import com.junliu.cinema.R
 import com.junliu.cinema.adapter.MainPageAdapter
 import com.junliu.cinema.viewmodel.CinemaViewModel
@@ -18,6 +17,7 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.domain.LocationBean
 import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.StringUtils
@@ -107,9 +107,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>(), OnRefreshListen
             //将定位信息保存到本地
             SharedPreferencesHelper.helper.setValue(
                 ADDRESS,
-                "{\"p\":\"${StringUtils.getDecodeStr(bean.adminArea)}\",\"c\":\"${StringUtils.getDecodeStr(
+                "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${StringUtils.gbEncoding(
                     bean.locality
-                )}\",\"d\":\"${StringUtils.getDecodeStr(bean.subAdminArea)}\"}"
+                )}\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\"}"
             )
         }
     }

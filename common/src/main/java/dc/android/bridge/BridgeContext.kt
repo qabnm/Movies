@@ -14,6 +14,7 @@ open class BridgeContext {
         const val TOKEN_ERROR = "登录超时"
 
         const val NOTIFICATION = "notification"
+        const val ADDRESS = "address"
         const val SUCCESS = 200
 
     }

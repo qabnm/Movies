@@ -20,7 +20,7 @@ class RetrofitFactory private constructor() {
             connectTimeout(15, TimeUnit.SECONDS)
             readTimeout(15,TimeUnit.SECONDS)
             proxy(Proxy.NO_PROXY)
-            addInterceptor(GetCookieInterceptor())
+            addInterceptor(HeaderInterceptor())
         }
         retrofit =
             Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
