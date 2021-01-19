@@ -13,7 +13,7 @@ import dc.android.bridge.util.GlideUtils
  */
 class MainCategoryAdapter(data:MutableList<Category>) : BaseQuickAdapter<Category, BaseViewHolder>(R.layout.item_catagory,data){
     override fun convert(holder: BaseViewHolder, item: Category) {
-        GlideUtils.setImg(context, item.img, holder.getView(R.id.imgIcon))
+        GlideUtils.setImg(context, item.icon, holder.getView(R.id.imgIcon))
         holder.setText(R.id.tvCategory, item.name)
     }
 }

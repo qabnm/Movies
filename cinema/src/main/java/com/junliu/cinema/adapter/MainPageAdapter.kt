@@ -77,10 +77,12 @@ class MainPageAdapter(
      * @param holder BannerViewHolder
      */
     private fun bindBanner(holder: BannerViewHolder) {
-        holder.banner.addBannerLifecycleObserver(context as AppCompatActivity)
-            .setAdapter(BannerImgAdapter(bean.mainPageBean.banner, context)).indicator =
-            CircleIndicator(context)
-        val category = bean.configureBean.category
+        bean.mainPageBean.banners?.let {
+            holder.banner.addBannerLifecycleObserver(context as AppCompatActivity)
+                .setAdapter(BannerImgAdapter(it, context)).indicator =
+                CircleIndicator(context)
+        }
+        val category = bean.configureBean.columns
         if (null != category && category.isNotEmpty()) {
             holder.rvList.visibility = View.VISIBLE
             holder.rvList.adapter = MainCategoryAdapter(category as MutableList<Category>)
@@ -98,7 +100,7 @@ class MainPageAdapter(
     private fun bindTodayRecommend(holder: TodayRecommendViewHolder) {
         if (null == adapter) adapter = FilmRecommendAdapter()
         holder.rvList.adapter = adapter
-        adapter?.setList(bean.mainPageBean.recommends)
+        adapter?.setList(bean.mainPageBean.selectRecommends)
     }
 
     /**
