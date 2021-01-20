@@ -70,6 +70,7 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ext.coroutines_android_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$ext.viewmodel_version"
     api project(path: ':weichat')
+    api project(path: ':download')
     //友盟统计
     api  "com.umeng.umsdk:common:$ext.umsdk_common" // 版本号(必选)
     api  "com.umeng.umsdk:asms:$ext.umsdk_asms" // asms包依赖(必选)

@@ -7,4 +7,5 @@ include ':tools'
 include ':weichat'
 include ':app'
 include ':common'
+include ':download'
 rootProject.name = "Movies"

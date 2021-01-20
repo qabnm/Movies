@@ -1,6 +1,7 @@
 package dc.android.bridge.net
 
 import dc.android.bridge.BridgeContext.Companion.BASE_URL
+import dc.android.bridge.util.OsUtils
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -19,7 +20,7 @@ class RetrofitFactory private constructor() {
         builder.apply {
             connectTimeout(15, TimeUnit.SECONDS)
             readTimeout(15,TimeUnit.SECONDS)
-            proxy(Proxy.NO_PROXY)
+            if (!OsUtils.isAppDebug())proxy(Proxy.NO_PROXY)
             addInterceptor(HeaderInterceptor())
         }
         retrofit =

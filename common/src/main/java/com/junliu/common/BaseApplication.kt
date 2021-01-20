@@ -3,9 +3,8 @@ package com.junliu.common
 import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
-import com.junliu.common.util.Utils
-import com.junliu.weichat.WeiChatTool
 import com.umeng.commonsdk.UMConfigure
+import dc.android.bridge.util.OsUtils
 
 open class BaseApplication : Application() {
     companion object {
@@ -14,7 +13,6 @@ open class BaseApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        Utils.init(this)
         baseCtx = this.applicationContext
         initOthers()
     }
@@ -23,7 +21,7 @@ open class BaseApplication : Application() {
      * 初始化一些三方库
      */
     private fun initOthers() {
-        if (Utils.isAppDebug()) {
+        if (OsUtils.isAppDebug()) {
             ARouter.openLog()
             ARouter.openDebug()
             //参数: boolean 默认为false，如需查看LOG设置为true

@@ -2,9 +2,13 @@ package dc.android.bridge.util;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
+
+import com.junliu.common.BaseApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,6 +29,22 @@ public class OsUtils {
             final Method method = Build.class.getMethod("hasSmartBar");
             return method != null;
         } catch (final Exception e) {
+            return false;
+        }
+    }
+    /**
+     * 判断App是否是Debug版本
+     *
+     * @return {@code true}: 是<br>{@code false}: 否
+     */
+    public static boolean isAppDebug() {
+        if (StringUtils.isEmpty(BaseApplication.baseCtx.getPackageName())) return false;
+        try {
+            PackageManager pm = BaseApplication.baseCtx.getPackageManager();
+            ApplicationInfo ai = pm.getApplicationInfo(BaseApplication.baseCtx.getPackageName(), 0);
+            return (ai.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
             return false;
         }
     }
