@@ -1,11 +1,10 @@
 package com.junliu.cinema.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.junliu.cinema.bean.ConfigureBean
-import com.junliu.cinema.bean.MainBean
-import com.junliu.cinema.bean.MainPageBean
-import com.junliu.cinema.bean.MainRecommendBean
+import com.junliu.cinema.bean.*
 import com.junliu.cinema.repository.CinemaRepository
+import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseResponseData
 import dc.android.bridge.net.BaseViewModel
@@ -19,14 +18,16 @@ import kotlinx.coroutines.async
  */
 class CinemaListViewModel : BaseViewModel() {
     private var mainPageData: MutableLiveData<BaseResponseData<MainPageBean>> = MutableLiveData()
-    private var mainRecommend: MutableLiveData<BaseResponseData<MainRecommendBean>> =
-        MutableLiveData()
+    private var mainRecommend: MutableLiveData<ArrayList<FilmRecommendBean>> = MutableLiveData()
     private var mainBean: MutableLiveData<MainBean> = MutableLiveData()
+    private var noMoreData:MutableLiveData<String> = MutableLiveData()
     private val repository = CinemaRepository()
 
     fun getMainPage() = mainPageData
     fun getMainRecommend() = mainRecommend
     fun getMain() = mainBean
+    fun getNoMoreData() = noMoreData
+    private val dataList = ArrayList<FilmRecommendBean>()
 
     /**
      * 合并首页三个请求接口
@@ -58,9 +59,7 @@ class CinemaListViewModel : BaseViewModel() {
             }
         }
         if (result.await()?.code == SUCCESS && result1.await()?.code == SUCCESS && result2.await()?.code == SUCCESS) {
-            val bean =
-                MainBean(result.await()!!.data, result1.await()!!.data, result2.await()!!.data)
-            mainBean.postValue(bean)
+            mainBean.postValue(MainBean(result.await()!!.data, result1.await()!!.data, result2.await()!!.data))
         }
     }
 
@@ -80,6 +79,15 @@ class CinemaListViewModel : BaseViewModel() {
      */
     fun mainRecommend(page: Int, column: String) = request {
         val result = repository.mainRecommend(page = page, column = column)
-        if (result.code == SUCCESS) mainRecommend.postValue(result)
+        if (result.code == SUCCESS) {
+            val data = result.data.recommends
+            if (data?.isNotEmpty() == true){
+                dataList.addAll(data)
+                mainRecommend.postValue(dataList)
+            }else{
+                //没有更多数据了
+                noMoreData.postValue(NO_MORE_DATA)
+            }
+        }
     }
 }

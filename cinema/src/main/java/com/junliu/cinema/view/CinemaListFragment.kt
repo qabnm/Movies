@@ -11,6 +11,7 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema_list.*
 
@@ -48,14 +49,28 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         viewModel.getMainRecommend().observe(this, Observer {
             val value = viewModel.getMainRecommend().value
         })
+        viewModel.getNoMoreData().observe(this, Observer { noMoreData(viewModel.getNoMoreData().value) })
+    }
+
+    /**
+     * 没有更多数据了
+     * @param flag String?
+     */
+    private fun noMoreData(flag: String?) {
+        if (flag == NO_MORE_DATA){
+            //没有更多的数据了
+            refreshLayout.finishLoadMoreWithNoMoreData()
+            refreshLayout.setNoMoreData(true)
+        }
     }
 
     override fun initData() {
         column = arguments?.getString(ID) ?: ""
-        viewModel.main(page, column)
+        viewModel.main(1, column)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
+        refreshLayout.resetNoMoreData()
         page = 1
         viewModel.main(page, column = column)
     }
