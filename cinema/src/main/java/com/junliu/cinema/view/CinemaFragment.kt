@@ -15,6 +15,7 @@ import com.junliu.common.adapter.ViewPagerAdapter
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.SharedPreferencesHelper
 import com.permissionx.guolindev.PermissionX
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.domain.LocationBean
@@ -44,6 +45,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
+            SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, result?.isRs ?: 0)
         })
     }
 

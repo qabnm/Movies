@@ -28,96 +28,103 @@
         app:layout_constraintLeft_toRightOf="@+id/imageIcon"
         app:layout_constraintTop_toTopOf="@+id/imageIcon" />
 
-    <View
-        android:id="@+id/vDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_27"
-        android:background="@color/colorF2F2F2"
-        app:layout_constraintTop_toBottomOf="@+id/imageIcon" />
-
     <LinearLayout
         android:id="@+id/layoutContent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_27"
         android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/vDivider">
+        app:layout_constraintTop_toBottomOf="@+id/imageIcon">
 
         <LinearLayout
-            android:id="@+id/layoutHistory"
-            style="@style/centerIconLinear">
+            android:id="@+id/layoutIsRes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="@dimen/dp_22"
-                android:layout_height="@dimen/dp_22"
-                android:src="@drawable/person_history" />
+            <View
+                android:id="@+id/vDivider"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_10"
+                android:background="@color/colorF2F2F2" />
 
-            <TextView
-                android:id="@+id/tvHistory"
-                style="@style/centerIconText"
-                android:text="观看历史" />
+            <LinearLayout
+                android:id="@+id/layoutHistory"
+                style="@style/centerIconLinear">
 
-            <ImageView style="@style/centerMoreInfo" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:src="@drawable/person_history" />
 
-        <View style="@style/centerIconLine" />
+                <TextView
+                    android:id="@+id/tvHistory"
+                    style="@style/centerIconText"
+                    android:text="观看历史" />
 
-        <LinearLayout
-            android:id="@+id/layoutDownload"
-            style="@style/centerIconLinear">
+                <ImageView style="@style/centerMoreInfo" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/dp_22"
-                android:layout_height="@dimen/dp_22"
-                android:src="@drawable/person_download" />
+            <View style="@style/centerIconLine" />
 
-            <TextView
-                style="@style/centerIconText"
-                android:text="我的下载" />
+            <LinearLayout
+                android:id="@+id/layoutDownload"
+                style="@style/centerIconLinear">
 
-            <ImageView style="@style/centerMoreInfo" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:src="@drawable/person_download" />
 
-        <View style="@style/centerIconLine" />
+                <TextView
+                    style="@style/centerIconText"
+                    android:text="我的下载" />
 
-        <LinearLayout
-            android:id="@+id/layoutCollection"
-            style="@style/centerIconLinear">
+                <ImageView style="@style/centerMoreInfo" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/dp_22"
-                android:layout_height="@dimen/dp_22"
-                android:src="@drawable/person_collection" />
+            <View style="@style/centerIconLine" />
 
-            <TextView
-                style="@style/centerIconText"
-                android:text="我的收藏" />
+            <LinearLayout
+                android:id="@+id/layoutCollection"
+                style="@style/centerIconLinear">
 
-            <ImageView style="@style/centerMoreInfo" />
-        </LinearLayout>
+                <ImageView
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:src="@drawable/person_collection" />
 
-        <View style="@style/centerIconLine" />
+                <TextView
+                    style="@style/centerIconText"
+                    android:text="我的收藏" />
 
-        <LinearLayout
-            android:id="@+id/layoutShare"
-            style="@style/centerIconLinear">
+                <ImageView style="@style/centerMoreInfo" />
+            </LinearLayout>
 
-            <ImageView
-                android:layout_width="@dimen/dp_22"
-                android:layout_height="@dimen/dp_22"
-                android:src="@drawable/person_share" />
+            <View style="@style/centerIconLine" />
 
-            <TextView
-                style="@style/centerIconText"
-                android:text="推荐好友" />
+            <LinearLayout
+                android:id="@+id/layoutShare"
+                style="@style/centerIconLinear">
 
-            <ImageView style="@style/centerMoreInfo" />
+                <ImageView
+                    android:layout_width="@dimen/dp_22"
+                    android:layout_height="@dimen/dp_22"
+                    android:src="@drawable/person_share" />
+
+                <TextView
+                    style="@style/centerIconText"
+                    android:text="推荐好友" />
+
+                <ImageView style="@style/centerMoreInfo" />
+            </LinearLayout>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_10"
             android:background="@color/colorF2F2F2" />
+
 
         <LinearLayout
             android:id="@+id/layoutContract"
