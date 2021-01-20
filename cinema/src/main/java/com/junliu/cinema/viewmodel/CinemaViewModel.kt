@@ -12,7 +12,7 @@ import dc.android.bridge.net.BaseViewModel
  * @date: 2021/1/19 17:41
  * @des:
  */
-class CinemaViewModel :BaseViewModel() {
+class CinemaViewModel : BaseViewModel() {
     private var configure: MutableLiveData<BaseResponseData<ConfigureBean>> = MutableLiveData()
     fun getConfigure() = configure
     private val repository = CinemaRepository()

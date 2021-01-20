@@ -52,6 +52,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
 
     override fun initData() {
         column = arguments?.getString(ID) ?: ""
+        viewModel.main(page, column)
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {

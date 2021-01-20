@@ -15,7 +15,6 @@ import com.junliu.common.adapter.ViewPagerAdapter
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.SharedPreferencesHelper
 import com.permissionx.guolindev.PermissionX
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.domain.LocationBean
@@ -98,10 +97,6 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
 
     private inner class LocationListener : LocationUtils.LbsLocationListener {
         override fun onLocation(bean: LocationBean) {
-            Log.i(
-                "address",
-                "${bean.countryName},${bean.adminArea},${bean.locality},${bean.subAdminArea},${bean.featureName}"
-            )
             locationUtils?.removeLocation()
             //将定位信息保存到本地
             SharedPreferencesHelper.helper.setValue(
