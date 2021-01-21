@@ -17,5 +17,6 @@ data class FilmRecommendBean(
     val vod_lang: String,
     val vod_name: String,
     val vod_number: String,
-    val vod_year: String
+    val vod_year: String,
+    val remark:String
 )

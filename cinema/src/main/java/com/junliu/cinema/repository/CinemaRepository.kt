@@ -1,10 +1,5 @@
 package com.junliu.cinema.repository
 
-import com.junliu.cinema.bean.ConfigureBean
-import com.junliu.cinema.bean.MainPageBean
-import com.junliu.cinema.bean.MainRecommendBean
-import dc.android.bridge.net.BaseResponseData
-
 /**
  * @author: jun.liu
  * @date: 2021/1/15 14:00
