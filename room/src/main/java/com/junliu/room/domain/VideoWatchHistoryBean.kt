@@ -1,6 +1,7 @@
 package com.junliu.room.domain
 
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 /**
  * @author: jun.liu
@@ -9,6 +10,7 @@ import androidx.room.Entity
  */
 @Entity
 data class VideoWatchHistoryBean(
+    @PrimaryKey(autoGenerate = true)
     var number:Long = 0,
     var coverUrl:String,
     var playUrl:String,

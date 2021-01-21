@@ -2,11 +2,17 @@ package com.junliu.movie.view
 
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.room.Room
+import com.junliu.common.BaseApplication
 import com.junliu.movie.R
 import com.junliu.movie.adapter.MovieLibraryAdapter
 import com.junliu.movie.bean.Filter
 import com.junliu.movie.bean.MovieLibList
+import com.junliu.movie.bean.WatchHistoryBean
 import com.junliu.movie.viewmodel.MovieLibListViewModel
+import com.junliu.room.SQLDatabase
+import com.junliu.room.domain.VideoWatchHistoryBean
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.view.BaseViewModelFragment
@@ -45,6 +51,23 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>() {
         }
         viewModel.movieLibList(map, page, typeId)
 
+//        val db = Room.databaseBuilder(
+//            BaseApplication.baseCtx,
+//            SQLDatabase::class.java,
+//            BridgeContext.WATCH_HISTORY
+//        ).build()
+//        val historyBean = VideoWatchHistoryBean(
+//            coverUrl = "",
+//            playUrl = "",
+//            title = "",
+//            type = "",
+//            videoId = "",
+//            where = "",
+//            currentLength = 0,
+//            time = 0
+//        )
+//        val insert = db.history().insert(historyBean)
+//        val data = db.history().queryAll()
     }
 
     private fun setData(movies: List<MovieLibList>?) {

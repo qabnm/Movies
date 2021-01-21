@@ -27,6 +27,7 @@ interface MovieApiService {
      * @param typeId String 分类id
      * @return BaseResponseData<MovieLibListBean>
      */
+    @GET("api/store/query")
     suspend fun movieLibList(
         @QueryMap map: HashMap<String, Any>,
         @Query("page") page: Int,
