@@ -16,7 +16,7 @@ class CinemaRepository : CinemaApiRepository() {
      * 首页配置信息
      * @return BaseResponseData<ConfigureBean>
      */
-    suspend fun configure(): BaseResponseData<ConfigureBean> = request {
+    suspend fun configure() = request {
         apiService.configure()
     }
 
@@ -25,16 +25,15 @@ class CinemaRepository : CinemaApiRepository() {
      * @param page Int
      * @return BaseResponseData<MainRecommendBean>
      */
-    suspend fun mainRecommend(page: Int, column: String): BaseResponseData<MainRecommendBean> =
-        request {
-            apiService.mainRecommend(page, column)
-        }
+    suspend fun mainRecommend(page: Int, column: String) = request {
+        apiService.mainRecommend(page, column)
+    }
 
     /**
      * 首页
      * @return BaseResponseData<MainPageBean>
      */
-    suspend fun mainPage(column: String): BaseResponseData<MainPageBean> = request {
+    suspend fun mainPage(column: String) = request {
         apiService.mainPage(column = column)
     }
 }

@@ -1,5 +1,8 @@
 package com.junliu.movie.bean
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * @author: jun.liu
  * @date: 2021/1/20 18:28
@@ -12,16 +15,18 @@ data class MovieLibCategoryBean(
 data class Config(
     val filter: List<Filter>,
     val name: String,
-    val v: Int
+    val key: String
 )
 
+@Parcelize
 data class Filter(
     val array: List<Array>,
-    val k: String,
+    val key: String,
     val name: String
-)
+):Parcelable
 
+@Parcelize
 data class Array(
     val name: String,
-    val v: Any
-)
+    val key: String
+):Parcelable

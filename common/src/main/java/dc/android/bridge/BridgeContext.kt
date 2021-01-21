@@ -16,6 +16,7 @@ open class BridgeContext {
         const val NOTIFICATION = "notification"
         const val ADDRESS = "address"
         const val ID = "id"
+        const val LIST = "list"
         const val NO_MORE_DATA = "noMoreData"
         const val isRes = "isRes"
         const val SUCCESS = 200
