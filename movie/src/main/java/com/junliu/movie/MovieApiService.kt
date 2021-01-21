@@ -1,8 +1,11 @@
 package com.junliu.movie
 
 import com.junliu.movie.bean.MovieLibCategoryBean
+import com.junliu.movie.bean.MovieLibListBean
 import dc.android.bridge.net.BaseResponseData
 import retrofit2.http.GET
+import retrofit2.http.Query
+import retrofit2.http.QueryMap
 
 /**
  * @author: jun.liu
@@ -16,4 +19,17 @@ interface MovieApiService {
      */
     @GET("api/store/config")
     suspend fun movieLibCategory(): BaseResponseData<MovieLibCategoryBean>
+
+    /**
+     * 片库列表
+     * @param map HashMap<String, Any> 所有的筛选条件 如地区 时间
+     * @param page Int 分页
+     * @param typeId String 分类id
+     * @return BaseResponseData<MovieLibListBean>
+     */
+    suspend fun movieLibList(
+        @QueryMap map: HashMap<String, Any>,
+        @Query("page") page: Int,
+        @Query("type_id") typeId: String
+    ): BaseResponseData<MovieLibListBean>
 }

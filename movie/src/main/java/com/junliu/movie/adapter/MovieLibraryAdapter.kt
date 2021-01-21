@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
 import com.junliu.movie.R
-import com.junliu.movie.bean.Movie
-import com.junliu.movie.bean.MovieLibraryBean
+import com.junliu.movie.bean.Filter
+import com.junliu.movie.bean.MovieLibList
 import com.junliu.movie.view.MovieTopLayout
 import dc.android.bridge.util.GlideUtils
 
@@ -20,7 +20,11 @@ import dc.android.bridge.util.GlideUtils
  * @date: 2021/1/13 9:45
  * @des:片库
  */
-class MovieLibraryAdapter(private val context: Context, private val bean: MovieLibraryBean) :
+class MovieLibraryAdapter(
+    private val context: Context,
+    private val typeList: List<Filter>,
+    private val movieList: List<MovieLibList>
+) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val TYPE_TOP = 1
     private val TYPE_LIIST = 2
@@ -51,28 +55,25 @@ class MovieLibraryAdapter(private val context: Context, private val bean: MovieL
         when (holder) {
             is TypeViewHolder -> {
                 holder.layoutContainer.removeAllViews()
-                for (i in bean.type.indices) {
+                for (i in typeList.indices) {
                     val layoutType = MovieTopLayout(context)
-                    layoutType.setList(bean.type[i].list)
+                    layoutType.setList(typeList[i].array)
                     holder.layoutContainer.addView(layoutType)
                 }
             }
             is ListViewHolder -> {
-                if (position > 0 && null != bean.movie) bindList(holder, bean.movie[position - 1])
+                if (position > 0) bindList(holder, movieList[position - 1])
             }
         }
     }
 
-    private fun bindList(holder: ListViewHolder, movieBean: Movie) {
-        GlideUtils.setImg(context, movieBean.coverUrl, holder.imgCover)
-        holder.tvName.text = movieBean.movieName
-        holder.tvScore.text = movieBean.score
+    private fun bindList(holder: ListViewHolder, movieBean: MovieLibList) {
+        GlideUtils.setImg(context, movieBean.cover_url, holder.imgCover)
+        holder.tvName.text = movieBean.vod_name
+        holder.tvScore.text = movieBean.remark
     }
 
-    override fun getItemCount(): Int {
-        if (null != bean.movie) return bean.movie.size + 1
-        return 1
-    }
+    override fun getItemCount() = movieList.size + 1
 
     override fun getItemViewType(position: Int) = when (position) {
         0 -> TYPE_TOP

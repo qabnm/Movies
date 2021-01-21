@@ -20,13 +20,13 @@ data class Config(
 
 @Parcelize
 data class Filter(
-    val array: List<Array>,
+    val array: List<TypeListArray>,
     val key: String,
     val name: String
 ):Parcelable
 
 @Parcelize
-data class Array(
+data class TypeListArray(
     val name: String,
     val key: String
 ):Parcelable

@@ -4,6 +4,7 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.junliu.cinema.R
 import com.junliu.cinema.adapter.MainPageAdapter
+import com.junliu.cinema.bean.MainBean
 import com.junliu.cinema.viewmodel.CinemaListViewModel
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
@@ -37,19 +38,23 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             setOnRefreshListener(this@CinemaListFragment)
             setOnLoadMoreListener(this@CinemaListFragment)
         }
-        viewModel.getMain().observe(this, Observer {
-            val value = viewModel.getMain().value
-            if (null == adapter) {
-                adapter = MainPageAdapter(requireActivity(), value!!)
-                rvList.adapter = adapter
-            } else {
-                adapter?.notifyDataSetChanged()
-            }
-        })
+        viewModel.getMain().observe(this, Observer { setData(viewModel.getMain().value) })
         viewModel.getMainRecommend().observe(this, Observer {
             val value = viewModel.getMainRecommend().value
         })
-        viewModel.getNoMoreData().observe(this, Observer { noMoreData(viewModel.getNoMoreData().value) })
+        viewModel.getNoMoreData()
+            .observe(this, Observer { noMoreData(viewModel.getNoMoreData().value) })
+    }
+
+    private fun setData(value: MainBean?) {
+        value?.let {
+            adapter?.takeIf { null == adapter }?.also {
+                adapter = MainPageAdapter(requireActivity(), bean = value)
+                rvList.adapter = it
+            } ?: run {
+                adapter?.notifyDataSetChanged()
+            }
+        }
     }
 
     /**
@@ -57,7 +62,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * @param flag String?
      */
     private fun noMoreData(flag: String?) {
-        if (flag == NO_MORE_DATA){
+        if (flag == NO_MORE_DATA) {
             //没有更多的数据了
             refreshLayout.finishLoadMoreWithNoMoreData()
             refreshLayout.setNoMoreData(true)

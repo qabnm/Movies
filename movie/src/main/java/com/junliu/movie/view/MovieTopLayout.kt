@@ -8,12 +8,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.junliu.movie.R
 import com.junliu.movie.adapter.MovieLibraryTypeAdapter
-import com.junliu.movie.bean.Type
+import com.junliu.movie.bean.TypeListArray
 
 /**
  * @author: jun.liu
  * @date: 2021/1/13 11:26
- * @des:
+ * @des：片库筛选条件列表
  */
 class MovieTopLayout @JvmOverloads constructor(
     context: Context,
@@ -33,7 +33,7 @@ class MovieTopLayout @JvmOverloads constructor(
         addView(view)
     }
 
-    fun setList(data: List<String>) {
-        rvList.adapter = MovieLibraryTypeAdapter(data as MutableList<String>)
+    fun setList(data: List<TypeListArray>) {
+        rvList.adapter = MovieLibraryTypeAdapter(data as MutableList<TypeListArray>)
     }
 }
