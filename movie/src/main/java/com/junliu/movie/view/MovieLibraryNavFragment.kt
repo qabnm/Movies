@@ -54,20 +54,20 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
                 titleList.add(configs[i].name)
                 fragmentList.add(fragment)
             }
+            vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
+            CommonNavigator(requireActivity()).apply {
+                adapter = ScaleTitleNavAdapter(
+                    viewPager = vpContainer,
+                    data = titleList,
+                    unSelectColor = R.color.color666666,
+                    selectColor = R.color.color000000,
+                    unSelectSize = R.dimen.sp_14,
+                    selectSize = R.dimen.sp_15
+                )
+                isAdjustMode = false
+                indicator.navigator = this
+            }
+            ViewPagerHelper.bind(indicator, vpContainer)
         }
-        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
-        CommonNavigator(requireActivity()).apply {
-            adapter = ScaleTitleNavAdapter(
-                viewPager = vpContainer,
-                data = titleList,
-                unSelectColor = R.color.color666666,
-                selectColor = R.color.color000000,
-                unSelectSize = R.dimen.sp_14,
-                selectSize = R.dimen.sp_15
-            )
-            isAdjustMode = false
-            indicator.navigator = this
-        }
-        ViewPagerHelper.bind(indicator, vpContainer)
     }
 }
