@@ -51,11 +51,11 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>() {
         }
         viewModel.movieLibList(map, page, typeId)
 
-//        val db = Room.databaseBuilder(
-//            BaseApplication.baseCtx,
-//            SQLDatabase::class.java,
-//            BridgeContext.WATCH_HISTORY
-//        ).build()
+        val db = Room.databaseBuilder(
+            BaseApplication.baseCtx,
+            SQLDatabase::class.java,
+            BridgeContext.WATCH_HISTORY
+        ).build()
 //        val historyBean = VideoWatchHistoryBean(
 //            coverUrl = "",
 //            playUrl = "",

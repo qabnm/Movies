@@ -18,6 +18,14 @@ interface HistoryDao {
     fun queryAll(): List<VideoWatchHistoryBean>
 
     /**
+     * 通过id查询
+     * @param id String
+     * @return VideoWatchHistoryBean
+     */
+    @Query("select * from VideoWatchHistoryBean where videoId = (:id)")
+    fun queryById(id: String): VideoWatchHistoryBean
+
+    /**
      * 插入数据
      * @param bean VideoWatchHistoryBean
      * @return List<VideoWatchHistoryBean>
