@@ -34,7 +34,8 @@ class MovieTopLayout @JvmOverloads constructor(
         addView(view)
     }
 
-    fun setList(data: List<TypeListArray>, key: String) {
+    fun setList(data: ArrayList<TypeListArray>, key: String,name: String) {
+        data.add(0, TypeListArray(name, key))
         val typeAdapter = MovieLibraryTypeAdapter(data as MutableList<TypeListArray>)
         typeAdapter.setOnItemChildClickListener { adapter, view, position ->
             for (i in data.indices) {

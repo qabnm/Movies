@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.junliu.movie.R
 import com.junliu.movie.bean.Filter
 import com.junliu.movie.bean.MovieLibList
+import com.junliu.movie.bean.TypeListArray
 import com.junliu.movie.view.MovieTopLayout
 import dc.android.bridge.util.GlideUtils
 
@@ -59,7 +60,7 @@ class MovieLibraryAdapter(
                 for (i in typeList.indices) {
                     val layoutType = MovieTopLayout(context)
                     layoutType.setOnTypeClickListener(TypeClickListener())
-                    layoutType.setList(typeList[i].array,typeList[i].key)
+                    layoutType.setList(typeList[i].array as ArrayList<TypeListArray>,typeList[i].key,typeList[i].name)
                     holder.layoutContainer.addView(layoutType)
                 }
             }
