@@ -17,7 +17,8 @@ import kotlinx.android.synthetic.main.fragment_movie_library.*
  * @date: 2021/1/12 11:09
  * @des:片库fragment
  */
-class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>() {
+class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
+    MovieLibraryAdapter.OnItemClickListener {
     override fun getLayoutId() = R.layout.fragment_movie_library
     override fun providerVMClass() = MovieLibListViewModel::class.java
 
@@ -64,10 +65,21 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>() {
         if (movies?.isNotEmpty() == true && typeList?.isNotEmpty() == true) {
             movieLibAdapter?.takeIf { null == movieLibAdapter }?.also {
                 movieLibAdapter = MovieLibraryAdapter(requireActivity(), typeList!!, movies)
+                it.setItemClickListener(this)
                 rvList.adapter = it
             } ?: run {
                 movieLibAdapter?.notifyDataSetChanged()
             }
         }
+    }
+
+    /**
+     * 筛选条件点击
+     * @param key String 筛选分类的key  地区 时间
+     * @param name String  点击的条件  大陆 美国
+     */
+    override fun onTypeClick(key: String, name: String) {
+        map[key] = name
+        viewModel.movieLibList(map, page, typeId)
     }
 }

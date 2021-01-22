@@ -28,6 +28,7 @@ class MovieLibraryAdapter(
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val TYPE_TOP = 1
     private val TYPE_LIIST = 2
+    private var itemClickListener: OnItemClickListener?= null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         TYPE_TOP -> TypeViewHolder(
@@ -57,7 +58,8 @@ class MovieLibraryAdapter(
                 holder.layoutContainer.removeAllViews()
                 for (i in typeList.indices) {
                     val layoutType = MovieTopLayout(context)
-                    layoutType.setList(typeList[i].array)
+                    layoutType.setOnTypeClickListener(TypeClickListener())
+                    layoutType.setList(typeList[i].array,typeList[i].key)
                     holder.layoutContainer.addView(layoutType)
                 }
             }
@@ -65,6 +67,23 @@ class MovieLibraryAdapter(
                 if (position > 0) bindList(holder, movieList[position - 1])
             }
         }
+    }
+
+    /**
+     * 筛选条件点击
+     */
+    private inner class TypeClickListener : MovieTopLayout.OnTypeClickListener{
+        override fun onTypeClick(key: String, name: String) {
+            itemClickListener?.onTypeClick(key, name)
+        }
+    }
+
+    interface OnItemClickListener{
+        fun onTypeClick(key: String, name: String)
+    }
+
+    fun setItemClickListener(itemClickListener: OnItemClickListener){
+        this.itemClickListener = itemClickListener
     }
 
     private fun bindList(holder: ListViewHolder, movieBean: MovieLibList) {

@@ -21,6 +21,7 @@ class MovieTopLayout @JvmOverloads constructor(
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
     private var rvList: RecyclerView
+    private var listener: OnTypeClickListener? = null
 
     init {
         removeAllViews()
@@ -33,7 +34,24 @@ class MovieTopLayout @JvmOverloads constructor(
         addView(view)
     }
 
-    fun setList(data: List<TypeListArray>) {
-        rvList.adapter = MovieLibraryTypeAdapter(data as MutableList<TypeListArray>)
+    fun setList(data: List<TypeListArray>, key: String) {
+        val typeAdapter = MovieLibraryTypeAdapter(data as MutableList<TypeListArray>)
+        typeAdapter.setOnItemChildClickListener { adapter, view, position ->
+            for (i in data.indices) {
+                data[i].isSelect = false
+            }
+            data[position].isSelect = true
+            adapter.notifyDataSetChanged()
+            listener?.onTypeClick(key, data[position].key)
+        }
+        rvList.adapter = typeAdapter
+    }
+
+    interface OnTypeClickListener {
+        fun onTypeClick(key: String, name: String)
+    }
+
+    fun setOnTypeClickListener(listener: OnTypeClickListener) {
+        this.listener = listener
     }
 }

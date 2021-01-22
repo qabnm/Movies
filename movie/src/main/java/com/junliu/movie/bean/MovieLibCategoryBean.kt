@@ -28,5 +28,6 @@ data class Filter(
 @Parcelize
 data class TypeListArray(
     val name: String,
-    val key: String
+    val key: String,
+    var isSelect:Boolean = false
 ):Parcelable
