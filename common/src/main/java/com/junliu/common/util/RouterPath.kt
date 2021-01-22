@@ -7,6 +7,11 @@ package com.junliu.common.util
  */
 class RouterPath {
     companion object{
+
+        /**
+         * 首页
+         */
+        const val PATH_MAIN = "/main/MainActivity"
         /**
          * 首页
          */

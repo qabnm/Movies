@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
  * @date: 2021/1/21 15:08
  * @des:浏览历史数据
  */
-@Entity()
+@Entity
 data class VideoWatchHistoryBean(
     @PrimaryKey(autoGenerate = true)
     var number:Long = 0,

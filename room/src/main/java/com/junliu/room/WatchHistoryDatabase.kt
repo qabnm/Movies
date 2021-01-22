@@ -11,8 +11,8 @@ import com.junliu.room.domain.VideoWatchHistoryBean
  * @date: 2021/1/21 17:09
  * @des:创建数据库
  */
-@Database(entities = [VideoWatchHistoryBean::class], version = 1)
-abstract class WatchHistoryDatabase private constructor() : RoomDatabase() {
+@Database(entities = [VideoWatchHistoryBean::class], version = 1,exportSchema = false)
+abstract class WatchHistoryDatabase : RoomDatabase() {
     abstract fun history(): HistoryDao
 
     companion object {

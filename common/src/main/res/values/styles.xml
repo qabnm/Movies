@@ -10,6 +10,18 @@
         <item name="colorAccent">@color/color999999</item>
     </style>
 
+    <style name="SlashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>-->
+        <item name="colorPrimary">@color/colorFFFFFF</item>
+        <item name="colorPrimaryDark">@color/colorFFFFFF</item>
+        <item name="colorAccent">@color/color999999</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/layer_window_background</item>
+    </style>
+
     <style name="commonText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>

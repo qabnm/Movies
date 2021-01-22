@@ -31,7 +31,7 @@ interface HistoryDao {
      * @return List<VideoWatchHistoryBean>
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insert(bean: VideoWatchHistoryBean): List<VideoWatchHistoryBean>
+    fun insert(bean: VideoWatchHistoryBean)
 
     /**
      * 删除数据
@@ -39,7 +39,7 @@ interface HistoryDao {
      * @return List<VideoWatchHistoryBean>
      */
     @Delete
-    fun delete(bean: VideoWatchHistoryBean): List<VideoWatchHistoryBean>
+    fun delete(bean: VideoWatchHistoryBean)
 
     /**
      * 更新数据
@@ -47,5 +47,5 @@ interface HistoryDao {
      * @return List<VideoWatchHistoryBean>
      */
     @Update
-    fun update(bean: VideoWatchHistoryBean): List<VideoWatchHistoryBean>
+    fun update(bean: VideoWatchHistoryBean)
 }

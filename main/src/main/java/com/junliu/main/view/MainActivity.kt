@@ -2,7 +2,9 @@ package com.junliu.main.view
 
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
+import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.junliu.common.util.RouterPath
 import com.junliu.common.util.RouterPath.Companion.PATH_CINEMA
 import com.junliu.common.util.RouterPath.Companion.PATH_HOTSPOT
 import com.junliu.common.util.RouterPath.Companion.PATH_MOVIE
@@ -17,6 +19,7 @@ import kotlin.system.exitProcess
 /**
  * 首页activity
  */
+@Route(path = RouterPath.PATH_MAIN)
 class MainActivity : BridgeActivity(), BottomNavBar.OnNavBarClickListener {
     override fun getLayoutId() = R.layout.activity_main
     private var exitTime = 0L
