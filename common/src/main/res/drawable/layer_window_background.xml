@@ -10,12 +10,19 @@
     <item android:bottom="@dimen/dp_45">
         <bitmap
             android:gravity="bottom"
+            android:filter="true"
+            android:scaleType="center"
+            android:antialias="true"
             android:src="@drawable/slash_icon2" />
+
     </item>
 
     <item android:top="@dimen/dp_106">
         <bitmap
             android:gravity="top"
+            android:filter="true"
+            android:scaleType="center"
+            android:antialias="true"
             android:src="@drawable/slash_icon1" />
     </item>
 </layer-list>
