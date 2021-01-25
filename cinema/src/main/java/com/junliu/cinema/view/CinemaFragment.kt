@@ -36,16 +36,19 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     override fun getLayoutId() = R.layout.fragment_cinema
     override fun providerVMClass() = CinemaViewModel::class.java
     private var locationUtils: LocationUtils? = null
+    private var hotList: List<String>? = null
 
     override fun initView() {
         tvSearch.setOnClickListener {
-            ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY).navigation()
+            ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
+                .withStringArrayList(BridgeContext.LIST, hotList as ArrayList).navigation()
         }
         viewModel.getConfigure().observe(this, Observer {
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
             SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, result?.isRs ?: 0)
+            hotList = result?.hotSearch
         })
     }
 
@@ -103,9 +106,11 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             //将定位信息保存到本地
             SharedPreferencesHelper.helper.setValue(
                 ADDRESS,
-                "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${StringUtils.gbEncoding(
-                    bean.locality
-                )}\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\"}"
+                "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${
+                    StringUtils.gbEncoding(
+                        bean.locality
+                    )
+                }\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\"}"
             )
         }
     }

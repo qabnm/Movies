@@ -1,22 +1,19 @@
 package com.junliu.cinema.view
 
-import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import com.junliu.cinema.CinemaContext
 import com.junliu.cinema.HistoryUtil
 import com.junliu.cinema.R
+import com.junliu.cinema.adapter.HotSearchAdapter
 import com.junliu.cinema.listener.HistoryClickCallback
-import com.junliu.common.adapter.NavigatorAdapter
-import com.junliu.common.adapter.ViewPagerAdapter
 import com.junliu.common.util.FlowLayout
 import com.junliu.common.util.SharedPreferencesHelper
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_search.*
-import net.lucode.hackware.magicindicator.ViewPagerHelper
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 
 /**
  * @author: jun.liu
@@ -26,6 +23,8 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 class SearchFragment : BaseFragment(), HistoryClickCallback {
     override fun getLayoutId() = R.layout.fragment_search
     private var cb: HistoryClickCallback? = null
+    private var hotSearchAdapter: HotSearchAdapter? = null
+    private var hotList:List<String>? =null
 
     fun setCallback(cb: HistoryClickCallback) {
         this.cb = cb
@@ -38,27 +37,17 @@ class SearchFragment : BaseFragment(), HistoryClickCallback {
             SharedPreferencesHelper.helper.remove(CinemaContext.local)
             layoutHistory.clear()
         }
+        rvList.layoutManager = GridLayoutManager(requireActivity(), 2)
+        hotSearchAdapter = HotSearchAdapter()
+        rvList.adapter = hotSearchAdapter
+        hotSearchAdapter?.setOnItemClickListener { adapter, _, position ->
+            cb?.onHistoryClick(adapter.data[position] as String)
+        }
     }
 
     override fun initData() {
-        val data = listOf("热搜", "电影", "电视剧", "美剧", "韩剧", "日剧")
-        val fragmentList = ArrayList<Fragment>()
-        for (i in data.indices) {
-            val fragment = HotSearchFragment()
-            fragment.setCallback(this)
-            fragmentList.add(fragment)
-            val bundle = Bundle()
-            bundle.putString("type", "type")
-            fragment.arguments = bundle
-        }
-        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
-        CommonNavigator(requireActivity()).apply {
-            adapter = NavigatorAdapter(viewPager = vpContainer, data = data)
-            isAdjustMode = false
-            indicator.navigator = this
-        }
-        ViewPagerHelper.bind(indicator, vpContainer)
-        setSearchHistory()
+        hotList = arguments?.getStringArrayList(BridgeContext.LIST)
+        hotSearchAdapter?.setList(hotList)
     }
 
     /**

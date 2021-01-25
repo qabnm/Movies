@@ -1,13 +1,16 @@
 package com.junliu.cinema.view
 
+import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.cinema.HistoryUtil
 import com.junliu.cinema.R
 import com.junliu.cinema.listener.HistoryClickCallback
 import com.junliu.common.util.RouterPath
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_search.*
@@ -24,8 +27,11 @@ class SearchActivity : BridgeActivity(), HistoryClickCallback {
     private var searchFragment: SearchFragment? = null
     private var searchResultFragment: SearchResultFragment? = null
     private var isSearchClick = false
+    private var hotList: ArrayList<String>? = null
 
-    override fun initData() {
+    override fun initView() {
+        ARouter.getInstance().inject(this)
+        hotList = intent.getStringArrayListExtra(BridgeContext.LIST)
         imgBack.setOnClickListener { finish() }
         tvCancel.setOnClickListener {
             if (!TextUtils.isEmpty(etSearch.text)) {
@@ -35,6 +41,10 @@ class SearchActivity : BridgeActivity(), HistoryClickCallback {
         //添加显示搜索记录的fragment
         showSearchFragment()
         etSearch.addTextChangedListener(textChangeWatcher)
+    }
+
+    override fun initData() {
+
     }
 
     private fun toResultFragment(result: String) {
@@ -61,6 +71,9 @@ class SearchActivity : BridgeActivity(), HistoryClickCallback {
         val ts = supportFragmentManager.beginTransaction()
         searchFragment?.takeIf { null != searchFragment }?.also { ts.show(it) } ?: run {
             searchFragment = SearchFragment()
+            val bundle = Bundle()
+            bundle.putStringArrayList(BridgeContext.LIST, hotList)
+            searchFragment?.arguments = bundle
             searchFragment?.setCallback(this)
             ts.add(R.id.layoutContainer, searchFragment!!)
         }

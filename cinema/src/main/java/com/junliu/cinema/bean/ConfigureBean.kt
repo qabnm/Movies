@@ -8,7 +8,8 @@ package com.junliu.cinema.bean
 data class ConfigureBean(
     val columns: List<Column>?,
     val isRs: Boolean,
-    val version: Version
+    val version: Version,
+    val hotSearch: List<String>
 )
 
 data class Column(
