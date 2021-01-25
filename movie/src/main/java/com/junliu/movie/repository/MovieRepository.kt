@@ -24,4 +24,19 @@ class MovieRepository : MovieApiRepository() {
     suspend fun movieLibList(map: HashMap<String, Any>, page: Int, typeId: String) = request {
         apiService.movieLibList(map, page, typeId)
     }
+
+    /**
+     * 电影榜单排名分类
+     * @return BaseResponseData<MovieRankCategoryBean>
+     */
+    suspend fun movieRankCategory() = request { apiService.movieRankCategory() }
+
+    /**
+     * 榜单列表
+     * @param column String
+     * @return BaseResponseData<MovieRankBean>
+     */
+    suspend fun movieRankList(column: String) = request {
+        apiService.movieRankList(column)
+    }
 }

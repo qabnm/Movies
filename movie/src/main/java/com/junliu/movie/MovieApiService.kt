@@ -2,6 +2,8 @@ package com.junliu.movie
 
 import com.junliu.movie.bean.MovieLibCategoryBean
 import com.junliu.movie.bean.MovieLibListBean
+import com.junliu.movie.bean.MovieRankBean
+import com.junliu.movie.bean.MovieRankCategoryBean
 import dc.android.bridge.net.BaseResponseData
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -33,4 +35,18 @@ interface MovieApiService {
         @Query("page") page: Int,
         @Query("type_id") typeId: String
     ): BaseResponseData<MovieLibListBean>
+
+    /**
+     * 榜单分类
+     */
+    @GET("api/config")
+    suspend fun movieRankCategory(): BaseResponseData<MovieRankCategoryBean>
+
+    /**
+     * 电影榜单页面
+     * @param column String
+     * @return BaseResponseData<MovieRankBean>
+     */
+    @GET("api/ranking")
+    suspend fun movieRankList(@Query("column") column: String): BaseResponseData<MovieRankBean>
 }
