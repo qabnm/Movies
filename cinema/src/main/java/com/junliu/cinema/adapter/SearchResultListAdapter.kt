@@ -3,7 +3,7 @@ package com.junliu.cinema.adapter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.junliu.cinema.R
-import com.junliu.cinema.bean.SearchResultBean
+import com.junliu.cinema.bean.SearchResultList
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 
@@ -13,16 +13,24 @@ import dc.android.bridge.util.StringUtils
  * @des：搜索结果页
  */
 class SearchResultListAdapter :
-    BaseQuickAdapter<SearchResultBean, BaseViewHolder>(R.layout.item_search_result) {
-    override fun convert(holder: BaseViewHolder, item: SearchResultBean) {
-        GlideUtils.setImg(context, item.coverUrl, holder.getView(R.id.imgCover))
-        holder.setText(R.id.tvTitle, item.title)
+    BaseQuickAdapter<SearchResultList, BaseViewHolder>(R.layout.item_search_result) {
+    override fun convert(holder: BaseViewHolder, item: SearchResultList) {
+        GlideUtils.setImg(context, item.cover_url, holder.getView(R.id.imgCover))
+        holder.setText(R.id.tvTitle, item.vod_name)
         holder.setText(
             R.id.tvTime,
-            StringUtils.append(item.year, " ", item.type, " ", item.county, " ", item.language)
+            StringUtils.append(
+                item.vod_year,
+                " ",
+                item.type_text,
+                " ",
+                item.vod_area_text,
+                " ",
+                item.vod_lang
+            )
         )
-        holder.setText(R.id.tvDirector, StringUtils.append("导演：", item.director))
-        val length = item.totalLength
+        holder.setText(R.id.tvDirector, StringUtils.append("导演：", item.vod_director))
+        val length = item.movie_items.size
         hideAllBtn(holder, length > 6)
         when (length) {
             1 -> {

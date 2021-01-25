@@ -31,4 +31,23 @@ class CinemaRepository : CinemaApiRepository() {
     suspend fun mainPage(column: String) = request {
         apiService.mainPage(column = column)
     }
+
+    /**
+     * 搜索结果分类
+     * @return BaseResponseData<SearchResultCategoryBean>
+     */
+    suspend fun searchResultCategory() = request {
+        apiService.searchResultCategory()
+    }
+
+    /**
+     * 搜索结果
+     * @param keyWord String
+     * @param page Int
+     * @param column String
+     * @return BaseResponseData<SearchResultBean>
+     */
+    suspend fun searchResult(keyWord: String, page: Int, column: String) = request {
+        apiService.searchResultList(keyWord, page, column)
+    }
 }

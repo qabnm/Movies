@@ -54,14 +54,15 @@ class SearchActivity : BridgeActivity(), HistoryClickCallback {
         if (searchFragment?.isVisible == true) searchFragment?.let {
             supportFragmentManager.beginTransaction().hide(it).commit()
         }
-        showSearchResultFragment()
+        showSearchResultFragment(result)
         HistoryUtil.save(result)
     }
 
-    private fun showSearchResultFragment() {
+    private fun showSearchResultFragment(result: String) {
         val ts = supportFragmentManager.beginTransaction()
         searchResultFragment?.takeIf { null != searchResultFragment }?.also { ts.show(it) } ?: run {
             searchResultFragment = SearchResultFragment()
+            searchResultFragment?.setKeyWord(result)
             ts.add(R.id.layoutContainer, searchResultFragment!!)
         }
         ts.commit()
