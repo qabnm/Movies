@@ -1,6 +1,7 @@
 package com.junliu.cinema.view
 
 import android.Manifest
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -43,7 +44,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
                 .withStringArrayList(BridgeContext.LIST, hotList as ArrayList).navigation()
         }
-        viewModel.getConfigure().observe(this, Observer {
+        viewModel.getConfigure().observe(this, {
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)

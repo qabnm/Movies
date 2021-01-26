@@ -39,4 +39,14 @@ class MovieRepository : MovieApiRepository() {
     suspend fun movieRankList(column: String) = request {
         apiService.movieRankList(column)
     }
+
+    /**
+     * 电影详情
+     * @param id String 电影ID
+     * @param num String 播放级数
+     * @return BaseResponseData<MovieDetailBean>
+     */
+    suspend fun movieDetail(id: String, num: String) = request {
+        apiService.movieDetail(id = id, num = num)
+    }
 }

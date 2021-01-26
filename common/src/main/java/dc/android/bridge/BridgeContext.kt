@@ -19,6 +19,7 @@ open class BridgeContext {
         const val LIST = "list"
         const val NO_MORE_DATA = "noMoreData"
         const val isRes = "isRes"
+        const val NUM = "num"
         const val WATCH_HISTORY = "watchHistory"
         const val SUCCESS = 200
 

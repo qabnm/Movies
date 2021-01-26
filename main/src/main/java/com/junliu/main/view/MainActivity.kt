@@ -96,6 +96,9 @@ class MainActivity : BridgeActivity(), BottomNavBar.OnNavBarClickListener {
         super.onSaveInstanceState(outState)
     }
 
+    /**
+     * 显示点击的fragment
+     */
     private fun showFragment(
         transaction: FragmentTransaction,
         fragment: BaseFragment?,
