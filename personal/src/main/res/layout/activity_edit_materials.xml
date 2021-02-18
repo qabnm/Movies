@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:background="@color/colorFFFFFF"
+    tools:ignore="MissingDefaultResource">
+
+    <com.junliu.common.view.TopBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        app:contentTitle="编辑资料" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_10"
+        android:background="@color/colorF2F2F2" />
+
+    <LinearLayout
+        android:id="@+id/layoutHeader"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        style="@style/centerIconLinear">
+
+        <TextView
+            style="@style/centerIconText"
+            android:paddingLeft="0dp"
+            android:text="图像" />
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageIcon"
+            android:layout_width="@dimen/dp_33"
+            android:layout_height="@dimen/dp_33"
+            android:scaleType="centerCrop"
+            android:src="@drawable/center_icon"
+            app:shapeAppearanceOverlay="@style/StyleShapeAppearanceImage" />
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+    <View style="@style/centerIconLine" />
+
+    <LinearLayout
+        android:id="@+id/layoutNickName"
+        style="@style/centerIconLinear">
+        <TextView
+            style="@style/centerIconText"
+            android:paddingLeft="0dp"
+            android:text="昵称" />
+        <TextView
+            android:id="@+id/tvNickName"
+            android:text="请选择"
+            style="@style/centerRightText"/>
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+
+    <View style="@style/centerIconLine" />
+    <LinearLayout
+        android:id="@+id/layoutSex"
+        style="@style/centerIconLinear">
+        <TextView
+            style="@style/centerIconText"
+            android:paddingLeft="0dp"
+            android:text="性别" />
+        <TextView
+            android:id="@+id/tvSex"
+            android:text="请选择"
+            style="@style/centerRightText"/>
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+    <View style="@style/centerIconLine" />
+
+    <LinearLayout
+        android:id="@+id/layoutWhere"
+        style="@style/centerIconLinear">
+        <TextView
+            style="@style/centerIconText"
+            android:paddingLeft="0dp"
+            android:text="所在地" />
+        <TextView
+            android:id="@+id/tvWhere"
+            android:text="请选择"
+            style="@style/centerRightText"/>
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+    <View style="@style/centerIconLine" />
+
+    <LinearLayout
+        android:id="@+id/layoutBirthday"
+        style="@style/centerIconLinear">
+        <TextView
+            style="@style/centerIconText"
+            android:paddingLeft="0dp"
+            android:text="生日" />
+        <TextView
+            android:id="@+id/tvBirthday"
+            android:text="请选择"
+            style="@style/centerRightText"/>
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+    <View style="@style/centerIconLine" />
+
+    <LinearLayout
+        android:id="@+id/layoutSign"
+        style="@style/centerIconLinear">
+        <TextView
+            style="@style/centerIconText"
+            android:paddingLeft="0dp"
+            android:text="个性签名" />
+        <TextView
+            android:id="@+id/tvSign"
+            android:text="请选择"
+            style="@style/centerRightText"/>
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/colorF2F2F2"/>
+</LinearLayout>

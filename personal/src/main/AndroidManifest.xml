@@ -10,5 +10,7 @@
 
         <activity android:name=".view.MyCollectionActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".view.EditMaterialsActivity"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

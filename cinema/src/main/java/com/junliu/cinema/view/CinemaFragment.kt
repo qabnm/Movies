@@ -85,7 +85,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         ).onExplainRequestReason { scope, deniedList ->
             val msg = "多多影视需要获取您以下权限"
             scope.showRequestReasonDialog(deniedList, msg, "确定", "取消")
-        }.request { allGranted, grantedList, deniedList ->
+        }.request { allGranted, _, _ ->
             if (allGranted) {
                 locationUtils = LocationUtils(requireActivity(), LocationListener())
                 locationUtils?.startLocation()

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_37"
+    android:layout_marginRight="@dimen/dp_37"
+    android:background="@drawable/shape_radius3_solid_ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTakePhoto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_52"
+        android:gravity="center"
+        android:text="拍照"
+        android:textColor="@color/color212121"
+        android:textSize="@dimen/sp_17" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/colorE0E0E0" />
+
+    <TextView
+        android:id="@+id/tvPhoto"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_52"
+        android:gravity="center"
+        android:text="相册"
+        android:textColor="@color/color212121"
+        android:textSize="@dimen/sp_17" />
+</LinearLayout>

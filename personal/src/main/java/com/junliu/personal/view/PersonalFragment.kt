@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.common.util.RouterPath
 import com.junliu.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
+import com.junliu.common.util.RouterPath.Companion.PATH_EDIT_MATERIALS
 import com.junliu.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.junliu.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.junliu.common.util.SharedPreferencesHelper
@@ -24,7 +25,7 @@ class PersonalFragment : BaseFragment() {
     override fun getLayoutId() = R.layout.fragment_personal
 
     override fun initView() {
-        if (SharedPreferencesHelper.helper.getValue(BridgeContext.isRes , 0) == 1){
+        if (SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 0) == 1) {
             //正式版
             layoutIsRes.visibility = View.VISIBLE
             layoutHistory.setOnClickListener {
@@ -38,7 +39,7 @@ class PersonalFragment : BaseFragment() {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
             layoutShare.setOnClickListener { }
-        }else{
+        } else {
             layoutIsRes.visibility = View.GONE
         }
         layoutContract.setOnClickListener {
@@ -48,5 +49,9 @@ class PersonalFragment : BaseFragment() {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
         }
         layoutAbout.setOnClickListener { }
+        tvUser.setOnClickListener { ARouter.getInstance().build(PATH_EDIT_MATERIALS).navigation() }
+        imageIcon.setOnClickListener {
+            ARouter.getInstance().build(PATH_EDIT_MATERIALS).navigation()
+        }
     }
 }
