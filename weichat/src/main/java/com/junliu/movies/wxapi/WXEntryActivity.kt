@@ -43,7 +43,10 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
                     result = "授权成功"
                     val code = (resp as SendAuth.Resp).code
                     //通过此code换取access_token参数
-                    LiveDataBus.get().with("code").value = code
+                    LiveDataBus.get().with("wxCode").value = code
+//                    LiveDataBus.get().with("wxCode", String.javaClass).observe(this, {
+//                     注册观察者
+//                    })
                 } else if (resp.type == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {
                     result = "分享成功"
                 }
