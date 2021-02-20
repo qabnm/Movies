@@ -12,5 +12,15 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".view.EditMaterialsActivity"
             android:screenOrientation="portrait"/>
+
+        <provider
+            android:name=".component.PhotoFileProvider"
+            android:authorities="com.junliu.personal.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_photo" />
+        </provider>
     </application>
 </manifest>

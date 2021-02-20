@@ -29,7 +29,7 @@
             android:paddingLeft="0dp"
             android:text="图像" />
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/imageIcon"
+            android:id="@+id/imgHeader"
             android:layout_width="@dimen/dp_33"
             android:layout_height="@dimen/dp_33"
             android:scaleType="centerCrop"

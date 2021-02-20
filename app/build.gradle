@@ -40,7 +40,7 @@ android {
 
         debug {
             //给applicationId添加后缀“.debug”
-            applicationIdSuffix ".debug"
+//            applicationIdSuffix ".debug"
             //manifestPlaceholders = [app_icon: "@drawable/launch_beta"]
             buildConfigField "boolean", "LOG_DEBUG", "true"
             zipAlignEnabled false
