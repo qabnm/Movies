@@ -43,7 +43,7 @@ class PhotoDialogFragment(private val listener: ITakePhotoResult?) : DialogFragm
     //用于保存拍照图片的uri
     private var mCameraUri: Uri? = null
     private val CODE_TAKE_PHOTO = 200
-    private var takePhotoResult: ITakePhotoResult? = null
+    private val CODE_OPEN_PHOTO = 300
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -101,9 +101,18 @@ class PhotoDialogFragment(private val listener: ITakePhotoResult?) : DialogFragm
             scope.showRequestReasonDialog(deniedList, msg, "确定", "取消")
         }.request { allGranted, _, _ ->
             if (allGranted) {
-
+                openSysAlbum()
             }
         }
+    }
+
+    /**
+     * 打开系统相册
+     */
+    private fun openSysAlbum(){
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setDataAndType(MediaStore.Images.Media.EXTERNAL_CONTENT_URI,"image/*")
+        startActivityForResult(intent, CODE_OPEN_PHOTO)
     }
 
     /**
@@ -191,6 +200,10 @@ class PhotoDialogFragment(private val listener: ITakePhotoResult?) : DialogFragm
             }else{
                 listener?.takePhotoResult(mCameraImagePath)
             }
+        }else if (requestCode == CODE_OPEN_PHOTO && resultCode == RESULT_OK){
+            //系统相册的回调
+            val imgUri = data?.data
+            listener?.takePhotoResult(imgUri)
         }
     }
 }
