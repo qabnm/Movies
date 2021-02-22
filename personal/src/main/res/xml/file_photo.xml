@@ -1,33 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<paths xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <!--        eg:"/data/data/com.jph.simple/files"。-->
-    <!--        <files-path path="" name="camera_photos" />-->
-
-    <!--        该方式提供在应用的内部存储区的缓存子目录的文件。它对应getCacheDir返回的路径：-->
-    <!--        eg:“/data/data/com.jph.simple/cache”；-->
-    <!--        <cache-path name="name" path="path" />-->
-
-
-    <!--        该方式提供在外部存储区域根目录下的文件。它对应Environment.getExternalStorageDirectory返回的路径：-->
-    <!--        eg:"/storage/emulated/0";-->
-    <external-path name="my_images" path="Pictures" />
-
-    <!-- 这个是保存拍照图片的路径,必须配置。 -->
-    <!--        该方式提供在应用的外部存储区根目录的下的文件。它对应Context#getExternalFilesDir(String) -->
-    <!--        Context.getExternalFilesDir(null)返回的路径：-->
-    <!--        eg:"/storage/emulated/0/Android/data/com.jph.simple/files"。-->
-    <external-files-path name="images" path="Pictures" />
-
-    <!--        该方式提供在应用的外部缓存区根目录的文件。它对应Context.getExternalCacheDir()返回的路径。-->
-    <!--        eg:"/storage/emulated/0/Android/data/com.jph.simple/cache"。-->
-    <!--        <external-cache-path name="name" path="path" />-->
-
-
-    <!--        以上便是Android官方文档上介绍的FileProvider所有支持的所以path类型，这些类型在Android手机内部存储区-->
-    <!--        文件共享是可以行的通的，但对于外置SD卡是不行的，如果你想通过FileProvider.getUriForFile()获取一个-->
-    <!--        外置SD卡的Uri则会报出如下异常：-->
-    <!--        Caused by- java.lang.IllegalArgumentException- Failed to find configured root that contains-->
-    <root-path path="." name="root_path" />
-
-</paths>
+<resources>
+    <paths>
+        <!-- 这个是保存拍照图片的路径,必须配置。 -->
+        <external-files-path
+            name="images"
+            path="Pictures" />
+    </paths>
+</resources>

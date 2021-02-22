@@ -9,4 +9,5 @@ import android.net.Uri
  */
 interface ITakePhotoResult {
     fun takePhotoResult(uri: Uri?)
+    fun takePhotoResult(path:String?)
 }

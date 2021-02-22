@@ -10,7 +10,7 @@ import dc.android.bridge.view.BridgeActivity
  * @date: 2021/1/22 11:48
  * @des:启动页
  */
-class SlashActivity :BridgeActivity(){
+class SplashActivity :BridgeActivity(){
     override fun getLayoutId() = R.layout.activity_splash
     override fun showStatusBarView() = false
 

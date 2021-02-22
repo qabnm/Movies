@@ -14,7 +14,7 @@
             android:screenOrientation="portrait">
         </activity>
         <!--启动页-->
-        <activity android:name=".view.SlashActivity"
+        <activity android:name=".view.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SlashTheme">
             <intent-filter>

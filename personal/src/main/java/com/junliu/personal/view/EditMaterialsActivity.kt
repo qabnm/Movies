@@ -1,5 +1,6 @@
 package com.junliu.personal.view
 
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -31,6 +32,13 @@ class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult {
         uri?.let {
             Log.i("photo","该方法执行了*********")
             imgHeader.setImageURI(it)
+        }
+    }
+
+    override fun takePhotoResult(path: String?) {
+        path?.let {
+            Log.i("photo","该方法执行了*********")
+            imgHeader.setImageBitmap(BitmapFactory.decodeFile(it))
         }
     }
 }

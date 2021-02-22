@@ -135,7 +135,7 @@ class PhotoDialogFragment(private val listener: ITakePhotoResult?) : DialogFragm
             if (photoUri != null) {
                 captureIntent.apply {
                     putExtra(MediaStore.EXTRA_OUTPUT, photoUri)
-                    addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                    addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     startActivityForResult(this, CODE_TAKE_PHOTO)
                 }
             }
@@ -172,9 +172,8 @@ class PhotoDialogFragment(private val listener: ITakePhotoResult?) : DialogFragm
     private fun createImageFile(): File? {
         val imageName =
             "${SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(Date())}.jpg"
-        val storageDir =
-            File("${Environment.getExternalStorageDirectory().absolutePath}${File.separator}Pictures${File.separator}duoImg")
-        if (!storageDir.exists()) storageDir.mkdirs()
+        val storageDir = requireContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        if (storageDir?.exists() == false) storageDir.mkdir()
         val tempFile = File(storageDir, imageName)
         if (Environment.MEDIA_MOUNTED != EnvironmentCompat.getStorageState(tempFile)) {
             return null
@@ -187,8 +186,11 @@ class PhotoDialogFragment(private val listener: ITakePhotoResult?) : DialogFragm
         dismiss()
         Log.i("photo","该方法执行了")
         if (requestCode == CODE_TAKE_PHOTO && resultCode == RESULT_OK) {
-            mCameraUri = data?.data
-            listener?.takePhotoResult(mCameraUri)
+            if (isAndroidQ){
+                listener?.takePhotoResult(mCameraUri)
+            }else{
+                listener?.takePhotoResult(mCameraImagePath)
+            }
         }
     }
 }
