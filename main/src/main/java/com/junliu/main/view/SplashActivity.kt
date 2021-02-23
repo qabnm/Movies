@@ -16,5 +16,6 @@ class SplashActivity :BridgeActivity(){
 
     override fun initView() {
         ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
+        this.finish()
     }
 }
