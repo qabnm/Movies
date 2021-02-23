@@ -71,5 +71,10 @@ class RouterPath {
          * 修改昵称
          */
         const val PATH_MODIFY_NICKNAME = "/personal/ModifyNickNameActivity"
+
+        /**
+         * 修改签名
+         */
+        const val PATH_MODIFY_SIGN_NAME = "/personal/ModifySignNameActivity"
     }
 }

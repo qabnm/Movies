@@ -10,6 +10,8 @@ import com.junliu.common.util.RouterPath
 import com.junliu.personal.R
 import com.junliu.personal.component.BirthdayDialog
 import com.junliu.personal.component.PhotoDialogFragment
+import com.junliu.personal.component.SexDialogFragment
+import com.junliu.personal.listener.ISelectSexListener
 import com.junliu.personal.listener.ITakePhotoResult
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_edit_materials.*
@@ -22,7 +24,7 @@ import java.util.*
  * @des:编辑资料
  */
 @Route(path = RouterPath.PATH_EDIT_MATERIALS)
-class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult,BirthdayDialog.OnTimeSelectListener {
+class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult,BirthdayDialog.OnTimeSelectListener,ISelectSexListener {
     override fun getLayoutId() = R.layout.activity_edit_materials
 
     override fun initView() {
@@ -39,6 +41,13 @@ class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult,BirthdayDialog.On
         }
         //修改昵称
         layoutNickName.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MODIFY_NICKNAME).navigation() }
+        //修改签名
+        layoutSign.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MODIFY_SIGN_NAME).navigation() }
+        //修改性别
+        layoutSex.setOnClickListener {
+            val dialog = SexDialogFragment(this)
+            dialog.showNow(supportFragmentManager, "sex")
+        }
     }
 
     override fun takePhotoResult(uri: Uri?) {
@@ -63,5 +72,10 @@ class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult,BirthdayDialog.On
         val sdf = SimpleDateFormat("yyyy年MM月dd日")
         tvBirthday.text = sdf.format(date)
         tvBirthday.setTextColor(ContextCompat.getColor(this,R.color.color999999))
+    }
+
+    override fun selectSex(sex: String) {
+        tvSex.text = sex
+        tvSex.setTextColor(ContextCompat.getColor(this, R.color.color999999))
     }
 }

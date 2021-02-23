@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorFFFFFF"
+    android:orientation="vertical">
+
+    <com.junliu.common.view.TopBarLayout
+        android:id="@+id/layoutTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        app:contentTitle="修改签名"
+        app:rightText="保存"
+        app:rightTextColor="@color/color557CE7"
+        app:rightTextSize="@dimen/sp_14"
+        app:rightVisible="VISIBLE" />
+
+    <EditText
+        android:id="@+id/etSignName"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_120"
+        android:background="@null"
+        android:gravity="left"
+        android:hint="请输入签名"
+        android:maxLength="224"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingTop="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_12"
+        android:paddingBottom="@dimen/dp_12"
+        android:textColor="@color/color212121"
+        android:textSize="@dimen/sp_15" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="@dimen/dp_7"
+        android:layout_marginRight="@dimen/dp_12"
+        android:text="224"
+        android:textColor="#676767"
+        android:textSize="@dimen/sp_12" />
+</LinearLayout>

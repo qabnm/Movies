@@ -18,7 +18,7 @@ class MediumBoldTextView @JvmOverloads constructor(
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
     override fun onDraw(canvas: Canvas?) {
         paint.apply {
-            strokeWidth = 1.4f
+            strokeWidth = 1.3f
             style = Paint.Style.FILL_AND_STROKE
         }
         super.onDraw(canvas)
