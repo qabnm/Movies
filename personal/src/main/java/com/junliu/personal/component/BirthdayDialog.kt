@@ -16,7 +16,8 @@ import java.util.*
  * @date: 2021/2/23 9:41
  * @des:选择生日dialog
  */
-class BirthdayDialog @JvmOverloads constructor(context: Context, def: Int = 0) : Dialog(context, def) {
+class BirthdayDialog @JvmOverloads constructor(context: Context, def: Int = 0) :
+    Dialog(context, def) {
     private val startDate = Calendar.getInstance()
     private val endDate = Calendar.getInstance()
     private var listener: OnTimeSelectListener? = null
@@ -27,9 +28,9 @@ class BirthdayDialog @JvmOverloads constructor(context: Context, def: Int = 0) :
     private val date = Calendar.getInstance()
 
     init {
-        startDate.set(year-60, month, day)
+        startDate.set(year - 60, 0, 1)
         endDate.set(Calendar.getInstance().get(Calendar.YEAR), month, day)
-        date.set(year-18,month,day)
+        date.set(year - 18, 0, 1)
     }
 
     fun showTimeDialog() {

@@ -42,7 +42,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     override fun initView() {
         tvSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
-                .withStringArrayList(BridgeContext.LIST, hotList as ArrayList).navigation()
+                .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
         }
         viewModel.getConfigure().observe(this, {
             val result = viewModel.getConfigure().value?.data

@@ -1,6 +1,7 @@
 package com.junliu.personal.component
 
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.RadioButton
 import androidx.fragment.app.DialogFragment
 import com.junliu.personal.R
 import com.junliu.personal.listener.ISelectSexListener
+import dc.android.bridge.util.OsUtils
 
 /**
  * @author: jun.liu
@@ -24,6 +26,20 @@ class SexDialogFragment(private val listener:ISelectSexListener?):DialogFragment
         val view = inflater.inflate(R.layout.dialog_select_sex,container,false)
         initViews(view)
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        initWindow()
+    }
+
+    private fun initWindow() {
+        val window = dialog?.window
+        window?.let {
+            it.attributes.width =
+                OsUtils.getScreenWidth(requireContext()) - OsUtils.dip2px(requireContext(), 75f)
+            it.attributes.gravity = Gravity.CENTER
+        }
     }
 
     private fun initViews(view: View) {

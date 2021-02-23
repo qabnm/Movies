@@ -34,7 +34,7 @@ data class MovieDetail(
 )
 
 data class MovieItem(
-    val key: String,
+    val num: String,
     val title: String
 )
 

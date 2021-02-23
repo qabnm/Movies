@@ -69,6 +69,7 @@
         tools:text="下一站是幸福" />
 
     <TextView
+        android:id="@+id/tvDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:drawableRight="@drawable/more_icon"
