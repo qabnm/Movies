@@ -3,13 +3,18 @@ package com.junliu.personal.view
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
+import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.common.util.RouterPath
 import com.junliu.personal.R
+import com.junliu.personal.component.BirthdayDialog
 import com.junliu.personal.component.PhotoDialogFragment
 import com.junliu.personal.listener.ITakePhotoResult
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_edit_materials.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 /**
  * @author: jun.liu
@@ -17,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_edit_materials.*
  * @des:编辑资料
  */
 @Route(path = RouterPath.PATH_EDIT_MATERIALS)
-class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult {
+class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult,BirthdayDialog.OnTimeSelectListener {
     override fun getLayoutId() = R.layout.activity_edit_materials
 
     override fun initView() {
@@ -26,6 +31,14 @@ class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult {
             val dialogFragment = PhotoDialogFragment(this)
             dialogFragment.showNow(supportFragmentManager,"photo")
         }
+        //选择生日
+        layoutBirthday.setOnClickListener {
+            val dialog = BirthdayDialog(this)
+            dialog.showTimeDialog()
+            dialog.setOnTimeSelectListener(this)
+        }
+        //修改昵称
+        layoutNickName.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MODIFY_NICKNAME).navigation() }
     }
 
     override fun takePhotoResult(uri: Uri?) {
@@ -40,5 +53,15 @@ class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult {
             Log.i("photo","该方法执行了*********")
             imgHeader.setImageBitmap(BitmapFactory.decodeFile(it))
         }
+    }
+
+    /**
+     * 生日选择的回调
+     * @param date Date
+     */
+    override fun onTimeSelect(date: Date) {
+        val sdf = SimpleDateFormat("yyyy年MM月dd日")
+        tvBirthday.text = sdf.format(date)
+        tvBirthday.setTextColor(ContextCompat.getColor(this,R.color.color999999))
     }
 }

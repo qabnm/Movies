@@ -66,5 +66,10 @@ class RouterPath {
          * 编辑资料
          */
         const val PATH_EDIT_MATERIALS = "/personal/EditMaterialsActivity"
+
+        /**
+         * 修改昵称
+         */
+        const val PATH_MODIFY_NICKNAME = "/personal/ModifyNickNameActivity"
     }
 }
