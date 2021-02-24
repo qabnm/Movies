@@ -29,7 +29,7 @@
         android:layout_width="@dimen/dp_42"
         android:layout_height="@dimen/dp_42"
         android:padding="@dimen/dp_10"
-        android:src="@drawable/movie_download"
+        android:src="@drawable/movie_collect"
         app:layout_constraintRight_toLeftOf="@+id/imgDownload"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -147,6 +147,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/dp_6"
             android:scrollbars="none"
+            android:layout_marginLeft="@dimen/dp_9"
             app:layout_constraintTop_toBottomOf="@+id/tvWhere" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 

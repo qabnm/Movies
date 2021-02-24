@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.junliu.movie.R
 import com.junliu.movie.bean.MovieDetailBean
+import dc.android.bridge.util.GlideUtils
 
 /**
  * @author: jun.liu
@@ -22,6 +23,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val typeDetail = 1
     private val typeList = 2
+    private var listener: OnViewClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         typeDetail -> DetailViewHolder(
@@ -29,11 +31,13 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
             context
         )
         else -> ListViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_recyclerview, parent, false), context
+            LayoutInflater.from(context).inflate(R.layout.item_movie_recommend, parent, false)
         )
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        if (holder is DetailViewHolder) bindDetail(holder)
+        if (holder is ListViewHolder && position > 0) bindList(holder, position - 1)
     }
 
     override fun getItemCount() = detailBean.recommends.size + 1
@@ -41,6 +45,42 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
     override fun getItemViewType(position: Int) = when (position) {
         0 -> typeDetail
         else -> typeList
+    }
+
+    /**
+     * 顶部详情数据绑定
+     * @param holder DetailViewHolder
+     */
+    private fun bindDetail(holder: DetailViewHolder) {
+        holder.imgShare.setOnClickListener { listener?.onShareClick() }
+        holder.imgDownload.setOnClickListener { listener?.onDownLoadClick() }
+        holder.imgCollect.setOnClickListener { listener?.onCollectClick() }
+        holder.tvName.text = detailBean.movie.vod_name
+        holder.tvDetail.setOnClickListener { listener?.onDetailClick() }
+        holder.tvScore.text = detailBean.movie.score
+        holder.tvType.text = "  /  ${detailBean.movie.vod_area_text}"
+        holder.tvWhere.text = detailBean.movie.remark
+        val number = detailBean.movie.vod_number.toInt()
+        if (number > 0) {
+            val list = ArrayList<String>()
+            for (i in 1 until number + 1) {
+                list.add(i.toString())
+            }
+            val adapter = MovieEpisodesAdapter(list)
+            holder.rvList.adapter = adapter
+        }
+    }
+
+    /**
+     * 推荐列表
+     * @param holder ListViewHolder
+     * @param position Int
+     */
+    private fun bindList(holder: ListViewHolder, position: Int) {
+        val bean = detailBean.recommends[position]
+        GlideUtils.setImg(context, bean.cover_url,holder.imgCover)
+        holder.tvName.text = bean.vod_name
+        holder.tvScore.text = bean.remark
     }
 
     class DetailViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
@@ -63,12 +103,21 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         }
     }
 
-    class ListViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
-        val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+    class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val imgCover: ImageView = itemView.findViewById(R.id.imgCover)
+        val tvName: TextView = itemView.findViewById(R.id.tvName)
+        val tvScore: TextView = itemView.findViewById(R.id.tvScore)
+    }
 
-        init {
-            rvList.layoutManager = GridLayoutManager(context, 3)
-        }
+    fun setOnViewClick(listener: OnViewClickListener?) {
+        this.listener = listener
+    }
+
+    interface OnViewClickListener {
+        fun onShareClick()
+        fun onDownLoadClick()
+        fun onCollectClick()
+        fun onDetailClick()
     }
 
 }
