@@ -1,6 +1,6 @@
 package com.junliu.movie.repository
 
-import com.junliu.movie.MovieApiService
+import com.junliu.movie.IMovieApiService
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.RetrofitFactory
 
@@ -10,7 +10,7 @@ import dc.android.bridge.net.RetrofitFactory
  * @des:
  */
 open class MovieApiRepository :BaseRepository(){
-    protected val apiService: MovieApiService by lazy {
-        RetrofitFactory.instance.createRetrofit(MovieApiService::class.java)
+    protected val apiService: IMovieApiService by lazy {
+        RetrofitFactory.instance.createRetrofit(IMovieApiService::class.java)
     }
 }

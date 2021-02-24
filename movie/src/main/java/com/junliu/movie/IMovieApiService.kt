@@ -11,7 +11,7 @@ import retrofit2.http.QueryMap
  * @date: 2021/1/20 18:31
  * @des:
  */
-interface MovieApiService {
+interface IMovieApiService {
     /**
      * 片库获取分类以及每个分类下的筛选条件
      * @return BaseResponseData<MovieLibCategoryBean>

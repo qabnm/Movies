@@ -4,9 +4,12 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.junliu.common.util.RouterPath
 import com.junliu.movie.R
 import com.junliu.movie.adapter.MovieDetailAdapter
+import com.junliu.movie.bean.MovieDetail
 import com.junliu.movie.bean.MovieDetailBean
+import com.junliu.movie.component.MovieDetailDialogFragment
 import com.junliu.movie.viewmodel.MovieDetailViewModel
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
@@ -49,6 +52,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),MovieD
     override fun onCollectClick() {
     }
 
-    override fun onDetailClick() {
+    override fun onDetailClick(bean: MovieDetail) {
+        val screenHeight = OsUtils.getRealDisplayHeight(this)
+        val topBarHeight = OsUtils.getStatusBarHeight(this)
+        val videoHeight = videoPlayer.layoutParams.height
+        val realHeight = screenHeight - topBarHeight - videoHeight
+        val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean)
+        dialogFragment.showNow(supportFragmentManager,"detail")
     }
 }

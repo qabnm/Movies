@@ -4,15 +4,19 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.junliu.common.util.RouterPath
 import com.junliu.personal.R
+import com.junliu.personal.bean.User
 import com.junliu.personal.component.BirthdayDialog
 import com.junliu.personal.component.PhotoDialogFragment
 import com.junliu.personal.component.SexDialogFragment
 import com.junliu.personal.listener.ISelectSexListener
 import com.junliu.personal.listener.ITakePhotoResult
+import com.junliu.personal.viewmodel.PersonViewModel
+import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_edit_materials.*
 import java.text.SimpleDateFormat
@@ -24,8 +28,9 @@ import java.util.*
  * @des:编辑资料
  */
 @Route(path = RouterPath.PATH_EDIT_MATERIALS)
-class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult,BirthdayDialog.OnTimeSelectListener,ISelectSexListener {
+class EditMaterialsActivity :BaseViewModelActivity<PersonViewModel>(),ITakePhotoResult,BirthdayDialog.OnTimeSelectListener,ISelectSexListener {
     override fun getLayoutId() = R.layout.activity_edit_materials
+    override fun providerVMClass() = PersonViewModel::class.java
 
     override fun initView() {
         //拍照
@@ -48,6 +53,10 @@ class EditMaterialsActivity :BridgeActivity(),ITakePhotoResult,BirthdayDialog.On
             val dialog = SexDialogFragment(this)
             dialog.showNow(supportFragmentManager, "sex")
         }
+        viewModel.getUserInfo().observe(this, { setUserInfo(viewModel.getUserInfo().value) })
+    }
+
+    private fun setUserInfo(user: User?) {
     }
 
     override fun takePhotoResult(uri: Uri?) {

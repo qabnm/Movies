@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.junliu.movie.R
+import com.junliu.movie.bean.MovieDetail
 import com.junliu.movie.bean.MovieDetailBean
 import dc.android.bridge.util.GlideUtils
 
@@ -56,7 +57,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         holder.imgDownload.setOnClickListener { listener?.onDownLoadClick() }
         holder.imgCollect.setOnClickListener { listener?.onCollectClick() }
         holder.tvName.text = detailBean.movie.vod_name
-        holder.tvDetail.setOnClickListener { listener?.onDetailClick() }
+        holder.tvDetail.setOnClickListener { listener?.onDetailClick(bean = detailBean.movie) }
         holder.tvScore.text = detailBean.movie.score
         holder.tvType.text = "  /  ${detailBean.movie.vod_area_text}"
         holder.tvWhere.text = detailBean.movie.remark
@@ -117,7 +118,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         fun onShareClick()
         fun onDownLoadClick()
         fun onCollectClick()
-        fun onDetailClick()
+        fun onDetailClick(bean: MovieDetail)
     }
 
 }

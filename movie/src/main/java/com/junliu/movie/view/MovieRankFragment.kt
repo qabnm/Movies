@@ -1,6 +1,5 @@
 package com.junliu.movie.view
 
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.junliu.movie.R
 import com.junliu.movie.adapter.MovieRankAdapter
@@ -8,7 +7,6 @@ import com.junliu.movie.bean.MovieRankBean
 import com.junliu.movie.viewmodel.MovieRankListViewModel
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
-import dc.android.tools.LiveDataBus
 import kotlinx.android.synthetic.main.fragment_movie_rank.*
 
 /**

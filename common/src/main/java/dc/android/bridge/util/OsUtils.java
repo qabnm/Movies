@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 
 import com.junliu.common.BaseApplication;
@@ -107,5 +108,16 @@ public class OsUtils {
 
     public static int getScreenWidth(Context context) {
         return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     * 获取屏幕显示的真实高度
+     * @param activity
+     * @return
+     */
+    public static int getRealDisplayHeight(Activity activity) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 }
