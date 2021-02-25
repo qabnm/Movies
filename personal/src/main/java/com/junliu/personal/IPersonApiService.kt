@@ -92,4 +92,19 @@ interface IPersonApiService {
         @Field("img") img: String,
         @Field("union_id") unionId: String = ""
     ): BaseResponseData<LoginBean>
+
+    /**
+     * 收藏列表
+     * @return BaseResponseData<MyCollectionBean>
+     */
+    @GET("api/user/favorites")
+    suspend fun collectionList(@Query("page") page: Int): BaseResponseData<MyCollectionBean>
+
+    /**
+     * 删除收藏
+     * @param movieId String
+     * @return BaseResponseData<Any>
+     */
+    @DELETE("api/user/favorite_1614157043983")
+    suspend fun deleteCollection(@Query("movie_id") movieId: String): BaseResponseData<DeleteCollectionBean>
 }

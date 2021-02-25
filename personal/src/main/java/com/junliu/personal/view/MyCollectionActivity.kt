@@ -2,6 +2,7 @@ package com.junliu.personal.view
 
 import android.graphics.Color
 import android.view.View
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -9,7 +10,10 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.junliu.common.util.RouterPath
 import com.junliu.personal.R
 import com.junliu.personal.adapter.MyCollectionAdapter
+import com.junliu.personal.bean.FavoriteBean
 import com.junliu.personal.bean.MyCollectionBean
+import com.junliu.personal.viewmodel.CollectionViewModel
+import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_my_collcetion.*
 
@@ -19,41 +23,57 @@ import kotlinx.android.synthetic.main.activity_my_collcetion.*
  * @des:我的收藏
  */
 @Route(path = RouterPath.PATH_MY_COLLECTION)
-class MyCollectionActivity :BridgeActivity(){
+class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
     override fun getLayoutId() = R.layout.activity_my_collcetion
+    override fun providerVMClass() = CollectionViewModel::class.java
 
-    private var collectionAdapter :MyCollectionAdapter? =null
+    private var collectionAdapter: MyCollectionAdapter? = null
     private var isFirst = true
     private var selectCount = 0
     private var isAllSelect = false
+    private var page = 1
 
     override fun initView() {
         rvList.layoutManager = LinearLayoutManager(this)
         collectionAdapter = MyCollectionAdapter()
         rvList.adapter = collectionAdapter
         collectionAdapter?.addChildClickViewIds(R.id.imgSelect)
-        collectionAdapter?.setOnItemChildClickListener { adapter, view, position -> onClick(adapter,view,position) }
+        collectionAdapter?.setOnItemChildClickListener { adapter, view, position ->
+            onClick(adapter, view, position)
+        }
         layoutTopBar.setRightClick { onEditClick() }
         tvAllSelect.setOnClickListener { allSelect() }
+        tvDelete.setOnClickListener { deleteCollect() }
+        viewModel.deleteState().observe(this,
+            { onDeleteSuccess(viewModel.deleteState().value?.movie_id) })
+        viewModel.getCollection()
+            .observe(this, { getCollection(viewModel.getCollection().value?.favorites) })
+    }
+
+    /**
+     * 删除成功
+     * @param movieId String?
+     */
+    private fun onDeleteSuccess(movieId: String?) {
     }
 
     /**
      * 全部选择
      */
-    private fun allSelect(){
-        if (!isAllSelect){
+    private fun allSelect() {
+        if (!isAllSelect) {
             isAllSelect = true //全选状态
             collectionAdapter?.let {
-                for (i in 0 until it.data.size){
+                for (i in 0 until it.data.size) {
                     it.data[i].isSelect = true
                 }
                 selectCount = it.data.size
             }
             tvAllSelect.text = "取消全选"
-        }else{
+        } else {
             isAllSelect = false //非全选状态
             collectionAdapter?.let {
-                for (i in 0 until it.data.size){
+                for (i in 0 until it.data.size) {
                     it.data[i].isSelect = false
                 }
                 selectCount = 0
@@ -64,16 +84,18 @@ class MyCollectionActivity :BridgeActivity(){
         setDeleteState()
     }
 
-    private fun onClick(adapter: BaseQuickAdapter<Any?, BaseViewHolder>, view: View, position: Int) {
-        when(view.id){
-            R.id.imgSelect ->{
+    private fun onClick(
+        adapter: BaseQuickAdapter<Any?, BaseViewHolder>, view: View, position: Int
+    ) {
+        when (view.id) {
+            R.id.imgSelect -> {
                 selectCount = 0
-                val isSelect = (adapter.data[position] as MyCollectionBean).isSelect
-                (adapter.data[position] as MyCollectionBean).isSelect = !isSelect
+                val isSelect = (adapter.data[position] as FavoriteBean).isSelect
+                (adapter.data[position] as FavoriteBean).isSelect = !isSelect
                 collectionAdapter?.notifyItemChanged(position)
                 //筛选出选中个数
-                for (i in 0 until adapter.data.size){
-                    if ((adapter.data[i] as MyCollectionBean).isSelect) selectCount++
+                for (i in 0 until adapter.data.size) {
+                    if ((adapter.data[i] as FavoriteBean).isSelect) selectCount++
                 }
                 setDeleteState()
             }
@@ -83,30 +105,42 @@ class MyCollectionActivity :BridgeActivity(){
     /**
      * 设置删除按钮的状态
      */
-    private fun setDeleteState(){
-        if (selectCount >0){
+    private fun setDeleteState() {
+        if (selectCount > 0) {
             tvDelete.text = "删除$selectCount"
             tvDelete.setTextColor(Color.parseColor("#F1303C"))
             tvDelete.isEnabled = true
-        }else{
+        } else {
             tvDelete.text = "删除"
             tvDelete.setTextColor(Color.parseColor("#99F1303C"))
             tvDelete.isEnabled = false
         }
     }
 
+    private fun deleteCollect(){
+        //取出当前被选中的item
+        val dataList = collectionAdapter?.data
+        if (dataList?.isNotEmpty() == true){
+            //当前有选中删除的项目
+
+            for (i in dataList.indices){
+
+            }
+        }
+    }
+
     /**
      * 编辑按钮点击事件
      */
-    private fun onEditClick(){
-        if (isFirst){
+    private fun onEditClick() {
+        if (isFirst) {
             isFirst = false
             layoutTopBar.setRightText("取消")
             collectionAdapter?.isEdit(true)
             layoutSelect.visibility = View.VISIBLE
-        }else{
+        } else {
             isFirst = true
-            for (i in 0 until collectionAdapter!!.data.size){
+            for (i in 0 until collectionAdapter!!.data.size) {
                 collectionAdapter!!.data[i].isSelect = false
             }
             selectCount = 0
@@ -121,13 +155,11 @@ class MyCollectionActivity :BridgeActivity(){
     }
 
     override fun initData() {
-        val data = ArrayList<MyCollectionBean>()
-        val coverUrl = "https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fx0.ifengimg.com%2Fucms%2F2020_23%2F2F78331074BFA397F56525195BD6FBFD0B302F5B_w1153_h649.png&refer=http%3A%2F%2Fx0.ifengimg.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=jpeg?sec=1612939527&t=96a0cc1d243f807991f354a4930ab4fc"
-        for (i in 0 until 6){
-            data.add(MyCollectionBean(coverUrl, "下一站是幸福","观看到第10集"))
-        }
-        collectionAdapter?.setList(data)
+        viewModel.collectionList(page)
+    }
 
+    private fun getCollection(dataList: List<FavoriteBean>?) {
+        collectionAdapter?.setList(dataList)
     }
 
 }
