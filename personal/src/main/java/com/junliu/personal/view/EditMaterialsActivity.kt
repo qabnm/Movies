@@ -2,7 +2,11 @@ package com.junliu.personal.view
 
 import android.graphics.BitmapFactory
 import android.net.Uri
+import android.text.TextUtils
+import android.text.TextWatcher
 import android.util.Log
+import android.view.TextureView
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -16,6 +20,8 @@ import com.junliu.personal.component.SexDialogFragment
 import com.junliu.personal.listener.ISelectSexListener
 import com.junliu.personal.listener.ITakePhotoResult
 import com.junliu.personal.viewmodel.PersonViewModel
+import dc.android.bridge.util.GlideUtils
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_edit_materials.*
@@ -31,6 +37,7 @@ import java.util.*
 class EditMaterialsActivity :BaseViewModelActivity<PersonViewModel>(),ITakePhotoResult,BirthdayDialog.OnTimeSelectListener,ISelectSexListener {
     override fun getLayoutId() = R.layout.activity_edit_materials
     override fun providerVMClass() = PersonViewModel::class.java
+    private var normalColor = 0
 
     override fun initView() {
         //拍照
@@ -53,24 +60,42 @@ class EditMaterialsActivity :BaseViewModelActivity<PersonViewModel>(),ITakePhoto
             val dialog = SexDialogFragment(this)
             dialog.showNow(supportFragmentManager, "sex")
         }
+        normalColor = ContextCompat.getColor(this, R.color.color999999)
         viewModel.getUserInfo().observe(this, { setUserInfo(viewModel.getUserInfo().value) })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.userInfo()
+    }
+
     private fun setUserInfo(user: User?) {
+        if (null == user) return
+        if (!StringUtils.isEmpty(user.img)){
+            GlideUtils.setImg(this, user.img, imgHeader)
+        }
+        if (!StringUtils.isEmpty(user.nick)) setText(tvNickName, user.nick)
+        if (user.sex == 1){
+            setText(tvSex, "男")
+        }else if (user.sex == 2){
+            setText(tvSex, "女")
+        }
+        if (!StringUtils.isEmpty(user.province)) setText(tvWhere, "${user.province}${user.city}${user.area}")
+        if (!StringUtils.isEmpty(user.created_at)) setText(tvBirthday, user.created_at)
+        if (!StringUtils.isEmpty(user.cellphone)) setText(tvSign, user.cellphone)
+    }
+
+    private fun setText(textView: TextView,text:String){
+        textView.text = text
+        textView.setTextColor(normalColor)
     }
 
     override fun takePhotoResult(uri: Uri?) {
-        uri?.let {
-            Log.i("photo","该方法执行了*********")
-            imgHeader.setImageURI(it)
-        }
+        uri?.let { imgHeader.setImageURI(it) }
     }
 
     override fun takePhotoResult(path: String?) {
-        path?.let {
-            Log.i("photo","该方法执行了*********")
-            imgHeader.setImageBitmap(BitmapFactory.decodeFile(it))
-        }
+        path?.let { imgHeader.setImageBitmap(BitmapFactory.decodeFile(it)) }
     }
 
     /**

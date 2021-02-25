@@ -24,4 +24,5 @@ class PersonViewModel : BaseViewModel() {
         val result = repository.userInfo()
         if (result.code == SUCCESS) userInfo.postValue(result.data.user)
     }
+
 }

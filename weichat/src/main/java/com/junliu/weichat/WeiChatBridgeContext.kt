@@ -11,6 +11,8 @@ class WeiChatBridgeContext {
     companion object{
         //微信appId
         const val weiChatAppId = "000000"
+        //微信秘钥
+        const val weiChatSecret = ""
         //分享到微信好友
         const val weiChatFriend = SendMessageToWX.Req.WXSceneSession
         //分享到微信朋友圈
@@ -23,5 +25,25 @@ class WeiChatBridgeContext {
         const val shareToQQ = 1
         //分享到QQ空间
         const val shareToQQZone = 2
+
+        /**
+         * 获取微信accessToken
+         */
+        const val accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token"
+
+        /**
+         * 刷新Token
+         */
+        const val refreshTokenUrl = "https://api.weixin.qq.com/sns/oauth2/refresh_token"
+
+        /**
+         * 检查accessToken是否有效
+         */
+        const val accessTokenValidUrl = "https://api.weixin.qq.com/sns/auth"
+
+        /**
+         * 获取用户信息
+         */
+        const val weiChatUserInfoUrl = "https://api.weixin.qq.com/sns/userinfo"
     }
 }
