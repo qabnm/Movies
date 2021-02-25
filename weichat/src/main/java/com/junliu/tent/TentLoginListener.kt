@@ -33,7 +33,7 @@ class TentLoginListener(private val context: Context):IUiListener {
                             val sex = it.getString("gender")
                             val msg = it.getString("msg")
                             val headerUrl = it.getString("figureurl_qq_1")
-                            val userInfo = TentUserInfo(ret, msg, nickName, sex, headerUrl)
+                            val userInfo = TentUserInfo(ret, msg, nickName, sex, headerUrl,openId)
                             LiveDataBus.get().with("tentUserInfo").value = userInfo
                         }
                     }

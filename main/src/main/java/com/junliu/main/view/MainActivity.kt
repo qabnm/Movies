@@ -1,5 +1,6 @@
 package com.junliu.main.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -10,6 +11,7 @@ import com.junliu.common.util.RouterPath.Companion.PATH_HOTSPOT
 import com.junliu.common.util.RouterPath.Companion.PATH_MOVIE
 import com.junliu.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.junliu.main.R
+import com.junliu.weichat.WeiChatTool
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseFragment
 import dc.android.bridge.view.BridgeActivity
@@ -168,5 +170,10 @@ class MainActivity : BridgeActivity(), BottomNavBar.OnNavBarClickListener {
             finish()
             exitProcess(0)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        WeiChatTool.mTenCent?.onActivityResult(requestCode,resultCode,data)
     }
 }

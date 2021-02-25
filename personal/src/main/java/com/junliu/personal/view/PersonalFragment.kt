@@ -15,6 +15,7 @@ import com.junliu.common.util.SharedPreferencesHelper
 import com.junliu.personal.R
 import com.junliu.personal.bean.*
 import com.junliu.personal.viewmodel.WeiChatViewModel
+import com.junliu.tent.TentLoginListener
 import com.junliu.weichat.WeiChatBridgeContext
 import com.junliu.weichat.WeiChatBridgeContext.Companion.accessTokenUrl
 import com.junliu.weichat.WeiChatBridgeContext.Companion.accessTokenValidUrl
@@ -71,6 +72,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             ARouter.getInstance().build(PATH_EDIT_MATERIALS).navigation()
         }
         imgWeiChat.setOnClickListener { weiChatLogin() }
+        imgQQ.setOnClickListener { qqLogin() }
     }
 
     override fun initData() {
@@ -175,5 +177,13 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     private fun weiChatLogin() {
         WeiChatTool.regToWx(BaseApplication.baseCtx)
         WeiChatTool.weiChatLogin(requireContext())
+    }
+
+    /**
+     * QQ登录
+     */
+    private fun qqLogin(){
+        WeiChatTool.regToQQ(BaseApplication.baseCtx)
+        WeiChatTool.qqLogin(requireActivity(), TentLoginListener(requireActivity()))
     }
 }
