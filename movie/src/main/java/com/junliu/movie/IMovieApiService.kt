@@ -62,4 +62,12 @@ interface IMovieApiService {
     @FormUrlEncoded
     @POST("api/user/favorite")
     suspend fun addCollection(@Field("movie_id") movieId: String): BaseResponseData<Any>
+
+    /**
+     * 删除收藏
+     * @param movieId String
+     * @return BaseResponseData<Any>
+     */
+    @DELETE("api/user/favorite_1614157043983")
+    suspend fun deleteCollection(@Query("movie_id") movieId: String): BaseResponseData<Any>
 }

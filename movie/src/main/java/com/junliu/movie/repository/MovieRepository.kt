@@ -58,4 +58,13 @@ class MovieRepository : MovieApiRepository() {
     suspend fun addCollection(movieId: String) = request {
         apiService.addCollection(movieId)
     }
+
+    /**
+     * 删除收藏
+     * @param movieId String
+     * @return BaseResponseData<Any>
+     */
+    suspend fun deleteCollection(movieId: String) = request {
+        apiService.deleteCollection(movieId)
+    }
 }

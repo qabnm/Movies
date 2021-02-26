@@ -20,16 +20,18 @@ import kotlinx.android.synthetic.main.activity_movie_detail.*
  * @des:影片详情
  */
 @Route(path = RouterPath.PATH_MOVIE_DETAIL)
-class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),MovieDetailAdapter.OnViewClickListener {
+class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
+    MovieDetailAdapter.OnViewClickListener {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private var movieId = ""
     private var num = ""
-    private var detailAdapter:MovieDetailAdapter?= null
+    private var detailAdapter: MovieDetailAdapter? = null
 
     override fun initView() {
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
-        viewModel.getAddState().observe(this, {  })
+        viewModel.getAddState().observe(this, { })
+        viewModel.getDeleteState().observe(this, { })
     }
 
     override fun initData() {
@@ -45,14 +47,26 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),MovieD
         rvList.adapter = detailAdapter
     }
 
+    /**
+     * 分享
+     */
     override fun onShareClick() {
     }
 
+    /**
+     * 下载
+     */
     override fun onDownLoadClick() {
     }
 
-    override fun onCollectClick() {
-        viewModel.addCollection(movieId)
+    /**
+     * 收藏
+     */
+    override fun onCollectClick(isCollection: Int) {
+        when (isCollection) {
+            1 -> viewModel.deleteCollection(movieId)
+            else -> viewModel.addCollection(movieId)
+        }
     }
 
     override fun onDetailClick(bean: MovieDetail) {
@@ -61,6 +75,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),MovieD
         val videoHeight = videoPlayer.layoutParams.height
         val realHeight = screenHeight - topBarHeight - videoHeight
         val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean)
-        dialogFragment.showNow(supportFragmentManager,"detail")
+        dialogFragment.showNow(supportFragmentManager, "detail")
     }
 }

@@ -55,7 +55,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
     private fun bindDetail(holder: DetailViewHolder) {
         holder.imgShare.setOnClickListener { listener?.onShareClick() }
         holder.imgDownload.setOnClickListener { listener?.onDownLoadClick() }
-        holder.imgCollect.setOnClickListener { listener?.onCollectClick() }
+        holder.imgCollect.setOnClickListener { listener?.onCollectClick(detailBean.isFavorite) }
         holder.tvName.text = detailBean.movie.vod_name
         holder.tvDetail.setOnClickListener { listener?.onDetailClick(bean = detailBean.movie) }
         holder.tvScore.text = detailBean.movie.score
@@ -79,7 +79,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
      */
     private fun bindList(holder: ListViewHolder, position: Int) {
         val bean = detailBean.recommends[position]
-        GlideUtils.setImg(context, bean.cover_url,holder.imgCover)
+        GlideUtils.setImg(context, bean.cover_url, holder.imgCover)
         holder.tvName.text = bean.vod_name
         holder.tvScore.text = bean.remark
     }
@@ -117,7 +117,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
     interface OnViewClickListener {
         fun onShareClick()
         fun onDownLoadClick()
-        fun onCollectClick()
+        fun onCollectClick(isCollection: Int)
         fun onDetailClick(bean: MovieDetail)
     }
 

@@ -10,7 +10,8 @@ data class MovieDetailBean(
     val movieItems: List<MovieItem>,
     val playInfo: PlayInfo,
     val recommends: List<DetailRecommend>,
-    val way: String
+    val way: String,
+    val isFavorite:Int
 )
 
 data class MovieDetail(

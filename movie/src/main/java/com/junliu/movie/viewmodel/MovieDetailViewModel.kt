@@ -17,6 +17,9 @@ class MovieDetailViewModel : BaseViewModel() {
     fun getMovieDetail() = movieDetail
     private var addCollectionState: MutableLiveData<Int> = MutableLiveData()
     fun getAddState() = addCollectionState
+    private var deleteCollectionState: MutableLiveData<Int> = MutableLiveData()
+    fun getDeleteState() = deleteCollectionState
+
     private val repository = MovieRepository()
 
     /**
@@ -38,5 +41,15 @@ class MovieDetailViewModel : BaseViewModel() {
     fun addCollection(movieId: String) = request {
         val result = repository.addCollection(movieId)
         if (result.code == SUCCESS) addCollectionState.postValue(200)
+    }
+
+    /**
+     * 删除收藏
+     * @param movieId String
+     * @return Job
+     */
+    fun deleteCollection(movieId: String) = request {
+        val result = repository.deleteCollection(movieId)
+        if (result.code == SUCCESS) deleteCollectionState.postValue(200)
     }
 }
