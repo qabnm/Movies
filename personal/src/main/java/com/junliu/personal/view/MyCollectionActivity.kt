@@ -55,6 +55,9 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
      * @param movieId String?
      */
     private fun onDeleteSuccess(movieId: String?) {
+        //删除成功 直接刷新接口
+        page = 1
+        viewModel.collectionList(page)
     }
 
     /**
@@ -117,15 +120,21 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
         }
     }
 
-    private fun deleteCollect(){
+    private fun deleteCollect() {
         //取出当前被选中的item
         val dataList = collectionAdapter?.data
-        if (dataList?.isNotEmpty() == true){
+        if (dataList?.isNotEmpty() == true) {
             //当前有选中删除的项目
-
-            for (i in dataList.indices){
-
+            val builder = StringBuilder()
+            for (i in dataList.indices) {
+                builder.append(dataList[i].id).append(",")
             }
+            var movieId = builder.toString()
+            if (builder.toString().endsWith(",")) {
+                movieId = builder.toString()
+                    .substring(builder.toString().length - 1, builder.toString().length)
+            }
+            viewModel.deleteCollection(movieId)//调用删除接口
         }
     }
 
