@@ -40,7 +40,7 @@
         android:layout_marginTop="@dimen/dp_15"
         android:orientation="horizontal">
 
-        <com.junliu.common.util.FlowLayout
+        <com.duoduovv.common.util.FlowLayout
             android:id="@+id/layoutHistory"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -32,7 +32,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:menu="@menu/navigation_item" />-->
 
-    <com.junliu.main.view.BottomNavBar
+    <com.duoduovv.main.view.BottomNavBar
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_49"

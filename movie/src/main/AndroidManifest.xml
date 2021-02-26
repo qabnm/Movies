@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.junliu.movie">
+    package="com.duoduovv.movie">
 
     <application>
         <activity
-            android:name=".view.WatchHistoryActivity"
+            android:name="com.duoduovv.movie.view.WatchHistoryActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".view.MovieDetailActivity"
+        <activity android:name="com.duoduovv.movie.view.MovieDetailActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
     </application>

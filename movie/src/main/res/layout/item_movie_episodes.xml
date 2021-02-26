@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.junliu.common.view.MediumBoldTextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvEpisodes"
         android:layout_width="@dimen/dp_55"
         android:layout_height="@dimen/dp_55"

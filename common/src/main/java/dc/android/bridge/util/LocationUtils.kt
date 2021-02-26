@@ -1,15 +1,12 @@
 package dc.android.bridge.util
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.*
 import android.provider.Settings
 import android.util.Log
-import androidx.core.app.ActivityCompat
-import com.junliu.common.BaseApplication
+import com.duoduovv.common.BaseApplication
 import dc.android.bridge.domain.LocationBean
 
 /**

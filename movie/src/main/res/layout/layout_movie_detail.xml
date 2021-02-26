@@ -9,7 +9,7 @@
     android:paddingRight="@dimen/dp_13"
     android:paddingBottom="@dimen/dp_20">
 
-    <com.junliu.common.view.MediumBoldTextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
         android:background="#e6e6e6"
         app:layout_constraintTop_toBottomOf="@+id/tvType" />
 
-    <com.junliu.common.view.MediumBoldTextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvJianJie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

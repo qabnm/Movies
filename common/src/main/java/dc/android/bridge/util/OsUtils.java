@@ -9,7 +9,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.inputmethod.InputMethodManager;
 
-import com.junliu.common.BaseApplication;
+import com.duoduovv.common.BaseApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;

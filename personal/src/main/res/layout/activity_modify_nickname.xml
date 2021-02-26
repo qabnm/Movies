@@ -6,7 +6,7 @@
     android:background="@color/colorFFFFFF"
     android:orientation="vertical">
 
-    <com.junliu.common.view.TopBarLayout
+    <com.duoduovv.common.view.TopBarLayout
         android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
@@ -45,7 +45,7 @@
         android:layout_marginRight="@dimen/dp_12"
         android:background="#e6e6e6" />
 
-    <com.junliu.common.view.MediumBoldTextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

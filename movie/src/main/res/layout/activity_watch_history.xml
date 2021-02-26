@@ -6,7 +6,7 @@
     android:background="@color/colorFFFFFF"
     android:orientation="vertical">
 
-    <com.junliu.common.view.TopBarLayout
+    <com.duoduovv.common.view.TopBarLayout
         android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
@@ -21,7 +21,7 @@
         android:layout_height="@dimen/dp_0_5"
         android:background="@color/colorF0F0F0" />
 
-    <com.junliu.common.view.EmptyLayout
+    <com.duoduovv.common.view.EmptyLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:emptyText="暂无收藏记录"
@@ -65,5 +65,5 @@
                 android:textColor="#99F1303C"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
-    </com.junliu.common.view.EmptyLayout>
+    </com.duoduovv.common.view.EmptyLayout>
 </LinearLayout>

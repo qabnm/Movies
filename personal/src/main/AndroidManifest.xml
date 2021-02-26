@@ -1,21 +1,21 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.junliu.personal">
+    package="com.duoduovv.personal">
 
     <application>
-        <activity android:name=".view.SettingActivity"
+        <activity android:name="com.duoduovv.personal.view.SettingActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.ContractServiceActivity"
+        <activity android:name="com.duoduovv.personal.view.ContractServiceActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.MyCollectionActivity"
+        <activity android:name="com.duoduovv.personal.view.MyCollectionActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name=".view.EditMaterialsActivity"
+        <activity android:name="com.duoduovv.personal.view.EditMaterialsActivity"
             android:screenOrientation="portrait"/>
 
         <provider
-            android:name=".component.PhotoFileProvider"
-            android:authorities="com.junliu.personal.fileProvider"
+            android:name="com.duoduovv.personal.component.PhotoFileProvider"
+            android:authorities="com.duoduovv.personal.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -23,10 +23,10 @@
                 android:resource="@xml/file_photo" />
         </provider>
 
-        <activity android:name=".view.ModifyNickNameActivity"
+        <activity android:name="com.duoduovv.personal.view.ModifyNickNameActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.ModifySignNameActivity"
+        <activity android:name="com.duoduovv.personal.view.ModifySignNameActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

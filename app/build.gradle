@@ -15,11 +15,28 @@ android {
         targetSdkVersion cfg.targetSdkVersion
         versionCode cfg.versionCode
         versionName cfg.versionName
+        applicationId "com.duoduovv.mihua"
         //打包时间
         resValue "string", "build_time", buildTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
+    }
+
+    signingConfigs {
+        release {
+            keyAlias "duoduovv"
+            keyPassword "mihuahaohan2021"
+            storeFile file("../keystore/duoduovv.jks")
+            storePassword "mihuahaohan2021"
+        }
+
+        debug {
+            keyAlias "duoduovv"
+            keyPassword "mihuahaohan2021"
+            storeFile file("../keystore/duoduovv.jks")
+            storePassword "mihuahaohan2021"
+        }
     }
 
     buildTypes {
@@ -31,11 +48,11 @@ android {
             //是否zip对齐
             zipAlignEnabled true
             // 缩减resource文件
-            shrinkResources false
-            minifyEnabled false
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             //签名
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
 
         debug {
@@ -47,6 +64,7 @@ android {
             shrinkResources false
             minifyEnabled false
             debuggable true
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -62,19 +80,6 @@ android {
             res.srcDirs = ['src/main/res']
         }
     }
-
-//    signingConfigs {
-//        release {
-////            keyAlias 'guiying712'
-////            keyPassword 'guiying712'
-////            storeFile file('/mykey.jks')
-////            storePassword 'guiying712'
-//        }
-//
-//        debug{
-//
-//        }
-//    }
 }
 
 dependencies {

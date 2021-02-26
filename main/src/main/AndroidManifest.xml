@@ -1,20 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.junliu.main">
+    package="com.duoduovv.main">
 
     <application
-        android:name=".debug.MainApplication"
+        android:name="com.duoduovv.main.debug.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/main_ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/main_ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.MainActivity"
+        <activity android:name="com.duoduovv.main.view.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="portrait">
         </activity>
         <!--启动页-->
-        <activity android:name=".view.SplashActivity"
+        <activity android:name="com.duoduovv.main.view.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SlashTheme">
             <intent-filter>

@@ -1,5 +1,6 @@
 package dc.android.bridge.view
 
+import android.util.Log
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
@@ -58,6 +59,7 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     }
 
     open fun showError(errMsg: String?) {
+        Log.e("exce",errMsg?:"")
         LoggerSnack.show(this , errMsg)
     }
 

@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:background="@color/color666666" />
 
-    <com.junliu.common.view.RoundCornerLayout
+    <com.duoduovv.common.view.RoundCornerLayout
         android:id="@+id/layoutRound"
         android:layout_width="@dimen/dp_18"
         android:layout_height="@dimen/dp_18"
@@ -36,7 +36,7 @@
             android:text="1"
             android:textColor="@color/colorFFFFFF"
             android:textSize="@dimen/sp_14" />
-    </com.junliu.common.view.RoundCornerLayout>
+    </com.duoduovv.common.view.RoundCornerLayout>
 
     <TextView
         android:id="@+id/tvName"

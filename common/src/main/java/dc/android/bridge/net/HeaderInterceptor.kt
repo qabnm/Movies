@@ -1,6 +1,6 @@
 package dc.android.bridge.net
 
-import com.junliu.common.util.SharedPreferencesHelper
+import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import okhttp3.Interceptor
 import okhttp3.Response

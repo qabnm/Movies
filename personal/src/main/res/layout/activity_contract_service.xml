@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFF">
 
-    <com.junliu.common.view.TopBarLayout
+    <com.duoduovv.common.view.TopBarLayout
         android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"

@@ -6,7 +6,7 @@
     android:background="@color/colorFFFFFF"
     android:orientation="vertical">
 
-    <com.junliu.common.view.TopBarLayout
+    <com.duoduovv.common.view.TopBarLayout
         android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
