@@ -4,5 +4,29 @@
     <application>
         <activity android:name=".view.SettingActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.ContractServiceActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.MyCollectionActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.EditMaterialsActivity"
+            android:screenOrientation="portrait"/>
+
+        <provider
+            android:name=".component.PhotoFileProvider"
+            android:authorities="com.junliu.personal.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_photo" />
+        </provider>
+
+        <activity android:name=".view.ModifyNickNameActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.ModifySignNameActivity"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

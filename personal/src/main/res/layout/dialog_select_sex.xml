@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/dp_37"
+    android:layout_marginRight="@dimen/dp_37"
+    android:background="@drawable/shape_radius3_solid_ffffff"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/layoutMan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvMan"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_52"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_25"
+            android:text="男"
+            android:textColor="@color/color212121"
+            android:textSize="@dimen/sp_17" />
+
+        <RadioButton
+            android:id="@+id/checkMan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_23"
+            android:background="@drawable/selector_sex_select"
+            android:button="@null"
+            android:checked="true" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/colorE0E0E0" />
+
+    <LinearLayout
+        android:id="@+id/layoutWoman"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvWomen"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_52"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/dp_25"
+            android:text="女"
+            android:textColor="@color/color212121"
+            android:textSize="@dimen/sp_17" />
+
+        <RadioButton
+            android:id="@+id/checkWoman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/dp_23"
+            android:background="@drawable/selector_sex_select"
+            android:button="@null" />
+    </LinearLayout>
+</RadioGroup>

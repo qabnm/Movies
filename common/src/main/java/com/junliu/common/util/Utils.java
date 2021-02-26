@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import dc.android.bridge.util.StringUtils;
+
 /**
  * <p>Utils初始化相关 </p>
  */
@@ -103,7 +105,6 @@ public class Utils {
         transaction.add(frameId, fragment);
         transaction.commit();
     }
-
 
     public static <T> T checkNotNull(T obj) {
         if (obj == null) {

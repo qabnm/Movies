@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/dp_13"
+    android:paddingTop="@dimen/dp_20"
+    android:paddingRight="@dimen/dp_13"
+    android:paddingBottom="@dimen/dp_20">
+
+    <com.junliu.common.view.MediumBoldTextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:textColor="@color/color000000"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="三生三世十里桃花" />
+
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_15"
+        android:includeFontPadding="false"
+        android:textColor="@color/color999999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="全22集" />
+
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_9"
+        android:includeFontPadding="false"
+        android:textColor="@color/color999999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintLeft_toLeftOf="@+id/tvCount"
+        app:layout_constraintTop_toBottomOf="@+id/tvCount"
+        tools:text="大陆/2010/历史/剧情" />
+
+    <ImageView
+        android:id="@+id/imgCancel"
+        android:layout_width="@dimen/dp_20"
+        android:layout_height="@dimen/dp_20"
+        android:padding="@dimen/dp_5"
+        android:src="@drawable/movie_cancel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tvJubao"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/dp_10"
+        android:text="举报"
+        android:textColor="#F1303C"
+        app:layout_constraintBottom_toBottomOf="@+id/tvType"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:layout_marginTop="@dimen/dp_15"
+        android:background="#e6e6e6"
+        app:layout_constraintTop_toBottomOf="@+id/tvType" />
+
+    <com.junliu.common.view.MediumBoldTextView
+        android:id="@+id/tvJianJie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_15"
+        android:includeFontPadding="false"
+        android:text="简介"
+        android:textColor="@color/color000000"
+        android:textSize="@dimen/sp_18"
+        app:layout_constraintLeft_toLeftOf="@+id/vLine"
+        app:layout_constraintTop_toBottomOf="@+id/vLine" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/dp_14"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvJianJie">
+
+        <TextView
+            android:id="@+id/tvContent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:lineSpacingMultiplier="1.2"
+            android:textColor="@color/color333333"
+            android:textSize="@dimen/sp_15"
+            tools:text="故事发生在西汉初年，成就一世功业的汉高祖刘邦驾崩，虽然生前平定了韩信、彭越、英布等开国功臣的叛乱，却无法阻止皇后吕雉（刘雪华 饰）的专权。在这个强势女人的阴影下，刘氏宗族惨遭屠戮，锦衣卫首领刘宣（赵文卓 饰）被迫充当吕氏鹰犬，对同族亲眷痛下杀手。他和兄长刘湘（孙岩 饰）共同喜欢吕后的侄女琴子（高圆圆 饰），这段复杂的感情无疑成为兄弟俩矛盾的根源。偶然机缘，刘宣结识了名医淳于意那个调皮顽劣却纯真可爱的女儿缇萦（贾静雯 饰）故事又朝着未知的方向发展。" />
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

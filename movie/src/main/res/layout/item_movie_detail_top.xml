@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgShare"
+        android:layout_width="@dimen/dp_42"
+        android:layout_height="@dimen/dp_42"
+        android:layout_marginRight="@dimen/dp_6"
+        android:padding="@dimen/dp_10"
+        android:src="@drawable/movie_share"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgDownload"
+        android:layout_width="@dimen/dp_42"
+        android:layout_height="@dimen/dp_42"
+        android:padding="@dimen/dp_10"
+        android:src="@drawable/movie_download"
+        app:layout_constraintRight_toLeftOf="@+id/imgShare"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgCollect"
+        android:layout_width="@dimen/dp_42"
+        android:layout_height="@dimen/dp_42"
+        android:padding="@dimen/dp_10"
+        android:src="@drawable/movie_collect"
+        app:layout_constraintRight_toLeftOf="@+id/imgDownload"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="@dimen/dp_17"
+        android:layout_height="@dimen/dp_14"
+        android:layout_marginLeft="@dimen/dp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/imgShare"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgShare"
+        tools:background="@color/color567CE7" />
+
+    <TextView
+        android:id="@+id/tvFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_9"
+        android:textColor="@color/color999999"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/imgShare"
+        app:layout_constraintLeft_toRightOf="@+id/imgIcon"
+        app:layout_constraintTop_toTopOf="@+id/imgShare"
+        tools:text="爱奇艺" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_6"
+        android:includeFontPadding="false"
+        android:textColor="@color/color000000"
+        android:textSize="@dimen/sp_17"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imgShare"
+        tools:text="下一站是幸福" />
+
+    <TextView
+        android:id="@+id/tvDetail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableRight="@drawable/more_icon"
+        android:includeFontPadding="false"
+        android:padding="@dimen/dp_6"
+        android:text="详情"
+        android:textColor="@color/color666666"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintBottom_toBottomOf="@+id/tvName"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvName" />
+
+    <TextView
+        android:id="@+id/tvScore"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:includeFontPadding="false"
+        android:textColor="#009CFF"
+        android:textSize="@dimen/sp_13"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="6.6" />
+
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_5"
+        android:includeFontPadding="false"
+        android:textColor="@color/color999999"
+        android:textSize="@dimen/sp_13"
+        app:layout_constraintBottom_toBottomOf="@+id/tvScore"
+        app:layout_constraintLeft_toRightOf="@+id/tvScore"
+        app:layout_constraintTop_toTopOf="@+id/tvScore"
+        tools:text=" / 内地  /  生活  /  爱情" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_13"
+        app:layout_constraintTop_toBottomOf="@+id/tvScore">
+
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_15"
+            android:includeFontPadding="false"
+            android:text="选集"
+            android:textColor="@color/color000000"
+            android:textSize="@dimen/sp_15"
+            app:layout_constraintBottom_toBottomOf="@+id/tvWhere"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvWhere" />
+
+        <TextView
+            android:id="@+id/tvWhere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableRight="@drawable/more_icon"
+            android:includeFontPadding="false"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
+            android:textColor="@color/color666666"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="更新至28集" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_6"
+            android:scrollbars="none"
+            android:layout_marginLeft="@dimen/dp_9"
+            app:layout_constraintTop_toBottomOf="@+id/tvWhere" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_12"
+        android:layout_marginTop="@dimen/dp_24"
+        android:includeFontPadding="false"
+        android:text="为你推荐"
+        android:textColor="@color/color000000"
+        android:textSize="@dimen/sp_15"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutContainer" />
+</androidx.constraintlayout.widget.ConstraintLayout>

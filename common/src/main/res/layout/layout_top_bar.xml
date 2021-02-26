@@ -14,7 +14,7 @@
         android:padding="@dimen/dp_10"
         android:src="@drawable/back" />
 
-    <TextView
+    <com.junliu.common.view.MediumBoldTextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

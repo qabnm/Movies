@@ -1,8 +1,15 @@
 package dc.android.bridge.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
+import android.view.inputmethod.InputMethodManager;
+
+import com.junliu.common.BaseApplication;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +30,22 @@ public class OsUtils {
             final Method method = Build.class.getMethod("hasSmartBar");
             return method != null;
         } catch (final Exception e) {
+            return false;
+        }
+    }
+    /**
+     * 判断App是否是Debug版本
+     *
+     * @return {@code true}: 是<br>{@code false}: 否
+     */
+    public static boolean isAppDebug() {
+        if (StringUtils.isEmpty(BaseApplication.baseCtx.getPackageName())) return false;
+        try {
+            PackageManager pm = BaseApplication.baseCtx.getPackageManager();
+            ApplicationInfo ai = pm.getApplicationInfo(BaseApplication.baseCtx.getPackageName(), 0);
+            return (ai.flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -50,6 +73,17 @@ public class OsUtils {
     }
 
     /**
+     * 隐藏软键盘
+     * @param context
+     */
+    public static void hideKeyboard(Activity context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        // 隐藏软键盘
+        imm.hideSoftInputFromWindow(context.getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+
+    /**
      * 获取状态栏的高度
      *
      * @return 状态栏的高度
@@ -61,5 +95,29 @@ public class OsUtils {
             statusBarHeight = activity.getResources().getDimensionPixelSize(resourceId);
         }
         return statusBarHeight;
+    }
+
+    public static int dip2px(Context context, float dipValue){
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(dipValue * scale + 0.5f);
+    }
+    public static int px2dip(Context context, float pxValue){
+        final float scale = context.getResources().getDisplayMetrics().density;
+        return (int)(pxValue / scale + 0.5f);
+    }
+
+    public static int getScreenWidth(Context context) {
+        return context.getResources().getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     * 获取屏幕显示的真实高度
+     * @param activity
+     * @return
+     */
+    public static int getRealDisplayHeight(Activity activity) {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+        return displayMetrics.heightPixels;
     }
 }

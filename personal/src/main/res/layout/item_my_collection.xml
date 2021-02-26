@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/dp_10"
+    android:paddingTop="@dimen/dp_15"
+    android:paddingRight="@dimen/dp_10">
+
+    <ImageView
+        android:id="@+id/imgSelect"
+        android:layout_width="@dimen/dp_28"
+        android:layout_height="@dimen/dp_38"
+        android:paddingTop="@dimen/dp_10"
+        android:paddingRight="@dimen/dp_10"
+        android:paddingBottom="@dimen/dp_10"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/imgCover"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/imgCover"
+        tools:src="@drawable/personal_collection_selected" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgCover"
+        android:layout_width="@dimen/dp_120"
+        android:layout_height="@dimen/dp_68"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toRightOf="@+id/imgSelect"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/StyleShapeRounder3"
+        tools:background="@color/color567CE7" />
+
+    <TextView
+        android:id="@+id/tvName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_13"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:textColor="@color/color000000"
+        android:textSize="@dimen/sp_13"
+        app:layout_constraintLeft_toRightOf="@+id/imgCover"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/imgCover"
+        tools:text="下一站是幸福" />
+
+    <TextView
+        android:id="@+id/tvWhere"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_14"
+        android:ellipsize="end"
+        android:includeFontPadding="false"
+        android:lines="1"
+        android:textColor="@color/color666666"
+        android:textSize="@dimen/sp_11"
+        app:layout_constraintLeft_toLeftOf="@+id/tvName"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
+        tools:text="观看到第10集" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

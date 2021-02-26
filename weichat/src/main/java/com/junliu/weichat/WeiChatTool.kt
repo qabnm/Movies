@@ -6,7 +6,8 @@ import android.graphics.Bitmap
 import android.graphics.Bitmap.CompressFormat
 import android.os.Bundle
 import android.widget.Toast
-import com.junliu.tent.TentUiListener
+import com.junliu.tent.TentLoginListener
+import com.junliu.tent.TentShareListener
 import com.junliu.weichat.WeiChatBridgeContext.Companion.qqAppId
 import com.junliu.weichat.WeiChatBridgeContext.Companion.weiChatAppId
 import com.tencent.connect.share.QQShare
@@ -33,7 +34,7 @@ class WeiChatTool {
 
         /**
          * 注册APP到微信
-         * 一般在程序入口哦注册
+         * 一般在程序入口注册
          */
         fun regToWx(context: Context) {
             weiChatApi = WXAPIFactory.createWXAPI(context, weiChatAppId, true)
@@ -100,7 +101,7 @@ class WeiChatTool {
             return result
         }
 
-        private fun buildTransaction(type: String?): String? {
+        private fun buildTransaction(type: String?): String {
             return if (type == null) System.currentTimeMillis()
                 .toString() else "$type${System.currentTimeMillis()}"
         }
@@ -111,8 +112,20 @@ class WeiChatTool {
          * 其中Authorities为 Manifest文件中注册FileProvider时设置的authorities属性值
          */
         fun regToQQ(context: Context) {
-            mTenCent = Tencent.createInstance(qqAppId, context, "com.junliu.tent.fileprovider")
+            mTenCent = Tencent.createInstance(qqAppId, context, "com.junliu.movie.fileProvider")
         }
+
+        /**
+         * QQ登录
+         * @param context Context
+         * @param listener TentUiListener
+         */
+        fun qqLogin(context: Activity, listener: TentLoginListener){
+            if (mTenCent?.isSessionValid == false) {
+                mTenCent?.login(context, "all", listener)
+            }
+        }
+
 
         /**
          * @param context Context
@@ -139,13 +152,11 @@ class WeiChatTool {
                 if (type == WeiChatBridgeContext.shareToQQ) mTenCent?.shareToQQ(
                     context as Activity?,
                     this,
-                    TentUiListener()
+                    TentShareListener(context)
                 ) else mTenCent?.shareToQzone(
-                    context as Activity?, this, TentUiListener()
+                    context as Activity?, this, TentShareListener(context)
                 )
             }
         }
     }
-
-
 }

@@ -1,3 +1,4 @@
+include ':room'
 include ':hotspot'
 include ':personal'
 include ':movie'
@@ -7,4 +8,5 @@ include ':tools'
 include ':weichat'
 include ':app'
 include ':common'
+include ':download'
 rootProject.name = "Movies"

@@ -1,13 +1,10 @@
 package dc.android.bridge.view
 
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import android.view.WindowInsets
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
 
 /**
  * @author: jun.liu
@@ -16,17 +13,20 @@ import androidx.core.view.ViewCompat
 open class BaseActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initOnCreate()
+        initOnCreate(savedInstanceState)
     }
 
-    private fun initOnCreate() {
+    private fun initOnCreate(savedInstanceState: Bundle?) {
         initAttach()
         initViewModel()
         initLayout()
+        initView()
         startObserve()
         initData()
+        initData(savedInstanceState)
     }
 
+    open fun initView(){}
     open fun initViewModel() {}
 
     open fun isTranslucentStatus(): Boolean = false
@@ -39,6 +39,12 @@ open class BaseActivity : AppCompatActivity() {
     open fun initAttach() = setTranslucentStatus()
 
     open fun initData() {}
+
+    /**
+     * 需要用到bundle参数时候可以使用这个方法
+     * @param savedInstanceState Bundle?
+     */
+    open fun initData(savedInstanceState: Bundle?){}
 
     open fun startObserve() {}
 

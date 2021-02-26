@@ -3,14 +3,13 @@ package dc.android.bridge.net
 import android.util.Log
 import androidx.lifecycle.*
 import kotlinx.coroutines.*
-import java.util.logging.Logger
 
 /**
  * @author: jun.liu
  * @date: 2020/9/24 : 16:18
  */
 open class BaseViewModel : ViewModel(), LifecycleObserver {
-    private val error by lazy { MutableLiveData<Throwable>() }
+    protected val error by lazy { MutableLiveData<Throwable>() }
 
     fun request(block: suspend CoroutineScope.() -> Unit) = viewModelScope.launch {
         kotlin.runCatching {

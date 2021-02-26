@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.junliu.common.util.SampleCoverVideo
+        android:id="@+id/videoPlayer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="75:42"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutShare"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#cc000000"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/videoPlayer"
+        app:layout_constraintLeft_toLeftOf="@+id/videoPlayer"
+        app:layout_constraintRight_toRightOf="@+id/videoPlayer"
+        app:layout_constraintTop_toTopOf="@+id/videoPlayer">
+
+        <LinearLayout
+            android:id="@+id/layoutRePlay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/dp_14"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <ImageView
+                android:layout_width="@dimen/dp_11"
+                android:layout_height="@dimen/dp_11"
+                android:src="@drawable/hot_replay" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_5"
+                android:text="重播"
+                android:textColor="@color/colorBFBFBF"
+                android:textSize="@dimen/sp_12" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:includeFontPadding="false"
+            android:text="QQ空间"
+            android:textColor="@color/colorBFBFBF"
+            android:textSize="@dimen/sp_11"
+            app:layout_constraintLeft_toLeftOf="@+id/imgQQZone"
+            app:layout_constraintRight_toRightOf="@+id/imgQQZone"
+            app:layout_constraintTop_toBottomOf="@+id/imgQQZone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:includeFontPadding="false"
+            android:text="QQ"
+            android:textColor="@color/colorBFBFBF"
+            android:textSize="@dimen/sp_11"
+            app:layout_constraintLeft_toLeftOf="@+id/imgQQ"
+            app:layout_constraintRight_toRightOf="@+id/imgQQ"
+            app:layout_constraintTop_toBottomOf="@+id/imgQQ" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:includeFontPadding="false"
+            android:text="微信"
+            android:textColor="@color/colorBFBFBF"
+            android:textSize="@dimen/sp_11"
+            app:layout_constraintLeft_toLeftOf="@+id/imgWeiChat"
+            app:layout_constraintRight_toRightOf="@+id/imgWeiChat"
+            app:layout_constraintTop_toBottomOf="@+id/imgWeiChat" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:includeFontPadding="false"
+            android:text="朋友圈"
+            android:textColor="@color/colorBFBFBF"
+            android:textSize="@dimen/sp_11"
+            app:layout_constraintLeft_toLeftOf="@+id/imgWeiChatCircle"
+            app:layout_constraintRight_toRightOf="@+id/imgWeiChatCircle"
+            app:layout_constraintTop_toBottomOf="@+id/imgWeiChatCircle" />
+
+        <ImageView
+            android:id="@+id/imgWeiChatCircle"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginLeft="@dimen/dp_70"
+            android:layout_marginTop="@dimen/dp_15"
+            android:src="@drawable/hot_weichat_circle"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/imgWeiChat"
+            app:layout_constraintTop_toBottomOf="@+id/tvShare" />
+
+        <ImageView
+            android:id="@+id/imgWeiChat"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_15"
+            android:src="@drawable/hot_weichat"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toRightOf="@+id/imgWeiChatCircle"
+            app:layout_constraintRight_toLeftOf="@+id/imgQQ"
+            app:layout_constraintTop_toBottomOf="@+id/tvShare" />
+
+        <ImageView
+            android:id="@+id/imgQQ"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_15"
+            android:src="@drawable/hot_qq"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toRightOf="@+id/imgWeiChat"
+            app:layout_constraintRight_toLeftOf="@+id/imgQQZone"
+            app:layout_constraintTop_toBottomOf="@+id/tvShare" />
+
+        <ImageView
+            android:id="@+id/imgQQZone"
+            android:layout_width="@dimen/dp_40"
+            android:layout_height="@dimen/dp_40"
+            android:layout_marginTop="@dimen/dp_15"
+            android:layout_marginRight="@dimen/dp_70"
+            android:src="@drawable/hot_qq_zone"
+            app:layout_constraintHorizontal_chainStyle="spread"
+            app:layout_constraintLeft_toRightOf="@+id/imgQQ"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvShare" />
+
+        <TextView
+            android:id="@+id/tvShare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_50"
+            android:text="分享到"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_12"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:layout_width="@dimen/dp_26"
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_marginRight="@dimen/dp_6"
+            android:background="@color/colorFFFFFF"
+            app:layout_constraintBottom_toBottomOf="@+id/tvShare"
+            app:layout_constraintRight_toLeftOf="@+id/tvShare"
+            app:layout_constraintTop_toTopOf="@+id/tvShare" />
+
+        <View
+            android:layout_width="@dimen/dp_26"
+            android:layout_height="@dimen/dp_0_5"
+            android:layout_marginLeft="@dimen/dp_6"
+            android:background="@color/colorFFFFFF"
+            app:layout_constraintBottom_toBottomOf="@+id/tvShare"
+            app:layout_constraintLeft_toRightOf="@+id/tvShare"
+            app:layout_constraintTop_toTopOf="@+id/tvShare" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_49"
+        android:background="@color/colorFFFFFF"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingRight="@dimen/dp_2"
+        app:layout_constraintTop_toBottomOf="@+id/videoPlayer">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_42"
+            android:layout_height="@dimen/dp_42"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/hot_collection" />
+
+        <ImageView
+            android:layout_width="@dimen/dp_42"
+            android:layout_height="@dimen/dp_42"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/hot_share" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,7 +7,7 @@ package dc.android.bridge.net
  * 根据定义的数据结构修改
  */
 data class BaseResponseData<out T>(
-    val errorCode: Int,
-    val errorMsg: String,
+    val code: Int,
+    val message: String,
     val data: T
 )

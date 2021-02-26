@@ -9,6 +9,7 @@ import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
+import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -48,6 +49,7 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
                 is UnknownHostException -> showError(NETWORK_ERROR)
                 is SocketTimeoutException -> showError(NETWORK_ERROR)
                 is ConnectException -> showError(CONNECTION_ERROR)
+                is HttpException -> showError("${it.code()}${it.message()}")
                 is RuntimeException -> showError(RUNTIME_ERROR)
                 is BaseRepository.TokenException -> showError(TOKEN_ERROR)
                 is BaseRepository.ParameterException -> parameterError(it.message.toString())
