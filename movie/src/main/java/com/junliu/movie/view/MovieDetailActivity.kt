@@ -1,5 +1,6 @@
 package com.junliu.movie.view
 
+import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.junliu.common.util.RouterPath
 import com.junliu.movie.R
@@ -28,6 +29,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),MovieD
 
     override fun initView() {
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
+        viewModel.getAddState().observe(this, {  })
     }
 
     override fun initData() {
@@ -50,6 +52,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),MovieD
     }
 
     override fun onCollectClick() {
+        viewModel.addCollection(movieId)
     }
 
     override fun onDetailClick(bean: MovieDetail) {

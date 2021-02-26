@@ -13,6 +13,10 @@
         android:theme="@style/AppTheme"
         tools:replace="android:icon,android:name,android:roundIcon">
 
+        <!--适配安卓11-->
+        <queries>
+            <package android:name="com.tencent.mm" />
+        </queries>
     </application>
 
 </manifest>

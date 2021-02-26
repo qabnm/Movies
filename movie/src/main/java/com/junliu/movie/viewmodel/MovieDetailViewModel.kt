@@ -15,6 +15,8 @@ import dc.android.bridge.net.BaseViewModel
 class MovieDetailViewModel : BaseViewModel() {
     private var movieDetail: MutableLiveData<MovieDetailBean> = MutableLiveData()
     fun getMovieDetail() = movieDetail
+    private var addCollectionState: MutableLiveData<Int> = MutableLiveData()
+    fun getAddState() = addCollectionState
     private val repository = MovieRepository()
 
     /**
@@ -26,5 +28,15 @@ class MovieDetailViewModel : BaseViewModel() {
     fun movieDetail(id: String, num: String) = request {
         val result = repository.movieDetail(id = id, num = num)
         if (result.code == SUCCESS) movieDetail.postValue(result.data)
+    }
+
+    /**
+     * 添加收藏
+     * @param movieId String
+     * @return Job
+     */
+    fun addCollection(movieId: String) = request {
+        val result = repository.addCollection(movieId)
+        if (result.code == SUCCESS) addCollectionState.postValue(200)
     }
 }

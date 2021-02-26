@@ -2,9 +2,7 @@ package com.junliu.movie
 
 import com.junliu.movie.bean.*
 import dc.android.bridge.net.BaseResponseData
-import retrofit2.http.GET
-import retrofit2.http.Query
-import retrofit2.http.QueryMap
+import retrofit2.http.*
 
 /**
  * @author: jun.liu
@@ -55,4 +53,13 @@ interface IMovieApiService {
         @Query("id") id: String,
         @Query("num") num: String
     ): BaseResponseData<MovieDetailBean>
+
+    /**
+     * 添加收藏
+     * @param movieId String
+     * @return BaseResponseData<Any>
+     */
+    @FormUrlEncoded
+    @POST("api/user/favorite")
+    suspend fun addCollection(@Field("movie_id") movieId: String): BaseResponseData<Any>
 }
