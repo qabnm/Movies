@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.CrashHandler
+import com.tencent.bugly.crashreport.CrashReport
 import com.umeng.commonsdk.UMConfigure
 import dc.android.bridge.util.OsUtils
 
@@ -16,7 +17,10 @@ open class BaseApplication : Application() {
         super.onCreate()
         baseCtx = this.applicationContext
         initOthers()
-        CrashHandler.getInstance().init(this)
+        if (!OsUtils.isAppDebug()){
+            //正式环境开启异常上报
+            CrashReport.initCrashReport(applicationContext,"857247490b",false)
+        }
     }
 
     /**

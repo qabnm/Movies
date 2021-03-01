@@ -139,7 +139,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             String time = formatter.format(new Date());
             String fileName = nameString + "-" + time + "-" + timestamp + ".log";
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-                String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+                String path = Environment.getExternalStorageDirectory().getAbsolutePath()+"/duoLog";
                 File dir = new File(path);
                 if (!dir.exists()) {
                     dir.mkdirs();

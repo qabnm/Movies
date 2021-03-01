@@ -19,8 +19,8 @@ android {
         //打包时间
         resValue "string", "build_time", buildTime()
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
+//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
     }
 
     signingConfigs {
@@ -50,7 +50,7 @@ android {
             // 缩减resource文件
             shrinkResources true
             minifyEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //签名
             signingConfig signingConfigs.release
         }
@@ -62,8 +62,9 @@ android {
             buildConfigField "boolean", "LOG_DEBUG", "true"
             zipAlignEnabled false
             shrinkResources false
-            minifyEnabled false
+            minifyEnabled true
             debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
     }
