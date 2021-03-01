@@ -15,7 +15,7 @@ android {
         targetSdkVersion cfg.targetSdkVersion
         versionCode cfg.versionCode
         versionName cfg.versionName
-        applicationId "com.duoduovv.mihua"
+        applicationId "com.duoduovv.mhhh"
         //打包时间
         resValue "string", "build_time", buildTime()
 
@@ -25,16 +25,16 @@ android {
 
     signingConfigs {
         release {
-            keyAlias "duoduovv"
+            keyAlias "mihuahaohan"
             keyPassword "mihuahaohan2021"
-            storeFile file("../keystore/duoduovv.jks")
+            storeFile file("../keystore/mihuahaohan.jks")
             storePassword "mihuahaohan2021"
         }
 
         debug {
-            keyAlias "duoduovv"
+            keyAlias "mihuahaohan"
             keyPassword "mihuahaohan2021"
-            storeFile file("../keystore/duoduovv.jks")
+            storeFile file("../keystore/mihuahaohan.jks")
             storePassword "mihuahaohan2021"
         }
     }

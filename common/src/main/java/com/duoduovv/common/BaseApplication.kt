@@ -3,6 +3,7 @@ package com.duoduovv.common
 import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.util.CrashHandler
 import com.umeng.commonsdk.UMConfigure
 import dc.android.bridge.util.OsUtils
 
@@ -15,6 +16,7 @@ open class BaseApplication : Application() {
         super.onCreate()
         baseCtx = this.applicationContext
         initOthers()
+        CrashHandler.getInstance().init(this)
     }
 
     /**

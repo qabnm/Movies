@@ -9,5 +9,8 @@
         <activity android:name="com.duoduovv.movie.view.MovieDetailActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTop"/>
+
+        <activity android:name=".view.MovieDetailActivityForDebug"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>
