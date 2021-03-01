@@ -8,6 +8,8 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Column
+import com.duoduovv.cinema.bean.ConfigureBean
+import com.duoduovv.cinema.bean.Version
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
@@ -19,6 +21,7 @@ import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.domain.LocationBean
 import dc.android.bridge.util.LocationUtils
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema.*
@@ -48,10 +51,21 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             initFragment(columns)
             SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, result?.isRs ?: 0)
             hotList = result?.hotSearch
+            checkUpdate(result?.version)
         })
-        viewModel.getProgress().observe(this,{
+        viewModel.getProgress().observe(this, {
             val progress = viewModel.getProgress().value
         })
+    }
+
+    private fun checkUpdate(bean: Version?) {
+        bean?.let {
+            val versionCode = OsUtils.getVerCode(requireContext())
+            if (versionCode != -1 && it.version_number > versionCode){
+                //需要升级  弹出升级框
+
+            }
+        }
     }
 
     /**
