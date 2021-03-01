@@ -1,5 +1,8 @@
 package com.duoduovv.cinema.repository
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 /**
  * @author: jun.liu
  * @date: 2021/1/15 14:00
@@ -49,5 +52,14 @@ class CinemaRepository : CinemaApiRepository() {
      */
     suspend fun searchResult(keyWord: String, page: Int, column: String) = request {
         apiService.searchResultList(keyWord, page, column)
+    }
+
+    /**
+     * app下载更新
+     * @param url String
+     * @return ResponseBody
+     */
+    suspend fun downloadFile(url:String) = withContext(Dispatchers.IO){
+        apiService.downloadFile(url)
     }
 }

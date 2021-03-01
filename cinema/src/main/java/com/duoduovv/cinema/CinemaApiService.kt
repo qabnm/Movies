@@ -2,8 +2,11 @@ package com.duoduovv.cinema
 
 import com.duoduovv.cinema.bean.*
 import dc.android.bridge.net.BaseResponseData
+import okhttp3.ResponseBody
 import retrofit2.http.GET
 import retrofit2.http.Query
+import retrofit2.http.Streaming
+import retrofit2.http.Url
 
 /**
  * @author: jun.liu
@@ -57,4 +60,13 @@ interface CinemaApiService {
         @Query("page") page: Int,
         @Query("column") column: String
     ): BaseResponseData<SearchResultBean>
+
+    /**
+     * 下载更新
+     * @param url String
+     * @return ResponseBody
+     */
+    @Streaming
+    @GET
+    suspend fun downloadFile(@Url url:String):ResponseBody
 }

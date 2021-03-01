@@ -49,6 +49,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, result?.isRs ?: 0)
             hotList = result?.hotSearch
         })
+        viewModel.getProgress().observe(this,{
+            val progress = viewModel.getProgress().value
+        })
     }
 
     /**
