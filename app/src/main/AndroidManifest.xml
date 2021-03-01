@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.duoduovv.mihua">
+    package="com.duoduovv.mhhh">
 
     <application
-        android:name="com.duoduovv.mihua.AppApplication"
+        android:name="com.duoduovv.mhhh.AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon_start"
         android:label="@string/app_name"

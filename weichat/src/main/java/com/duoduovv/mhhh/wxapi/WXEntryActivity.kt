@@ -1,4 +1,4 @@
-package com.duoduovv.mihua.wxapi
+package com.duoduovv.mhhh.wxapi
 
 import android.content.Intent
 import android.os.Bundle

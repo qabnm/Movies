@@ -7,7 +7,7 @@
     <application>
 
         <activity
-            android:name="com.duoduovv.mihua.wxapi.WXEntryActivity"
+            android:name="com.duoduovv.mhhh.wxapi.WXEntryActivity"
             android:exported="true"
             android:label="@string/app_name"
             android:launchMode="singleTask"

@@ -1,4 +1,4 @@
-package com.duoduovv.mihua
+package com.duoduovv.mhhh
 
 import com.duoduovv.common.BaseApplication
 
