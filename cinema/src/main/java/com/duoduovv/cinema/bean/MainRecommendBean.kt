@@ -6,5 +6,5 @@ package com.duoduovv.cinema.bean
  * @des:
  */
 data class MainRecommendBean(
-    val recommends: List<FilmRecommendBean>?
+    var recommends: List<FilmRecommendBean>?
 )

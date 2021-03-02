@@ -1,6 +1,5 @@
 package com.duoduovv.cinema.view
 
-import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
@@ -41,29 +40,24 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         viewModel.getMain().observe(this, { setData(viewModel.getMain().value) })
         viewModel.getMainRecommend().observe(this, {
             val value = viewModel.getMainRecommend().value
+            mainBean?.mainRecommendBean?.recommends = value
+            mainBean?.let { adapter?.notifyDataChanged(it) }
+            if (refreshLayout.isLoading) refreshLayout.finishLoadMore()
         })
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
     }
-
+    private var mainBean:MainBean?=null
     private fun setData(value: MainBean?) {
-        Log.i("succ",value?.toString()?:"结果为空")
+        mainBean = value
         value?.let {
             if (null == adapter){
                 adapter = MainPageAdapter(requireActivity(), bean = value)
-                Log.i("succ","这里已经执行了***************")
                 rvList.adapter = adapter
             }else{
-                adapter?.notifyDataSetChanged()
+                adapter?.notifyDataChanged(it)
             }
-
-//            adapter?.takeIf { null == adapter }?.also {
-//                adapter = MainPageAdapter(requireActivity(), bean = value)
-//                Log.i("succ","这里已经执行了***************")
-//                rvList.adapter = it
-//            } ?: run {
-//                adapter?.notifyDataSetChanged()
-//            }
         }
+        if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
     }
 
     /**

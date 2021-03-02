@@ -28,7 +28,7 @@ import dc.android.bridge.util.StringUtils
  */
 class MainPageAdapter(
     private val context: Context,
-    private val bean: MainBean
+    private var bean: MainBean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
@@ -53,8 +53,13 @@ class MainPageAdapter(
         )
     }
 
+    fun notifyDataChanged(bean: MainBean){
+        this.bean = bean
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount() =
-        if (null != bean.mainRecommendBean.recommends) bean.mainRecommendBean.recommends.size + 2 else 2
+        if (null != bean.mainRecommendBean.recommends) bean.mainRecommendBean.recommends!!.size + 2 else 2
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -84,7 +89,7 @@ class MainPageAdapter(
                 .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
         }
         val category = bean.mainPageBean.category
-        if (null != category && category.isNotEmpty()) {
+        if (category?.isNotEmpty() == true) {
             holder.rvList.visibility = View.VISIBLE
             holder.rvList.adapter = MainCategoryAdapter(category as MutableList<Category>)
         } else {
