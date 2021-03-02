@@ -4,13 +4,14 @@
     package="com.duoduovv.mhhh">
 
     <application
-        android:name="com.duoduovv.mhhh.AppApplication"
+        android:name=".AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/icon_start"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/icon_start"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:networkSecurityConfig="@xml/network_config"
         tools:replace="android:icon,android:name,android:roundIcon">
 
     </application>

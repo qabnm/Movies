@@ -36,6 +36,7 @@ class SearchFragment : BaseFragment(), HistoryClickCallback {
         imgClear.setOnClickListener {
             SharedPreferencesHelper.helper.remove(CinemaContext.local)
             layoutHistory.clear()
+            setSearchHistory()
         }
         rvList.layoutManager = GridLayoutManager(requireActivity(), 2)
         hotSearchAdapter = HotSearchAdapter()
@@ -48,6 +49,7 @@ class SearchFragment : BaseFragment(), HistoryClickCallback {
     override fun initData() {
         hotList = arguments?.getStringArrayList(BridgeContext.LIST)
         hotSearchAdapter?.setList(hotList)
+        setSearchHistory()
     }
 
     /**

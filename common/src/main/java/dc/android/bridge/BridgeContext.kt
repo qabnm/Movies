@@ -6,7 +6,7 @@ package dc.android.bridge
  */
 open class BridgeContext {
     companion object{
-        const val BASE_URL = "https://wanandroid.com/"
+        const val BASE_URL = "https://duoduovv.cn/"
 
         const val NETWORK_ERROR = "网络连接异常"
         const val CONNECTION_ERROR = "连接异常"
