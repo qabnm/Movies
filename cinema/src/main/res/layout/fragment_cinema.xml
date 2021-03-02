@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0d000000"
     android:orientation="vertical">
 
     <LinearLayout
@@ -43,6 +44,7 @@
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/indicator"
+        android:background="@color/colorFFFFFF"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44" />
 

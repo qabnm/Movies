@@ -1,6 +1,6 @@
 package com.duoduovv.cinema.view
 
-import androidx.lifecycle.Observer
+import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
@@ -38,22 +38,31 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             setOnRefreshListener(this@CinemaListFragment)
             setOnLoadMoreListener(this@CinemaListFragment)
         }
-        viewModel.getMain().observe(this, Observer { setData(viewModel.getMain().value) })
-        viewModel.getMainRecommend().observe(this, Observer {
+        viewModel.getMain().observe(this, { setData(viewModel.getMain().value) })
+        viewModel.getMainRecommend().observe(this, {
             val value = viewModel.getMainRecommend().value
         })
-        viewModel.getNoMoreData()
-            .observe(this, Observer { noMoreData(viewModel.getNoMoreData().value) })
+        viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
     }
 
     private fun setData(value: MainBean?) {
+        Log.i("succ",value?.toString()?:"结果为空")
         value?.let {
-            adapter?.takeIf { null == adapter }?.also {
+            if (null == adapter){
                 adapter = MainPageAdapter(requireActivity(), bean = value)
-                rvList.adapter = it
-            } ?: run {
+                Log.i("succ","这里已经执行了***************")
+                rvList.adapter = adapter
+            }else{
                 adapter?.notifyDataSetChanged()
             }
+
+//            adapter?.takeIf { null == adapter }?.also {
+//                adapter = MainPageAdapter(requireActivity(), bean = value)
+//                Log.i("succ","这里已经执行了***************")
+//                rvList.adapter = it
+//            } ?: run {
+//                adapter?.notifyDataSetChanged()
+//            }
         }
     }
 

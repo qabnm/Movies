@@ -6,7 +6,6 @@ package com.duoduovv.cinema.bean
  * @des:首页数据三个接口的联合
  */
 data class MainBean(
-    val configureBean: ConfigureBean,
     val mainPageBean: MainPageBean,
     val mainRecommendBean: MainRecommendBean
 )

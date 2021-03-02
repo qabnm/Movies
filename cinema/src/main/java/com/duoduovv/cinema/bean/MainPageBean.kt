@@ -22,5 +22,5 @@ data class Banner(
 data class Category(
     val icon: String,
     val name: String,
-    val type_ids: List<String>
+    val spe: String
 )

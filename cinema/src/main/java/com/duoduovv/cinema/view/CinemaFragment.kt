@@ -61,7 +61,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private fun checkUpdate(bean: Version?) {
         bean?.let {
             val versionCode = OsUtils.getVerCode(requireContext())
-            if (versionCode != -1 && it.version_number > versionCode){
+            if (versionCode != -1 && it.version_number > versionCode) {
                 //需要升级  弹出升级框
 
             }
@@ -87,7 +87,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
         CommonNavigator(requireActivity()).apply {
             adapter = ScaleTitleNavAdapter(vpContainer, titleList)
-            isAdjustMode = false
+            isAdjustMode = titleList.size <= 6
             indicator.navigator = this
         }
         ViewPagerHelper.bind(indicator, vpContainer)

@@ -80,3 +80,8 @@
     public static **[] values();
     public static ** valueOf(java.lang.String);
 }
+
+-keep class com.duoduovv.cinema.bean.** {*;}
+-keep class com.duoduovv.hotspot.bean.**{*;}
+-keep class com.duoduovv.movie.bean.**{*;}
+-keep class com.duoduovv.personal.bean.**{*;}

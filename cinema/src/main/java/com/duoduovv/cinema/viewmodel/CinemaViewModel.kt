@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.util.Log
 import androidx.core.content.FileProvider
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.cinema.bean.ConfigureBean
@@ -38,6 +39,7 @@ class CinemaViewModel : BaseViewModel() {
      * @return Job
      */
     fun configure() = request {
+        Log.i("config","该方法执行了&&&&&&&&&&&&&&&&&&&&")
         val result = repository.configure()
         if (result.code == BridgeContext.SUCCESS) configure.postValue(result)
     }

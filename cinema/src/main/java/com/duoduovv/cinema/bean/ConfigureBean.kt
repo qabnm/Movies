@@ -7,7 +7,7 @@ package com.duoduovv.cinema.bean
  */
 data class ConfigureBean(
     val columns: List<Column>?,
-    val isRs: Boolean,
+    val isRs: Boolean?,
     val version: Version,
     val hotSearch: List<String>
 )
@@ -19,7 +19,7 @@ data class Column(
 
 data class Version(
     val content: String,
-    val is_force: Boolean,
+    val is_force: Int,
     val url: String,
     val version: String,
     val version_number: Int

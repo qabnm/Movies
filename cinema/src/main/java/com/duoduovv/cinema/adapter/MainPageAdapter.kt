@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -17,6 +18,7 @@ import com.duoduovv.cinema.bean.MainBean
 import com.youth.banner.Banner
 import com.youth.banner.indicator.CircleIndicator
 import dc.android.bridge.util.GlideUtils
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 
 /**
@@ -52,7 +54,7 @@ class MainPageAdapter(
     }
 
     override fun getItemCount() =
-        if (null != bean.mainRecommendBean.recommends) bean.mainRecommendBean.recommends.size + 3 else 3
+        if (null != bean.mainRecommendBean.recommends) bean.mainRecommendBean.recommends.size + 2 else 2
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -60,7 +62,7 @@ class MainPageAdapter(
             is TodayRecommendViewHolder -> bindTodayRecommend(holder)
             is AllLookViewHolder -> bindAllLook(holder)
             is RecommendViewHolder -> {
-                if (position > 2) bindRecommend(holder, position - 3)
+                if (position > 1) bindRecommend(holder, position - 2)
             }
         }
     }
@@ -68,7 +70,7 @@ class MainPageAdapter(
     override fun getItemViewType(position: Int) = when (position) {
         0 -> CinemaContext.TYPE_BANNER
         1 -> CinemaContext.TYPE_TODAY_RECOMMEND
-        2 -> CinemaContext.TYPE_ALL_LOOK
+//        2 -> CinemaContext.TYPE_ALL_LOOK
         else -> CinemaContext.TYPE_RECOMMEND_LIST
     }
 
@@ -79,10 +81,9 @@ class MainPageAdapter(
     private fun bindBanner(holder: BannerViewHolder) {
         bean.mainPageBean.banners?.let {
             holder.banner.addBannerLifecycleObserver(context as AppCompatActivity)
-                .setAdapter(BannerImgAdapter(it, context)).indicator =
-                CircleIndicator(context)
+                .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
         }
-        val category = bean.configureBean.columns
+        val category = bean.mainPageBean.category
         if (null != category && category.isNotEmpty()) {
             holder.rvList.visibility = View.VISIBLE
             holder.rvList.adapter = MainCategoryAdapter(category as MutableList<Category>)
@@ -121,7 +122,7 @@ class MainPageAdapter(
         if (dataList != null && dataList.isNotEmpty()) {
             GlideUtils.setImg(context, dataList[position].cover_url, holder.coverImg)
             holder.tvName.text = dataList[position].vod_name
-            holder.tvScore.text = StringUtils.getString(dataList[position].score)
+            holder.tvScore.text = StringUtils.getString(dataList[position].remark)
         }
     }
 

@@ -33,14 +33,14 @@ class CinemaListViewModel : BaseViewModel() {
      * @param page Int
      */
     fun main(page: Int, column: String) = request {
-        val result: Deferred<BaseResponseData<ConfigureBean>?> = async {
-            try {
-                repository.configure()
-            } catch (e: Exception) {
-                error.value = e
-                null
-            }
-        }
+//        val result: Deferred<BaseResponseData<ConfigureBean>?> = async {
+//            try {
+//                repository.configure()
+//            } catch (e: Exception) {
+//                error.value = e
+//                null
+//            }
+//        }
         val result1: Deferred<BaseResponseData<MainPageBean>?> = async {
             try {
                 repository.mainPage(column)
@@ -57,8 +57,8 @@ class CinemaListViewModel : BaseViewModel() {
                 null
             }
         }
-        if (result.await()?.code == SUCCESS && result1.await()?.code == SUCCESS && result2.await()?.code == SUCCESS) {
-            mainBean.postValue(MainBean(result.await()!!.data, result1.await()!!.data, result2.await()!!.data))
+        if (result1.await()?.code == SUCCESS && result2.await()?.code == SUCCESS) {
+            mainBean.postValue(MainBean(result1.await()!!.data, result2.await()!!.data))
         }
     }
 

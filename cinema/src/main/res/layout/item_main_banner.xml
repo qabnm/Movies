@@ -8,8 +8,7 @@
         android:id="@+id/layoutBanner"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
+        android:layout_marginRight="@dimen/dp_5"
         app:banner_loop_time="4000"
         app:layout_constraintDimensionRatio="27:13"
         app:layout_constraintTop_toTopOf="parent" />
@@ -19,5 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scrollbars="none"
+        android:paddingTop="@dimen/dp_25"
         app:layout_constraintTop_toBottomOf="@+id/layoutBanner" />
 </androidx.constraintlayout.widget.ConstraintLayout>

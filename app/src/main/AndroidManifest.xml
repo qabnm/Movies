@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/icon_start"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_config"
+        android:networkSecurityConfig="@xml/network_security_config"
         tools:replace="android:icon,android:name,android:roundIcon">
 
     </application>
