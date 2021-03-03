@@ -46,18 +46,19 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         })
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
     }
-    private var mainBean:MainBean?=null
+
+    private var mainBean: MainBean? = null
     private fun setData(value: MainBean?) {
         mainBean = value
         value?.let {
-            if (null == adapter){
+            if (null == adapter) {
                 adapter = MainPageAdapter(requireActivity(), bean = value)
                 rvList.adapter = adapter
-            }else{
+            } else {
                 adapter?.notifyDataChanged(it)
             }
+            if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
         }
-        if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
     }
 
     /**

@@ -1,15 +1,13 @@
 package dc.android.bridge.view
 
-import android.util.Log
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
 import dc.android.bridge.BridgeContext.Companion.NETWORK_ERROR
 import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
 import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
+import dc.android.bridge.util.LoggerSnack
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -26,10 +24,7 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
 
     override fun initViewModel() {
         providerVMClass()?.let {
-            viewModel = ViewModelProvider(
-                this,
-                ViewModelProvider.AndroidViewModelFactory.getInstance(application)
-            ).get(it)
+            viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
     }
@@ -37,7 +32,7 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     override fun startObserve() {
         //处理一些通用的异常
         viewModel.run {
-            getException().observe(this@BaseViewModelActivity, Observer { requestError(it) })
+            getException().observe(this@BaseViewModelActivity, { requestError(it) })
         }
     }
 
@@ -59,7 +54,6 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     }
 
     open fun showError(errMsg: String?) {
-        Log.e("exce",errMsg?:"")
         LoggerSnack.show(this , errMsg)
     }
 

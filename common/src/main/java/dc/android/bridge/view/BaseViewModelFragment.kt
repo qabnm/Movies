@@ -1,14 +1,13 @@
 package dc.android.bridge.view
 
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
 import dc.android.bridge.BridgeContext.Companion.NETWORK_ERROR
 import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
 import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
+import dc.android.bridge.util.LoggerSnack
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -26,17 +25,14 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
 
     override fun initVM() {
         providerVMClass()?.let {
-            viewModel = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            ).get(it)
+            viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
     }
 
     override fun startObserve() {
         viewModel.run {
-            getException().observe(requireActivity(), Observer { requestError(it) })
+            getException().observe(this@BaseViewModelFragment, { requestError(it) })
         }
     }
 

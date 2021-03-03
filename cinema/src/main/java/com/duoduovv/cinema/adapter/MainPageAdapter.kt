@@ -39,10 +39,10 @@ class MainPageAdapter(
             LayoutInflater.from(context).inflate(R.layout.item_today_reccommend, parent, false),
             context
         )
-        CinemaContext.TYPE_ALL_LOOK -> AllLookViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_main_all_look, parent, false),
-            context
-        )
+//        CinemaContext.TYPE_ALL_LOOK -> AllLookViewHolder(
+//            LayoutInflater.from(context).inflate(R.layout.item_main_all_look, parent, false),
+//            context
+//        )
         CinemaContext.TYPE_RECOMMEND_LIST -> RecommendViewHolder(
             LayoutInflater.from(context).inflate(R.layout.item_main_recommend, parent, false),
             context
@@ -65,7 +65,7 @@ class MainPageAdapter(
         when (holder) {
             is BannerViewHolder -> bindBanner(holder = holder)
             is TodayRecommendViewHolder -> bindTodayRecommend(holder)
-            is AllLookViewHolder -> bindAllLook(holder)
+//            is AllLookViewHolder -> bindAllLook(holder)
             is RecommendViewHolder -> {
                 if (position > 1) bindRecommend(holder, position - 2)
             }
@@ -91,7 +91,9 @@ class MainPageAdapter(
         val category = bean.mainPageBean.category
         if (category?.isNotEmpty() == true) {
             holder.rvList.visibility = View.VISIBLE
-            holder.rvList.adapter = MainCategoryAdapter(category as MutableList<Category>)
+            val categoryAdapter = MainCategoryAdapter()
+            holder.rvList.adapter =categoryAdapter
+            categoryAdapter.setList(category)
         } else {
             holder.rvList.visibility = View.GONE
         }
@@ -153,7 +155,6 @@ class MainPageAdapter(
         val tvMore: TextView = itemView.findViewById(R.id.tvMore)
         val tvChange: TextView = itemView.findViewById(R.id.tvChange)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
-
         init {
             rvList.layoutManager = GridLayoutManager(context, 3)
         }
@@ -164,7 +165,6 @@ class MainPageAdapter(
         val banner: Banner<com.duoduovv.cinema.bean.Banner, BannerImgAdapter> =
             itemView.findViewById(R.id.layoutBanner)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
-
         init {
             rvList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)

@@ -11,7 +11,8 @@ import dc.android.bridge.util.GlideUtils
  * @date: 2021/1/18 10:00
  * @des:首页分类
  */
-class MainCategoryAdapter(data:MutableList<Category>) : BaseQuickAdapter<Category, BaseViewHolder>(R.layout.item_catagory,data){
+class MainCategoryAdapter :
+    BaseQuickAdapter<Category, BaseViewHolder>(R.layout.item_catagory) {
     override fun convert(holder: BaseViewHolder, item: Category) {
         GlideUtils.setImg(context, item.icon, holder.getView(R.id.imgIcon))
         holder.setText(R.id.tvCategory, item.name)

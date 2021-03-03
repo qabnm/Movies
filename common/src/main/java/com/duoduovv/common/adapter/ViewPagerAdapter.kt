@@ -1,5 +1,6 @@
 package com.duoduovv.common.adapter
 
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
@@ -13,4 +14,8 @@ class ViewPagerAdapter(private val fm: FragmentManager, private val data: List<F
     override fun getCount() = data.size
 
     override fun getItem(position: Int) = data[position]
+
+    override fun destroyItem(container: ViewGroup, position: Int, `object`: Any) {
+//        super.destroyItem(container, position, `object`)
+    }
 }
