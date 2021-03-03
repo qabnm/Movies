@@ -39,5 +39,4 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
         category = arguments?.getString(BridgeContext.ID, "") ?: ""
         viewModel.movieRankList(category)
     }
-
 }

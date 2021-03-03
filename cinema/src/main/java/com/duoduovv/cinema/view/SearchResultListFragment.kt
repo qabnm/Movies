@@ -1,5 +1,6 @@
 package com.duoduovv.cinema.view
 
+import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
@@ -9,6 +10,7 @@ import com.duoduovv.cinema.viewmodel.SearchResultViewModel
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_search_result_list.*
+import kotlinx.android.synthetic.main.layout_search_empty.*
 
 /**
  * @author: jun.liu
@@ -33,7 +35,14 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>() 
 
     private fun setData(resultBean: SearchResultBean?) {
         val dataList = resultBean?.result
-        if (dataList?.isNotEmpty() == true) resultAdapter?.setList(dataList)
+        if (dataList?.isNotEmpty() == true) {
+            layoutEmpty.visibility = View.GONE
+            rvList.visibility = View.VISIBLE
+            resultAdapter?.setList(dataList)
+        }else{
+            layoutEmpty.visibility = View.VISIBLE
+            rvList.visibility = View.GONE
+        }
     }
 
     override fun initData() {

@@ -1,5 +1,6 @@
 package com.duoduovv.cinema.view
 
+import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
@@ -12,6 +13,7 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
+import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema_list.*
 
@@ -50,15 +52,29 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     private var mainBean: MainBean? = null
     private fun setData(value: MainBean?) {
         mainBean = value
-        value?.let {
+        if (null != value && value.mainRecommendBean.recommends?.isNotEmpty() == true){
+            rvList.visibility = View.VISIBLE
             if (null == adapter) {
                 adapter = MainPageAdapter(requireActivity(), bean = value)
                 rvList.adapter = adapter
             } else {
-                adapter?.notifyDataChanged(it)
+                adapter?.notifyDataChanged(value)
             }
             if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
+        }else{
+            rvList.visibility = View.GONE
         }
+
+
+//        value?.let {
+//            if (null == adapter) {
+//                adapter = MainPageAdapter(requireActivity(), bean = value)
+//                rvList.adapter = adapter
+//            } else {
+//                adapter?.notifyDataChanged(it)
+//            }
+//            if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
+//        }
     }
 
     /**

@@ -23,7 +23,7 @@ class MovieRankAdapter : BaseQuickAdapter<RankList, BaseViewHolder>(R.layout.ite
         holder.setText(R.id.tvName, item.vod_name)
         holder.setText(
             R.id.tvTime,
-            "${item.vod_year} | ${item.type_text} | ${item.vod_area_text} | ${item.vod_lang}"
+            "${item.vod_year} | ${item.type_id_text} | ${item.vod_area_text} | ${item.vod_lang}"
         )
         holder.setGone(R.id.tvMainActor, StringUtils.isEmpty(item.vod_actor))
         holder.setText(R.id.tvMainActor, "主演：${item.vod_actor}")

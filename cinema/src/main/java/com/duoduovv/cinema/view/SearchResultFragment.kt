@@ -52,7 +52,7 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
             vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
             CommonNavigator(requireActivity()).apply {
                 adapter = NoLineIndicatorAdapter(viewPager = vpContainer, data = titleList)
-                isAdjustMode = false
+                isAdjustMode = titleList.size <= 6
                 indicator.navigator = this
             }
             ViewPagerHelper.bind(indicator, vpContainer)

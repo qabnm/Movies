@@ -58,8 +58,8 @@ class MainPageAdapter(
         notifyDataSetChanged()
     }
 
-    override fun getItemCount() =
-        if (null != bean.mainRecommendBean.recommends) bean.mainRecommendBean.recommends!!.size + 2 else 2
+    override fun getItemCount()=
+        if (bean.mainRecommendBean.recommends?.isNotEmpty() == true) bean.mainRecommendBean.recommends!!.size + 2 else 2
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -106,9 +106,14 @@ class MainPageAdapter(
      * @param holder TodayRecommendViewHolder
      */
     private fun bindTodayRecommend(holder: TodayRecommendViewHolder) {
-        if (null == adapter) adapter = FilmRecommendAdapter()
-        holder.rvList.adapter = adapter
-        adapter?.setList(bean.mainPageBean.selectRecommends)
+        if (bean.mainPageBean.selectRecommends?.isEmpty() == true){
+            holder.layoutContainer.visibility = View.GONE
+        }else{
+            holder.layoutContainer.visibility = View.VISIBLE
+            if (null == adapter) adapter = FilmRecommendAdapter()
+            holder.rvList.adapter = adapter
+            adapter?.setList(bean.mainPageBean.selectRecommends)
+        }
     }
 
     /**
@@ -155,6 +160,7 @@ class MainPageAdapter(
         val tvMore: TextView = itemView.findViewById(R.id.tvMore)
         val tvChange: TextView = itemView.findViewById(R.id.tvChange)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+        val layoutContainer:ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
         init {
             rvList.layoutManager = GridLayoutManager(context, 3)
         }

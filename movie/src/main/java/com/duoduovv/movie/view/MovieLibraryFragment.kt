@@ -45,31 +45,19 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             }
         }
         viewModel.movieLibList(map, page, typeId)
-
-//        val db = AppDatabase.getInstance(BaseApplication.baseCtx)
-//        val historyBean = VideoWatchHistoryBean(
-//            coverUrl = "",
-//            playUrl = "",
-//            title = "",
-//            type = "",
-//            videoId = "",
-//            where = "",
-//            currentLength = 0,
-//            time = 0
-//        )
-//        val insert = db.history().insert(historyBean)
-//        val data = db.history().queryAll()
     }
 
     private fun setData(movies: List<MovieLibList>?) {
-        if (movies?.isNotEmpty() == true && typeList?.isNotEmpty() == true) {
-            movieLibAdapter?.takeIf { null == movieLibAdapter }?.also {
+        if (typeList?.isNotEmpty() == true) {
+            if (null == movieLibAdapter){
                 movieLibAdapter = MovieLibraryAdapter(requireActivity(), typeList!!, movies)
-                it.setItemClickListener(this)
-                rvList.adapter = it
-            } ?: run {
-                movieLibAdapter?.notifyDataSetChanged()
+                movieLibAdapter!!.setItemClickListener(this)
+                rvList.adapter = movieLibAdapter
+            }else{
+                movieLibAdapter?.notifyDataChanged(movies)
             }
+        }else{
+
         }
     }
 

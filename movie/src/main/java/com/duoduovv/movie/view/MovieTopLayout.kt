@@ -34,10 +34,18 @@ class MovieTopLayout @JvmOverloads constructor(
         addView(view)
     }
 
-    fun setList(data: ArrayList<TypeListArray>, key: String,name: String) {
-        data.add(0, TypeListArray(name, key))
+    fun setList(data: ArrayList<TypeListArray>, key: String) {
+        if (data.size > 0) {
+            var count = 0
+            for (i in data.indices){
+                //如果没有一个选项是被选中的 那么就选中第一个
+                if (!data[i].isSelect) count++
+            }
+            if (count == data.size) data[0].isSelect = true
+        }
         val typeAdapter = MovieLibraryTypeAdapter(data as MutableList<TypeListArray>)
-        typeAdapter.setOnItemChildClickListener { adapter, view, position ->
+        typeAdapter.addChildClickViewIds(R.id.tvType)
+        typeAdapter.setOnItemChildClickListener { adapter, _, position ->
             for (i in data.indices) {
                 data[i].isSelect = false
             }

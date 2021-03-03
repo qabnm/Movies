@@ -49,6 +49,7 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
                 val bundle = Bundle()
                 bundle.putString(ID, configs[i].key)
                 bundle.putParcelableArrayList(LIST, configs[i].filter as ArrayList)
+                fragment.arguments = bundle
                 titleList.add(configs[i].name)
                 fragmentList.add(fragment)
             }
