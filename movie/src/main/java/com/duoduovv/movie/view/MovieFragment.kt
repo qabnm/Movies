@@ -3,10 +3,12 @@ package com.duoduovv.movie.view
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.NoLineIndicatorAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseFragment
 import kotlinx.android.synthetic.main.fragment_movie.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -23,7 +25,8 @@ class MovieFragment : BaseFragment() {
 
     override fun initView() {
         imgSearch.setOnClickListener {
-            ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY).navigation()
+            ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
+                .withStringArrayList(BridgeContext.LIST, BaseApplication.hotList as? ArrayList).navigation()
         }
     }
 

@@ -11,6 +11,7 @@ import dc.android.bridge.util.OsUtils
 open class BaseApplication : Application() {
     companion object {
         lateinit var baseCtx: Context
+        var hotList:List<String>?=null
     }
 
     override fun onCreate() {

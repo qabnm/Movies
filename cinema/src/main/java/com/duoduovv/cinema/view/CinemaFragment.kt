@@ -11,6 +11,7 @@ import com.duoduovv.cinema.bean.Column
 import com.duoduovv.cinema.bean.ConfigureBean
 import com.duoduovv.cinema.bean.Version
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.util.RouterPath
@@ -51,6 +52,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             initFragment(columns)
             SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, result?.isRs ?: 0)
             hotList = result?.hotSearch
+            BaseApplication.hotList = hotList
             checkUpdate(result?.version)
         })
         viewModel.getProgress().observe(this, {
