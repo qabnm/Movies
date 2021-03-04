@@ -1,4 +1,4 @@
-package com.duoduovv.cinema
+package com.duoduovv.cinema.component
 
 import android.util.Log
 import com.google.gson.Gson

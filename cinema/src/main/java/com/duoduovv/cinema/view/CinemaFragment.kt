@@ -3,6 +3,7 @@ package com.duoduovv.cinema.view
 import android.Manifest
 import android.os.Bundle
 import android.util.Log
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -10,6 +11,7 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Column
 import com.duoduovv.cinema.bean.ConfigureBean
 import com.duoduovv.cinema.bean.Version
+import com.duoduovv.cinema.component.UpgradeDialogFragment
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
@@ -40,6 +42,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     override fun providerVMClass() = CinemaViewModel::class.java
     private var locationUtils: LocationUtils? = null
     private var hotList: List<String>? = null
+    private var upgradeDialogFragment: UpgradeDialogFragment? = null
 
     override fun initView() {
         tvSearch.setOnClickListener {
@@ -57,6 +60,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         })
         viewModel.getProgress().observe(this, {
             val progress = viewModel.getProgress().value
+            upgradeDialogFragment?.onProgressUpdate(progress ?: 0)
         })
     }
 
@@ -65,8 +69,19 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val versionCode = OsUtils.getVerCode(requireContext())
             if (versionCode != -1 && it.version_number > versionCode) {
                 //需要升级  弹出升级框
-
+                upgradeDialogFragment = UpgradeDialogFragment(it)
+                upgradeDialogFragment?.showNow(childFragmentManager, "upgrade")
+                upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             }
+        }
+    }
+
+    /**
+     * 点击了升级
+     */
+    private val upgradeListener = object : UpgradeDialogFragment.OnUpgradeClickListener {
+        override fun onUpgradeClick(url: String) {
+            viewModel.downloadApk(url, requireActivity())
         }
     }
 

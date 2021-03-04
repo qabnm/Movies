@@ -4,7 +4,7 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.cinema.CinemaContext
-import com.duoduovv.cinema.HistoryUtil
+import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.HotSearchAdapter
 import com.duoduovv.cinema.listener.HistoryClickCallback

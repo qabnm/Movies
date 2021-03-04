@@ -6,7 +6,7 @@ import android.text.TextUtils
 import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.cinema.HistoryUtil
+import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.listener.HistoryClickCallback
 import com.duoduovv.common.util.RouterPath
