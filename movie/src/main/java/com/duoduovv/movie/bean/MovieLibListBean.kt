@@ -6,7 +6,7 @@ package com.duoduovv.movie.bean
  * @des:片库列表
  */
 data class MovieLibListBean(
-    val movies:List<MovieLibList>
+    val movies:List<MovieLibList>?
 )
 
 data class MovieLibList(
