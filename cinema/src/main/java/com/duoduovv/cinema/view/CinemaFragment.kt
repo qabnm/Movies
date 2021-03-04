@@ -22,6 +22,7 @@ import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.domain.LocationBean
 import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.OsUtils

@@ -79,7 +79,7 @@ class CinemaViewModel : BaseViewModel() {
                     downloadProgress.postValue(progress.toInt())
                 }
                 //下载成功
-                withContext(Dispatchers.Main) { installFile(filePath) }
+                withContext(Dispatchers.Main) { installFile(file = file) }
             } catch (e: Exception) {
                 error.postValue(BaseRepository.ParameterException("下载错误"))
             } finally {
@@ -92,9 +92,8 @@ class CinemaViewModel : BaseViewModel() {
      * 安装apk文件
      * @param filePath String
      */
-    private fun installFile(filePath: String) {
+    private fun installFile(file:File) {
         try {
-            val file = File(filePath)
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
