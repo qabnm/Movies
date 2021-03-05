@@ -19,7 +19,7 @@ class CinemaListViewModel : BaseViewModel() {
     private var mainPageData: MutableLiveData<BaseResponseData<MainPageBean>> = MutableLiveData()
     private var mainRecommend: MutableLiveData<ArrayList<FilmRecommendBean>> = MutableLiveData()
     private var mainBean: MutableLiveData<MainBean> = MutableLiveData()
-    private var noMoreData:MutableLiveData<String> = MutableLiveData()
+    private var noMoreData: MutableLiveData<String> = MutableLiveData()
     private val repository = CinemaRepository()
 
     fun getMainPage() = mainPageData
@@ -52,7 +52,7 @@ class CinemaListViewModel : BaseViewModel() {
         if (result1.await()?.code == SUCCESS && result2.await()?.code == SUCCESS) {
             dataList.clear()
             val list = result2.await()!!.data.recommends
-            if (list?.isNotEmpty() == true)dataList.addAll(list)
+            if (list?.isNotEmpty() == true) dataList.addAll(list)
             mainBean.postValue(MainBean(result1.await()!!.data, result2.await()!!.data))
         }
     }
@@ -75,12 +75,16 @@ class CinemaListViewModel : BaseViewModel() {
         val result = repository.mainRecommend(page = page, column = column)
         if (result.code == SUCCESS) {
             val data = result.data.recommends
-            if (data?.isNotEmpty() == true){
+            if (data?.isNotEmpty() == true) {
                 dataList.addAll(data)
                 mainRecommend.postValue(dataList)
-            }else{
+            } else {
                 //没有更多数据了
-                noMoreData.postValue(NO_MORE_DATA)
+                if (page != 1) {
+                    noMoreData.postValue(NO_MORE_DATA)
+                } else {
+                    mainRecommend.postValue(dataList)
+                }
             }
         }
     }

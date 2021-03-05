@@ -42,7 +42,7 @@ class UpgradeDialogFragment(private val bean:Version) :
             tvCancel.setOnClickListener { dismiss() }
         }
         tvContent.text = bean.content
-        val url = "https://wppkg.baidupcs.com/issue/netdisk/apk/BaiduNetdisk_11.5.7.apk"
+        val url = "http://qiniuyun.nucarf.net/wanjinyou2.8.0.apk"
         btnUpgrade.setOnClickListener { upgradeClickListener?.onUpgradeClick(url) }
     }
 

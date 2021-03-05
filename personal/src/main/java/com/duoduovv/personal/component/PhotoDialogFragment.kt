@@ -133,7 +133,7 @@ class PhotoDialogFragment(private val listener: ITakePhotoResult?) : DialogFragm
                     mCameraImagePath = photoFile.absolutePath
                     photoUri = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                         //7.0
-                        FileProvider.getUriForFile(requireActivity(), "com.junliu.personal.fileProvider", photoFile)
+                        FileProvider.getUriForFile(requireActivity(), "com.duoduovv.personal.fileProvider", photoFile)
                     } else {
                         //7.0以下
                         Uri.fromFile(photoFile)

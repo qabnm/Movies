@@ -14,7 +14,7 @@
             android:screenOrientation="portrait"/>
 
         <provider
-            android:name="com.duoduovv.personal.component.PhotoFileProvider"
+            android:name=".component.PhotoFileProvider"
             android:authorities="com.duoduovv.personal.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">

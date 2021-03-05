@@ -6,11 +6,9 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.util.Log
-import androidx.core.content.FileProvider
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.cinema.bean.ConfigureBean
 import com.duoduovv.cinema.repository.CinemaRepository
-import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.InstallFileProvider
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.net.BaseRepository
@@ -54,9 +52,10 @@ class CinemaViewModel : BaseViewModel() {
     fun downloadApk(url: String, context: Activity) = request {
         appContext = context
         filePath =
-            appContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath + "/duoduovv"
+            appContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath + "/duoduovv.apk"
         val responseBody = repository.downloadFile(url)
         totalSize = responseBody.contentLength()
+        Log.i("apkPath", "${filePath!!}***$totalSize")
         filePath?.let { downloadFile(responseBody.byteStream(), it) }
     }
 
@@ -79,7 +78,8 @@ class CinemaViewModel : BaseViewModel() {
                     downloadProgress.postValue(progress.toInt())
                 }
                 //下载成功
-                withContext(Dispatchers.Main) { installFile(file = file) }
+                Log.i("apkPath", "$filePath%%%%%%%$downloadSize")
+                withContext(Dispatchers.Main) {installFile(filePath = filePath) }
             } catch (e: Exception) {
                 error.postValue(BaseRepository.ParameterException("下载错误"))
             } finally {
@@ -92,13 +92,18 @@ class CinemaViewModel : BaseViewModel() {
      * 安装apk文件
      * @param filePath String
      */
-    private fun installFile(file:File) {
+    private fun installFile(filePath: String) {
         try {
+            val file = File(filePath)
+            Log.i("apkPath", file.path)
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                val contentUri = InstallFileProvider.getUriForFile(appContext, "com.junliu.install.fileProvider", file)
+                val contentUri = InstallFileProvider.getUriForFile(
+                    appContext,
+                    "com.junliu.install.fileProvider", file
+                )
                 intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
             } else {
                 intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
