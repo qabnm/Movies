@@ -13,7 +13,7 @@ import retrofit2.http.Url
  * @date: 2021/1/15 13:40
  * @des:
  */
-interface CinemaApiService {
+interface ICinemaApiService {
 
     /**
      * 获取配置信息

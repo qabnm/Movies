@@ -1,6 +1,6 @@
 package com.duoduovv.cinema.repository
 
-import com.duoduovv.cinema.CinemaApiService
+import com.duoduovv.cinema.ICinemaApiService
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.RetrofitFactory
 
@@ -10,7 +10,7 @@ import dc.android.bridge.net.RetrofitFactory
  * @des:
  */
 open class CinemaApiRepository :BaseRepository(){
-    protected val apiService :CinemaApiService by lazy {
-        RetrofitFactory.instance.createRetrofit(CinemaApiService::class.java)
+    protected val apiService :ICinemaApiService by lazy {
+        RetrofitFactory.instance.createRetrofit(ICinemaApiService::class.java)
     }
 }

@@ -8,7 +8,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.R
-import com.duoduovv.cinema.listener.HistoryClickCallback
+import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_search.*
  * @des: 搜索页面
  */
 @Route(path = RouterPath.PATH_SEARCH_ACTIVITY)
-class SearchActivity : BridgeActivity(), HistoryClickCallback {
+class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     override fun getLayoutId() = R.layout.activity_search
     private var searchFragment: SearchFragment? = null
     private var searchResultFragment: SearchResultFragment? = null
