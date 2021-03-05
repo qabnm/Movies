@@ -2,6 +2,7 @@ package dc.android.bridge.net
 
 import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
+import dc.android.bridge.BridgeContext.Companion.TOKEN
 import okhttp3.Interceptor
 import okhttp3.Response
 
@@ -15,6 +16,7 @@ class HeaderInterceptor : Interceptor {
         val userAgent = chain.request().header("User-Agent")
         val location = SharedPreferencesHelper.helper.getValue(ADDRESS, "")
         builder.addHeader("User-Agent", "$userAgent---$location")
+        builder.addHeader("token", SharedPreferencesHelper.helper.getValue(TOKEN, "") as? String?:"")
         return chain.proceed(builder.build())
     }
 }
