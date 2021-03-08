@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.GridLayoutManager.SpanSizeLookup
 import androidx.recyclerview.widget.RecyclerView
@@ -97,6 +98,8 @@ class MovieLibraryAdapter(
 
     interface OnItemClickListener {
         fun onTypeClick(key: String, name: String)
+
+        fun onMovieClick(movieId: String)
     }
 
     fun setItemClickListener(itemClickListener: OnItemClickListener) {
@@ -107,6 +110,7 @@ class MovieLibraryAdapter(
         GlideUtils.setImg(context, movieBean.cover_url, holder.imgCover)
         holder.tvName.text = movieBean.vod_name
         holder.tvScore.text = movieBean.last_remark
+        holder.layoutContainer.setOnClickListener { itemClickListener?.onMovieClick(movieBean.id) }
     }
 
     override fun getItemCount() = if (movieList?.isNotEmpty() == true) {
@@ -122,6 +126,7 @@ class MovieLibraryAdapter(
         val imgCover: ImageView = itemView.findViewById(R.id.imgCover)
         val tvName: TextView = itemView.findViewById(R.id.tvName)
         val tvScore: TextView = itemView.findViewById(R.id.tvScore)
+        val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
     }
 
     class TypeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -129,4 +134,5 @@ class MovieLibraryAdapter(
     }
 
     class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+
 }

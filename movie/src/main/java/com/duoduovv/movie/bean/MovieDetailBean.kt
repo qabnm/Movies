@@ -7,12 +7,21 @@ package com.duoduovv.movie.bean
  */
 data class MovieDetailBean(
     val movie: MovieDetail,
+    val lineList: List<LineList>,
     val movieItems: List<MovieItem>,
-    val playInfo: PlayInfo,
+    val playVid: String,
+    val playLine: String,
+    val playUrls: PlayUrlsBean,
     val recommends: List<DetailRecommend>,
     val way: String,
-    val isFavorite:Int
+    val isFavorite: Int
 )
+
+data class LineList(val line: String, val name: String)
+
+data class PlayUrlsBean(val vid: String, val num: String, val deft: String, val url: String)
+
+data class MovieItem(val vid: String, val title: String)
 
 data class MovieDetail(
     val cover_url: String,
@@ -34,17 +43,6 @@ data class MovieDetail(
     val vod_year: String
 )
 
-data class MovieItem(
-    val num: String,
-    val title: String
-)
-
-data class PlayInfo(
-    val lineList: List<Line>,
-    val playNumber: String,
-    val playUrls: List<PlayUrl>
-)
-
 data class DetailRecommend(
     val cover_url: String,
     val hot: String,
@@ -63,14 +61,4 @@ data class DetailRecommend(
     val vod_name: String,
     val vod_number: String,
     val vod_year: String
-)
-
-data class Line(
-    val line: String,
-    val name: String
-)
-
-data class PlayUrl(
-    val deft: String,
-    val url: String
 )

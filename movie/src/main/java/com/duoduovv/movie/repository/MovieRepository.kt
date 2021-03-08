@@ -46,8 +46,18 @@ class MovieRepository : MovieApiRepository() {
      * @param num String 播放级数
      * @return BaseResponseData<MovieDetailBean>
      */
-    suspend fun movieDetail(id: String, num: String) = request {
-        apiService.movieDetail(id = id, num = num)
+    suspend fun movieDetail(id: String, vid: String = "") = request {
+        apiService.movieDetail(id = id, vid = vid)
+    }
+
+    /**
+     * 获取播放信息
+     * @param vid String
+     * @param id String
+     * @return BaseResponseData<MoviePlayInfoBean>
+     */
+    suspend fun moviePlayInfo(vid: String, id: String) = request {
+        apiService.moviePlayInfo(vid, id)
     }
 
     /**

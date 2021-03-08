@@ -1,6 +1,8 @@
 package com.duoduovv.movie.view
 
 import androidx.recyclerview.widget.GridLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieLibraryAdapter
 import com.duoduovv.movie.bean.Filter
@@ -63,7 +65,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
         if (typeList?.isNotEmpty() == true) {
             if (null == movieLibAdapter) {
                 movieLibAdapter = MovieLibraryAdapter(requireActivity(), typeList!!, movies)
-                movieLibAdapter!!.setItemClickListener(this)
+                movieLibAdapter?.setItemClickListener(this)
                 rvList.adapter = movieLibAdapter
             } else {
                 movieLibAdapter?.notifyDataChanged(movies)
@@ -83,6 +85,15 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     override fun onTypeClick(key: String, name: String) {
         map[key] = name
         viewModel.movieLibList(map, page, typeId)
+    }
+
+    /**
+     * 点击影片 跳转详情
+     * @param movieId String
+     */
+    override fun onMovieClick(movieId: String) {
+        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(ID, movieId)
+            .navigation()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {

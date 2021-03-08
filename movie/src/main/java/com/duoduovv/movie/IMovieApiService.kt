@@ -51,8 +51,20 @@ interface IMovieApiService {
     @GET("vod")
     suspend fun movieDetail(
         @Query("id") id: String,
-        @Query("num") num: String
+        @Query("vid") vid: String = ""
     ): BaseResponseData<MovieDetailBean>
+
+    /**
+     * 获取播放信息
+     * @param vid String
+     * @param id String
+     * @return BaseResponseData<MoviePlayInfoBean>
+     */
+    @GET("vod/get_play")
+    suspend fun moviePlayInfo(
+        @Query("vid") vid: String,
+        @Query("id") id: String
+    ): BaseResponseData<MoviePlayInfoBean>
 
     /**
      * 添加收藏

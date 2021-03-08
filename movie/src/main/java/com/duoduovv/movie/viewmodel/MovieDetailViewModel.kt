@@ -2,6 +2,7 @@ package com.duoduovv.movie.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.movie.bean.MovieDetailBean
+import com.duoduovv.movie.bean.MoviePlayInfoBean
 import com.duoduovv.movie.repository.MovieRepository
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
@@ -18,6 +19,8 @@ class MovieDetailViewModel : BaseViewModel() {
     fun getAddState() = addCollectionState
     private var deleteCollectionState: MutableLiveData<Int> = MutableLiveData()
     fun getDeleteState() = deleteCollectionState
+    private var moviePlayInfo: MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
+    fun getMoviePlayInfo() = moviePlayInfo
 
     private val repository = MovieRepository()
 
@@ -27,9 +30,20 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param num String  播放级数
      * @return Job
      */
-    fun movieDetail(id: String, num: String) = request {
-        val result = repository.movieDetail(id = id, num = num)
+    fun movieDetail(id: String, vid: String = "") = request {
+        val result = repository.movieDetail(id = id, vid = vid)
         if (result.code == SUCCESS) movieDetail.postValue(result.data)
+    }
+
+    /**
+     * 获取播放信息
+     * @param vid String
+     * @param id String
+     * @return Job
+     */
+    fun moviePlayInfo(vid: String, id: String) = request {
+        val result = repository.moviePlayInfo(vid, id)
+        if (result.code == SUCCESS) moviePlayInfo.postValue(result.data)
     }
 
     /**

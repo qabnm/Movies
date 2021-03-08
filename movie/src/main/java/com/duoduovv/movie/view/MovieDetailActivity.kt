@@ -1,13 +1,17 @@
 package com.duoduovv.movie.view
 
+import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
+import com.duoduovv.movie.bean.MoviePlayInfoBean
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
+import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelActivity
@@ -24,26 +28,67 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private var movieId = ""
-    private var num = ""
+    private var vid = ""
     private var detailAdapter: MovieDetailAdapter? = null
 
     override fun initView() {
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
+        viewModel.getMoviePlayInfo().observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
         viewModel.getAddState().observe(this, { })
         viewModel.getDeleteState().observe(this, { })
+        setVideoPlayer()
+        videoPlayer.setVideoAllCallBack(object :VideoPlayCallback(){
+            override fun onClickStartIcon(url: String?, vararg objects: Any?) {
+                //请求播放信息
+                viewModel.moviePlayInfo(vid, movieId)
+            }
+        })
+    }
+
+    /**
+     * 视频播放信息
+     * @param bean MoviePlayInfoBean
+     */
+    private fun setPlayInfo(bean: MoviePlayInfoBean?){
+        bean?.let {
+            val playList = it.playUrls
+            if (playList.isNotEmpty()){
+                videoPlayer.setUp(playList[0].url,true,"")
+            }
+        }
     }
 
     override fun initData() {
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
-        num = intent.getStringExtra(BridgeContext.NUM) ?: ""
-        viewModel.movieDetail(id = movieId, num = num)
+        viewModel.movieDetail(id = movieId)
     }
 
     private fun setData(detailBean: MovieDetailBean?) {
         if (detailBean == null) return
+        //视频信息
+        videoPlayer.loadCoverImage(detailBean.movie.cover_url,R.drawable.back_white)
         detailAdapter = MovieDetailAdapter(this, detailBean = detailBean)
         detailAdapter?.setOnViewClick(this)
         rvList.adapter = detailAdapter
+        val list = detailBean.movieItems
+        if (list.isNotEmpty()) vid = list[0].vid
+    }
+
+    private fun setVideoPlayer(){
+        videoPlayer.apply {
+            thumbImageViewLayout.visibility = View.VISIBLE
+            //设置全屏按键功能
+            fullscreenButton.setOnClickListener { this.startWindowFullscreen(context, false, true) }
+            //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
+            isAutoFullWithSize = true
+            //音频焦点冲突时是否释放
+            isReleaseWhenLossAudio = false
+            //全屏动画
+            isShowFullAnimation = true
+            //非wifi环境下，显示流量提醒
+            isNeedShowWifiTip = true
+            isShowDragProgressTextOnSeekBar = true //拖动进度条时，是否在 seekbar 开始部位显示拖动进度
+        }
     }
 
     /**

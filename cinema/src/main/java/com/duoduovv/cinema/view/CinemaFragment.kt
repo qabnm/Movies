@@ -136,14 +136,12 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
 
     private inner class LocationListener : LocationUtils.LbsLocationListener {
         override fun onLocation(bean: LocationBean) {
+            Log.i("address",bean.toString())
             locationUtils?.removeLocation()
             //将定位信息保存到本地
-            SharedPreferencesHelper.helper.setValue(
-                ADDRESS,
+            SharedPreferencesHelper.helper.setValue(ADDRESS,
                 "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${
-                    StringUtils.gbEncoding(
-                        bean.locality
-                    )
+                    StringUtils.gbEncoding(bean.locality)
                 }\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\"}"
             )
         }
