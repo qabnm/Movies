@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -96,6 +97,8 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
         val tvWhere: TextView = itemView.findViewById(R.id.tvWhere)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+        val layoutAlbum:LinearLayout = itemView.findViewById(R.id.layoutZhuanJi)
+
 
         init {
             rvList.layoutManager =

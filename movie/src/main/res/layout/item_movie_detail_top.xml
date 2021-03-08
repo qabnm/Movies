@@ -145,11 +145,46 @@
             android:id="@+id/rvList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_9"
             android:layout_marginTop="@dimen/dp_6"
             android:scrollbars="none"
-            android:layout_marginLeft="@dimen/dp_9"
             app:layout_constraintTop_toBottomOf="@+id/tvWhere" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutZhuanJi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_13"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/layoutContainer">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/color333333" />
+
+        <com.duoduovv.common.view.MediumBoldTextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_13"
+            android:layout_marginBottom="@dimen/dp_4"
+            android:drawableRight="@drawable/more_icon"
+            android:includeFontPadding="false"
+            android:padding="@dimen/dp_12"
+            android:paddingLeft="@dimen/dp_12"
+            android:text="专辑列表"
+            android:textColor="#141414"
+            android:textSize="@dimen/sp_15" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvZhuanJi"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_64"
+            android:paddingLeft="@dimen/dp_12"
+            android:scrollbars="none" />
+    </LinearLayout>
 
     <TextView
         android:layout_width="wrap_content"
@@ -161,5 +196,5 @@
         android:textColor="@color/color000000"
         android:textSize="@dimen/sp_15"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutContainer" />
+        app:layout_constraintTop_toBottomOf="@+id/layoutZhuanJi" />
 </androidx.constraintlayout.widget.ConstraintLayout>
