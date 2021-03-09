@@ -15,7 +15,7 @@ import dc.android.bridge.util.StringUtils
 class FilmRecommendAdapter :
     BaseQuickAdapter<FilmRecommendBean, BaseViewHolder>(R.layout.item_movie_library) {
     override fun convert(holder: BaseViewHolder, item: FilmRecommendBean) {
-        GlideUtils.setImg(context, item.cover_url, holder.getView(R.id.imgCover))
+        GlideUtils.setMovieImg(context, item.cover_url, holder.getView(R.id.imgCover))
         holder.setText(R.id.tvName, StringUtils.getString(item.vod_name))
         holder.setText(R.id.tvScore, StringUtils.getString(item.remark))
     }

@@ -14,7 +14,7 @@ import dc.android.bridge.util.StringUtils
  */
 class MovieRankAdapter : BaseQuickAdapter<RankList, BaseViewHolder>(R.layout.item_movie_rank) {
     override fun convert(holder: BaseViewHolder, item: RankList) {
-        GlideUtils.setImg(
+        GlideUtils.setMovieImg(
             context = context,
             url = item.cover_url,
             imageView = holder.getView(R.id.imgCover)

@@ -19,7 +19,6 @@ public class FileUtils {
             OutputStream os = null;
             try {
                 if (file.exists()) file.delete();
-                else if (!file.getParentFile().exists()) file.getParentFile().mkdirs();
                 // 1K的数据缓冲
                 byte[] bs = new byte[1024];
                 // 读取到的数据长度

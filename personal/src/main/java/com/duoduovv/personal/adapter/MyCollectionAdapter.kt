@@ -15,7 +15,7 @@ class MyCollectionAdapter :
     BaseQuickAdapter<FavoriteBean, BaseViewHolder>(R.layout.item_my_collection) {
     private var isEdit = false
     override fun convert(holder: BaseViewHolder, item: FavoriteBean) {
-        GlideUtils.setImg(context, item.cover_url, holder.getView(R.id.imgCover))
+        GlideUtils.setMovieImg(context, item.cover_url, holder.getView(R.id.imgCover))
         holder.setText(R.id.tvName, item.vod_name)
         holder.setText(R.id.tvWhere, item.last_remark)
         holder.setGone(R.id.imgSelect, !isEdit)

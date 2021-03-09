@@ -14,7 +14,7 @@ import dc.android.bridge.util.GlideUtils
 class WatchHistoryAdapter :BaseQuickAdapter<WatchHistoryBean,BaseViewHolder>(R.layout.item_watch_history) {
     private var isEdit = false
     override fun convert(holder: BaseViewHolder, item: WatchHistoryBean) {
-        GlideUtils.setImg(context, item.coverUrl, holder.getView(R.id.imgCover))
+        GlideUtils.setMovieImg(context, item.coverUrl, holder.getView(R.id.imgCover))
         holder.setText(R.id.tvName, item.name)
         holder.setText(R.id.tvWhere, item.where)
         holder.setGone(R.id.imgSelect , !isEdit)

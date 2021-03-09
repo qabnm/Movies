@@ -16,7 +16,7 @@
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/StyleShapeRounder3"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/color666666" />
+        android:src="@drawable/movie_default"/>
 
     <com.duoduovv.common.view.RoundCornerLayout
         android:id="@+id/layoutRound"

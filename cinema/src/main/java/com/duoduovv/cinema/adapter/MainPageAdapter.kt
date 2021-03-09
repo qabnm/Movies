@@ -132,7 +132,7 @@ class MainPageAdapter(
     private fun bindRecommend(holder: RecommendViewHolder, position: Int) {
         val dataList = bean.mainRecommendBean.recommends
         if (dataList != null && dataList.isNotEmpty()) {
-            GlideUtils.setImg(context, dataList[position].cover_url, holder.coverImg)
+            GlideUtils.setMovieImg(context, dataList[position].cover_url, holder.coverImg)
             holder.tvName.text = dataList[position].vod_name
             holder.tvScore.text = StringUtils.getString(dataList[position].remark)
         }

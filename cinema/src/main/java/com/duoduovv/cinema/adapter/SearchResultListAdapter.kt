@@ -15,7 +15,7 @@ import dc.android.bridge.util.StringUtils
 class SearchResultListAdapter :
     BaseQuickAdapter<SearchResultList, BaseViewHolder>(R.layout.item_search_result) {
     override fun convert(holder: BaseViewHolder, item: SearchResultList) {
-        GlideUtils.setImg(context, item.cover_url, holder.getView(R.id.imgCover))
+        GlideUtils.setMovieImg(context, item.cover_url, holder.getView(R.id.imgCover))
         holder.setText(R.id.tvTitle, item.vod_name)
         holder.setText(
             R.id.tvTime,

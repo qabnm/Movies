@@ -70,6 +70,10 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         })
     }
 
+    /**
+     * 检查升级
+     * @param bean Version?
+     */
     private fun checkUpdate(bean: Version?) {
         bean?.let {
             val versionCode = OsUtils.getVerCode(requireContext())
@@ -139,6 +143,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         viewModel.configure()
     }
 
+    /**
+     * 获取定位信息
+     */
     private inner class LocationListener : LocationUtils.LbsLocationListener {
         override fun onLocation(bean: LocationBean) {
             Log.i("address",bean.toString())
