@@ -63,6 +63,11 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val progress = viewModel.getProgress().value
             upgradeDialogFragment?.onProgressUpdate(progress ?: 0)
         })
+        viewModel.getInstallState().observe(this,{
+            val intent = viewModel.getInstallState().value
+            intent?.let { startActivity(it) }
+            requireActivity().finish()
+        })
     }
 
     private fun checkUpdate(bean: Version?) {
@@ -82,7 +87,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      */
     private val upgradeListener = object : UpgradeDialogFragment.OnUpgradeClickListener {
         override fun onUpgradeClick(url: String) {
-            viewModel.downloadApk(url, requireActivity())
+            viewModel.downloadApk(url)
         }
     }
 

@@ -1,24 +1,20 @@
 package com.duoduovv.cinema.viewmodel
 
-import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.cinema.bean.ConfigureBean
 import com.duoduovv.cinema.repository.CinemaRepository
+import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.InstallFileProvider
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseResponseData
 import dc.android.bridge.net.BaseViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileOutputStream
-import java.io.InputStream
 
 /**
  * @author: jun.liu
@@ -33,7 +29,8 @@ class CinemaViewModel : BaseViewModel() {
     private var filePath: String? = null
     private var downloadProgress: MutableLiveData<Int> = MutableLiveData()
     fun getProgress() = downloadProgress
-    private lateinit var appContext: Activity
+    private var installState: MutableLiveData<Intent> = MutableLiveData()
+    fun getInstallState() = installState
 
     /**
      * 首页配置
@@ -49,44 +46,13 @@ class CinemaViewModel : BaseViewModel() {
      * @param url String
      * @return Job
      */
-    fun downloadApk(url: String, context: Activity) = request {
-        appContext = context
+    fun downloadApk(url: String) = request {
         filePath =
-            appContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath + "/duoduovv.apk"
+            BaseApplication.baseCtx.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath + "/duoduovv.apk"
         val responseBody = repository.downloadFile(url)
         totalSize = responseBody.contentLength()
-        Log.i("apkPath", "${filePath!!}***$totalSize")
-        filePath?.let { downloadFile(responseBody.byteStream(), it) }
+        Thread { FileUtils.is2File(responseBody.byteStream(), filePath, cbFile) }.start()
     }
-
-    private suspend fun downloadFile(inputStream: InputStream?, filePath: String) =
-        withContext(Dispatchers.IO) {
-            val file = File(filePath)
-            var os: FileOutputStream? = null
-            try {
-                os = FileOutputStream(filePath)
-                if (file.exists()) file.delete()
-                // 1K的数据缓冲
-                val bs = ByteArray(1024)
-                var len = 0
-                var downloadSize = 0
-                // 开始读取
-                while (inputStream?.read(bs).also { if (it != null) len = it } != -1) {
-                    os?.write(bs, 0, len)
-                    downloadSize += len
-                    val progress = (downloadSize / (totalSize * 1.0)) * 100
-                    downloadProgress.postValue(progress.toInt())
-                }
-                //下载成功
-                Log.i("apkPath", "$filePath%%%%%%%$downloadSize")
-                withContext(Dispatchers.Main) {installFile(filePath = filePath) }
-            } catch (e: Exception) {
-                error.postValue(BaseRepository.ParameterException("下载错误"))
-            } finally {
-                inputStream?.close()
-                os?.close()
-            }
-        }
 
     /**
      * 安装apk文件
@@ -95,22 +61,36 @@ class CinemaViewModel : BaseViewModel() {
     private fun installFile(filePath: String) {
         try {
             val file = File(filePath)
-            Log.i("apkPath", file.path)
             val intent = Intent(Intent.ACTION_VIEW)
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 val contentUri = InstallFileProvider.getUriForFile(
-                    appContext,
+                    BaseApplication.baseCtx,
                     "com.junliu.install.fileProvider", file
                 )
                 intent.setDataAndType(contentUri, "application/vnd.android.package-archive")
             } else {
                 intent.setDataAndType(Uri.fromFile(file), "application/vnd.android.package-archive")
             }
-            appContext.startActivity(intent)
+            installState.postValue(intent)
         } catch (e: Exception) {
             e.printStackTrace()
+        }
+    }
+
+    private val cbFile = object : FileUtils.Callback {
+        override fun doSuss(filePath: String) {
+            installFile(filePath)
+        }
+
+        override fun doSchedule(downloadSize: Long) {
+            val progress = (downloadSize / (totalSize * 1.0)) * 100
+            downloadProgress.postValue(progress.toInt())
+        }
+
+        override fun err(str: String) {
+            error.postValue(BaseRepository.ParameterException("下载错误"))
         }
     }
 }
