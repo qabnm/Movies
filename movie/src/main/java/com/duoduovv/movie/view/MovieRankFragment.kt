@@ -22,6 +22,7 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
     private var category = ""
 
     override fun initView() {
+        rankAdapter = null
         viewModel.getMovieRankList().observe(this, { setData(viewModel.getMovieRankList().value) })
         rvList.layoutManager = LinearLayoutManager(requireActivity())
         rankAdapter = MovieRankAdapter()
