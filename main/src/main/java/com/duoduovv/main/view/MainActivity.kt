@@ -2,6 +2,7 @@ package com.duoduovv.main.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -13,9 +14,13 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.duoduovv.main.R
 import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatTool
+import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseFragment
 import dc.android.bridge.view.BridgeActivity
+import dc.android.tools.LiveDataBus
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
 
@@ -28,6 +33,7 @@ class MainActivity : BridgeActivity() {
     private var exitTime = 0L
     private var currentPosition = 0
     private val position = "position"
+    private var typeId:String?=null
 
     private var cinemaFragment: BaseFragment? = null
     private var hotSpotFragment: BaseFragment? = null
@@ -36,6 +42,11 @@ class MainActivity : BridgeActivity() {
 
     override fun initView() {
 //        navigation.setNavBarClickListener(this)
+        LiveDataBus.get().with(TYPE_ID, String::class.java).observe(this, {
+            typeId = it
+            navigation.selectedItemId = checkPage(2)
+            LiveDataBus.get().with(ID).value = it
+        })
     }
 
     override fun initData(savedInstanceState: Bundle?) {
@@ -107,7 +118,7 @@ class MainActivity : BridgeActivity() {
     ) {
         currentPosition = position
         fragment.takeIf { null != fragment }?.also { transaction.show(it) } ?: run {
-            (ARouter.getInstance().build(path).navigation() as? BaseFragment)?.let {
+            (ARouter.getInstance().build(path).withString(BridgeContext.TYPE_ID,typeId).navigation() as? BaseFragment)?.let {
                 getFragment(path, it)
                 transaction.add(R.id.layoutContainer, it, path)
             }

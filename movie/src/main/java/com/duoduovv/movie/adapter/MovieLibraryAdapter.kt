@@ -107,7 +107,7 @@ class MovieLibraryAdapter(
     }
 
     private fun bindList(holder: ListViewHolder, movieBean: MovieLibList) {
-        GlideUtils.setImg(context, movieBean.cover_url, holder.imgCover)
+        GlideUtils.setMovieImg(context, movieBean.cover_url, holder.imgCover)
         holder.tvName.text = movieBean.vod_name
         holder.tvScore.text = movieBean.last_remark
         holder.layoutContainer.setOnClickListener { itemClickListener?.onMovieClick(movieBean.id) }

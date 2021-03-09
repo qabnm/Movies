@@ -23,6 +23,7 @@ open class BridgeContext {
         const val WATCH_HISTORY = "watchHistory"
         const val SUCCESS = 200
         const val TOKEN = "token"
+        const val TYPE_ID = "typeId"
 
     }
 }

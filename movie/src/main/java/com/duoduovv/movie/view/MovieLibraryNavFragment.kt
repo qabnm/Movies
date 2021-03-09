@@ -8,6 +8,7 @@ import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.Config
 import com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.view.BaseViewModelFragment
@@ -23,6 +24,7 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>() {
     override fun getLayoutId() = R.layout.fragment_movie_library_nav
     override fun providerVMClass() = MovieLibCategoryViewModel::class.java
+    private var dataList:List<Config>?=null
 
     override fun initView() {
         viewModel.getMovieLibCategory().observe(this, Observer {
@@ -36,11 +38,24 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
         viewModel.movieLibCategory()
     }
 
+    fun setTypeId(typeId:String){
+        if (dataList?.isNotEmpty() == true){
+            for (i in dataList!!.indices){
+                if (dataList!![i].key == typeId){
+                    vpContainer.currentItem = i
+                }
+            }
+        }
+    }
+
     /**
      * 初始化顶部分类tab
      * @param configs List<Config>?
      */
     private fun initFragment(configs: List<Config>?) {
+        val typeId = arguments?.getString(BridgeContext.TYPE_ID)
+        var position = 0
+        dataList = configs
         val titleList = ArrayList<String>()
         val fragmentList = ArrayList<Fragment>()
         if (configs?.isNotEmpty() == true) {
@@ -52,6 +67,7 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
                 fragment.arguments = bundle
                 titleList.add(configs[i].name)
                 fragmentList.add(fragment)
+                if (typeId == configs[i].key) position = i
             }
             vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
             CommonNavigator(requireActivity()).apply {
@@ -67,6 +83,7 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
                 indicator.navigator = this
             }
             ViewPagerHelper.bind(indicator, vpContainer)
+            vpContainer.currentItem = position
         }
     }
 }

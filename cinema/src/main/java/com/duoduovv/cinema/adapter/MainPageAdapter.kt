@@ -30,6 +30,7 @@ class MainPageAdapter(
     private val context: Context,
     private var bean: MainBean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var listener:OnItemClickListener?=null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         CinemaContext.TYPE_BANNER -> BannerViewHolder(
@@ -94,6 +95,10 @@ class MainPageAdapter(
             val categoryAdapter = MainCategoryAdapter()
             holder.rvList.adapter =categoryAdapter
             categoryAdapter.setList(category)
+            categoryAdapter.setOnItemClickListener { _, _, position ->
+                val typeId = category[position].type_spe_array.type_id
+                listener?.onCategoryClick(typeId = typeId)
+            }
         } else {
             holder.rvList.visibility = View.GONE
         }
@@ -190,6 +195,14 @@ class MainPageAdapter(
                     else -> 3
                 }
             }
+    }
+
+    fun setOnItemClickListener(listener:OnItemClickListener){
+        this.listener = listener
+    }
+
+    interface OnItemClickListener{
+        fun onCategoryClick(typeId:String)
     }
 }
 

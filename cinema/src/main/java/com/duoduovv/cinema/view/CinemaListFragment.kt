@@ -1,5 +1,6 @@
 package com.duoduovv.cinema.view
 
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.cinema.R
@@ -11,10 +12,12 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseViewModelFragment
+import dc.android.tools.LiveDataBus
 import kotlinx.android.synthetic.main.fragment_cinema_list.*
 
 /**
@@ -23,7 +26,7 @@ import kotlinx.android.synthetic.main.fragment_cinema_list.*
  * @des:首页
  */
 class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefreshListener,
-    OnLoadMoreListener {
+    OnLoadMoreListener,MainPageAdapter.OnItemClickListener {
     private var page = 1
     private var adapter: MainPageAdapter? = null
     private var column = ""
@@ -32,6 +35,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun getLayoutId() = R.layout.fragment_cinema_list
 
     override fun initView() {
+        adapter = null
         rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
         refreshLayout.apply {
             setRefreshHeader(ClassicsHeader(requireActivity()))
@@ -57,6 +61,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             if (null == adapter) {
                 adapter = MainPageAdapter(requireActivity(), bean = value)
                 rvList.adapter = adapter
+                adapter?.setOnItemClickListener(this)
             } else {
                 adapter?.notifyDataChanged(value)
             }
@@ -64,17 +69,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         }else{
             rvList.visibility = View.GONE
         }
-
-
-//        value?.let {
-//            if (null == adapter) {
-//                adapter = MainPageAdapter(requireActivity(), bean = value)
-//                rvList.adapter = adapter
-//            } else {
-//                adapter?.notifyDataChanged(it)
-//            }
-//            if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
-//        }
     }
 
     /**
@@ -103,5 +97,13 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
         viewModel.mainRecommend(page, column = column)
+    }
+
+    /**
+     * 点击分类 跳转片库
+     * @param typeId String
+     */
+    override fun onCategoryClick(typeId: String) {
+        LiveDataBus.get().with(BridgeContext.TYPE_ID).value = typeId
     }
 }

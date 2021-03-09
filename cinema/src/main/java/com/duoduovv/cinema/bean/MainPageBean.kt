@@ -22,5 +22,8 @@ data class Banner(
 data class Category(
     val icon: String,
     val name: String,
-    val spe: String
+    val spe: String,
+    val type_spe_array:TypeSpeBean
 )
+
+data class TypeSpeBean(val type_id:String)

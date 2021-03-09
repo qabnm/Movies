@@ -1,5 +1,6 @@
 package com.duoduovv.movie.view
 
+import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.RouterPath
@@ -48,6 +49,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             setOnRefreshListener(this@MovieLibraryFragment)
             setOnLoadMoreListener(this@MovieLibraryFragment)
         }
+        movieLibAdapter = null
     }
 
     override fun initData() {
@@ -62,7 +64,9 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     }
 
     private fun setData(movies: List<MovieLibList>?) {
+        Log.i("typeList","${typeList?.isNotEmpty()}")
         if (typeList?.isNotEmpty() == true) {
+            Log.i("typeList","adapter::${null == movieLibAdapter}movie:&&&&${movies?.isNotEmpty()}")
             if (null == movieLibAdapter) {
                 movieLibAdapter = MovieLibraryAdapter(requireActivity(), typeList!!, movies)
                 movieLibAdapter?.setItemClickListener(this)
