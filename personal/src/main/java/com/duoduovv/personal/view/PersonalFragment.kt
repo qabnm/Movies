@@ -47,10 +47,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             layoutHistory.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
             }
-            layoutDownload.setOnClickListener {
-                val age = SharedPreferencesHelper.helper.getValue("age", 0) as Int
-                Log.i("age", age.toString())
-            }
+            layoutDownload.setOnClickListener {  }
             layoutCollection.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }

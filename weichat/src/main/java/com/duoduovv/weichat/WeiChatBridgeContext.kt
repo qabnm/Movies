@@ -20,7 +20,7 @@ class WeiChatBridgeContext {
         //分享到微信收藏
         const val weiChatFavorite = SendMessageToWX.Req.WXSceneFavorite
         //QQ的appId
-        const val qqAppId = "00000"
+        const val qqAppId = "101936595"
         //分享到QQ
         const val shareToQQ = 1
         //分享到QQ空间

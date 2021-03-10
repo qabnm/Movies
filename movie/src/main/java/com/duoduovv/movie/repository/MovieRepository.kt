@@ -51,6 +51,15 @@ class MovieRepository : MovieApiRepository() {
     }
 
     /**
+     * 审核版的影视详情
+     * @param movieId String
+     * @return BaseResponseData<MovieDetailForDebugBean>
+     */
+    suspend fun movieDetailForDebug(movieId: String) = request {
+        apiService.movieDetailForDebug(movieId = movieId)
+    }
+
+    /**
      * 获取播放信息
      * @param vid String
      * @param id String

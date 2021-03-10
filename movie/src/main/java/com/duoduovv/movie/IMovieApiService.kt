@@ -55,6 +55,14 @@ interface IMovieApiService {
     ): BaseResponseData<MovieDetailBean>
 
     /**
+     * 审核版的影视详情
+     * @param movieId String
+     * @return BaseResponseData<MovieDetailForDebugBean>
+     */
+    @GET("api/vod/detail")
+    suspend fun movieDetailForDebug(@Query("id") movieId: String): BaseResponseData<MovieDetailForDebugBean>
+
+    /**
      * 获取播放信息
      * @param vid String
      * @param id String
