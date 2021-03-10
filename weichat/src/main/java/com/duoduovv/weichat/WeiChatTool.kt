@@ -114,7 +114,7 @@ class WeiChatTool {
          * 其中Authorities为 Manifest文件中注册FileProvider时设置的authorities属性值
          */
         fun regToQQ(context: Context) {
-            mTenCent = Tencent.createInstance(qqAppId, context, "com.duoduovv.movie.fileProvider")
+            mTenCent = Tencent.createInstance(qqAppId, context, "com.tencent.duoduovv.fileProvider")
         }
 
         /**

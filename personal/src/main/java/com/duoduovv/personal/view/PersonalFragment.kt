@@ -14,6 +14,7 @@ import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.*
 import com.duoduovv.personal.viewmodel.WeiChatViewModel
 import com.duoduovv.tent.TentLoginListener
+import com.duoduovv.tent.TentUserInfo
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenValidUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.refreshTokenUrl
@@ -46,7 +47,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             layoutHistory.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
             }
-            layoutDownload.setOnClickListener {  }
+            layoutDownload.setOnClickListener { }
             layoutCollection.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
@@ -86,6 +87,21 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         viewModel.getWeiChatUseInfo()
             .observe(this, { setUserInfo(viewModel.getWeiChatUseInfo().value) })
         viewModel.getToken().observe(this, { loginSuccess(viewModel.getToken().value) })
+
+        //注册QQ登录的监听
+        LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(this, {
+            qqAuthSuccess(it)
+        })
+    }
+
+    /**
+     * QQ登录授权成功
+     * @param userInfo TentUserInfo?
+     */
+    private fun qqAuthSuccess(userInfo: TentUserInfo?) {
+        userInfo?.let {
+            viewModel.login(1, it.openId, it.nickName, it.sex, it.headerUrl)
+        }
     }
 
     /**
@@ -175,7 +191,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     /**
      * QQ登录
      */
-    private fun qqLogin(){
+    private fun qqLogin() {
         WeiChatTool.regToQQ(BaseApplication.baseCtx)
         WeiChatTool.loginListener = TentLoginListener(requireActivity())
         WeiChatTool.qqLogin(requireActivity(), WeiChatTool.loginListener!!)

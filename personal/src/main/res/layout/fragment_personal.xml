@@ -20,7 +20,7 @@
             android:orientation="horizontal"
             android:paddingTop="@dimen/dp_44"
             android:paddingBottom="@dimen/dp_27"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageIcon"
@@ -45,7 +45,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutLogin"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_height="wrap_content">
 
             <com.duoduovv.common.view.MediumBoldTextView

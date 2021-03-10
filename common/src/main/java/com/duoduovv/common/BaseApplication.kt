@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.CrashHandler
+import com.duoduovv.weichat.WeiChatTool
 import com.tencent.bugly.crashreport.CrashReport
 import com.umeng.commonsdk.UMConfigure
 import dc.android.bridge.util.OsUtils

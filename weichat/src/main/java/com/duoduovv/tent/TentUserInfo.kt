@@ -9,7 +9,7 @@ data class TentUserInfo(
     val ret: Int,
     val msg: String,
     val nickName: String,
-    val sex: String,
+    val sex: Int,
     val headerUrl: String,
     var openId:String
 )
