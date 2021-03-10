@@ -63,6 +63,11 @@ class RouterPath {
         const val PATH_MOVIE_DETAIL ="/movie/MovieDetailActivity"
 
         /**
+         * 影片详情 审核版
+         */
+        const val PATH_MOVIE_DETAIL_FOR_DEBUG = "/movie/MovieDetailActivityForDebug"
+
+        /**
          * 编辑资料
          */
         const val PATH_EDIT_MATERIALS = "/personal/EditMaterialsActivity"

@@ -2,6 +2,8 @@ package com.duoduovv.movie.view
 
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.facade.annotation.Route
+import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailForDebugActorAdapter
 import com.duoduovv.movie.adapter.MovieDetailForDebugStagePhoto
@@ -19,6 +21,7 @@ import kotlinx.android.synthetic.main.activity_movie_detail_for_debug.*
  * @date: 2021/3/1 10:23
  * @des:审核版用的影视详情页
  */
+@Route(path = RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG)
 class MovieDetailActivityForDebug : BaseViewModelActivity<MovieDetailForDebugViewModel>() {
     override fun getLayoutId() = R.layout.activity_movie_detail_for_debug
     override fun providerVMClass() = MovieDetailForDebugViewModel::class.java
