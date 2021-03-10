@@ -1,6 +1,5 @@
 package com.duoduovv.personal.view
 
-import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -178,6 +177,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun qqLogin(){
         WeiChatTool.regToQQ(BaseApplication.baseCtx)
-        WeiChatTool.qqLogin(requireActivity(), TentLoginListener(requireActivity()))
+        WeiChatTool.loginListener = TentLoginListener(requireActivity())
+        WeiChatTool.qqLogin(requireActivity(), WeiChatTool.loginListener!!)
     }
 }

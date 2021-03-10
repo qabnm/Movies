@@ -14,6 +14,7 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.duoduovv.main.R
 import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatTool
+import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
@@ -181,8 +182,8 @@ class MainActivity : BridgeActivity() {
         }
     }
 
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        WeiChatTool.mTenCent?.onActivityResult(requestCode, resultCode, data)
-//        super.onActivityResult(requestCode, resultCode, data)
-//    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        UIListenerManager.getInstance().onActivityResult(requestCode, resultCode,data,WeiChatTool.loginListener)
+        super.onActivityResult(requestCode, resultCode, data)
+    }
 }

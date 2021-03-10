@@ -18,6 +18,7 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
+import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent
 import java.io.ByteArrayOutputStream
 
@@ -31,6 +32,7 @@ class WeiChatTool {
     companion object {
         var weiChatApi: IWXAPI? = null
         var mTenCent: Tencent? = null
+        var loginListener:TentLoginListener?=null
 
         /**
          * 注册APP到微信
@@ -112,7 +114,7 @@ class WeiChatTool {
          * 其中Authorities为 Manifest文件中注册FileProvider时设置的authorities属性值
          */
         fun regToQQ(context: Context) {
-            mTenCent = Tencent.createInstance(qqAppId, context, "com.junliu.movie.fileProvider")
+            mTenCent = Tencent.createInstance(qqAppId, context, "com.duoduovv.movie.fileProvider")
         }
 
         /**
