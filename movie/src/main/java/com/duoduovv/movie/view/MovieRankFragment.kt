@@ -1,6 +1,8 @@
 package com.duoduovv.movie.view
 
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieRankAdapter
 import com.duoduovv.movie.bean.MovieRankBean
@@ -26,6 +28,11 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
         rvList.layoutManager = LinearLayoutManager(requireActivity())
         rankAdapter = MovieRankAdapter()
         rvList.adapter = rankAdapter
+        rankAdapter?.setOnItemClickListener { adapter, _, position ->
+            val movieId = (adapter as MovieRankAdapter).data[position].str_id
+            ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(BridgeContext.ID, movieId)
+                .navigation()
+        }
     }
 
     private fun setData(rankBean: MovieRankBean?) {
