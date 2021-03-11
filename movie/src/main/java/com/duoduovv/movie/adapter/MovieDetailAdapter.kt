@@ -23,7 +23,7 @@ import dc.android.bridge.util.GlideUtils
  * @date: 2021/1/13 18:24
  * @des:影片详情
  */
-class MovieDetailAdapter(private val context: Context, private val detailBean: MovieDetailBean) :
+class MovieDetailAdapter(private val context: Context, private var detailBean: MovieDetailBean) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val typeDetail = 1
     private val typeList = 2
@@ -44,6 +44,11 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         if (holder is ListViewHolder && position > 0) bindList(holder, position - 1)
     }
 
+    fun notifyDataChange(detailBean: MovieDetailBean){
+        this.detailBean = detailBean
+        notifyItemChanged(0)
+    }
+
     override fun getItemCount() = detailBean.recommends.size + 1
 
     override fun getItemViewType(position: Int) = when (position) {
@@ -58,7 +63,10 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
     private fun bindDetail(holder: DetailViewHolder) {
         holder.imgShare.setOnClickListener { listener?.onShareClick() }
         holder.imgDownload.setOnClickListener { listener?.onDownLoadClick() }
-        holder.imgCollect.setOnClickListener { listener?.onCollectClick(detailBean.isFavorite) }
+        holder.imgCollect.setOnClickListener { listener?.onCollectClick(detailBean.isFavorite,detailBean.movie.id) }
+        if (detailBean.isFavorite == 0) holder.imgCollect.setImageResource(R.drawable.movie_collect) else holder.imgCollect.setImageResource(
+            R.drawable.movie_has_collect
+        )
         holder.tvName.text = detailBean.movie.vod_name
         holder.tvDetail.setOnClickListener { listener?.onDetailClick(bean = detailBean.movie) }
         holder.tvScore.text = detailBean.movie.last_remark
@@ -95,6 +103,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         GlideUtils.setMovieImg(context, bean.cover_url, holder.imgCover)
         holder.tvName.text = bean.vod_name
         holder.tvScore.text = bean.remark
+        holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.str_id) }
     }
 
     class DetailViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
@@ -125,6 +134,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         val imgCover: ImageView = itemView.findViewById(R.id.imgCover)
         val tvName: TextView = itemView.findViewById(R.id.tvName)
         val tvScore: TextView = itemView.findViewById(R.id.tvScore)
+        val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
     }
 
     fun setOnViewClick(listener: OnViewClickListener?) {
@@ -134,9 +144,10 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
     interface OnViewClickListener {
         fun onShareClick()
         fun onDownLoadClick()
-        fun onCollectClick(isCollection: Int)
+        fun onCollectClick(isCollection: Int,movieId: String)
         fun onDetailClick(bean: MovieDetail)
         fun onSelectClick(dataList: List<MovieItem>)
+        fun onMovieClick(movieId: String)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

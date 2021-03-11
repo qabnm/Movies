@@ -35,18 +35,30 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var movieId = ""
     private var vid = ""
     private var detailAdapter: MovieDetailAdapter? = null
+    private var detailBean: MovieDetailBean? = null
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, resources.getColor(R.color.color000000))
     }
 
     override fun initView() {
-        rvList.layoutManager = GridLayoutManager(this,3)
+        rvList.layoutManager = GridLayoutManager(this, 3)
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
-        viewModel.getMoviePlayInfo().observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
-        viewModel.getAddState().observe(this, { })
-        viewModel.getDeleteState().observe(this, { })
+        viewModel.getMoviePlayInfo()
+            .observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
+        viewModel.getAddState().observe(this, {
+            detailBean?.let {
+                it.isFavorite = 1
+                detailAdapter?.notifyDataChange(it)
+            }
+        })
+        viewModel.getDeleteState().observe(this, {
+            detailBean?.let {
+                it.isFavorite = 0
+                detailAdapter?.notifyDataChange(it)
+            }
+        })
         setVideoPlayer()
-        videoPlayer.setVideoAllCallBack(object :VideoPlayCallback(){
+        videoPlayer.setVideoAllCallBack(object : VideoPlayCallback() {
             override fun onClickStartIcon(url: String?, vararg objects: Any?) {
                 //请求播放信息
                 viewModel.moviePlayInfo(vid, movieId)
@@ -58,11 +70,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 视频播放信息
      * @param bean MoviePlayInfoBean
      */
-    private fun setPlayInfo(bean: MoviePlayInfoBean?){
+    private fun setPlayInfo(bean: MoviePlayInfoBean?) {
         bean?.let {
             val playList = it.playUrls
-            if (playList.isNotEmpty()){
-                videoPlayer.setUp(playList[0].url,true,"")
+            if (playList.isNotEmpty()) {
+                videoPlayer.setUp(playList[0].url, true, "")
             }
         }
     }
@@ -73,17 +85,23 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     private fun setData(detailBean: MovieDetailBean?) {
+        this.detailBean = detailBean
         if (detailBean == null) return
         //视频信息
-        videoPlayer.loadCoverImage(detailBean.movie.cover_url,R.drawable.back_white)
-        detailAdapter = MovieDetailAdapter(this, detailBean = detailBean)
-        detailAdapter?.setOnViewClick(this)
-        rvList.adapter = detailAdapter
+        videoPlayer.loadCoverImage(detailBean.movie.cover_url, R.drawable.back_white)
+        if (null == detailAdapter) {
+            detailAdapter = MovieDetailAdapter(this, detailBean = detailBean)
+            detailAdapter?.setOnViewClick(this)
+            rvList.adapter = detailAdapter
+        } else {
+            detailAdapter?.notifyDataChange(detailBean)
+        }
         val list = detailBean.movieItems
+        //默认播放第一集
         if (list.isNotEmpty()) vid = list[0].vid
     }
 
-    private fun setVideoPlayer(){
+    private fun setVideoPlayer() {
         videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
@@ -116,7 +134,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     /**
      * 收藏
      */
-    override fun onCollectClick(isCollection: Int) {
+    override fun onCollectClick(isCollection: Int,movieId: String) {
         when (isCollection) {
             1 -> viewModel.deleteCollection(movieId)
             else -> viewModel.addCollection(movieId)
@@ -128,7 +146,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
         val realHeight = screenHeight - topBarHeight - videoHeight
-        Log.d("height","screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}")
+        Log.d(
+            "height",
+            "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"
+        )
         val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean)
         dialogFragment.showNow(supportFragmentManager, "detail")
     }
@@ -142,9 +163,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
         val realHeight = screenHeight - topBarHeight - videoHeight
-        Log.d("height","screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}")
+        Log.d(
+            "height",
+            "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"
+        )
         val dialogFragment = MovieDetailSelectDialogFragment(height = realHeight, dataList)
         dialogFragment.showNow(supportFragmentManager, "select")
+    }
+
+    override fun onMovieClick(movieId: String) {
+        viewModel.movieDetail(movieId)
     }
 
 }

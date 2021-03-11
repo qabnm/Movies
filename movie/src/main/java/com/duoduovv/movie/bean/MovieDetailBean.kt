@@ -14,7 +14,7 @@ data class MovieDetailBean(
     val playUrls: List<PlayUrlsBean>,
     val recommends: List<DetailRecommend>,
     val way: String,
-    val isFavorite: Int
+    var isFavorite: Int
 )
 
 data class LineList(val line: String, val name: String)
@@ -41,7 +41,8 @@ data class MovieDetail(
     val vod_name: String,
     val vod_number: String,
     val vod_year: String,
-    val movie_flag:Int
+    val movie_flag:Int,
+    val id:String
 )
 
 data class DetailRecommend(

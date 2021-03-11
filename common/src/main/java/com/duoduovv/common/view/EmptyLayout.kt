@@ -58,8 +58,8 @@ class EmptyLayout @JvmOverloads constructor(
     }
 
     fun setEmptyVisibility(visibility: Int) {
-        imgEmpty.visibility = visibility
-        tvEmpty.visibility = visibility
+        imgEmpty.visibility = if (visibility == 1) View.VISIBLE else View.GONE
+        tvEmpty.visibility = if (visibility == 1) View.VISIBLE else View.GONE
     }
 
     fun setEmptyView(imgSource: Int) {

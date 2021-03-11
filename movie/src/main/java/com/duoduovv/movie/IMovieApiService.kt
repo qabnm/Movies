@@ -88,6 +88,6 @@ interface IMovieApiService {
      * @param movieId String
      * @return BaseResponseData<Any>
      */
-    @DELETE("api/user/favorite_1614157043983")
+    @DELETE("api/user/favorite")
     suspend fun deleteCollection(@Query("movie_id") movieId: String): BaseResponseData<Any>
 }

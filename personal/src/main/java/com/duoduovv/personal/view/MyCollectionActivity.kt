@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.common.util.RouterPath
@@ -11,6 +12,7 @@ import com.duoduovv.personal.R
 import com.duoduovv.personal.adapter.MyCollectionAdapter
 import com.duoduovv.personal.bean.FavoriteBean
 import com.duoduovv.personal.viewmodel.CollectionViewModel
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelActivity
 import kotlinx.android.synthetic.main.activity_my_collcetion.*
 
@@ -35,6 +37,11 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
         collectionAdapter = MyCollectionAdapter()
         rvList.adapter = collectionAdapter
         collectionAdapter?.addChildClickViewIds(R.id.imgSelect)
+        collectionAdapter?.setOnItemClickListener { adapter, _, position ->
+            val movieId = (adapter as MyCollectionAdapter).data[position].str_id
+            ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(BridgeContext.ID, movieId)
+                .navigation()
+        }
         collectionAdapter?.setOnItemChildClickListener { adapter, view, position ->
             onClick(adapter, view, position)
         }
@@ -52,9 +59,14 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
      * @param movieId String?
      */
     private fun onDeleteSuccess(movieId: String?) {
+        collectionAdapter?.isEdit(false)
         //删除成功 直接刷新接口
         page = 1
         viewModel.collectionList(page)
+        selectCount = 0
+        isFirst = true
+        layoutSelect.visibility = View.GONE
+        layoutTopBar.setRightText("编辑")
     }
 
     /**
@@ -124,12 +136,14 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
             //当前有选中删除的项目
             val builder = StringBuilder()
             for (i in dataList.indices) {
-                builder.append(dataList[i].id).append(",")
+                if (dataList[i].isSelect) {
+                    builder.append(dataList[i].id).append(",")
+                }
             }
             var movieId = builder.toString()
             if (builder.toString().endsWith(",")) {
                 movieId = builder.toString()
-                    .substring(builder.toString().length - 1, builder.toString().length)
+                    .substring(0, builder.toString().length - 1)
             }
             viewModel.deleteCollection(movieId)//调用删除接口
         }
@@ -139,6 +153,7 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
      * 编辑按钮点击事件
      */
     private fun onEditClick() {
+        if (collectionAdapter?.data?.isEmpty() == true) return
         if (isFirst) {
             isFirst = false
             layoutTopBar.setRightText("取消")
@@ -165,6 +180,15 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
     }
 
     private fun getCollection(dataList: List<FavoriteBean>?) {
+        if (dataList?.isEmpty() == true) {
+            //收藏为空
+            layoutEmpty.setEmptyVisibility(1)
+            layoutSelect.visibility = View.GONE
+            layoutTopBar.setRightText("编辑")
+            isFirst = true
+        } else {
+            layoutEmpty.setEmptyVisibility(0)
+        }
         collectionAdapter?.setList(dataList)
     }
 

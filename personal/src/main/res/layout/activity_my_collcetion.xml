@@ -25,6 +25,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:emptyText="暂无收藏记录"
+        android:id="@+id/layoutEmpty"
         app:imgResource="@drawable/collection_empty">
 
         <androidx.recyclerview.widget.RecyclerView
