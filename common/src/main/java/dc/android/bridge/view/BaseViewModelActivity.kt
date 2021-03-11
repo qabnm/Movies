@@ -45,6 +45,7 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
                 is UnknownHostException -> showError(NETWORK_ERROR)
                 is SocketTimeoutException -> showError(NETWORK_ERROR)
                 is ConnectException -> showError(CONNECTION_ERROR)
+                is IllegalStateException -> showError("数据解析异常")
                 is RuntimeException -> showError(RUNTIME_ERROR)
                 is BaseRepository.TokenException -> showError(TOKEN_ERROR)
                 is BaseRepository.ParameterException -> parameterError(it.message.toString())

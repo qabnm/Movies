@@ -1,6 +1,9 @@
 package com.duoduovv.movie.view
 
+import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
@@ -30,8 +33,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var movieId = ""
     private var vid = ""
     private var detailAdapter: MovieDetailAdapter? = null
+    override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
+        super.setLayout(false, resources.getColor(R.color.color000000))
+    }
 
     override fun initView() {
+        rvList.layoutManager = GridLayoutManager(this,3)
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
         viewModel.getMoviePlayInfo().observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
         viewModel.getAddState().observe(this, { })
@@ -88,6 +95,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             //非wifi环境下，显示流量提醒
             isNeedShowWifiTip = true
             isShowDragProgressTextOnSeekBar = true //拖动进度条时，是否在 seekbar 开始部位显示拖动进度
+            backButton.setOnClickListener { finish() }
         }
     }
 
@@ -116,8 +124,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onDetailClick(bean: MovieDetail) {
         val screenHeight = OsUtils.getRealDisplayHeight(this)
         val topBarHeight = OsUtils.getStatusBarHeight(this)
-        val videoHeight = videoPlayer.layoutParams.height
+        val videoHeight = videoPlayer.measuredHeight
         val realHeight = screenHeight - topBarHeight - videoHeight
+        Log.d("height","screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}")
         val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean)
         dialogFragment.showNow(supportFragmentManager, "detail")
     }

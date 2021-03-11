@@ -96,9 +96,9 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      * @param movieId String
      */
     override fun onMovieClick(movieId: String) {
-//        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(ID, movieId)
-//            .navigation()
-        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG).withString(ID,movieId).navigation()
+        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(ID, movieId)
+            .navigation()
+//        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG).withString(ID,movieId).navigation()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {

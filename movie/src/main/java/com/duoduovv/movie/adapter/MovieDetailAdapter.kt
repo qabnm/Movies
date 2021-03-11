@@ -8,8 +8,10 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
@@ -58,18 +60,26 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         holder.imgCollect.setOnClickListener { listener?.onCollectClick(detailBean.isFavorite) }
         holder.tvName.text = detailBean.movie.vod_name
         holder.tvDetail.setOnClickListener { listener?.onDetailClick(bean = detailBean.movie) }
-        holder.tvScore.text = detailBean.movie.score
-        holder.tvType.text = "  /  ${detailBean.movie.vod_area_text}"
-        holder.tvWhere.text = detailBean.movie.remark
-        val number = detailBean.movie.vod_number.toInt()
-        if (number > 0) {
-            val list = ArrayList<String>()
-            for (i in 1 until number + 1) {
-                list.add(i.toString())
+        holder.tvScore.text = detailBean.movie.last_remark
+        holder.tvType.text = " /  ${detailBean.movie.vod_area_text}  /  ${detailBean.movie.vod_lang}"
+        if (MovieContext.TYPE_TV == detailBean.movie.movie_flag){
+            //是电视类型
+            holder.layoutContainer.visibility = View.VISIBLE
+            holder.tvWhere.text = detailBean.movie.remark
+            val number = detailBean.movie.vod_number.toInt()
+            if (number > 0) {
+                val list = ArrayList<String>()
+                for (i in 1 until number + 1) {
+                    list.add(i.toString())
+                }
+                val adapter = MovieEpisodesAdapter(list)
+                holder.rvList.adapter = adapter
             }
-            val adapter = MovieEpisodesAdapter(list)
-            holder.rvList.adapter = adapter
+        }else{
+            holder.layoutContainer.visibility = View.GONE
         }
+
+
     }
 
     /**
@@ -97,8 +107,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
         val tvWhere: TextView = itemView.findViewById(R.id.tvWhere)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
-        val layoutAlbum:LinearLayout = itemView.findViewById(R.id.layoutZhuanJi)
-
+        val layoutAlbum: LinearLayout = itemView.findViewById(R.id.layoutZhuanJi)
 
         init {
             rvList.layoutManager =
@@ -123,4 +132,16 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         fun onDetailClick(bean: MovieDetail)
     }
 
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        val manager = recyclerView.layoutManager
+        if (manager is GridLayoutManager) manager.spanSizeLookup =
+            object : GridLayoutManager.SpanSizeLookup() {
+                override fun getSpanSize(position: Int) = when (getItemViewType(position)) {
+                    typeDetail -> 3
+                    typeList -> 1
+                    else -> 1
+                }
+            }
+    }
 }

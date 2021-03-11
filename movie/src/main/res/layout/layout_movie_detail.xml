@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/dp_13"
     android:paddingTop="@dimen/dp_20"
     android:paddingRight="@dimen/dp_13"
-    android:paddingBottom="@dimen/dp_20">
+    android:paddingBottom="@dimen/dp_20"
+    >
 
     <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvName"

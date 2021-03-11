@@ -48,7 +48,7 @@ interface IMovieApiService {
     /**
      * 视频详情
      */
-    @GET("vod")
+    @GET("api/vod")
     suspend fun movieDetail(
         @Query("id") id: String,
         @Query("vid") vid: String = ""
@@ -68,7 +68,7 @@ interface IMovieApiService {
      * @param id String
      * @return BaseResponseData<MoviePlayInfoBean>
      */
-    @GET("vod/get_play")
+    @GET("api/vod/get_play")
     suspend fun moviePlayInfo(
         @Query("vid") vid: String,
         @Query("id") id: String

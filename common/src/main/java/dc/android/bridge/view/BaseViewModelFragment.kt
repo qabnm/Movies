@@ -45,6 +45,7 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
                 is UnknownHostException -> showError(NETWORK_ERROR)
                 is SocketTimeoutException -> showError(NETWORK_ERROR)
                 is ConnectException -> showError(CONNECTION_ERROR)
+                is IllegalStateException -> showError("数据解析异常")
                 is HttpException -> showError("${it.code()}${it.message()}")
                 is RuntimeException -> showError(RUNTIME_ERROR)
                 is BaseRepository.TokenException -> tokenValid()

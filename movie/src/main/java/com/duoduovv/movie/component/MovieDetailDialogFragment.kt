@@ -1,10 +1,7 @@
 package com.duoduovv.movie.component
 
 import android.os.Bundle
-import android.view.Gravity
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
@@ -24,6 +21,7 @@ class MovieDetailDialogFragment(private val height: Int, private val bean: Movie
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        dialog?.requestWindowFeature(Window.FEATURE_NO_TITLE)
         val view = inflater.inflate(R.layout.layout_movie_detail, container, false)
         initViews(view)
         return view
@@ -40,9 +38,13 @@ class MovieDetailDialogFragment(private val height: Int, private val bean: Movie
     private fun initWindow() {
         val window = dialog?.window
         window?.let {
-            it.attributes.width = OsUtils.getScreenWidth(requireContext())
+            it.decorView.setPadding(0,0,0,0)
+            it.attributes.width = WindowManager.LayoutParams.MATCH_PARENT
             it.attributes.height = height
             it.attributes.gravity = Gravity.BOTTOM
+            it.setBackgroundDrawableResource(R.color.colorFFFFFF)
+            it.attributes.windowAnimations = R.style.BottomToTopAnim
+            it.setDimAmount(0f)
         }
     }
 
