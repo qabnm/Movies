@@ -112,7 +112,7 @@
         android:layout_marginTop="@dimen/dp_13"
         app:layout_constraintTop_toBottomOf="@+id/tvScore">
 
-        <TextView
+        <com.duoduovv.common.view.MediumBoldTextView
             android:id="@+id/tvAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -124,7 +124,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@+id/tvWhere" />
 
-        <TextView
+        <com.duoduovv.common.view.MediumBoldTextView
             android:id="@+id/tvWhere"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -142,7 +142,6 @@
             android:id="@+id/rvList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/dp_9"
             android:layout_marginTop="@dimen/dp_6"
             android:scrollbars="none"
             app:layout_constraintTop_toBottomOf="@+id/tvWhere" />

@@ -13,6 +13,7 @@ import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MoviePlayInfoBean
 import com.duoduovv.movie.component.MovieDetailDialogFragment
+import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack
 import dc.android.bridge.BridgeContext
@@ -129,6 +130,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         Log.d("height","screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}")
         val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean)
         dialogFragment.showNow(supportFragmentManager, "detail")
+    }
+
+    /**
+     * 选集
+     * @param dataList List<String>
+     */
+    override fun onSelectClick(dataList: List<String>) {
+        val screenHeight = OsUtils.getRealDisplayHeight(this)
+        val topBarHeight = OsUtils.getStatusBarHeight(this)
+        val videoHeight = videoPlayer.measuredHeight
+        val realHeight = screenHeight - topBarHeight - videoHeight
+        Log.d("height","screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}")
+        val dialogFragment = MovieDetailSelectDialogFragment(height = realHeight, dataList)
+        dialogFragment.showNow(supportFragmentManager, "select")
     }
 
 }

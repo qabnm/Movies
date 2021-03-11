@@ -74,6 +74,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
                 }
                 val adapter = MovieEpisodesAdapter(list)
                 holder.rvList.adapter = adapter
+                holder.tvWhere.setOnClickListener { listener?.onSelectClick(list) }
             }
         }else{
             holder.layoutContainer.visibility = View.GONE
@@ -130,6 +131,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         fun onDownLoadClick()
         fun onCollectClick(isCollection: Int)
         fun onDetailClick(bean: MovieDetail)
+        fun onSelectClick(dataList:List<String>)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
