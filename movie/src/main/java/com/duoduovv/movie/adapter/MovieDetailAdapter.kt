@@ -15,6 +15,7 @@ import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
+import com.duoduovv.movie.bean.MovieItem
 import dc.android.bridge.util.GlideUtils
 
 /**
@@ -61,26 +62,27 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         holder.tvName.text = detailBean.movie.vod_name
         holder.tvDetail.setOnClickListener { listener?.onDetailClick(bean = detailBean.movie) }
         holder.tvScore.text = detailBean.movie.last_remark
-        holder.tvType.text = " /  ${detailBean.movie.vod_area_text}  /  ${detailBean.movie.vod_lang}"
-        if (MovieContext.TYPE_TV == detailBean.movie.movie_flag){
+        holder.tvType.text =
+            " /  ${detailBean.movie.vod_area_text}  /  ${detailBean.movie.vod_lang}"
+        if (MovieContext.TYPE_TV == detailBean.movie.movie_flag) {
             //是电视类型
             holder.layoutContainer.visibility = View.VISIBLE
             holder.tvWhere.text = detailBean.movie.remark
-            val number = detailBean.movie.vod_number.toInt()
-            if (number > 0) {
-                val list = ArrayList<String>()
-                for (i in 1 until number + 1) {
-                    list.add(i.toString())
-                }
-                val adapter = MovieEpisodesAdapter(list)
-                holder.rvList.adapter = adapter
-                holder.tvWhere.setOnClickListener { listener?.onSelectClick(list) }
-            }
-        }else{
+            val adapter = MovieEpisodesAdapter(detailBean.movieItems as MutableList<MovieItem>)
+            holder.rvList.adapter = adapter
+            holder.tvWhere.setOnClickListener { listener?.onSelectClick(detailBean.movieItems) }
+        } else {
             holder.layoutContainer.visibility = View.GONE
         }
 
-
+        if (MovieContext.TYPE_VARIETY == detailBean.movie.movie_flag) {
+            //综艺节目
+            holder.layoutAlbum.visibility = View.VISIBLE
+            val adapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
+            holder.rvAlbum.adapter = adapter
+        } else {
+            holder.layoutAlbum.visibility = View.GONE
+        }
     }
 
     /**
@@ -109,9 +111,12 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         val tvWhere: TextView = itemView.findViewById(R.id.tvWhere)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
         val layoutAlbum: LinearLayout = itemView.findViewById(R.id.layoutZhuanJi)
+        val rvAlbum: RecyclerView = itemView.findViewById(R.id.rvAlbum)
 
         init {
             rvList.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            rvAlbum.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
@@ -131,7 +136,7 @@ class MovieDetailAdapter(private val context: Context, private val detailBean: M
         fun onDownLoadClick()
         fun onCollectClick(isCollection: Int)
         fun onDetailClick(bean: MovieDetail)
-        fun onSelectClick(dataList:List<String>)
+        fun onSelectClick(dataList: List<MovieItem>)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

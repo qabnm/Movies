@@ -10,7 +10,8 @@ import com.duoduovv.movie.bean.MovieItem
  * @date: 2021/3/8 17:27
  * @des:专辑播放列表
  */
-class MovieAlbumAdapter:BaseQuickAdapter<MovieItem,BaseViewHolder>(R.layout.layout_movie_zhuanji) {
+class MovieAlbumAdapter(data: MutableList<MovieItem>) :
+    BaseQuickAdapter<MovieItem, BaseViewHolder>(R.layout.layout_movie_zhuanji, data) {
     override fun convert(holder: BaseViewHolder, item: MovieItem) {
         holder.setText(R.id.tvContent, item.title)
     }

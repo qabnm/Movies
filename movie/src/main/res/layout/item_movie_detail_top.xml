@@ -159,7 +159,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0_5"
-            android:background="@color/color333333" />
+            android:background="@color/color999999" />
 
         <com.duoduovv.common.view.MediumBoldTextView
             android:layout_width="match_parent"
@@ -168,17 +168,16 @@
             android:layout_marginBottom="@dimen/dp_4"
             android:drawableRight="@drawable/more_icon"
             android:includeFontPadding="false"
-            android:padding="@dimen/dp_12"
-            android:paddingLeft="@dimen/dp_12"
             android:text="专辑列表"
+            android:paddingTop="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_10"
             android:textColor="#141414"
             android:textSize="@dimen/sp_15" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvZhuanJi"
+            android:id="@+id/rvAlbum"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_64"
-            android:paddingLeft="@dimen/dp_12"
             android:scrollbars="none" />
     </LinearLayout>
 

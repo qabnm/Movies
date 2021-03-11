@@ -8,13 +8,14 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailSelectAdapter
+import com.duoduovv.movie.bean.MovieItem
 
 /**
  * @author: jun.liu
  * @date: 2021/3/11 15:03
  * @des:
  */
-class MovieDetailSelectDialogFragment(private val height: Int, private val dataList: List<String>) :
+class MovieDetailSelectDialogFragment(private val height: Int, private val dataList: List<MovieItem>) :
     DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,7 +31,7 @@ class MovieDetailSelectDialogFragment(private val height: Int, private val dataL
     private fun initViews(layoutView: View) {
         val rvList: RecyclerView = layoutView.findViewById(R.id.rvList)
         rvList.layoutManager = GridLayoutManager(requireContext(), 5)
-        val adapter = MovieDetailSelectAdapter(dataList as MutableList<String>)
+        val adapter = MovieDetailSelectAdapter(dataList as MutableList<MovieItem>)
         rvList.adapter = adapter
         val imgCancel: ImageView = layoutView.findViewById(R.id.imgCancel)
         imgCancel.setOnClickListener { dismiss() }

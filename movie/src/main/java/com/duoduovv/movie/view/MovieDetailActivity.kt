@@ -11,6 +11,7 @@ import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
+import com.duoduovv.movie.bean.MovieItem
 import com.duoduovv.movie.bean.MoviePlayInfoBean
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
@@ -136,7 +137,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 选集
      * @param dataList List<String>
      */
-    override fun onSelectClick(dataList: List<String>) {
+    override fun onSelectClick(dataList: List<MovieItem>) {
         val screenHeight = OsUtils.getRealDisplayHeight(this)
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
