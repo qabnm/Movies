@@ -47,12 +47,17 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
                 is ConnectException -> showError(CONNECTION_ERROR)
                 is HttpException -> showError("${it.code()}${it.message()}")
                 is RuntimeException -> showError(RUNTIME_ERROR)
-                is BaseRepository.TokenException -> showError(TOKEN_ERROR)
+                is BaseRepository.TokenException -> tokenValid()
                 is BaseRepository.ParameterException -> parameterError(it.message.toString())
                 else -> showError(it.message)
             }
         }
     }
+
+    /**
+     * token过期
+     */
+    open fun tokenValid(){}
 
     open fun showError(errMsg: String?) {
         LoggerSnack.show(requireActivity(), errMsg)

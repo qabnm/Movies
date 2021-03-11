@@ -24,6 +24,8 @@ class WeiChatViewModel : BaseViewModel() {
     fun getWeiChatUseInfo() = weiChartUserInfo
     private var token: MutableLiveData<LoginBean> = MutableLiveData()
     fun getToken() = token
+    private var userInfo: MutableLiveData<User> = MutableLiveData()
+    fun getUserInfo() = userInfo
 
     /**
      * 获取微信accessToken
@@ -100,5 +102,14 @@ class WeiChatViewModel : BaseViewModel() {
         bean.img = img
         bean.nickName = nickName
         if (result.code == SUCCESS) token.postValue(result.data)
+    }
+
+    /**
+     * 获取用户信息
+     * @return Job
+     */
+    fun userInfo() = request {
+        val result = repository.userInfo()
+        if (result.code == SUCCESS) userInfo.postValue(result.data.user)
     }
 }

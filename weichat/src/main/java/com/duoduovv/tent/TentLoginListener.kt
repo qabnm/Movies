@@ -62,21 +62,6 @@ class TentLoginListener(private val context: Context) : IUiListener {
                     }
                 }
                 userInfo.getUserInfo(listener)
-//                it.requestAsync("get_simple_userinfo",null, Constants.HTTP_GET,object :TentUserInfoListener(){
-//                    override fun onComplete(jsonObject: JSONObject?) {
-//                        Log.i("tent","onComplete")
-//                        jsonObject?.let { it ->
-//                            Log.i("tent",it.toString())
-//                            val ret = it.getInt("ret")
-//                            val nickName = it.getString("nickname")
-//                            val sex = if (it.getString("gender") == "男") 1 else 2
-//                            val msg = it.getString("msg")
-//                            val headerUrl = it.getString("figureurl_qq_1")
-//                            val userInfo = TentUserInfo(ret, msg, nickName, sex, headerUrl,openId)
-//                            LiveDataBus.get().with("tentUserInfo").value = userInfo
-//                        }
-//                    }
-//                })
             }
         } else {
             Toast.makeText(context, "授权失败", Toast.LENGTH_SHORT).show()

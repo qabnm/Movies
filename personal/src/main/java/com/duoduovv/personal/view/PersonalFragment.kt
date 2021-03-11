@@ -67,31 +67,24 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         }
         imgWeiChat.setOnClickListener { weiChatLogin() }
         imgQQ.setOnClickListener { qqLogin() }
+        viewModel.getUserInfo().observe(this,{ onGetUserInfoSuc(viewModel.getUserInfo().value) })
+    }
+
+    /**
+     * 成功获取了用户信息
+     * @param value User?
+     */
+    private fun onGetUserInfoSuc(value: User?) {
+        value?.let {
+            layoutLogin.visibility = View.GONE
+            layoutTop.visibility = View.VISIBLE
+            GlideUtils.setImg(requireActivity(), it.img, imageIcon)
+            tvUser.text = it.nick
+        }
     }
 
     override fun initData() {
-        LiveDataBus.get().with("wxCode", String::class.java).observe(this, {
-            //请求微信的accessToken
-            viewModel.accessToken(
-                url = accessTokenUrl,
-                appId = weiChatAppId,
-                secret = weiChatSecret,
-                code = it
-            )
-        })
-        viewModel.getAccessToken().observe(this, { accessToken(viewModel.getAccessToken().value) })
-        viewModel.getRefreshToken()
-            .observe(this, { refreshToken(viewModel.getRefreshToken().value) })
-        viewModel.getAccessTokenValid()
-            .observe(this, { accessTokenValid(viewModel.getAccessTokenValid().value) })
-        viewModel.getWeiChatUseInfo()
-            .observe(this, { setUserInfo(viewModel.getWeiChatUseInfo().value) })
-        viewModel.getToken().observe(this, { loginSuccess(viewModel.getToken().value) })
-
-        //注册QQ登录的监听
-        LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(this, {
-            qqAuthSuccess(it)
-        })
+        viewModel.userInfo()
     }
 
     /**
@@ -195,5 +188,36 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         WeiChatTool.regToQQ(BaseApplication.baseCtx)
         WeiChatTool.loginListener = TentLoginListener(requireActivity())
         WeiChatTool.qqLogin(requireActivity(), WeiChatTool.loginListener!!)
+    }
+
+    /**
+     * token过期
+     */
+    override fun tokenValid() {
+        layoutLogin.visibility = View.VISIBLE
+        layoutTop.visibility = View.GONE
+
+        LiveDataBus.get().with("wxCode", String::class.java).observe(this, {
+            //请求微信的accessToken
+            viewModel.accessToken(
+                url = accessTokenUrl,
+                appId = weiChatAppId,
+                secret = weiChatSecret,
+                code = it
+            )
+        })
+        viewModel.getAccessToken().observe(this, { accessToken(viewModel.getAccessToken().value) })
+        viewModel.getRefreshToken()
+            .observe(this, { refreshToken(viewModel.getRefreshToken().value) })
+        viewModel.getAccessTokenValid()
+            .observe(this, { accessTokenValid(viewModel.getAccessTokenValid().value) })
+        viewModel.getWeiChatUseInfo()
+            .observe(this, { setUserInfo(viewModel.getWeiChatUseInfo().value) })
+        viewModel.getToken().observe(this, { loginSuccess(viewModel.getToken().value) })
+
+        //注册QQ登录的监听
+        LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(this, {
+            qqAuthSuccess(it)
+        })
     }
 }

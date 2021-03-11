@@ -83,7 +83,7 @@ interface IPersonApiService {
      * @param unionId String
      */
     @FormUrlEncoded
-    @POST("login")
+    @POST("api/login")
     suspend fun login(
         @Field("open_type") openType: Int,
         @Field("open_id") openId: String,

@@ -33,7 +33,7 @@
             android:layout_width="@dimen/dp_33"
             android:layout_height="@dimen/dp_33"
             android:scaleType="centerCrop"
-            android:src="@drawable/center_icon"
+            tools:src="@drawable/center_icon"
             app:shapeAppearanceOverlay="@style/StyleShapeAppearanceImage" />
         <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>

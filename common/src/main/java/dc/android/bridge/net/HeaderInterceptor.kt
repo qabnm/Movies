@@ -1,6 +1,5 @@
 package dc.android.bridge.net
 
-import android.util.Log
 import android.webkit.WebSettings
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.SharedPreferencesHelper
@@ -19,7 +18,7 @@ class HeaderInterceptor : Interceptor {
         val userAgent = WebSettings.getDefaultUserAgent(BaseApplication.baseCtx)
         val location = SharedPreferencesHelper.helper.getValue(ADDRESS, "")
         builder.addHeader("User-Agent", "$userAgent---$location")
-        builder.addHeader("token", SharedPreferencesHelper.helper.getValue(TOKEN, "") as? String?:"")
+        builder.addHeader("Authorization", SharedPreferencesHelper.helper.getValue(TOKEN, "") as? String?:"")
         return chain.proceed(builder.build())
     }
 }
