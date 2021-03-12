@@ -2,11 +2,13 @@ package com.duoduovv.cinema.view
 
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchResultListAdapter
 import com.duoduovv.cinema.bean.SearchResultBean
 import com.duoduovv.cinema.viewmodel.SearchResultViewModel
+import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_search_result_list.*
@@ -17,7 +19,8 @@ import kotlinx.android.synthetic.main.layout_search_empty.*
  * @date: 2021/1/8 16:59
  * @des:搜索结果的列表页
  */
-class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>() {
+class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
+    SearchResultListAdapter.OnItemClickListener {
     private var resultAdapter: SearchResultListAdapter? = null
     override fun providerVMClass() = SearchResultViewModel::class.java
 
@@ -27,10 +30,9 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>() 
     private var page = 1
 
     override fun initView() {
+        resultAdapter = null
         viewModel.getSearchResult().observe(this, { setData(viewModel.getSearchResult().value) })
         rvList.layoutManager = LinearLayoutManager(requireActivity())
-        resultAdapter = SearchResultListAdapter()
-        rvList.adapter = resultAdapter
     }
 
     private fun setData(resultBean: SearchResultBean?) {
@@ -38,8 +40,13 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>() 
         if (dataList?.isNotEmpty() == true) {
             layoutEmpty.visibility = View.GONE
             rvList.visibility = View.VISIBLE
-            resultAdapter?.setList(dataList)
-        }else{
+            if (null == resultAdapter) {
+                resultAdapter = SearchResultListAdapter(dataList, requireActivity(), this)
+                rvList.adapter = resultAdapter
+            } else {
+                resultAdapter?.notifyDataChanged(dataList)
+            }
+        } else {
             layoutEmpty.visibility = View.VISIBLE
             rvList.visibility = View.GONE
         }
@@ -49,5 +56,10 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>() 
         typeId = arguments?.getString(BridgeContext.ID, "") ?: ""
         keyWord = arguments?.getString(CinemaContext.KEY_WORD, "") ?: ""
         viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
+    }
+
+    override fun onItemClick(movieId: String) {
+        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL)
+            .withString(BridgeContext.ID, movieId).navigation()
     }
 }

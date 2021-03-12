@@ -35,8 +35,11 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         imgBack.setOnClickListener { finish() }
         tvCancel.setOnClickListener {
             if (!TextUtils.isEmpty(etSearch.text)) {
+                if (searchResultFragment?.isVisible == true) return@setOnClickListener
                 toResultFragment(etSearch.text.toString())
-            } else finish()
+            } else{
+                finish()
+            }
         }
         //添加显示搜索记录的fragment
         showSearchFragment()
@@ -60,11 +63,14 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
 
     private fun showSearchResultFragment(result: String) {
         val ts = supportFragmentManager.beginTransaction()
-        searchResultFragment?.takeIf { null != searchResultFragment }?.also { ts.show(it) } ?: run {
+//        searchResultFragment?.takeIf { null != searchResultFragment }?.also {
+//            it.initData()
+//            ts.show(it)
+//        } ?: run {
             searchResultFragment = SearchResultFragment()
             searchResultFragment?.setKeyWord(result)
             ts.add(R.id.layoutContainer, searchResultFragment!!)
-        }
+//        }
         ts.commit()
     }
 
@@ -90,7 +96,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         override fun afterTextChanged(s: Editable?) {
             if (TextUtils.isEmpty(etSearch.text) && isSearchClick) {
                 if (searchResultFragment?.isVisible == true) searchResultFragment?.let {
-                    supportFragmentManager.beginTransaction().hide(it).commit()
+                    supportFragmentManager.beginTransaction().remove(it).commit()
                 }
                 if (searchFragment?.isVisible == false) {
                     showSearchFragment()

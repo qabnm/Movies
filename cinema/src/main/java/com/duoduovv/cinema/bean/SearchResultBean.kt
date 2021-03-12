@@ -11,8 +11,8 @@ data class SearchResultBean(
 )
 
 data class Paging(
-    val page: String,
-    val pageSize: String
+    val page: Int,
+    val pageSize: Int
 )
 
 data class SearchResultList(
@@ -21,7 +21,7 @@ data class SearchResultList(
     val is_copy: String,
     val is_end: String,
     val last_remark: String,
-    val movie_items: List<MovieItem>,
+    val movie_items: List<MovieItem>?,
     val remark: String,
     val score: String,
     val str_id: String,
@@ -32,12 +32,14 @@ data class SearchResultList(
     val vod_director: String,
     val vod_lang: String,
     val vod_name: String,
-    val vod_number: String,
+    val vod_number: Int,
     val vod_year: String,
-    val type_text:String
+    val type_id_text:String,
+    val id:String,
+    val movie_flag:Int
 )
 
 data class MovieItem(
-    val key: String,
-    val name: String
+    var vid: String,
+    var title: String
 )

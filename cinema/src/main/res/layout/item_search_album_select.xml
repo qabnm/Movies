@@ -15,7 +15,7 @@
         android:paddingRight="@dimen/dp_12"
         android:textColor="@color/color4D4D4D"
         android:textSize="@dimen/sp_12"
-        tools:text="20190210期" />
+        tools:text="沈腾模仿大猩猩却遭吐槽，杨迪抢答无人可比" />
 
     <View
         android:layout_width="@dimen/dp_10"

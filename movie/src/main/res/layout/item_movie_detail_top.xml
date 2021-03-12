@@ -159,7 +159,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_0_5"
-            android:background="@color/color999999" />
+            android:background="@color/colorF5F5F5" />
 
         <com.duoduovv.common.view.MediumBoldTextView
             android:layout_width="match_parent"
