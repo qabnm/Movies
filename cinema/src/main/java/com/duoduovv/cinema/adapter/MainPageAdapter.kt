@@ -13,12 +13,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
-import com.duoduovv.cinema.bean.Category
 import com.duoduovv.cinema.bean.MainBean
 import com.youth.banner.Banner
 import com.youth.banner.indicator.CircleIndicator
 import dc.android.bridge.util.GlideUtils
-import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 
 /**
