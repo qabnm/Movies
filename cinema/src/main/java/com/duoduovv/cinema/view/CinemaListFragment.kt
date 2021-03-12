@@ -1,12 +1,14 @@
 package com.duoduovv.cinema.view
 
-import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
 import com.duoduovv.cinema.bean.MainBean
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
+import com.duoduovv.common.util.RouterPath
+import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE_DETAIL
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -15,7 +17,6 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
 import kotlinx.android.synthetic.main.fragment_cinema_list.*
@@ -26,7 +27,7 @@ import kotlinx.android.synthetic.main.fragment_cinema_list.*
  * @des:首页
  */
 class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefreshListener,
-    OnLoadMoreListener,MainPageAdapter.OnItemClickListener {
+    OnLoadMoreListener, MainPageAdapter.OnItemClickListener {
     private var page = 1
     private var adapter: MainPageAdapter? = null
     private var column = ""
@@ -56,7 +57,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     private var mainBean: MainBean? = null
     private fun setData(value: MainBean?) {
         mainBean = value
-        if (null != value && value.mainRecommendBean.recommends?.isNotEmpty() == true){
+        if (null != value && value.mainRecommendBean.recommends?.isNotEmpty() == true) {
             rvList.visibility = View.VISIBLE
             if (null == adapter) {
                 adapter = MainPageAdapter(requireActivity(), bean = value)
@@ -66,7 +67,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
                 adapter?.notifyDataChanged(value)
             }
             if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
-        }else{
+        } else {
             rvList.visibility = View.GONE
         }
     }
@@ -105,5 +106,13 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      */
     override fun onCategoryClick(typeId: String) {
         LiveDataBus.get().with(BridgeContext.TYPE_ID).value = typeId
+    }
+
+    /**
+     * 跳转影视详情
+     * @param movieId String
+     */
+    override fun onMovieClick(movieId: String) {
+        ARouter.getInstance().build(PATH_MOVIE_DETAIL).withString(ID, movieId).navigation()
     }
 }

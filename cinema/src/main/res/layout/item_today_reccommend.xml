@@ -47,6 +47,7 @@
         android:paddingRight="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
         android:text="换一换"
+        android:visibility="gone"
         android:textColor="@color/color567CE7"
         android:textSize="@dimen/sp_12"
         app:layout_constraintLeft_toLeftOf="parent"

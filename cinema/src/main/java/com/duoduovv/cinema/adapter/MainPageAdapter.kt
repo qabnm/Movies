@@ -30,7 +30,7 @@ class MainPageAdapter(
     private val context: Context,
     private var bean: MainBean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    private var listener:OnItemClickListener?=null
+    private var listener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         CinemaContext.TYPE_BANNER -> BannerViewHolder(
@@ -45,21 +45,19 @@ class MainPageAdapter(
 //            context
 //        )
         CinemaContext.TYPE_RECOMMEND_LIST -> RecommendViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_main_recommend, parent, false),
-            context
+            LayoutInflater.from(context).inflate(R.layout.item_main_recommend, parent, false)
         )
         else -> RecommendViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_main_recommend, parent, false),
-            context
+            LayoutInflater.from(context).inflate(R.layout.item_main_recommend, parent, false)
         )
     }
 
-    fun notifyDataChanged(bean: MainBean){
+    fun notifyDataChanged(bean: MainBean) {
         this.bean = bean
         notifyDataSetChanged()
     }
 
-    override fun getItemCount()=
+    override fun getItemCount() =
         if (bean.mainRecommendBean.recommends?.isNotEmpty() == true) bean.mainRecommendBean.recommends!!.size + 2 else 2
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -93,7 +91,7 @@ class MainPageAdapter(
         if (category?.isNotEmpty() == true) {
             holder.rvList.visibility = View.VISIBLE
             val categoryAdapter = MainCategoryAdapter()
-            holder.rvList.adapter =categoryAdapter
+            holder.rvList.adapter = categoryAdapter
             categoryAdapter.setList(category)
             categoryAdapter.setOnItemClickListener { _, _, position ->
                 val typeId = category[position].type_spe_array.type_id
@@ -111,13 +109,17 @@ class MainPageAdapter(
      * @param holder TodayRecommendViewHolder
      */
     private fun bindTodayRecommend(holder: TodayRecommendViewHolder) {
-        if (bean.mainPageBean.selectRecommends?.isEmpty() == true){
+        if (bean.mainPageBean.selectRecommends?.isEmpty() == true) {
             holder.layoutContainer.visibility = View.GONE
-        }else{
+        } else {
             holder.layoutContainer.visibility = View.VISIBLE
             if (null == adapter) adapter = FilmRecommendAdapter()
             holder.rvList.adapter = adapter
             adapter?.setList(bean.mainPageBean.selectRecommends)
+            adapter?.setOnItemClickListener { adapter, _, position ->
+                val movieId = (adapter as FilmRecommendAdapter).data[position].str_id
+                listener?.onMovieClick(movieId)
+            }
         }
     }
 
@@ -137,17 +139,19 @@ class MainPageAdapter(
     private fun bindRecommend(holder: RecommendViewHolder, position: Int) {
         val dataList = bean.mainRecommendBean.recommends
         if (dataList != null && dataList.isNotEmpty()) {
-            GlideUtils.setMovieImg(context, dataList[position].cover_url, holder.coverImg)
-            holder.tvName.text = dataList[position].vod_name
-            holder.tvScore.text = StringUtils.getString(dataList[position].remark)
+            val bean = dataList[position]
+            GlideUtils.setMovieImg(context, bean.cover_url, holder.coverImg)
+            holder.tvName.text = bean.vod_name
+            holder.tvScore.text = StringUtils.getString(bean.remark)
+            holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.str_id) }
         }
     }
 
-    private class RecommendViewHolder(itemView: View, context: Context) :
-        RecyclerView.ViewHolder(itemView) {
+    private class RecommendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val coverImg: ImageView = itemView.findViewById(R.id.imgCover)
         val tvName: TextView = itemView.findViewById(R.id.tvName)
         val tvScore: TextView = itemView.findViewById(R.id.tvScore)
+        val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
     }
 
     private class AllLookViewHolder(itemView: View, context: Context) :
@@ -165,7 +169,8 @@ class MainPageAdapter(
         val tvMore: TextView = itemView.findViewById(R.id.tvMore)
         val tvChange: TextView = itemView.findViewById(R.id.tvChange)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
-        val layoutContainer:ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
+        val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
+
         init {
             rvList.layoutManager = GridLayoutManager(context, 3)
         }
@@ -176,6 +181,7 @@ class MainPageAdapter(
         val banner: Banner<com.duoduovv.cinema.bean.Banner, BannerImgAdapter> =
             itemView.findViewById(R.id.layoutBanner)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+
         init {
             rvList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -197,12 +203,13 @@ class MainPageAdapter(
             }
     }
 
-    fun setOnItemClickListener(listener:OnItemClickListener){
+    fun setOnItemClickListener(listener: OnItemClickListener) {
         this.listener = listener
     }
 
-    interface OnItemClickListener{
-        fun onCategoryClick(typeId:String)
+    interface OnItemClickListener {
+        fun onCategoryClick(typeId: String)
+        fun onMovieClick(movieId: String)
     }
 }
 

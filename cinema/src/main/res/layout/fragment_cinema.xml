@@ -23,7 +23,7 @@
             android:background="@drawable/drawable_shape_f3f4f8_15_radius"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_15"
-            android:text="万物皆可短歌行"
+            android:text="搜你所想搜"
             android:textColor="@color/color6E6F73"
             android:textSize="@dimen/sp_14" />
 
