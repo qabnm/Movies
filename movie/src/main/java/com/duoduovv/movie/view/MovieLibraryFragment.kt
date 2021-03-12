@@ -77,6 +77,10 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
         } else {
 
         }
+        finishLoading()
+    }
+
+    override fun finishLoading() {
         if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
         if (refreshLayout.isLoading) refreshLayout.finishLoadMore()
     }

@@ -6,9 +6,14 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchResultListAdapter
-import com.duoduovv.cinema.bean.SearchResultBean
+import com.duoduovv.cinema.bean.SearchResultList
 import com.duoduovv.cinema.viewmodel.SearchResultViewModel
 import com.duoduovv.common.util.RouterPath
+import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_search_result_list.*
@@ -20,7 +25,7 @@ import kotlinx.android.synthetic.main.layout_search_empty.*
  * @des:搜索结果的列表页
  */
 class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
-    SearchResultListAdapter.OnItemClickListener {
+    SearchResultListAdapter.OnItemClickListener, OnRefreshListener, OnLoadMoreListener {
     private var resultAdapter: SearchResultListAdapter? = null
     override fun providerVMClass() = SearchResultViewModel::class.java
 
@@ -32,14 +37,20 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     override fun initView() {
         resultAdapter = null
         viewModel.getSearchResult().observe(this, { setData(viewModel.getSearchResult().value) })
+        viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
         rvList.layoutManager = LinearLayoutManager(requireActivity())
+        refreshLayout.apply {
+            setRefreshHeader(ClassicsHeader(requireActivity()))
+            setRefreshFooter(ClassicsFooter(requireActivity()))
+            setOnRefreshListener(this@SearchResultListFragment)
+            setOnLoadMoreListener(this@SearchResultListFragment)
+        }
     }
 
-    private fun setData(resultBean: SearchResultBean?) {
-        val dataList = resultBean?.result
+    private fun setData(dataList: List<SearchResultList>?) {
         if (dataList?.isNotEmpty() == true) {
             layoutEmpty.visibility = View.GONE
-            rvList.visibility = View.VISIBLE
+            refreshLayout.visibility = View.VISIBLE
             if (null == resultAdapter) {
                 resultAdapter = SearchResultListAdapter(dataList, requireActivity(), this)
                 rvList.adapter = resultAdapter
@@ -48,8 +59,14 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
             }
         } else {
             layoutEmpty.visibility = View.VISIBLE
-            rvList.visibility = View.GONE
+            refreshLayout.visibility = View.GONE
         }
+        finishLoading()
+    }
+
+    override fun finishLoading() {
+        if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
+        if (refreshLayout.isLoading) refreshLayout.finishLoadMore()
     }
 
     override fun initData() {
@@ -61,5 +78,30 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     override fun onItemClick(movieId: String) {
         ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL)
             .withString(BridgeContext.ID, movieId).navigation()
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+        page = 1
+        refreshLayout.resetNoMoreData()
+        viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
+    }
+
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
+        page++
+        viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
+    }
+
+    /**
+     * 没有更多数据
+     * @param flag String?
+     */
+    private fun noMoreData(flag: String?) {
+        if (BridgeContext.NO_MORE_DATA == flag) {
+            //没有更多数据了
+            refreshLayout.apply {
+                finishLoadMoreWithNoMoreData()
+                setNoMoreData(true)
+            }
+        }
     }
 }

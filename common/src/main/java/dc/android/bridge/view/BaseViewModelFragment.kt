@@ -62,11 +62,15 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
 
     open fun showError(errMsg: String?) {
         LoggerSnack.show(requireActivity(), errMsg)
+        finishLoading()
     }
 
     private fun parameterError(msg: String) {
         LoggerSnack.show(requireActivity(), msg)
+        finishLoading()
     }
+
+    open fun finishLoading(){}
 
     override fun onDestroy() {
         super.onDestroy()

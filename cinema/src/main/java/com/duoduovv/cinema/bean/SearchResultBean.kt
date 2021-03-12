@@ -7,7 +7,7 @@ package com.duoduovv.cinema.bean
  */
 data class SearchResultBean(
     val paging: Paging,
-    val result: List<SearchResultList>
+    val result: List<SearchResultList>?
 )
 
 data class Paging(
