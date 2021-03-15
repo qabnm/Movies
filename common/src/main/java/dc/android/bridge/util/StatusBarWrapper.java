@@ -152,4 +152,8 @@ public class StatusBarWrapper {
     public void showStatusBarView(boolean showBarView){
         this.showBarView = showBarView;
     }
+
+    public void setStatusBarVisible(int visible){
+        vStatusBar.setVisibility(visible);
+    }
 }

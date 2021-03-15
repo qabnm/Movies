@@ -7,7 +7,7 @@ package com.duoduovv.movie.bean
  */
 data class MoviePlayInfoBean(
     val playLine: String,
-    val playUrls: List<PlayUrl>,
+    val playUrls: List<PlayUrl>?,
     val playVid: String
 )
 

@@ -58,4 +58,8 @@ open class BridgeActivity : BaseActivity() {
 
     open fun showStatusBarView():Boolean = true
 
+    fun setStatusBarVisible(visible:Int){
+        barWrapper.setStatusBarVisible(visible)
+    }
+
 }
