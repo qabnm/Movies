@@ -17,5 +17,6 @@ class CinemaContext:BridgeContext() {
         const val TYPE_ALL_LOOK = 300
         const val TYPE_RECOMMEND_LIST = 400
         const val TYPE_CATEGORY = 500
+        const val TYPE_TITLE = 600
     }
 }

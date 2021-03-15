@@ -34,10 +34,15 @@ class MainPageAdapter(
         CinemaContext.TYPE_BANNER -> BannerViewHolder(
             LayoutInflater.from(context).inflate(R.layout.item_main_banner, parent, false), context
         )
+        CinemaContext.TYPE_CATEGORY -> CategoryViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_layout_category, parent, false),
+            context
+        )
         CinemaContext.TYPE_TODAY_RECOMMEND -> TodayRecommendViewHolder(
             LayoutInflater.from(context).inflate(R.layout.item_today_reccommend, parent, false),
             context
         )
+        CinemaContext.TYPE_TITLE -> TitleViewHolder(LayoutInflater.from(context).inflate(R.layout.item_main_title, parent, false))
 //        CinemaContext.TYPE_ALL_LOOK -> AllLookViewHolder(
 //            LayoutInflater.from(context).inflate(R.layout.item_main_all_look, parent, false),
 //            context
@@ -61,17 +66,21 @@ class MainPageAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is BannerViewHolder -> bindBanner(holder = holder)
+            is CategoryViewHolder -> bindCategory(holder = holder)
             is TodayRecommendViewHolder -> bindTodayRecommend(holder)
+            is TitleViewHolder -> bindTitle(holder = holder)
 //            is AllLookViewHolder -> bindAllLook(holder)
             is RecommendViewHolder -> {
-                if (position > 1) bindRecommend(holder, position - 2)
+                if (position > 3) bindRecommend(holder, position - 4)
             }
         }
     }
 
     override fun getItemViewType(position: Int) = when (position) {
         0 -> CinemaContext.TYPE_BANNER
-        1 -> CinemaContext.TYPE_TODAY_RECOMMEND
+        1 -> CinemaContext.TYPE_CATEGORY
+        2 -> CinemaContext.TYPE_TODAY_RECOMMEND
+        3 -> CinemaContext.TYPE_TITLE
 //        2 -> CinemaContext.TYPE_ALL_LOOK
         else -> CinemaContext.TYPE_RECOMMEND_LIST
     }
@@ -85,6 +94,13 @@ class MainPageAdapter(
             holder.banner.addBannerLifecycleObserver(context as AppCompatActivity)
                 .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
         }
+    }
+
+    /**
+     * 分类
+     * @param holder CategoryViewHolder
+     */
+    private fun bindCategory(holder:CategoryViewHolder){
         val category = bean.mainPageBean.category
         if (category?.isNotEmpty() == true) {
             holder.rvList.visibility = View.VISIBLE
@@ -127,6 +143,10 @@ class MainPageAdapter(
      */
     private fun bindAllLook(holder: AllLookViewHolder) {
         holder.rvList.adapter = FilmAllLookAdapter(bean.mainPageBean.playRecommends)
+    }
+
+    private fun bindTitle(holder:TitleViewHolder){
+        holder.tvTitle.text = "热门推荐"
     }
 
     /**
@@ -178,12 +198,17 @@ class MainPageAdapter(
         RecyclerView.ViewHolder(itemView) {
         val banner: Banner<com.duoduovv.cinema.bean.Banner, BannerImgAdapter> =
             itemView.findViewById(R.id.layoutBanner)
-        val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+    }
 
+    private class CategoryViewHolder(itemView: View, context: Context) :
+        RecyclerView.ViewHolder(itemView) {
+        val rvList:RecyclerView = itemView.findViewById(R.id.rvList)
         init {
-            rvList.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            rvList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
+    }
+    private class TitleViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
+        val tvTitle:TextView = itemView.findViewById(R.id.tvTitle)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

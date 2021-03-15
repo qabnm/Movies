@@ -13,11 +13,4 @@
         app:layout_constraintDimensionRatio="27:13"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:paddingTop="@dimen/dp_25"
-        app:layout_constraintTop_toBottomOf="@+id/layoutBanner" />
 </androidx.constraintlayout.widget.ConstraintLayout>
