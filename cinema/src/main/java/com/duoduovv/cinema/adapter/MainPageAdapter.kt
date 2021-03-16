@@ -134,6 +134,7 @@ class MainPageAdapter(
                 val movieId = (adapter as FilmRecommendAdapter).data[position].str_id
                 listener?.onMovieClick(movieId)
             }
+            holder.tvMore.setOnClickListener { listener?.onTodayMoreClick() }
         }
     }
 
@@ -233,6 +234,7 @@ class MainPageAdapter(
     interface OnItemClickListener {
         fun onCategoryClick(typeId: String)
         fun onMovieClick(movieId: String)
+        fun onTodayMoreClick()
     }
 }
 

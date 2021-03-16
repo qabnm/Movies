@@ -37,7 +37,7 @@ class MainActivity : BridgeActivity() {
     private var typeId:String?=null
 
     private var cinemaFragment: BaseFragment? = null
-    private var hotSpotFragment: BaseFragment? = null
+//    private var hotSpotFragment: BaseFragment? = null
     private var movieFragment: BaseFragment? = null
     private var mineFragment: BaseFragment? = null
 
@@ -45,7 +45,7 @@ class MainActivity : BridgeActivity() {
 //        navigation.setNavBarClickListener(this)
         LiveDataBus.get().with(TYPE_ID, String::class.java).observe(this, {
             typeId = it
-            navigation.selectedItemId = checkPage(2)
+            navigation.selectedItemId = checkPage(1)
             LiveDataBus.get().with(ID).value = it
         })
     }
@@ -57,9 +57,9 @@ class MainActivity : BridgeActivity() {
             cinemaFragment = supportFragmentManager.getFragment(
                 savedInstanceState, PATH_CINEMA
             ) as? BaseFragment?
-            hotSpotFragment = supportFragmentManager.getFragment(
-                savedInstanceState, PATH_HOTSPOT
-            ) as? BaseFragment?
+//            hotSpotFragment = supportFragmentManager.getFragment(
+//                savedInstanceState, PATH_HOTSPOT
+//            ) as? BaseFragment?
             movieFragment =
                 supportFragmentManager.getFragment(savedInstanceState, PATH_MOVIE) as? BaseFragment?
             mineFragment = supportFragmentManager.getFragment(
@@ -72,7 +72,7 @@ class MainActivity : BridgeActivity() {
             when (it.itemId) {
                 R.id.action_main -> showFragment(ts, cinemaFragment, PATH_CINEMA, 0)
                 R.id.action_discover -> showFragment(ts, movieFragment, PATH_MOVIE, 1)
-                R.id.action_hot -> showFragment(ts, hotSpotFragment, PATH_HOTSPOT, 2)
+//                R.id.action_hot -> showFragment(ts, hotSpotFragment, PATH_HOTSPOT, 2)
                 R.id.action_mine -> showFragment(ts, mineFragment, PATH_PERSONAL, 3)
             }
             ts.commitAllowingStateLoss()
@@ -89,9 +89,9 @@ class MainActivity : BridgeActivity() {
      */
     private fun checkPage(position: Int) = when (position) {
         0 -> R.id.action_main
-        1 -> R.id.action_hot
-        2 -> R.id.action_discover
-        3 -> R.id.action_mine
+//        1 -> R.id.action_hot
+        1 -> R.id.action_discover
+        2 -> R.id.action_mine
         else -> R.id.action_main
     }
 
@@ -102,7 +102,7 @@ class MainActivity : BridgeActivity() {
     override fun onSaveInstanceState(outState: Bundle) {
         outState.putInt(position, currentPosition)
         cinemaFragment?.let { supportFragmentManager.putFragment(outState, PATH_CINEMA, it) }
-        hotSpotFragment?.let { supportFragmentManager.putFragment(outState, PATH_HOTSPOT, it) }
+//        hotSpotFragment?.let { supportFragmentManager.putFragment(outState, PATH_HOTSPOT, it) }
         movieFragment?.let { supportFragmentManager.putFragment(outState, PATH_MOVIE, it) }
         mineFragment?.let { supportFragmentManager.putFragment(outState, PATH_PERSONAL, it) }
         super.onSaveInstanceState(outState)
@@ -128,7 +128,7 @@ class MainActivity : BridgeActivity() {
 
     private fun getFragment(path: String, fragment: BaseFragment?) {
         when (path) {
-            PATH_HOTSPOT -> hotSpotFragment = fragment
+//            PATH_HOTSPOT -> hotSpotFragment = fragment
             PATH_CINEMA -> cinemaFragment = fragment
             PATH_PERSONAL -> mineFragment = fragment
             PATH_MOVIE -> movieFragment = fragment
@@ -167,7 +167,7 @@ class MainActivity : BridgeActivity() {
      */
     private fun hideAllFragment(transaction: FragmentTransaction) {
         cinemaFragment?.let { transaction.hide(it) }
-        hotSpotFragment?.let { transaction.hide(it) }
+//        hotSpotFragment?.let { transaction.hide(it) }
         movieFragment?.let { transaction.hide(it) }
         mineFragment?.let { transaction.hide(it) }
     }

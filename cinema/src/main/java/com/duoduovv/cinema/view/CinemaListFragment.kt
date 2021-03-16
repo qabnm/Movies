@@ -115,4 +115,11 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun onMovieClick(movieId: String) {
         ARouter.getInstance().build(PATH_MOVIE_DETAIL).withString(ID, movieId).navigation()
     }
+
+    /**
+     * 今日推荐查看更多
+     */
+    override fun onTodayMoreClick() {
+        (rvList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(3,0)
+    }
 }
