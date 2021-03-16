@@ -1,14 +1,10 @@
 package com.duoduovv.movie.view
 
-import android.content.pm.ActivityInfo
 import android.content.res.Configuration
-import android.os.Build
 import android.util.Log
 import android.view.View
-import android.view.WindowInsetsController
 import android.view.WindowManager
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
@@ -22,7 +18,6 @@ import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.shuyu.gsyvideoplayer.GSYVideoManager
-import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
@@ -43,7 +38,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var vid = ""
     private var detailAdapter: MovieDetailAdapter? = null
     private var detailBean: MovieDetailBean? = null
-    private var orientationUtils :OrientationUtils? = null
+    private var orientationUtils: OrientationUtils? = null
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, resources.getColor(R.color.color000000))
     }
@@ -67,8 +62,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         })
         orientationUtils = OrientationUtils(this, videoPlayer)
         setVideoPlayer()
-        videoPlayer.setVideoAllCallBack(object :VideoPlayCallback(){})
-        videoPlayer.fullscreenButton.setOnClickListener { orientationUtils?.resolveByClick() }
+        videoPlayer.setVideoAllCallBack(object : VideoPlayCallback() {})
+        videoPlayer.fullscreenButton.setOnClickListener {
+            orientationUtils?.resolveByClick()
+            videoPlayer.startWindowFullscreen(this, true, true)
+        }
     }
 
     /**
@@ -79,7 +77,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
+                val url =
+                    "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
                 videoPlayer.setUp(url, true, "")
             }
         }
@@ -114,10 +113,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
             fullscreenButton.setOnClickListener {
-                this.startWindowFullscreen(context, false, false)
+                this.startWindowFullscreen(context, true, true)
             }
             //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
-            isAutoFullWithSize = true
+            isAutoFullWithSize = false
             //音频焦点冲突时是否释放
             isReleaseWhenLossAudio = false
             //全屏动画
@@ -126,6 +125,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             isNeedShowWifiTip = true
             isShowDragProgressTextOnSeekBar = true //拖动进度条时，是否在 seekbar 开始部位显示拖动进度
             backButton.setOnClickListener { onBackPressed() }
+            setIsTouchWiget(true)
+
         }
     }
 
@@ -144,7 +145,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     /**
      * 收藏
      */
-    override fun onCollectClick(isCollection: Int,movieId: String) {
+    override fun onCollectClick(isCollection: Int, movieId: String) {
         when (isCollection) {
             1 -> viewModel.deleteCollection(movieId)
             else -> viewModel.addCollection(movieId)
@@ -187,10 +188,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     override fun onBackPressed() {
         //先返回正常状态
-        if (orientationUtils?.screenType == ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE) {
-            videoPlayer.fullscreenButton.performClick()
-            return
-        }
+        orientationUtils?.backToProtVideo()
+        if (GSYVideoManager.backFromWindowFull(this)) return
         //释放所有
         videoPlayer.setVideoAllCallBack(null)
         super.onBackPressed()
@@ -214,18 +213,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        when(newConfig.orientation){
-            Configuration.ORIENTATION_LANDSCAPE ->{
+        when (newConfig.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
                 //横屏
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 setStatusBarVisible(View.GONE)
             }
-            else ->{
+            else -> {
                 //竖屏
                 window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 setStatusBarVisible(View.VISIBLE)
             }
         }
     }
-
 }
