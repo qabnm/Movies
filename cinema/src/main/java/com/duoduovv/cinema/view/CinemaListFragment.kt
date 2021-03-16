@@ -9,6 +9,7 @@ import com.duoduovv.cinema.bean.MainBean
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE_DETAIL
+import com.duoduovv.common.util.SharedPreferencesHelper
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -113,7 +114,14 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * @param movieId String
      */
     override fun onMovieClick(movieId: String) {
-        ARouter.getInstance().build(PATH_MOVIE_DETAIL).withString(ID, movieId).navigation()
+        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
+        val path = if (flag == 1) {
+            PATH_MOVIE_DETAIL
+        }else{
+            RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        }
+        ARouter.getInstance().build(path)
+            .withString(ID, movieId).navigation()
     }
 
     /**

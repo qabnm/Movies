@@ -9,6 +9,7 @@ import com.duoduovv.cinema.adapter.SearchResultListAdapter
 import com.duoduovv.cinema.bean.SearchResultList
 import com.duoduovv.cinema.viewmodel.SearchResultViewModel
 import com.duoduovv.common.util.RouterPath
+import com.duoduovv.common.util.SharedPreferencesHelper
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -75,8 +76,18 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
         viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
     }
 
+    /**
+     * 跳转详情页面
+     * @param movieId String
+     */
     override fun onItemClick(movieId: String) {
-        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL)
+        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
+        val path = if (flag == 1) {
+            RouterPath.PATH_MOVIE_DETAIL
+        }else{
+            RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        }
+        ARouter.getInstance().build(path)
             .withString(BridgeContext.ID, movieId).navigation()
     }
 

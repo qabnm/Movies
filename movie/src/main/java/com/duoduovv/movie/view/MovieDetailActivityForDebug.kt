@@ -1,5 +1,6 @@
 package com.duoduovv.movie.view
 
+import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -54,6 +55,16 @@ class MovieDetailActivityForDebug : BaseViewModelActivity<MovieDetailForDebugVie
             tvDetail.text = it.movie.vod_blurb
             actorAdapter?.setList(it.movieDetail.actor_array)
             photoAdapter?.setList(it.movieDetail.stage_photo_array)
+            if (it.movieDetail.actor_array?.isNotEmpty() == true){
+                tvMainActor.visibility = View.VISIBLE
+            }else{
+                tvMainActor.visibility = View.GONE
+            }
+            if (it.movieDetail.stage_photo_array?.isNotEmpty() == true){
+                tvJuZhao.visibility = View.VISIBLE
+            }else{
+                tvJuZhao.visibility = View.GONE
+            }
         }
     }
 

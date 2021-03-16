@@ -36,7 +36,7 @@ data class MovieForDebug(
 
 data class MovieDetailForDebug(
     val actor: String,
-    val actor_array: List<ActorArray>,
+    val actor_array: List<ActorArray>?,
     val alias_name: String,
     val area: String,
     val blurb: String,
@@ -58,7 +58,7 @@ data class MovieDetailForDebug(
     val score: String,
     val source: String,
     val source_id: String,
-    val stage_photo_array: List<StagePhotoArray>,
+    val stage_photo_array: List<StagePhotoArray>?,
     val tag_array: List<String>,
     val updated_at: String,
     val year: String

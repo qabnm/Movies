@@ -8,6 +8,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.common.util.RouterPath
+import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.adapter.MyCollectionAdapter
 import com.duoduovv.personal.bean.FavoriteBean
@@ -39,8 +40,14 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
         collectionAdapter?.addChildClickViewIds(R.id.imgSelect)
         collectionAdapter?.setOnItemClickListener { adapter, _, position ->
             val movieId = (adapter as MyCollectionAdapter).data[position].str_id
-            ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(BridgeContext.ID, movieId)
-                .navigation()
+            val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
+            val path = if (flag == 1) {
+                RouterPath.PATH_MOVIE_DETAIL
+            }else{
+                RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+            }
+            ARouter.getInstance().build(path)
+                .withString(BridgeContext.ID, movieId).navigation()
         }
         collectionAdapter?.setOnItemChildClickListener { adapter, view, position ->
             onClick(adapter, view, position)

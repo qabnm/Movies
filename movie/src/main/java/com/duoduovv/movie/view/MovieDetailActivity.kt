@@ -21,6 +21,7 @@ import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import kotlinx.android.synthetic.main.activity_movie_detail.*
@@ -64,7 +65,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         })
         orientationUtils = OrientationUtils(this, videoPlayer)
         setVideoPlayer()
-        videoPlayer.setVideoAllCallBack(object : VideoPlayCallback() {})
+        videoPlayer.setVideoAllCallBack(object : VideoPlayCallback() {
+            override fun onPlayError(url: String?, vararg objects: Any?) {
+                super.onPlayError(url, *objects)
+                LoggerSnack.show(this@MovieDetailActivity, "播放出错!")
+            }
+        })
         videoPlayer.fullscreenButton.setOnClickListener {
             orientationUtils?.resolveByClick()
             videoPlayer.startWindowFullscreen(this, true, true)
@@ -79,8 +85,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
-                videoPlayer.setUp(url, true, "")
+//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
+                videoPlayer.setUp(playList[0].url, true, "")
                 videoPlayer.startPlayLogic()
             }
         }
@@ -94,8 +100,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
-                videoPlayer.setUp(url, true, "")
+//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
+                videoPlayer.setUp(playList[0].url, true, "")
             }
         }
     }
@@ -241,6 +247,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     override fun onDestroy() {
         super.onDestroy()
+        //获取视频播放信息
         GSYVideoManager.releaseAllVideos()
         orientationUtils?.releaseListener()
     }

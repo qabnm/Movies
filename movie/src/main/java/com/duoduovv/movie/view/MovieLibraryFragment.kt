@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.RouterPath
+import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieLibraryAdapter
 import com.duoduovv.movie.bean.Filter
@@ -14,6 +15,7 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
@@ -100,9 +102,14 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      * @param movieId String
      */
     override fun onMovieClick(movieId: String) {
-        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(ID, movieId)
-            .navigation()
-//        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG).withString(ID,movieId).navigation()
+        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
+        val path = if (flag == 1) {
+            RouterPath.PATH_MOVIE_DETAIL
+        }else{
+            RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        }
+        ARouter.getInstance().build(path)
+            .withString(ID, movieId).navigation()
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {
