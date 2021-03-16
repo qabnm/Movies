@@ -44,7 +44,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         if (holder is ListViewHolder && position > 0) bindList(holder, position - 1)
     }
 
-    fun notifyDataChange(detailBean: MovieDetailBean){
+    fun notifyDataChange(detailBean: MovieDetailBean) {
         this.detailBean = detailBean
         notifyItemChanged(0)
     }
@@ -63,7 +63,12 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
     private fun bindDetail(holder: DetailViewHolder) {
         holder.imgShare.setOnClickListener { listener?.onShareClick() }
         holder.imgDownload.setOnClickListener { listener?.onDownLoadClick() }
-        holder.imgCollect.setOnClickListener { listener?.onCollectClick(detailBean.isFavorite,detailBean.movie.id) }
+        holder.imgCollect.setOnClickListener {
+            listener?.onCollectClick(
+                detailBean.isFavorite,
+                detailBean.movie.id
+            )
+        }
         if (detailBean.isFavorite == 0) holder.imgCollect.setImageResource(R.drawable.movie_collect) else holder.imgCollect.setImageResource(
             R.drawable.movie_has_collect
         )
@@ -78,6 +83,16 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.tvWhere.text = detailBean.movie.remark
             val adapter = MovieEpisodesAdapter(detailBean.movieItems as MutableList<MovieItem>)
             holder.rvList.adapter = adapter
+            adapter.setOnItemClickListener { ad, _, position ->
+                val data = (ad as MovieEpisodesAdapter).data
+                for (i in data.indices) {
+                    data[i].isSelect = false
+                }
+                data[position].isSelect = true
+                ad.notifyDataSetChanged()
+                val vid = data[position].vid
+                listener?.onSelectClick(vid, detailBean.movie.str_id)
+            }
             holder.tvWhere.setOnClickListener { listener?.onSelectClick(detailBean.movieItems) }
         } else {
             holder.layoutContainer.visibility = View.GONE
@@ -88,6 +103,16 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.layoutAlbum.visibility = View.VISIBLE
             val adapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
             holder.rvAlbum.adapter = adapter
+            adapter.setOnItemChildClickListener { ad, _, position ->
+                val data = (ad as MovieAlbumAdapter).data
+                for (i in data.indices) {
+                    data[i].isSelect = false
+                }
+                data[position].isSelect = true
+                ad.notifyDataSetChanged()
+                val vid = data[position].vid
+                listener?.onSelectClick(vid, detailBean.movie.str_id)
+            }
         } else {
             holder.layoutAlbum.visibility = View.GONE
         }
@@ -144,10 +169,11 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
     interface OnViewClickListener {
         fun onShareClick()
         fun onDownLoadClick()
-        fun onCollectClick(isCollection: Int,movieId: String)
+        fun onCollectClick(isCollection: Int, movieId: String)
         fun onDetailClick(bean: MovieDetail)
         fun onSelectClick(dataList: List<MovieItem>)
         fun onMovieClick(movieId: String)
+        fun onSelectClick(vid: String, movieId: String)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

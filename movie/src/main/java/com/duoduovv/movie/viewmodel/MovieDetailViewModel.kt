@@ -22,6 +22,10 @@ class MovieDetailViewModel : BaseViewModel() {
     private var moviePlayInfo: MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
     fun getMoviePlayInfo() = moviePlayInfo
 
+    //以下是点击播放  直接可以播放
+    private var movieClickInfo:MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
+    fun getMovieClickInfo() = movieClickInfo
+
     private val repository = MovieRepository()
 
     /**
@@ -41,9 +45,15 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param id String
      * @return Job
      */
-    fun moviePlayInfo(vid: String, id: String) = request {
+    fun moviePlayInfo(vid: String, id: String,flag:Int = 0) = request {
         val result = repository.moviePlayInfo(vid, id)
-        if (result.code == SUCCESS) moviePlayInfo.postValue(result.data)
+        if (result.code == SUCCESS){
+            if (flag == 0){
+                moviePlayInfo.postValue(result.data)
+            }else{
+                movieClickInfo.postValue(result.data)
+            }
+        }
     }
 
     /**

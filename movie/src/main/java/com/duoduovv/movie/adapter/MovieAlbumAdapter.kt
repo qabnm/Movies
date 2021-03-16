@@ -1,5 +1,7 @@
 package com.duoduovv.movie.adapter
 
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.movie.R
@@ -13,6 +15,12 @@ import com.duoduovv.movie.bean.MovieItem
 class MovieAlbumAdapter(data: MutableList<MovieItem>) :
     BaseQuickAdapter<MovieItem, BaseViewHolder>(R.layout.layout_movie_zhuanji, data) {
     override fun convert(holder: BaseViewHolder, item: MovieItem) {
-        holder.setText(R.id.tvContent, item.title)
+        val tvContent: TextView = holder.getView(R.id.tvContent)
+        tvContent.text = item.title
+        tvContent.setTextColor(
+            if (item.isSelect) ContextCompat.getColor(
+                context, R.color.color009CFF
+            ) else ContextCompat.getColor(context, R.color.color000000)
+        )
     }
 }

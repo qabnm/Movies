@@ -21,7 +21,7 @@ data class LineList(val line: String, val name: String)
 
 data class PlayUrlsBean(val key: String, val name: String, val url: String)
 
-data class MovieItem(val vid: String, val title: String)
+data class MovieItem(val vid: String, val title: String,var isSelect:Boolean = false)
 
 data class MovieDetail(
     val cover_url: String,

@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.duoduovv.common.listener.VideoPlayCallback
@@ -48,6 +49,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
         viewModel.getMoviePlayInfo()
             .observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
+        viewModel.getMovieClickInfo().observe(this, {setClickInfo(viewModel.getMovieClickInfo().value)})
         viewModel.getAddState().observe(this, {
             detailBean?.let {
                 it.isFavorite = 1
@@ -70,15 +72,29 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     /**
-     * 视频播放信息
+     * 点击播放的时候  需要直接播放视频信息
+     * @param bean MoviePlayInfoBean?
+     */
+    private fun setClickInfo(bean: MoviePlayInfoBean?){
+        bean?.let {
+            val playList = it.playUrls
+            if (playList?.isNotEmpty() == true) {
+                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
+                videoPlayer.setUp(url, true, "")
+                videoPlayer.startPlayLogic()
+            }
+        }
+    }
+
+    /**
+     * 视频播放信息  第一次进来的时候，只加载视频信息 但是不播放
      * @param bean MoviePlayInfoBean
      */
     private fun setPlayInfo(bean: MoviePlayInfoBean?) {
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-                val url =
-                    "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
+                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
                 videoPlayer.setUp(url, true, "")
             }
         }
@@ -92,6 +108,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun setData(detailBean: MovieDetailBean?) {
         this.detailBean = detailBean
         if (detailBean == null) return
+        movieId = detailBean.movie.str_id
         //视频信息
         videoPlayer.loadCoverImage(detailBean.movie.cover_url, R.drawable.back_white)
         if (null == detailAdapter) {
@@ -103,9 +120,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
         val list = detailBean.movieItems
         //默认播放第一集
-        if (list.isNotEmpty()) vid = list[0].vid
-
-        viewModel.moviePlayInfo(vid, movieId)
+        if (list.isNotEmpty()) {
+            detailBean.movieItems[0].isSelect = true
+            detailAdapter?.notifyItemChanged(0)
+            vid = list[0].vid
+            viewModel.moviePlayInfo(vid, movieId)
+        }
     }
 
     private fun setVideoPlayer() {
@@ -152,6 +172,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    /**
+     * 点击详情 显示详情 介绍弹窗
+     * @param bean MovieDetail
+     */
     override fun onDetailClick(bean: MovieDetail) {
         val screenHeight = OsUtils.getRealDisplayHeight(this)
         val topBarHeight = OsUtils.getStatusBarHeight(this)
@@ -182,7 +206,22 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         dialogFragment.showNow(supportFragmentManager, "select")
     }
 
+    /**
+     * 选集播放
+     * @param vid String
+     * @param movieId String
+     */
+    override fun onSelectClick(vid: String, movieId: String) {
+        viewModel.moviePlayInfo(vid, movieId, 1)
+    }
+
+    /**
+     * 点击了推荐的视频
+     * @param movieId String
+     */
     override fun onMovieClick(movieId: String) {
+        //清理掉正在播放的视频
+        GSYVideoManager.releaseAllVideos()
         viewModel.movieDetail(movieId)
     }
 
