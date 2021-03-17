@@ -24,6 +24,10 @@ open class BridgeContext {
         const val SUCCESS = 200
         const val TOKEN = "token"
         const val TYPE_ID = "typeId"
+        const val TITLE = "title"
+        const val URL = "url"
+        const val WAY_RELEASE = 1
+        const val WAY_H5 = 2
 
     }
 }

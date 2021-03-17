@@ -11,9 +11,9 @@ data class MovieDetailBean(
     val movieItems: List<MovieItem>,
     val playVid: String?,
     val playLine: String,
-    val playUrls: List<PlayUrlsBean>,
+    val playUrls: List<PlayUrlsBean>?,
     val recommends: List<DetailRecommend>,
-    val way: String,
+    val way: Int,
     var isFavorite: Int
 )
 

@@ -81,5 +81,10 @@ class RouterPath {
          * 修改签名
          */
         const val PATH_MODIFY_SIGN_NAME = "/personal/ModifySignNameActivity"
+
+        /**
+         * H5页面
+         */
+        const val PATH_WEB_VIEW = "/common/WebViewActivity"
     }
 }

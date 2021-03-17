@@ -3,6 +3,7 @@ package com.duoduovv.common.util;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -247,5 +248,28 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     public void onStartTrackingTouch(SeekBar seekBar) {
         byStartedClick = true;
         super.onStartTrackingTouch(seekBar);
+    }
+
+    @Override
+    protected void clickStartIcon() {
+        Log.i("videoPlayer", "****clickStartIcon这里执行了：flag="+flag);
+        if (flag == 1) {
+            super.clickStartIcon();
+        }else{
+            listener.onStartClick();
+        }
+    }
+
+    public interface OnStartClickListener{
+        void onStartClick();
+    }
+    private OnStartClickListener listener;
+    private int flag;
+    public void setStartClickListener(OnStartClickListener listener){
+        this.listener = listener;
+    }
+
+    public void setStartClick(int flag){
+        this.flag = flag;
     }
 }

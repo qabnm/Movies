@@ -7,8 +7,10 @@ import android.view.WindowManager
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
+import com.duoduovv.common.util.SampleCoverVideo
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.MovieDetail
@@ -21,6 +23,8 @@ import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.TITLE
+import dc.android.bridge.BridgeContext.Companion.URL
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelActivity
@@ -33,7 +37,7 @@ import kotlinx.android.synthetic.main.activity_movie_detail.*
  */
 @Route(path = RouterPath.PATH_MOVIE_DETAIL)
 class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
-    MovieDetailAdapter.OnViewClickListener {
+    MovieDetailAdapter.OnViewClickListener, SampleCoverVideo.OnStartClickListener,MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private var movieId = ""
@@ -41,6 +45,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var detailAdapter: MovieDetailAdapter? = null
     private var detailBean: MovieDetailBean? = null
     private var orientationUtils: OrientationUtils? = null
+    private var way = 2
+    private var playUrl = ""
+    private var title = ""
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, resources.getColor(R.color.color000000))
     }
@@ -50,7 +57,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
         viewModel.getMoviePlayInfo()
             .observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
-        viewModel.getMovieClickInfo().observe(this, {setClickInfo(viewModel.getMovieClickInfo().value)})
+        viewModel.getMovieClickInfo()
+            .observe(this, { setClickInfo(viewModel.getMovieClickInfo().value) })
         viewModel.getAddState().observe(this, {
             detailBean?.let {
                 it.isFavorite = 1
@@ -81,12 +89,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 点击播放的时候  需要直接播放视频信息
      * @param bean MoviePlayInfoBean?
      */
-    private fun setClickInfo(bean: MoviePlayInfoBean?){
+    private fun setClickInfo(bean: MoviePlayInfoBean?) {
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
-                videoPlayer.setUp(playList[0].url, true, "")
+                val url =
+                    "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
+//                playUrl = playList[0].url
+                videoPlayer.setStartClick(1)
+                videoPlayer.setUp(url, true, "")
                 videoPlayer.startPlayLogic()
             }
         }
@@ -94,14 +105,19 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     /**
      * 视频播放信息  第一次进来的时候，只加载视频信息 但是不播放
+     * 只有正常版本的才会走到这里来
      * @param bean MoviePlayInfoBean
      */
     private fun setPlayInfo(bean: MoviePlayInfoBean?) {
         bean?.let {
             val playList = it.playUrls
+            Log.d("videoPlayer", "****这里执行了：way=$way")
             if (playList?.isNotEmpty() == true) {
-//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
-                videoPlayer.setUp(playList[0].url, true, "")
+                val url =
+                    "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
+//                playUrl = playList[0].url
+                videoPlayer.setStartClick(1)
+                videoPlayer.setUp(url, true, "")
             }
         }
     }
@@ -115,6 +131,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         this.detailBean = detailBean
         if (detailBean == null) return
         movieId = detailBean.movie.str_id
+        way = detailBean.way
+        title = detailBean.movie.vod_name
         //视频信息
         videoPlayer.loadCoverImage(detailBean.movie.cover_url, R.drawable.back_white)
         if (null == detailAdapter) {
@@ -129,8 +147,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (list.isNotEmpty()) {
             detailBean.movieItems[0].isSelect = true
             detailAdapter?.notifyItemChanged(0)
-            vid = list[0].vid
-            viewModel.moviePlayInfo(vid, movieId)
+            if (way == BridgeContext.WAY_RELEASE) {
+                //如果是正常版本 就请求播放信息
+                vid = list[0].vid
+                viewModel.moviePlayInfo(vid, movieId)
+            } else if (way == BridgeContext.WAY_H5) {
+                //如果是H5版本
+                videoPlayer.setStartClick(0)
+                val urlList = detailBean.playUrls
+                if (urlList?.isNotEmpty() == true) playUrl = urlList[0].url
+            }
         }
     }
 
@@ -152,7 +178,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             isShowDragProgressTextOnSeekBar = true //拖动进度条时，是否在 seekbar 开始部位显示拖动进度
             backButton.setOnClickListener { onBackPressed() }
             setIsTouchWiget(true)
-
+            setStartClickListener(this@MovieDetailActivity)
         }
     }
 
@@ -208,7 +234,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             "height",
             "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"
         )
-        val dialogFragment = MovieDetailSelectDialogFragment(height = realHeight, dataList)
+        for (i in dataList.indices){
+            if (vid == dataList[i].vid) dataList[i].isSelect = true
+        }
+        val dialogFragment = MovieDetailSelectDialogFragment(height = realHeight, dataList,this)
         dialogFragment.showNow(supportFragmentManager, "select")
     }
 
@@ -218,7 +247,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param movieId String
      */
     override fun onSelectClick(vid: String, movieId: String) {
-        viewModel.moviePlayInfo(vid, movieId, 1)
+        this.vid = vid
+        if (way == BridgeContext.WAY_RELEASE){
+            //只有正常班的才会去请求接口
+            viewModel.moviePlayInfo(vid, movieId,1)
+        }
     }
 
     /**
@@ -271,5 +304,21 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 setStatusBarVisible(View.VISIBLE)
             }
         }
+    }
+
+    /**
+     * 跳转H5页面
+     */
+    override fun onStartClick() {
+        ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
+            .withString(TITLE, title).navigation()
+    }
+
+    /**
+     * 选集弹窗的点击事件
+     * @param vid String
+     */
+    override fun onDialogClick(vid: String) {
+        onSelectClick(vid, movieId)
     }
 }

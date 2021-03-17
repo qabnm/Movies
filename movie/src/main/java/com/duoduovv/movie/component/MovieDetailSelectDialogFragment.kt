@@ -15,7 +15,11 @@ import com.duoduovv.movie.bean.MovieItem
  * @date: 2021/3/11 15:03
  * @des:
  */
-class MovieDetailSelectDialogFragment(private val height: Int, private val dataList: List<MovieItem>) :
+class MovieDetailSelectDialogFragment(
+    private val height: Int,
+    private val dataList: List<MovieItem>,
+    private val listener: OnSelectDialogItemClickListener?
+) :
     DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,6 +37,16 @@ class MovieDetailSelectDialogFragment(private val height: Int, private val dataL
         rvList.layoutManager = GridLayoutManager(requireContext(), 5)
         val adapter = MovieDetailSelectAdapter(dataList as MutableList<MovieItem>)
         rvList.adapter = adapter
+        adapter.setOnItemClickListener { ad, _, position ->
+            val data = (ad as MovieDetailSelectAdapter).data
+            for (i in data.indices) {
+                data[i].isSelect = false
+            }
+            data[position].isSelect = true
+            ad.notifyDataSetChanged()
+            val vid = data[position].vid
+            listener?.onDialogClick(vid)
+        }
         val imgCancel: ImageView = layoutView.findViewById(R.id.imgCancel)
         imgCancel.setOnClickListener { dismiss() }
     }
@@ -40,6 +54,10 @@ class MovieDetailSelectDialogFragment(private val height: Int, private val dataL
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initWindow()
+    }
+
+    interface OnSelectDialogItemClickListener {
+        fun onDialogClick(vid: String)
     }
 
     /**

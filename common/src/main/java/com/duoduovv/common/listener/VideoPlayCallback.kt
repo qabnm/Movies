@@ -2,7 +2,6 @@ package com.duoduovv.common.listener
 
 import android.util.Log
 import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack
-import dc.android.bridge.util.LoggerSnack
 
 /**
  * @author: jun.liu
@@ -12,94 +11,94 @@ import dc.android.bridge.util.LoggerSnack
 open class VideoPlayCallback : VideoAllCallBack {
     private val TAG = "videoPlayer"
     override fun onStartPrepared(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onStartPrepared")
+        Log.d(TAG, "onStartPrepared")
     }
 
     override fun onPrepared(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onPrepared")
+        Log.d(TAG, "onPrepared")
     }
 
     override fun onClickStartIcon(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickStartIcon")
+        Log.d(TAG, "onClickStartIcon")
     }
 
     override fun onClickStartError(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickStartError")
+        Log.d(TAG, "onClickStartError")
     }
 
     override fun onClickStop(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickStop")
+        Log.d(TAG, "onClickStop")
     }
 
     override fun onClickStopFullscreen(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickStopFullscreen")
+        Log.d(TAG, "onClickStopFullscreen")
     }
 
     override fun onClickResume(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickResume")
+        Log.d(TAG, "onClickResume")
     }
 
     override fun onClickResumeFullscreen(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickResumeFullscreen")
+        Log.d(TAG, "onClickResumeFullscreen")
     }
 
     override fun onClickSeekbar(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickSeekbar")
+        Log.d(TAG, "onClickSeekbar")
     }
 
     override fun onClickSeekbarFullscreen(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickSeekbarFullscreen")
+        Log.d(TAG, "onClickSeekbarFullscreen")
     }
 
     override fun onAutoComplete(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onAutoComplete")
+        Log.d(TAG, "onAutoComplete")
     }
 
     override fun onComplete(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onComplete")
+        Log.d(TAG, "onComplete")
     }
 
     override fun onEnterFullscreen(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onEnterFullscreen")
+        Log.d(TAG, "onEnterFullscreen")
     }
 
     override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onQuitFullscreen")
+        Log.d(TAG, "onQuitFullscreen")
     }
 
     override fun onQuitSmallWidget(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onQuitSmallWidget")
+        Log.d(TAG, "onQuitSmallWidget")
     }
 
     override fun onEnterSmallWidget(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onEnterSmallWidget")
+        Log.d(TAG, "onEnterSmallWidget")
     }
 
     override fun onTouchScreenSeekVolume(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onTouchScreenSeekVolume")
+        Log.d(TAG, "onTouchScreenSeekVolume")
     }
 
     override fun onTouchScreenSeekPosition(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onTouchScreenSeekPosition")
+        Log.d(TAG, "onTouchScreenSeekPosition")
     }
 
     override fun onTouchScreenSeekLight(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onTouchScreenSeekLight")
+        Log.d(TAG, "onTouchScreenSeekLight")
     }
 
     override fun onPlayError(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onPlayError${url}****${objects[0]}")
+        Log.d(TAG, "onPlayError${url}****${objects[0]}")
     }
 
     override fun onClickStartThumb(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickStartThumb${url}****${objects[0]}")
+        Log.d(TAG, "onClickStartThumb${url}****${objects[0]}")
     }
 
     override fun onClickBlank(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickBlank")
+        Log.d(TAG, "onClickBlank")
     }
 
     override fun onClickBlankFullscreen(url: String?, vararg objects: Any?) {
-        Log.d(TAG,"onClickBlankFullscreen")
+        Log.d(TAG, "onClickBlankFullscreen")
     }
 }
