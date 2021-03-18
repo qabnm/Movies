@@ -1,6 +1,7 @@
 package com.duoduovv.cinema.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +43,12 @@ class MainPageAdapter(
             LayoutInflater.from(context).inflate(R.layout.item_today_reccommend, parent, false),
             context
         )
-        CinemaContext.TYPE_TITLE -> TitleViewHolder(LayoutInflater.from(context).inflate(R.layout.item_main_title, parent, false))
+        CinemaContext.TYPE_TITLE -> TitleViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.item_main_title, parent, false)
+        )
+        CinemaContext.TYPE_EMPTY -> EmptyViewHolder(
+            LayoutInflater.from(context).inflate(R.layout.layout_main_page_empty, parent, false)
+        )
 //        CinemaContext.TYPE_ALL_LOOK -> AllLookViewHolder(
 //            LayoutInflater.from(context).inflate(R.layout.item_main_all_look, parent, false),
 //            context
@@ -61,7 +67,7 @@ class MainPageAdapter(
     }
 
     override fun getItemCount() =
-        if (bean.mainRecommendBean.recommends?.isNotEmpty() == true) bean.mainRecommendBean.recommends!!.size + 2 else 2
+        if (bean.mainRecommendBean.recommends?.isNotEmpty() == true) bean.mainRecommendBean.recommends!!.size + 3 else 3
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -71,15 +77,27 @@ class MainPageAdapter(
             is TitleViewHolder -> bindTitle(holder = holder)
 //            is AllLookViewHolder -> bindAllLook(holder)
             is RecommendViewHolder -> {
-                if (position > 3) bindRecommend(holder, position - 4)
+                if (position > 2) bindRecommend(holder, position - 3)
             }
         }
     }
 
     override fun getItemViewType(position: Int) = when (position) {
         0 -> CinemaContext.TYPE_BANNER
-        1 -> CinemaContext.TYPE_CATEGORY
-        2 -> CinemaContext.TYPE_TODAY_RECOMMEND
+        1 -> {
+            if (bean.mainPageBean.category?.isNotEmpty() == true) {
+                CinemaContext.TYPE_CATEGORY
+            } else {
+                CinemaContext.TYPE_EMPTY
+            }
+        }
+        2 -> {
+            if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
+                CinemaContext.TYPE_TODAY_RECOMMEND
+            } else {
+                CinemaContext.TYPE_EMPTY
+            }
+        }
         3 -> CinemaContext.TYPE_TITLE
 //        2 -> CinemaContext.TYPE_ALL_LOOK
         else -> CinemaContext.TYPE_RECOMMEND_LIST
@@ -100,10 +118,10 @@ class MainPageAdapter(
      * 分类
      * @param holder CategoryViewHolder
      */
-    private fun bindCategory(holder:CategoryViewHolder){
+    private fun bindCategory(holder: CategoryViewHolder) {
         val category = bean.mainPageBean.category
+        Log.d("mainAdapter", "bindCategory执行了${category?.isNotEmpty()}")
         if (category?.isNotEmpty() == true) {
-            holder.rvList.visibility = View.VISIBLE
             val categoryAdapter = MainCategoryAdapter()
             holder.rvList.adapter = categoryAdapter
             categoryAdapter.setList(category)
@@ -111,8 +129,6 @@ class MainPageAdapter(
                 val typeId = category[position].type_spe_array.type_id
                 listener?.onCategoryClick(typeId = typeId)
             }
-        } else {
-            holder.rvList.visibility = View.GONE
         }
     }
 
@@ -123,10 +139,7 @@ class MainPageAdapter(
      * @param holder TodayRecommendViewHolder
      */
     private fun bindTodayRecommend(holder: TodayRecommendViewHolder) {
-        if (bean.mainPageBean.selectRecommends?.isEmpty() == true) {
-            holder.layoutContainer.visibility = View.GONE
-        } else {
-            holder.layoutContainer.visibility = View.VISIBLE
+        if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
             if (null == adapter) adapter = FilmRecommendAdapter()
             holder.rvList.adapter = adapter
             adapter?.setList(bean.mainPageBean.selectRecommends)
@@ -146,8 +159,13 @@ class MainPageAdapter(
         holder.rvList.adapter = FilmAllLookAdapter(bean.mainPageBean.playRecommends)
     }
 
-    private fun bindTitle(holder:TitleViewHolder){
+    private fun bindTitle(holder: TitleViewHolder) {
         holder.tvTitle.text = "热门推荐"
+        if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true){
+            holder.vLine.visibility = View.GONE
+        }else{
+            holder.vLine.visibility = View.VISIBLE
+        }
     }
 
     /**
@@ -176,7 +194,6 @@ class MainPageAdapter(
     private class AllLookViewHolder(itemView: View, context: Context) :
         RecyclerView.ViewHolder(itemView) {
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
-
         init {
             rvList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -188,8 +205,6 @@ class MainPageAdapter(
         val tvMore: TextView = itemView.findViewById(R.id.tvMore)
         val tvChange: TextView = itemView.findViewById(R.id.tvChange)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
-        val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
-
         init {
             rvList.layoutManager = GridLayoutManager(context, 3)
         }
@@ -203,14 +218,20 @@ class MainPageAdapter(
 
     private class CategoryViewHolder(itemView: View, context: Context) :
         RecyclerView.ViewHolder(itemView) {
-        val rvList:RecyclerView = itemView.findViewById(R.id.rvList)
+        val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+
         init {
-            rvList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+            rvList.layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         }
     }
-    private class TitleViewHolder(itemView: View):RecyclerView.ViewHolder(itemView){
-        val tvTitle:TextView = itemView.findViewById(R.id.tvTitle)
+
+    private class TitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
+        val vLine:View = itemView.findViewById(R.id.vLine)
     }
+
+    private class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)

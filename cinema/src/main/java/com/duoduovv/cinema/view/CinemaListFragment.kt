@@ -58,7 +58,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     private var mainBean: MainBean? = null
     private fun setData(value: MainBean?) {
         mainBean = value
-        if (null != value && value.mainRecommendBean.recommends?.isNotEmpty() == true) {
+        if (null != value) {
             rvList.visibility = View.VISIBLE
             if (null == adapter) {
                 adapter = MainPageAdapter(requireActivity(), bean = value)
