@@ -59,7 +59,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
         typeList = arguments?.getParcelableArrayList(LIST)
         if (typeList?.isNotEmpty() == true) {
             for (i in typeList!!.indices) {
-                map[typeList!![i].key] = ""
+                map[typeList!![i].key] = typeList!![i].array[0].key
             }
         }
         viewModel.movieLibList(map, page, typeId)
