@@ -47,6 +47,7 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
                 bundle.putString(CinemaContext.KEY_WORD, keyWord)
                 fragment.arguments = bundle
                 fragmentList.add(fragment)
+                if (dataList[i].name == "精选") dataList[i].name = "全部"
                 titleList.add(dataList[i].name)
             }
             vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)

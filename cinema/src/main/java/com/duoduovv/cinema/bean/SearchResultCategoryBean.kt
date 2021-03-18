@@ -11,5 +11,5 @@ data class SearchResultCategoryBean(
 
 data class SearchResultCategory(
     val id: String,
-    val name: String
+    var name: String
 )

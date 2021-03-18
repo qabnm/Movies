@@ -67,7 +67,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         }
         imgWeiChat.setOnClickListener { weiChatLogin() }
         imgQQ.setOnClickListener { qqLogin() }
-        viewModel.getUserInfo().observe(this,{ onGetUserInfoSuc(viewModel.getUserInfo().value) })
+        viewModel.getUserInfo().observe(this, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
     }
 
     /**

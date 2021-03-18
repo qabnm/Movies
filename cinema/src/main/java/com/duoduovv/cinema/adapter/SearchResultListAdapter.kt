@@ -1,23 +1,18 @@
 package com.duoduovv.cinema.adapter
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chad.library.adapter.base.BaseQuickAdapter
-import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 
@@ -29,13 +24,14 @@ import dc.android.bridge.util.StringUtils
 class SearchResultListAdapter(
     private var dataList: List<SearchResultList>,
     private val context: Context,
-    private val listener:OnItemClickListener?=null
+    private val listener: OnItemClickListener? = null
 ) : RecyclerView.Adapter<SearchResultListAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewHolder(
         LayoutInflater.from(context).inflate(R.layout.item_search_result, parent, false), context
     )
-    fun notifyDataChanged(dataList: List<SearchResultList>){
+
+    fun notifyDataChanged(dataList: List<SearchResultList>) {
         this.dataList = dataList
         notifyDataSetChanged()
     }
@@ -63,7 +59,7 @@ class SearchResultListAdapter(
                 holder.rvListTv.visibility = View.VISIBLE
                 val data = bean.movie_items
                 if (data?.isNotEmpty() == true) {
-                    holder.rvListTv.adapter = if (bean.vod_number <= 6) {
+                    val adapter = if (bean.vod_number <= 6) {
                         SearchTvSelectAdapter(data as MutableList<MovieItem>)
                     } else {
                         val tempData = ArrayList<MovieItem>()
@@ -75,6 +71,16 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 1])
                         SearchTvSelectAdapter(tempData)
                     }
+                    holder.rvListTv.adapter = adapter
+                    adapter.setOnItemClickListener { ad, _, pos ->
+                        val dataList = (ad as SearchTvSelectAdapter).data
+                        for (i in dataList.indices) {
+                            dataList[i].isSelect = false
+                        }
+                        dataList[pos].isSelect = true
+                        ad.notifyDataSetChanged()
+                        listener?.onSelectClick(dataList[pos].vid)
+                    }
                 }
             }
             else -> {
@@ -83,7 +89,7 @@ class SearchResultListAdapter(
                 holder.rvListTv.visibility = View.GONE
                 val data = bean.movie_items
                 if (data?.isNotEmpty() == true) {
-                    holder.rvListAlbum.adapter = if (bean.vod_number <= 6) {
+                    val adapter = if (bean.vod_number <= 6) {
                         SearchAlbumSelectAdapter(data as MutableList<MovieItem>)
                     } else {
                         val tempData = ArrayList<MovieItem>()
@@ -94,6 +100,14 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 2])
                         tempData.add(data[data.size - 1])
                         SearchAlbumSelectAdapter(tempData)
+                    }
+                    holder.rvListAlbum.adapter = adapter
+                    adapter.setOnItemClickListener { ad, _, pos ->
+                        val dataList = (ad as SearchAlbumSelectAdapter).data
+                        for (i in dataList.indices) dataList[i].isSelect = false
+                        dataList[pos].isSelect = true
+                        ad.notifyDataSetChanged()
+                        listener?.onSelectClick(dataList[pos].vid)
                     }
                 }
             }
@@ -111,7 +125,7 @@ class SearchResultListAdapter(
         val tvPlay: TextView = itemView.findViewById(R.id.tvPlay)
         val rvListTv: RecyclerView = itemView.findViewById(R.id.rvListTv)
         val rvListAlbum: RecyclerView = itemView.findViewById(R.id.rvListAlbum)
-        val layoutContainer:ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
+        val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
 
         init {
             rvListTv.layoutManager = GridLayoutManager(context, 6)
@@ -121,7 +135,8 @@ class SearchResultListAdapter(
         }
     }
 
-    interface OnItemClickListener{
-        fun onItemClick(movieId:String)
+    interface OnItemClickListener {
+        fun onItemClick(movieId: String)
+        fun onSelectClick(vid: String)
     }
 }

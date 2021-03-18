@@ -16,6 +16,8 @@ import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_search_result_list.*
 import kotlinx.android.synthetic.main.layout_search_empty.*
@@ -34,6 +36,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     private var typeId = ""
     private var keyWord = ""
     private var page = 1
+    private var vid = ""
 
     override fun initView() {
         resultAdapter = null
@@ -81,14 +84,22 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
      * @param movieId String
      */
     override fun onItemClick(movieId: String) {
-        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
+        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1)
         val path = if (flag == 1) {
             RouterPath.PATH_MOVIE_DETAIL
-        }else{
+        } else {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         }
         ARouter.getInstance().build(path)
-            .withString(BridgeContext.ID, movieId).navigation()
+            .withString(ID, movieId).withString(TYPE_ID, vid).navigation()
+    }
+
+    /**
+     * 点击了选集
+     * @param vid String
+     */
+    override fun onSelectClick(vid: String) {
+        this.vid = vid
     }
 
     override fun onRefresh(refreshLayout: RefreshLayout) {

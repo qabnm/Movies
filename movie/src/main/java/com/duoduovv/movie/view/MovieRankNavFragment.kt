@@ -44,6 +44,7 @@ class MovieRankNavFragment : BaseViewModelFragment<MovieRankCategoryViewModel>()
             bundle.putString(BridgeContext.ID, data[i].id)
             fragment.arguments = bundle
             fragmentList.add(fragment)
+            if (data[i].name == "精选") data[i].name = "全部"
             titleList.add(data[i].name)
         }
         vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)

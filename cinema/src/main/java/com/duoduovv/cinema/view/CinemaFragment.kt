@@ -3,13 +3,11 @@ package com.duoduovv.cinema.view
 import android.Manifest
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Column
-import com.duoduovv.cinema.bean.ConfigureBean
 import com.duoduovv.cinema.bean.Version
 import com.duoduovv.cinema.component.UpgradeDialogFragment
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
@@ -22,7 +20,6 @@ import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.domain.LocationBean
 import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.OsUtils
@@ -59,13 +56,13 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             BaseApplication.hotList = hotList
             checkUpdate(result?.version)
             //已下先暂时写死发布版本  方便测试
-            SharedPreferencesHelper.helper.setValue(BridgeContext.isRes,1)
+            SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, 1)
         })
         viewModel.getProgress().observe(this, {
             val progress = viewModel.getProgress().value
             upgradeDialogFragment?.onProgressUpdate(progress ?: 0)
         })
-        viewModel.getInstallState().observe(this,{
+        viewModel.getInstallState().observe(this, {
             val intent = viewModel.getInstallState().value
             intent?.let { startActivity(it) }
             requireActivity().finish()
@@ -150,10 +147,11 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      */
     private inner class LocationListener : LocationUtils.LbsLocationListener {
         override fun onLocation(bean: LocationBean) {
-            Log.i("address",bean.toString())
+            Log.i("address", bean.toString())
             locationUtils?.removeLocation()
             //将定位信息保存到本地
-            SharedPreferencesHelper.helper.setValue(ADDRESS,
+            SharedPreferencesHelper.helper.setValue(
+                ADDRESS,
                 "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${
                     StringUtils.gbEncoding(bean.locality)
                 }\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\"}"

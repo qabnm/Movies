@@ -83,6 +83,11 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.tvWhere.text = detailBean.movie.remark
             val adapter = MovieEpisodesAdapter(detailBean.movieItems as MutableList<MovieItem>)
             holder.rvList.adapter = adapter
+            for (i in detailBean.movieItems.indices){
+                if (detailBean.movieItems[i].isSelect){
+                    if (i !=0) (holder.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(i, 0)
+                }
+            }
             adapter.setOnItemClickListener { ad, _, position ->
                 val data = (ad as MovieEpisodesAdapter).data
                 for (i in data.indices) {
@@ -103,7 +108,12 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.layoutAlbum.visibility = View.VISIBLE
             val adapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
             holder.rvAlbum.adapter = adapter
-            adapter.setOnItemChildClickListener { ad, _, position ->
+            for (i in detailBean.movieItems.indices){
+                if (detailBean.movieItems[i].isSelect){
+                    if (i !=0) (holder.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(i, 0)
+                }
+            }
+            adapter.setOnItemClickListener { ad, _, position ->
                 val data = (ad as MovieAlbumAdapter).data
                 for (i in data.indices) {
                     data[i].isSelect = false

@@ -114,10 +114,10 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * @param movieId String
      */
     override fun onMovieClick(movieId: String) {
-        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
+        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1)
         val path = if (flag == 1) {
             PATH_MOVIE_DETAIL
-        }else{
+        } else {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         }
         ARouter.getInstance().build(path)
@@ -128,6 +128,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * 今日推荐查看更多
      */
     override fun onTodayMoreClick() {
-        (rvList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(3,0)
+        (rvList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(3, 0)
     }
 }

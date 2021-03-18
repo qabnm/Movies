@@ -11,5 +11,5 @@ data class MovieRankCategoryBean(
 
 data class RankCategory(
     val id: String,
-    val name: String
+    var name: String
 )

@@ -4,7 +4,6 @@ import android.content.res.Configuration
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -27,6 +26,7 @@ import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.URL
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import kotlinx.android.synthetic.main.activity_movie_detail.*
 
@@ -37,7 +37,8 @@ import kotlinx.android.synthetic.main.activity_movie_detail.*
  */
 @Route(path = RouterPath.PATH_MOVIE_DETAIL)
 class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
-    MovieDetailAdapter.OnViewClickListener, SampleCoverVideo.OnStartClickListener,MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener {
+    MovieDetailAdapter.OnViewClickListener, SampleCoverVideo.OnStartClickListener,
+    MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private var movieId = ""
@@ -123,6 +124,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun initData() {
+        vid = intent.getStringExtra(BridgeContext.TYPE_ID)?:""
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
         viewModel.movieDetail(id = movieId)
     }
@@ -145,11 +147,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val list = detailBean.movieItems
         //默认播放第一集
         if (list.isNotEmpty()) {
-            detailBean.movieItems[0].isSelect = true
+            if (StringUtils.isEmpty(vid)) {
+                detailBean.movieItems[0].isSelect = true
+            }else{
+                for (i in list.indices){
+                    if (vid == list[i].vid) detailBean.movieItems[i].isSelect = true
+                }
+            }
             detailAdapter?.notifyItemChanged(0)
             if (way == BridgeContext.WAY_RELEASE) {
-                //如果是正常版本 就请求播放信息
-                vid = list[0].vid
+                //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
+                if (StringUtils.isEmpty(vid))vid = list[0].vid
                 viewModel.moviePlayInfo(vid, movieId)
             } else if (way == BridgeContext.WAY_H5) {
                 //如果是H5版本
@@ -234,10 +242,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             "height",
             "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"
         )
-        for (i in dataList.indices){
+        for (i in dataList.indices) {
             if (vid == dataList[i].vid) dataList[i].isSelect = true
         }
-        val dialogFragment = MovieDetailSelectDialogFragment(height = realHeight, dataList,this)
+        val dialogFragment = MovieDetailSelectDialogFragment(height = realHeight, dataList, this)
         dialogFragment.showNow(supportFragmentManager, "select")
     }
 
@@ -248,9 +256,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onSelectClick(vid: String, movieId: String) {
         this.vid = vid
-        if (way == BridgeContext.WAY_RELEASE){
+        if (way == BridgeContext.WAY_RELEASE) {
             //只有正常班的才会去请求接口
-            viewModel.moviePlayInfo(vid, movieId,1)
+            viewModel.moviePlayInfo(vid, movieId, 1)
         }
     }
 

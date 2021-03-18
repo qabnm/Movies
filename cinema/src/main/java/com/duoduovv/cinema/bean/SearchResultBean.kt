@@ -41,5 +41,6 @@ data class SearchResultList(
 
 data class MovieItem(
     var vid: String,
-    var title: String
+    var title: String,
+    var isSelect:Boolean = false
 )
