@@ -41,7 +41,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun providerVMClass() = WeiChatViewModel::class.java
 
     override fun initView() {
-        if (SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1) == 0) {
+        if (SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1) == 1) {
             //正式版
             layoutIsRes.visibility = View.VISIBLE
             layoutHistory.setOnClickListener {

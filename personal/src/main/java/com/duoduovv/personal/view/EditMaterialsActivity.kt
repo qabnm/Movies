@@ -35,25 +35,25 @@ class EditMaterialsActivity :BaseViewModelActivity<PersonViewModel>(),ITakePhoto
 
     override fun initView() {
         //拍照
-        layoutHeader.setOnClickListener {
-            val dialogFragment = PhotoDialogFragment(this)
-            dialogFragment.showNow(supportFragmentManager,"photo")
-        }
-        //选择生日
-        layoutBirthday.setOnClickListener {
-            val dialog = BirthdayDialog(this)
-            dialog.showTimeDialog()
-            dialog.setOnTimeSelectListener(this)
-        }
-        //修改昵称
-        layoutNickName.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MODIFY_NICKNAME).navigation() }
-        //修改签名
-        layoutSign.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MODIFY_SIGN_NAME).navigation() }
-        //修改性别
-        layoutSex.setOnClickListener {
-            val dialog = SexDialogFragment(this)
-            dialog.showNow(supportFragmentManager, "sex")
-        }
+//        layoutHeader.setOnClickListener {
+//            val dialogFragment = PhotoDialogFragment(this)
+//            dialogFragment.showNow(supportFragmentManager,"photo")
+//        }
+//        //选择生日
+//        layoutBirthday.setOnClickListener {
+//            val dialog = BirthdayDialog(this)
+//            dialog.showTimeDialog()
+//            dialog.setOnTimeSelectListener(this)
+//        }
+//        //修改昵称
+//        layoutNickName.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MODIFY_NICKNAME).navigation() }
+//        //修改签名
+//        layoutSign.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_MODIFY_SIGN_NAME).navigation() }
+//        //修改性别
+//        layoutSex.setOnClickListener {
+//            val dialog = SexDialogFragment(this)
+//            dialog.showNow(supportFragmentManager, "sex")
+//        }
         normalColor = ContextCompat.getColor(this, R.color.color999999)
         viewModel.getUserInfo().observe(this, { setUserInfo(viewModel.getUserInfo().value) })
     }
