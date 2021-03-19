@@ -19,8 +19,32 @@ android {
         //打包时间
         resValue "string", "build_time", buildTime()
 
-//        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 //        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
+    }
+
+    applicationVariants.all { variant ->
+        def versionName
+        def versionCode
+        if (variant.buildType.isDebuggable()) {
+        } else {
+            versionCode = cfg.versionCode
+            versionName = cfg.versionName
+
+            variant.outputs.all { output ->
+                output.versionNameOverride = versionName
+                output.versionCodeOverride = versionCode
+                outputFileName = "duoduo_P_${variant.productFlavors[0].name}_v${variant.versionName}_${variant.buildType.name}.apk"
+            }
+        }
+    }
+    flavorDimensions 'default'
+    productFlavors {
+        df {}
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 
     signingConfigs {
