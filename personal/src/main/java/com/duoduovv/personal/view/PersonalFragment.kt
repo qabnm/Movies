@@ -25,6 +25,7 @@ import com.duoduovv.weichat.WeiChatTool
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.util.GlideUtils
+import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
@@ -177,8 +178,10 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * 微信登录
      */
     private fun weiChatLogin() {
-        WeiChatTool.regToWx(BaseApplication.baseCtx)
-        WeiChatTool.weiChatLogin(requireContext())
+        LoggerSnack.show(requireActivity(), "开发完善中!")
+        return
+//        WeiChatTool.regToWx(BaseApplication.baseCtx)
+//        WeiChatTool.weiChatLogin(requireContext())
     }
 
     /**

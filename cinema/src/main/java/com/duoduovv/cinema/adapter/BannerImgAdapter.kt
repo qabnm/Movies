@@ -17,7 +17,7 @@ import dc.android.bridge.util.GlideUtils
  * @date: 2021/1/15 17:59
  * @des:首页顶部banner
  */
-class BannerImgAdapter(private val data: List<Banner>, private val context: Context) :
+class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     BannerAdapter<Banner, BannerImgAdapter.BannerViewHolder>(data) {
 
     class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

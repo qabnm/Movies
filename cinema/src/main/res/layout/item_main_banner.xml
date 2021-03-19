@@ -9,6 +9,13 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginRight="@dimen/dp_5"
+        app:banner_indicator_gravity="right"
+        app:banner_indicator_marginBottom="@dimen/dp_15"
+        app:banner_indicator_marginRight="@dimen/dp_12"
+        app:banner_indicator_normal_color="#80ffffff"
+        app:banner_indicator_normal_width="@dimen/dp_5"
+        app:banner_indicator_selected_color="@color/colorFFFFFF"
+        app:banner_indicator_selected_width="@dimen/dp_5"
         app:banner_loop_time="4000"
         app:layout_constraintDimensionRatio="27:13"
         app:layout_constraintTop_toTopOf="parent" />
