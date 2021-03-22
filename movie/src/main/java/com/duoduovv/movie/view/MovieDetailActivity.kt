@@ -94,11 +94,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-                val url =
-                    "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
-//                playUrl = playList[0].url
+//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
                 videoPlayer.setStartClick(1)
-                videoPlayer.setUp(url, true, "")
+                videoPlayer.setUp(playList[0].url, true, "")
                 videoPlayer.startPlayLogic()
             }
         }
@@ -114,17 +112,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val playList = it.playUrls
             Log.d("videoPlayer", "****这里执行了：way=$way")
             if (playList?.isNotEmpty() == true) {
-                val url =
-                    "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
-//                playUrl = playList[0].url
+//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
                 videoPlayer.setStartClick(1)
-                videoPlayer.setUp(url, true, "")
+                videoPlayer.setUp(playList[0].url, true, "")
             }
         }
     }
 
     override fun initData() {
-        vid = intent.getStringExtra(BridgeContext.TYPE_ID)?:""
+        vid = intent.getStringExtra(BridgeContext.TYPE_ID) ?: ""
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
         viewModel.movieDetail(id = movieId)
     }
@@ -149,15 +145,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (list.isNotEmpty()) {
             if (StringUtils.isEmpty(vid)) {
                 detailBean.movieItems[0].isSelect = true
-            }else{
-                for (i in list.indices){
+            } else {
+                for (i in list.indices) {
                     if (vid == list[i].vid) detailBean.movieItems[i].isSelect = true
                 }
             }
             detailAdapter?.notifyItemChanged(0)
             if (way == BridgeContext.WAY_RELEASE) {
                 //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
-                if (StringUtils.isEmpty(vid))vid = list[0].vid
+                if (StringUtils.isEmpty(vid)) vid = list[0].vid
                 viewModel.moviePlayInfo(vid, movieId)
             } else if (way == BridgeContext.WAY_H5) {
                 //如果是H5版本

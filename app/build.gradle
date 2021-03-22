@@ -7,6 +7,7 @@ def cfg = ext.android
 static def buildTime() {
     return new Date().format("yyyyMMdd")
 }
+
 android {
     compileSdkVersion cfg.compileSdkVersion
 
@@ -24,23 +25,24 @@ android {
     }
 
     applicationVariants.all { variant ->
-        def versionName
-        def versionCode
-        if (variant.buildType.isDebuggable()) {
-        } else {
-            versionCode = cfg.versionCode
-            versionName = cfg.versionName
-
-            variant.outputs.all { output ->
-                output.versionNameOverride = versionName
-                output.versionCodeOverride = versionCode
-                outputFileName = "duoduo_P_${variant.productFlavors[0].name}_v${variant.versionName}_${variant.buildType.name}.apk"
-            }
+        variant.outputs.all { output ->
+            outputFileName = "duoduo_${variant.productFlavors[0].name}_v${cfg.versionName}.apk"
         }
     }
     flavorDimensions 'default'
     productFlavors {
-        df {}
+//        huawei {}
+//        xiaomi {}
+//        oppo {}
+//        vivo {}
+//        meizu {}
+//        yingyongbao {}
+//        wandoujia {}
+//        _360 {}
+        df{}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
     }
     lintOptions {
         checkReleaseBuilds false
@@ -98,8 +100,8 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/main/res']
@@ -109,10 +111,10 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    if (isModule.toBoolean()){
+    if (isModule.toBoolean()) {
         //在组件开发模式下app壳工程只需要依赖Common功能组件
         implementation project(path: ':common')
-    }else{
+    } else {
         //在集成模式下app壳工程必须依赖所有在应用Application中声明的业务组件，并且不需要再依赖任何功能组件。
         implementation project(path: ':main')
         implementation project(path: ':cinema')
