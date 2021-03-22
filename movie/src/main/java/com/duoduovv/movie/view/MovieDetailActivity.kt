@@ -143,17 +143,25 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val list = detailBean.movieItems
         //默认播放第一集
         if (list.isNotEmpty()) {
-            if (StringUtils.isEmpty(vid)) {
-                detailBean.movieItems[0].isSelect = true
-            } else {
-                for (i in list.indices) {
-                    if (vid == list[i].vid) detailBean.movieItems[i].isSelect = true
+            if (!hasClickRecommend){
+                if (StringUtils.isEmpty(vid)) {
+                    detailBean.movieItems[0].isSelect = true
+                } else {
+                    for (i in list.indices) {
+                        if (vid == list[i].vid) detailBean.movieItems[i].isSelect = true
+                    }
                 }
+            }else{
+                detailBean.movieItems[0].isSelect = true
             }
             detailAdapter?.notifyItemChanged(0)
             if (way == BridgeContext.WAY_RELEASE) {
                 //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
-                if (StringUtils.isEmpty(vid)) vid = list[0].vid
+                    if (!hasClickRecommend) {
+                        if (StringUtils.isEmpty(vid)) vid = list[0].vid
+                    }else{
+                        vid = list[0].vid
+                    }
                 viewModel.moviePlayInfo(vid, movieId)
             } else if (way == BridgeContext.WAY_H5) {
                 //如果是H5版本
@@ -258,6 +266,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    private var hasClickRecommend = false
     /**
      * 点击了推荐的视频
      * @param movieId String
@@ -265,6 +274,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
         GSYVideoManager.releaseAllVideos()
+        hasClickRecommend = true
         viewModel.movieDetail(movieId)
     }
 

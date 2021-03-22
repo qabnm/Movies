@@ -46,7 +46,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             //正式版
             layoutIsRes.visibility = View.VISIBLE
             layoutHistory.setOnClickListener {
-                ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
+//                ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
             }
             layoutDownload.setOnClickListener { }
             layoutCollection.setOnClickListener {

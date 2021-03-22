@@ -21,6 +21,7 @@
         android:gravity="top"
         android:hint="请输入您的意见"
         android:padding="@dimen/dp_12"
+        android:maxLength="300"
         android:textColor="@color/color212121"
         android:textColorHint="@color/color999999"
         android:textSize="@dimen/sp_15"

@@ -26,7 +26,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "duoduo_${variant.productFlavors[0].name}_v${cfg.versionName}.apk"
+            outputFileName = "duoduo_${variant.productFlavors[0].name}_v${cfg.versionName}_${variant.buildType.name}.apk"
         }
     }
     flavorDimensions 'default'
