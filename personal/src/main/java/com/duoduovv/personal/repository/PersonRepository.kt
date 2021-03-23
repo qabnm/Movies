@@ -103,4 +103,21 @@ class PersonRepository : PersonApiRepository() {
         apiService.deleteCollection(movieId)
     }
 
+    /**
+     * 檢查升級
+     * @return BaseResponseData<UpgradeBean>
+     */
+    suspend fun upgrade() = request {
+        apiService.upgrade()
+    }
+
+    /**
+     * apk升级下载
+     * @param url String
+     * @return ResponseBody
+     */
+    suspend fun downloadFile(url: String) = withContext(Dispatchers.IO){
+        apiService.downloadFile(url)
+    }
+
 }

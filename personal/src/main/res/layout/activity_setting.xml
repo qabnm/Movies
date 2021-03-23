@@ -116,13 +116,15 @@
         android:layout_height="@dimen/dp_10"
         android:background="@color/colorF2F2F2" />
 
-    <LinearLayout style="@style/centerLinear">
+    <LinearLayout style="@style/centerLinear"
+        android:id="@+id/layoutCheck">
 
         <TextView
             style="@style/commonText"
             android:text="检查版本" />
 
         <TextView
+            android:id="@+id/tvVersion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

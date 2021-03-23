@@ -1,4 +1,4 @@
-package com.duoduovv.cinema.component
+package com.duoduovv.common.view
 
 import android.os.Bundle
 import android.view.Gravity
@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.duoduovv.cinema.R
-import com.duoduovv.cinema.bean.Version
+import com.duoduovv.common.R
 import dc.android.bridge.util.OsUtils
 
 /**
@@ -17,8 +16,7 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/3/4 14:04
  * @des:升级弹窗
  */
-class UpgradeDialogFragment(private val bean:Version) :
-    DialogFragment() {
+class UpgradeDialogFragment(private val isForce:Int,private val upgradeContent:String,private val downloadUrl:String) : DialogFragment() {
     private lateinit var btnUpgrade: Button
     private var upgradeClickListener: OnUpgradeClickListener? = null
     override fun onCreateView(
@@ -35,15 +33,15 @@ class UpgradeDialogFragment(private val bean:Version) :
         val tvContent: TextView = view.findViewById(R.id.tvContent)
         btnUpgrade = view.findViewById(R.id.btnUpgrade)
         val tvCancel: TextView = view.findViewById(R.id.tvCancel)
-        if (bean.is_force == 1) {
+        if (isForce == 1) {
             tvCancel.visibility = View.GONE
         } else {
             tvCancel.visibility = View.VISIBLE
             tvCancel.setOnClickListener { dismiss() }
         }
-        tvContent.text = bean.content
-        val url = "http://qiniuyun.nucarf.net/wanjinyou2.8.0.apk"
-        btnUpgrade.setOnClickListener { upgradeClickListener?.onUpgradeClick(url) }
+        tvContent.text = upgradeContent
+//        val url = "http://qiniuyun.nucarf.net/wanjinyou2.8.0.apk"
+        btnUpgrade.setOnClickListener { upgradeClickListener?.onUpgradeClick(downloadUrl) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

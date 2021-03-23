@@ -9,13 +9,13 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Column
 import com.duoduovv.cinema.bean.Version
-import com.duoduovv.cinema.component.UpgradeDialogFragment
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
+import com.duoduovv.common.view.UpgradeDialogFragment
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
@@ -78,7 +78,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val versionCode = OsUtils.getVerCode(requireContext())
             if (versionCode != -1 && it.version_number > versionCode) {
                 //需要升级  弹出升级框
-                upgradeDialogFragment = UpgradeDialogFragment(it)
+                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content,it.url)
                 upgradeDialogFragment?.showNow(childFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             }

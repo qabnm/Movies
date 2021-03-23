@@ -2,6 +2,7 @@ package com.duoduovv.personal
 
 import com.duoduovv.personal.bean.*
 import dc.android.bridge.net.BaseResponseData
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**
@@ -107,4 +108,19 @@ interface IPersonApiService {
      */
     @DELETE("api/user/favorite")
     suspend fun deleteCollection(@Query("movie_id") movieId: String): BaseResponseData<DeleteCollectionBean>
+
+    /**
+     * 檢查升級功能
+     */
+    @GET("api/config")
+    suspend fun upgrade():BaseResponseData<UpgradeBean>
+
+    /**
+     * 下载更新
+     * @param url String
+     * @return ResponseBody
+     */
+    @Streaming
+    @GET
+    suspend fun downloadFile(@Url url:String): ResponseBody
 }
