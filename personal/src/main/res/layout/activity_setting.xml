@@ -18,13 +18,15 @@
         android:layout_height="@dimen/dp_10"
         android:background="@color/colorF2F2F2" />
 
-    <LinearLayout style="@style/centerLinear">
+    <LinearLayout style="@style/centerLinear"
+        android:id="@+id/layoutClearCache">
 
         <TextView
             style="@style/commonText"
             android:text="清除缓存" />
 
         <TextView
+            android:id="@+id/tvCache"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

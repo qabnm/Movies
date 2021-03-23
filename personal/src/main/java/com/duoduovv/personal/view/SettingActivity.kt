@@ -4,9 +4,11 @@ import android.annotation.SuppressLint
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
 import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
+import com.duoduovv.common.view.AlertDialogFragment
 import com.duoduovv.common.view.UpgradeDialogFragment
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
@@ -57,11 +59,11 @@ class SettingActivity : BaseViewModelActivity<SettingViewModel>() {
             val versionCode = OsUtils.getVerCode(this)
             if (versionCode != -1 && it.version_number > versionCode) {
                 //需要升级  弹出升级框
-                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content,it.url)
+                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content, it.url)
                 upgradeDialogFragment?.showNow(supportFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
-            }else{
-                LoggerSnack.show(this,"已经是最新版本了！")
+            } else {
+                LoggerSnack.show(this, "已经是最新版本了！")
             }
         }
     }
@@ -97,6 +99,17 @@ class SettingActivity : BaseViewModelActivity<SettingViewModel>() {
     @SuppressLint("SetTextI18n")
     override fun initData() {
         tvVersion.text = "v${OsUtils.getVerName(BaseApplication.baseCtx)}"
+        tvCache.text = FileUtils.getTotalCacheSize(BaseApplication.baseCtx)
+        layoutClearCache.setOnClickListener {
+            val dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener)
+            dialogFragment.showNow(supportFragmentManager, "clear")
+        }
     }
 
+    private val listener = object : AlertDialogFragment.OnDialogSureClickListener {
+        override fun onSureClick() {
+            FileUtils.clearAllCache(BaseApplication.baseCtx)
+            tvCache.text = "0KB"
+        }
+    }
 }
