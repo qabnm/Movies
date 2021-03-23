@@ -5,14 +5,17 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.FileUtils
+import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
 import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.common.view.AlertDialogFragment
 import com.duoduovv.common.view.UpgradeDialogFragment
+import com.duoduovv.common.view.WebViewActivity
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.NOTIFICATION
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
@@ -52,6 +55,24 @@ class SettingActivity : BaseViewModelActivity<SettingViewModel>() {
             intent?.let { startActivity(it) }
             exitProcess(1)
         })
+        layoutUserAgreement.setOnClickListener {
+            //用户协议
+            toWebActivity("用户协议", "")
+        }
+        layoutPrivacy.setOnClickListener {
+            //隐私政策
+            toWebActivity("隐私政策", "00")
+        }
+    }
+
+    /**
+     * 跳转H5页面
+     * @param title String
+     * @param url String
+     */
+    private fun toWebActivity(title: String, url: String) {
+        ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(BridgeContext.TITLE, title)
+            .withString(BridgeContext.URL, url).navigation()
     }
 
     private fun onCheckSuccess(bean: VersionBean?) {
