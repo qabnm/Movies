@@ -3,6 +3,7 @@ package com.duoduovv.personal.view
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
@@ -57,7 +58,9 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             layoutIsRes.visibility = View.GONE
         }
         layoutContract.setOnClickListener {
-            ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
+            //问题反馈
+            FeedbackAPI.openFeedbackActivity()
+//            ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
         }
         layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
@@ -69,6 +72,11 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         imgWeiChat.setOnClickListener { weiChatLogin() }
         imgQQ.setOnClickListener { qqLogin() }
         viewModel.getUserInfo().observe(this, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
+    }
+
+    private fun setFeedbackUi(){
+        FeedbackAPI.setBackIcon(R.drawable.back)
+        FeedbackAPI.setTranslucent(true)
     }
 
     /**
@@ -86,6 +94,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
 
     override fun initData() {
         viewModel.userInfo()
+        setFeedbackUi()
     }
 
     /**

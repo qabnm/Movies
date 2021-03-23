@@ -18,12 +18,12 @@ object RetrofitDownload {
 
     private fun createRetrofit(client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://download")//baseUrl的填写满足http://或者https://开头且后面有内容就可以了
+            .baseUrl("https://download/")//baseUrl的填写满足http://或者https://开头且后面有内容就可以了
             .client(client)
             .build()
     }
 
     private fun createOkHttpClient(): OkHttpClient {
-        return OkHttpClient.Builder().connectTimeout(8,TimeUnit.SECONDS).build()
+        return OkHttpClient.Builder().connectTimeout(15,TimeUnit.SECONDS).build()
     }
 }

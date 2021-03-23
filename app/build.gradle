@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.aliyun.ams.emas-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 def ext = rootProject.ext

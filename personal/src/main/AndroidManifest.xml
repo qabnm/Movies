@@ -2,15 +2,15 @@
     package="com.duoduovv.personal">
 
     <application>
-        <activity android:name="com.duoduovv.personal.view.SettingActivity"
+        <activity android:name=".view.SettingActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.duoduovv.personal.view.ContractServiceActivity"
+        <activity android:name=".view.ContractServiceActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.duoduovv.personal.view.MyCollectionActivity"
+        <activity android:name=".view.MyCollectionActivity"
             android:screenOrientation="portrait"/>
-        <activity android:name="com.duoduovv.personal.view.EditMaterialsActivity"
+        <activity android:name=".view.EditMaterialsActivity"
             android:screenOrientation="portrait"/>
 
         <provider
@@ -23,10 +23,13 @@
                 android:resource="@xml/file_photo" />
         </provider>
 
-        <activity android:name="com.duoduovv.personal.view.ModifyNickNameActivity"
+        <activity android:name=".view.ModifyNickNameActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name="com.duoduovv.personal.view.ModifySignNameActivity"
+        <activity android:name=".view.ModifySignNameActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.DownloadTestActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

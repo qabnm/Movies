@@ -1,5 +1,6 @@
 package com.duoduovv.mhhh
 
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
 
 /**
@@ -8,6 +9,9 @@ import com.duoduovv.common.BaseApplication
  * @des:
  */
 class AppApplication : BaseApplication() {
-
+    override fun onCreate() {
+        super.onCreate()
+        FeedbackAPI.init(this)
+    }
 
 }

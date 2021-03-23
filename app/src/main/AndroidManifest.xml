@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/icon_start"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:replace="android:icon,android:name,android:roundIcon">
+        tools:replace="android:icon,android:name,android:roundIcon,android:allowBackup">
 
         <meta-data
             android:name="UMENG_CHANNEL"
