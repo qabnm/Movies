@@ -32,6 +32,7 @@
             android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_16"
             android:padding="@dimen/dp_4"
+            android:visibility="gone"
             android:src="@drawable/common_download" />
 
         <ImageView
@@ -39,6 +40,7 @@
             android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_12"
             android:padding="@dimen/dp_4"
+            android:visibility="gone"
             android:src="@drawable/common_download" />
     </LinearLayout>
 

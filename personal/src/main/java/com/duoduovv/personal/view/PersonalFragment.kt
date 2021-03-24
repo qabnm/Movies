@@ -59,7 +59,6 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         layoutContract.setOnClickListener {
             //问题反馈
             FeedbackAPI.openFeedbackActivity()
-//            ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
         }
         layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
