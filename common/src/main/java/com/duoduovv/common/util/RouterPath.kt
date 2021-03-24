@@ -86,5 +86,10 @@ class RouterPath {
          * H5页面
          */
         const val PATH_WEB_VIEW = "/common/WebViewActivity"
+
+        /**
+         * 关于我们
+         */
+        const val PATH_ABOUT_US = "/personal/AboutUsActivity"
     }
 }

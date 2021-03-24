@@ -1,13 +1,11 @@
 package com.duoduovv.personal.view
 
-import android.util.Log
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
-import com.duoduovv.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
 import com.duoduovv.common.util.RouterPath.Companion.PATH_EDIT_MATERIALS
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
@@ -26,7 +24,6 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatUserInfoUrl
 import com.duoduovv.weichat.WeiChatTool
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TOKEN
-import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.StringUtils
@@ -67,7 +64,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
         }
-        layoutAbout.setOnClickListener { }
+        layoutAbout.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_ABOUT_US).navigation() }
         layoutTop.setOnClickListener {
             ARouter.getInstance().build(PATH_EDIT_MATERIALS).navigation()
         }

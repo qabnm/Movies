@@ -1,5 +1,8 @@
 package com.duoduovv.common.view
 
+import android.view.View
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.duoduovv.common.R
 import com.duoduovv.common.util.RouterPath
@@ -18,13 +21,21 @@ class WebViewActivity : BridgeActivity() {
 
     override fun initView() {
         val title = intent.getStringExtra(BridgeContext.TITLE)
-        val loadUrl = intent.getStringExtra(BridgeContext.URL)?:""
+        val loadUrl = intent.getStringExtra(BridgeContext.URL) ?: ""
         layoutTopBar.setTopTitle(title)
         layoutWebView.apply {
             loadUrl(loadUrl)
             settings.javaScriptEnabled = true
             settings.setSupportZoom(false)
             settings.builtInZoomControls = false
+            this.webChromeClient = webChromeClient1
+        }
+    }
+
+    private val webChromeClient1 = object : WebChromeClient() {
+        override fun onProgressChanged(view: WebView?, newProgress: Int) {
+            progress.progress = newProgress
+            progress.visibility = if (newProgress == 100) View.GONE else View.VISIBLE
         }
     }
 }

@@ -61,6 +61,7 @@
         android:paddingLeft="@dimen/dp_10"
         android:text="举报"
         android:textColor="#F1303C"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/tvType"
         app:layout_constraintRight_toRightOf="parent" />
 

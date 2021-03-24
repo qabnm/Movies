@@ -17,6 +17,7 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.MainBean
 import com.youth.banner.Banner
 import com.youth.banner.indicator.CircleIndicator
+import com.youth.banner.listener.OnBannerListener
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 
@@ -111,6 +112,11 @@ class MainPageAdapter(
         bean.mainPageBean.banners?.let {
             holder.banner.addBannerLifecycleObserver(context as AppCompatActivity)
                 .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
+            holder.banner.setOnBannerListener { data, _ ->
+                val jumpType = (data as com.duoduovv.cinema.bean.Banner).jump_type
+                val movieId = data.movie_id
+                if (jumpType == "1") listener?.onMovieClick(movieId)
+            }
         }
     }
 
