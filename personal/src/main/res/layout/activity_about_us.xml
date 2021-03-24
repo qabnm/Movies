@@ -15,6 +15,7 @@
         app:contentTitle="关于我们" />
 
     <ImageView
+        android:id="@+id/imgIcon"
         android:layout_width="@dimen/dp_60"
         android:layout_height="@dimen/dp_60"
         android:layout_marginTop="@dimen/dp_80"
@@ -80,5 +81,28 @@
             android:layout_marginLeft="@dimen/dp_5"
             android:visibility="gone"
             android:background="@drawable/shape_raidus10_solid_ff0000" />
+    </LinearLayout>
+    <View style="@style/centerIconLine"
+        android:id="@+id/vLine"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/layoutWhere"
+        style="@style/centerLinear"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/commonText"
+            android:text="当前渠道" />
+
+        <TextView
+            android:id="@+id/tvWhere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/color999999"
+            android:textSize="@dimen/sp_13"
+            tools:text="huawei" />
+
     </LinearLayout>
 </LinearLayout>

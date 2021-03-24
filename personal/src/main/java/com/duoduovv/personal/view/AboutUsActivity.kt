@@ -11,6 +11,7 @@ import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelActivity
@@ -28,6 +29,8 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
     override fun providerVMClass() = SettingViewModel::class.java
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
     private var bean:VersionBean?=null
+    private var lastClickTime:Long = 0
+    private var clickTime = 0
 
     override fun initView() {
         layoutCheck.setOnClickListener { checkUpgrade() }
@@ -48,6 +51,16 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         layoutPrivacy.setOnClickListener {
             //隐私政策
             toWebActivity("隐私政策", PersonalContext.URL_PRIVACY)
+        }
+        imgIcon.setOnClickListener { onIconClick() }
+    }
+
+    private fun onIconClick(){
+        fastClick()
+        if (clickTime > 5){
+            vLine.visibility = View.VISIBLE
+            layoutWhere.visibility = View.VISIBLE
+            tvWhere.text = AndroidUtils.getAppMetaData()
         }
     }
 
@@ -100,5 +113,15 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
     override fun initData() {
         viewModel.upgrade()
         tvVersion.text = "v${OsUtils.getVerName(BaseApplication.baseCtx)}"
+    }
+
+    private fun fastClick(){
+        val time = System.currentTimeMillis()
+        if (time - lastClickTime< 500){
+            clickTime++
+        }else {
+            clickTime = 0
+        }
+        lastClickTime = time
     }
 }
