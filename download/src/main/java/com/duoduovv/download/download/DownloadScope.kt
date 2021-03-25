@@ -95,6 +95,7 @@ class DownloadScope(
             url = downloadInfo.url
         )
         val responseBody = response.body()
+        Log.d("DownloadScope","responseBody：${responseBody?.contentLength()}")
         responseBody ?: throw IOException("ResponseBody is null")
         //文件长度
         if (downloadInfo.contentLength < 0)
@@ -108,7 +109,9 @@ class DownloadScope(
         if (TextUtils.isEmpty(downloadInfo.path)) {
             file = File(AppDownload.downloadFolder, downloadInfo.fileName)
             downloadInfo.path = file.absolutePath
-        } else file = File(downloadInfo.path)
+        } else {
+            file = File("${downloadInfo.path!!}","yang.mp4")
+        }
         //再次验证下载的文件是否已经被删除
         if (startPosition > 0 && !file.exists())
             throw IOException("File does not exist")
@@ -122,8 +125,11 @@ class DownloadScope(
                 return@withContext
             } else throw IOException("The content length is not the same as the file length")
         //写入文件
+        Log.d("DownloadScope","这里开始写入文件操作****************")
+        //从这里开始异常了
         val randomAccessFile = RandomAccessFile(file, "rw")
         randomAccessFile.seek(startPosition)
+        Log.d("DownloadScope","这里执行了&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
         downloadInfo.currentLength = startPosition
         val inputStream = responseBody.byteStream()
         val bufferSize = 1024 * 8

@@ -40,8 +40,8 @@ class UpgradeDialogFragment(private val isForce:Int,private val upgradeContent:S
             tvCancel.setOnClickListener { dismiss() }
         }
         tvContent.text = upgradeContent
-//        val url = "http://qiniuyun.nucarf.net/wanjinyou2.8.0.apk"
-        btnUpgrade.setOnClickListener { upgradeClickListener?.onUpgradeClick(downloadUrl) }
+        val url = "http://qiniuyun.nucarf.net/wanjinyou2.8.0.apk"
+        btnUpgrade.setOnClickListener { upgradeClickListener?.onUpgradeClick(url) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

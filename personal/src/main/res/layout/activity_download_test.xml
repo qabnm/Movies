@@ -6,13 +6,6 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <Button
-        android:id="@+id/btnDownload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="添加一个下载任务" />
-
-
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -4,6 +4,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.CinemaContext
+import com.duoduovv.cinema.CinemaContext.Companion.KEY_WORD
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchResultListAdapter
 import com.duoduovv.cinema.bean.SearchResultList
@@ -74,8 +75,8 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     }
 
     override fun initData() {
-        typeId = arguments?.getString(BridgeContext.ID, "") ?: ""
-        keyWord = arguments?.getString(CinemaContext.KEY_WORD, "") ?: ""
+        typeId = arguments?.getString(ID, "") ?: ""
+        keyWord = arguments?.getString(KEY_WORD, "") ?: ""
         viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
     }
 

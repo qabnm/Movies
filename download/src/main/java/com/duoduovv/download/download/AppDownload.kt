@@ -116,7 +116,7 @@ object AppDownload {
      * 首次任务只有调用了[DownloadScope.start]并且成功进入[DownloadInfo.WAITING]状态才会在数据库中生成数据
      * 首次任务的判断依据为数据库中是否保留有当前的任务数据
      */
-    fun request(url: String?, data: Serializable? = null, path: String? = null,context: Context): DownloadScope? {
+    fun request(url: String?, context: Context,data: Serializable? = null, path: String? = null): DownloadScope? {
         if (TextUtils.isEmpty(url)) return null
         var downloadScope = scopeMap[url]
         if (downloadScope == null) {

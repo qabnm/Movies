@@ -41,7 +41,7 @@ data class MovieDetail(
     val vod_name: String,
     val vod_number: String,
     val vod_year: String,
-    val movie_flag:Int,
+    val movie_flag:String?,
     val id:String
 )
 

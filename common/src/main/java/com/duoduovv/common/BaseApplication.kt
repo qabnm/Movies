@@ -6,6 +6,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.CrashHandler
 import com.duoduovv.weichat.WeiChatTool
 import com.tencent.bugly.crashreport.CrashReport
+import com.umeng.analytics.MobclickAgent
 import com.umeng.commonsdk.UMConfigure
 import dc.android.bridge.util.OsUtils
 
@@ -32,15 +33,14 @@ open class BaseApplication : Application() {
         if (OsUtils.isAppDebug()) {
             ARouter.openLog()
             ARouter.openDebug()
-            //参数: boolean 默认为false，如需查看LOG设置为true
-            UMConfigure.setLogEnabled(true)
         }
         //初始化ARouter
         ARouter.init(this)
         //初始化友盟统计
-        UMConfigure.init(applicationContext, "", "", 0, "")
-        //注册app到微信 实现分享 三方登录等
-//        WeiChatTool.regToWx(applicationContext)
+        UMConfigure.init(applicationContext, "605c45146ee47d382b961c13", "Umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
+        //统计SDK基础统计指标自动采集
+        MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
+        if (OsUtils.isAppDebug()) UMConfigure.setLogEnabled(true)  //参数: boolean 默认为false，如需查看LOG设置为true
     }
 
     override fun onTerminate() {

@@ -3,6 +3,7 @@ package com.duoduovv.personal.view
 import android.annotation.SuppressLint
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
@@ -26,7 +27,8 @@ class SettingActivity : BridgeActivity() {
 
     override fun initView() {
         layoutContract.setOnClickListener {
-            ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
+//            ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
+            FeedbackAPI.openFeedbackActivity()
         }
         imgNotification.setOnClickListener { onSwitchClick() }
         val localState = SharedPreferencesHelper.helper.getValue(NOTIFICATION, true) as Boolean

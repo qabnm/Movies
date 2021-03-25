@@ -58,7 +58,8 @@
         android:layout_height="@dimen/dp_10"
         android:background="@color/colorF2F2F2" />
 
-    <LinearLayout style="@style/centerLinear">
+    <LinearLayout style="@style/centerLinear"
+        android:visibility="gone">
 
         <TextView
             style="@style/commonText"
@@ -67,7 +68,8 @@
         <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
-    <View style="@style/centerIconLine" />
+    <View style="@style/centerIconLine"
+        android:visibility="gone"/>
 
     <LinearLayout
         style="@style/centerLinear"

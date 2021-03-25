@@ -76,7 +76,6 @@ dependencies {
     //友盟统计
     api  "com.umeng.umsdk:common:$ext.umsdk_common" // 版本号(必选)
     api  "com.umeng.umsdk:asms:$ext.umsdk_asms" // asms包依赖(必选)
-    api "com.umeng.umsdk:apm:$ext.umsdk_apm" // U-APM产品包依赖(可选)
 
     api 'com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.4'
     implementation "androidx.datastore:datastore-preferences:1.0.0-alpha04"
