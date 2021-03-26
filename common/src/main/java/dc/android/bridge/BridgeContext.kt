@@ -6,6 +6,7 @@ package dc.android.bridge
  */
 open class BridgeContext {
     companion object{
+
         const val BASE_URL = "https://www.duoduovv.cn/"
 
         const val NETWORK_ERROR = "网络连接异常"
@@ -28,6 +29,15 @@ open class BridgeContext {
         const val URL = "url"
         const val WAY_RELEASE = 1
         const val WAY_H5 = 2
+        const val AGREEMENT = "agree"
+        /**
+         * 用户协议
+         */
+        const val URL_USER_AGREEMENT ="${BASE_URL}help/agreement.html"
 
+        /**
+         * 隐私政策
+         */
+        const val URL_PRIVACY ="${BASE_URL}help/privacy.html"
     }
 }

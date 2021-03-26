@@ -6,11 +6,12 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.view.UpgradeDialogFragment
-import com.duoduovv.personal.PersonalContext
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.URL_PRIVACY
+import dc.android.bridge.BridgeContext.Companion.URL_USER_AGREEMENT
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
@@ -46,11 +47,11 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         })
         layoutUserAgreement.setOnClickListener {
             //用户协议
-            toWebActivity("用户协议", PersonalContext.URL_USER_AGREEMENT)
+            toWebActivity("用户协议", URL_USER_AGREEMENT)
         }
         layoutPrivacy.setOnClickListener {
             //隐私政策
-            toWebActivity("隐私政策", PersonalContext.URL_PRIVACY)
+            toWebActivity("隐私政策", URL_PRIVACY)
         }
         imgIcon.setOnClickListener { onIconClick() }
     }

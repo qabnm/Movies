@@ -19,6 +19,10 @@ class AlertDialogFragment(
     private val content: String,
     private val listener: OnDialogSureClickListener?
 ) : DialogFragment() {
+    private lateinit var tvCancel: TextView
+    private lateinit var tvSure: TextView
+    private lateinit var tvTitle: TextView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,18 +35,39 @@ class AlertDialogFragment(
 
     private fun initViews(layoutView: View) {
         val tvContent: TextView = layoutView.findViewById(R.id.tvContent)
-        val tvCancel: TextView = layoutView.findViewById(R.id.tvCancel)
-        val tvSure: TextView = layoutView.findViewById(R.id.tvSure)
+        tvCancel = layoutView.findViewById(R.id.tvCancel)
+        tvSure = layoutView.findViewById(R.id.tvSure)
+        tvTitle = layoutView.findViewById(R.id.tvTitle)
         tvContent.text = content
-        tvCancel.setOnClickListener { this.dismiss() }
+        tvCancel.setOnClickListener { listener?.onCancelClick() }
         tvSure.setOnClickListener {
             listener?.onSureClick()
-            this.dismiss()
         }
+    }
+
+    fun setCancelText(text: String) {
+        tvCancel.text = text
+    }
+
+    fun setSureText(text: String) {
+        tvSure.text = text
+    }
+
+    fun setTitleVisibility(visibility: Int) {
+        tvTitle.visibility = visibility
+    }
+
+    fun setCanceledOnTouchOut(outCancel: Boolean) {
+        dialog?.setCanceledOnTouchOutside(outCancel)
+    }
+
+    fun setCancel(cancelAble: Boolean) {
+        dialog?.setCancelable(cancelAble)
     }
 
     interface OnDialogSureClickListener {
         fun onSureClick()
+        fun onCancelClick()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -55,6 +80,7 @@ class AlertDialogFragment(
         window?.let {
             it.attributes.width = OsUtils.dip2px(requireContext(), 300f)
             it.attributes.gravity = Gravity.CENTER
+            it.setBackgroundDrawableResource(R.drawable.shape_radius3_solid_ffffff)
         }
     }
 }

@@ -24,6 +24,7 @@ import kotlinx.android.synthetic.main.activity_setting.*
 class SettingActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_setting
     private var isOpen = true
+    private var dialogFragment:AlertDialogFragment?= null
 
     override fun initView() {
         layoutContract.setOnClickListener {
@@ -60,8 +61,8 @@ class SettingActivity : BridgeActivity() {
     override fun initData() {
         tvCache.text = FileUtils.getTotalCacheSize(BaseApplication.baseCtx)
         layoutClearCache.setOnClickListener {
-            val dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener)
-            dialogFragment.showNow(supportFragmentManager, "clear")
+            dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener)
+            dialogFragment?.showNow(supportFragmentManager, "clear")
         }
     }
 
@@ -69,6 +70,11 @@ class SettingActivity : BridgeActivity() {
         override fun onSureClick() {
             FileUtils.clearAllCache(BaseApplication.baseCtx)
             tvCache.text = "0KB"
+            dialogFragment?.dismiss()
+        }
+
+        override fun onCancelClick() {
+            dialogFragment?.dismiss()
         }
     }
 }
