@@ -1,13 +1,12 @@
 package com.duoduovv.personal.view
 
-import android.os.Handler
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
 import com.duoduovv.personal.R
-import dc.android.bridge.util.LoggerSnack
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_contract_service.*
 
@@ -25,11 +24,10 @@ class ContractServiceActivity : BridgeActivity() {
         etSuggest.addTextChangedListener(TextChangeListener())
         btnCommit.setOnClickListener {
             if (TextUtils.isEmpty(etSuggest.text)){
-                LoggerSnack.show(this, "请输入反馈内容！")
+                AndroidUtils.toast("请输入反馈内容！",this)
                 return@setOnClickListener
             }
-            LoggerSnack.show(this, "您的反馈内容我们已收到！！")
-            Handler().postDelayed( { this.finish() },1500)
+            AndroidUtils.toast("您的反馈内容我们已收到！！",this)
         }
     }
 

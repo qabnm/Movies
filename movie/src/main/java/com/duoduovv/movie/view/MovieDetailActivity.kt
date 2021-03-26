@@ -24,6 +24,7 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.URL
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
@@ -77,7 +78,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         videoPlayer.setVideoAllCallBack(object : VideoPlayCallback() {
             override fun onPlayError(url: String?, vararg objects: Any?) {
                 super.onPlayError(url, *objects)
-                LoggerSnack.show(this@MovieDetailActivity, "播放出错!")
+                AndroidUtils.toast("播放出错！",this@MovieDetailActivity)
             }
         })
         videoPlayer.fullscreenButton.setOnClickListener {

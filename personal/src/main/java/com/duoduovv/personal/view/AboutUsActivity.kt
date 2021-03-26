@@ -84,7 +84,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                 upgradeDialogFragment?.showNow(supportFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             } else {
-                LoggerSnack.show(this,"已经是最新版本了！")
+                AndroidUtils.toast("已经是最新版本了！",this)
             }
         }
     }

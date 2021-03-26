@@ -7,6 +7,7 @@ import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
 import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.LoggerSnack
 import retrofit2.HttpException
 import java.net.ConnectException
@@ -61,12 +62,14 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     open fun tokenValid(){}
 
     open fun showError(errMsg: String?) {
-        LoggerSnack.show(requireActivity(), errMsg)
+//        LoggerSnack.show(requireActivity(), errMsg)
+        AndroidUtils.toast(errMsg, requireActivity())
         finishLoading()
     }
 
     private fun parameterError(msg: String) {
-        LoggerSnack.show(requireActivity(), msg)
+//        LoggerSnack.show(requireActivity(), msg)
+        AndroidUtils.toast(msg, requireActivity())
         finishLoading()
     }
 

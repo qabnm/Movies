@@ -7,6 +7,7 @@ import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
 import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.LoggerSnack
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -55,11 +56,13 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     }
 
     open fun showError(errMsg: String?) {
-        LoggerSnack.show(this , errMsg)
+//        LoggerSnack.show(this , errMsg)
+        AndroidUtils.toast(errMsg, this)
     }
 
     private fun parameterError(msg: String) {
-        LoggerSnack.show(this , msg)
+//        LoggerSnack.show(this , msg)
+        AndroidUtils.toast(msg , this)
     }
 
     override fun onDestroy() {
