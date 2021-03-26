@@ -3,6 +3,7 @@ package com.duoduovv.main.view
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -11,6 +12,7 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_CINEMA
 import com.duoduovv.common.util.RouterPath.Companion.PATH_HOTSPOT
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
+import com.duoduovv.common.view.AlertDialogFragment
 import com.duoduovv.main.R
 import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatTool
@@ -173,10 +175,29 @@ class MainActivity : BridgeActivity() {
     }
 
     override fun onBackPressed() {
-        if (System.currentTimeMillis() - exitTime > 2000) {
-            LoggerSnack.show(this, "再按一次退出程序")
-            exitTime = System.currentTimeMillis()
-        } else {
+        showAlertDialog()
+    }
+
+    private var dialogFragment:AlertDialogFragment?=null
+    private fun showAlertDialog(){
+        dialogFragment = AlertDialogFragment("确定要退出吗？",listener,250f)
+        dialogFragment?.let {
+            it.showNow(supportFragmentManager, "alert")
+            it.setTitleVisibility(View.GONE)
+            it.setCancelText("退出")
+            it.setSureText("再看看")
+            it.setCanceledOnTouchOut(false)
+            it.setCancel(false)
+        }
+    }
+
+    private val listener = object :AlertDialogFragment.OnDialogSureClickListener{
+        override fun onSureClick() {
+            dialogFragment?.dismiss()
+        }
+
+        override fun onCancelClick() {
+            dialogFragment?.dismiss()
             finish()
             exitProcess(0)
         }

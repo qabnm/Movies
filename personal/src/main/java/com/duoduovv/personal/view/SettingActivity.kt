@@ -61,7 +61,7 @@ class SettingActivity : BridgeActivity() {
     override fun initData() {
         tvCache.text = FileUtils.getTotalCacheSize(BaseApplication.baseCtx)
         layoutClearCache.setOnClickListener {
-            dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener)
+            dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener,290f)
             dialogFragment?.showNow(supportFragmentManager, "clear")
         }
     }

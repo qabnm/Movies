@@ -17,7 +17,8 @@ import dc.android.bridge.util.OsUtils
  */
 class AlertDialogFragment(
     private val content: String,
-    private val listener: OnDialogSureClickListener?
+    private val listener: OnDialogSureClickListener?,
+    private val width:Float = 300f
 ) : DialogFragment() {
     private lateinit var tvCancel: TextView
     private lateinit var tvSure: TextView
@@ -78,7 +79,7 @@ class AlertDialogFragment(
     private fun initWindow() {
         val window = dialog?.window
         window?.let {
-            it.attributes.width = OsUtils.dip2px(requireContext(), 300f)
+            it.attributes.width = OsUtils.dip2px(requireContext(), width)
             it.attributes.gravity = Gravity.CENTER
             it.setBackgroundDrawableResource(R.drawable.shape_radius3_solid_ffffff)
         }
