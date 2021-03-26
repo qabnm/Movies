@@ -41,6 +41,8 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var locationUtils: LocationUtils? = null
     private var hotList: List<String>? = null
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
+    private var hasRequestPermission = false
+    private var bean:Version? = null
 
     override fun initView() {
         tvSearch.setOnClickListener {
@@ -54,6 +56,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, result?.isRs ?: 1)
             hotList = result?.hotSearch
             BaseApplication.hotList = hotList
+            this.bean = result?.version
             checkUpdate(result?.version)
             //已下先暂时写死发布版本  方便测试
             SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, 1)
@@ -74,6 +77,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      * @param bean Version?
      */
     private fun checkUpdate(bean: Version?) {
+        if (!hasRequestPermission) return
         bean?.let {
             val versionCode = OsUtils.getVerCode(requireContext())
             if (versionCode != -1 && it.version_number > versionCode) {
@@ -126,12 +130,18 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         ).onExplainRequestReason { scope, deniedList ->
             val msg = "多多影视需要获取您以下权限"
             scope.showRequestReasonDialog(deniedList, msg, "确定", "取消")
+        }.onForwardToSettings { scope, deniedList ->
+            val msg = "多多影视请求授予定位权限"
+            scope.showForwardToSettingsDialog(deniedList, msg, "确定", "取消")
         }.request { allGranted, _, _ ->
             if (allGranted) {
                 locationUtils = LocationUtils(requireActivity(), LocationListener())
                 locationUtils?.startLocation()
-            } else {
-
+            }
+            hasRequestPermission = true
+            if (null != bean){
+                //这时候接口请求已经完成了 接口请求还没完成就走正常流程
+                checkUpdate(bean)
             }
         }
     }
