@@ -11,6 +11,8 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
+import androidx.lifecycle.Observer;
+
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.duoduovv.common.R;
@@ -19,6 +21,8 @@ import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
+
+import dc.android.tools.LiveDataBus;
 
 /**
  * @author: jun.liu
@@ -30,7 +34,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
 
     String mCoverOriginUrl;
 
-    int  mCoverOriginId = 0;
+    int mCoverOriginId = 0;
 
     int mDefaultRes;
 
@@ -55,6 +59,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
                 (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
             mThumbImageViewLayout.setVisibility(VISIBLE);
         }
+        Log.i("movieDetail", "****999999init这里执行了：flag=" + flag);
     }
 
     @Override
@@ -86,9 +91,9 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     public GSYBaseVideoPlayer startWindowFullscreen(Context context, boolean actionBar, boolean statusBar) {
         GSYBaseVideoPlayer gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar);
         SampleCoverVideo sampleCoverVideo = (SampleCoverVideo) gsyBaseVideoPlayer;
-        if(mCoverOriginUrl != null) {
+        if (mCoverOriginUrl != null) {
             sampleCoverVideo.loadCoverImage(mCoverOriginUrl, mDefaultRes);
-        } else  if(mCoverOriginId != 0) {
+        } else if (mCoverOriginId != 0) {
             sampleCoverVideo.loadCoverImageBy(mCoverOriginId, mDefaultRes);
         }
         return gsyBaseVideoPlayer;
@@ -252,24 +257,27 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
 
     @Override
     protected void clickStartIcon() {
-        Log.i("videoPlayer", "****clickStartIcon这里执行了：flag="+flag);
+        Log.i("movieDetail", "****clickStartIcon这里执行了：flag=" + flag);
         if (flag == 1) {
             super.clickStartIcon();
-        }else{
-            listener.onStartClick();
+        } else {
+            if (null != listener) listener.onStartClick();
         }
     }
 
-    public interface OnStartClickListener{
+    public interface OnStartClickListener {
         void onStartClick();
     }
+
     private OnStartClickListener listener;
     private int flag;
-    public void setStartClickListener(OnStartClickListener listener){
+
+    public void setStartClickListener(OnStartClickListener listener) {
         this.listener = listener;
     }
 
-    public void setStartClick(int flag){
+    public void setStartClick(int flag) {
         this.flag = flag;
     }
+
 }

@@ -24,6 +24,7 @@ import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.URL
+import dc.android.bridge.BridgeContext.Companion.WAY_RELEASE
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
@@ -50,6 +51,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var way = 2
     private var playUrl = ""
     private var title = ""
+    private var currentPlayPosition = 0  //默认是从第一集开始播放
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, resources.getColor(R.color.color000000))
     }
@@ -74,16 +76,61 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
         })
         orientationUtils = OrientationUtils(this, videoPlayer)
+        orientationUtils?.isEnable = false
         setVideoPlayer()
-        videoPlayer.setVideoAllCallBack(object : VideoPlayCallback() {
-            override fun onPlayError(url: String?, vararg objects: Any?) {
-                super.onPlayError(url, *objects)
-                AndroidUtils.toast("播放出错！",this@MovieDetailActivity)
-            }
-        })
+        videoPlayer.setVideoAllCallBack(videoCallback)
         videoPlayer.fullscreenButton.setOnClickListener {
             orientationUtils?.resolveByClick()
             videoPlayer.startWindowFullscreen(this, true, true)
+        }
+    }
+
+    private val videoCallback = object : VideoPlayCallback() {
+        override fun onPlayError(url: String?, vararg objects: Any?) {
+            super.onPlayError(url, *objects)
+            AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
+        }
+
+        override fun onPrepared(url: String?, vararg objects: Any?) {
+            super.onPrepared(url, *objects)
+            orientationUtils?.isEnable = videoPlayer.isRotateWithSystem
+        }
+
+        override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
+            super.onQuitFullscreen(url, *objects)
+            orientationUtils?.backToProtVideo()
+        }
+
+        override fun onComplete(url: String?, vararg objects: Any?) {
+            super.onComplete(url, *objects)
+        }
+
+        override fun onAutoComplete(url: String?, vararg objects: Any?) {
+            super.onAutoComplete(url, *objects)
+            //播放完成了
+            if (way == WAY_RELEASE) {
+                //正常播放的模式 如果有下一集 直接播放下一集
+                detailBean?.let {
+                    val movieItems = it.movieItems
+                    for (i in movieItems.indices) {
+                        if (vid == movieItems[i].vid) {
+                            currentPlayPosition = i
+                        }
+                    }
+                    if (currentPlayPosition < movieItems.size - 1){
+                        //还有下一集 播放下一集
+                        currentPlayPosition++
+                        vid = movieItems[currentPlayPosition].vid
+                        viewModel.moviePlayInfo(vid, movieId, 1)
+                        //更新选集显示
+                        for (i in movieItems.indices){
+                            movieItems[i].isSelect = false
+                        }
+                        movieItems[currentPlayPosition].isSelect = true
+                        detailAdapter?.notifyItemChanged(0)
+                    }
+                }
+            }
         }
     }
 
@@ -95,10 +142,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
-                videoPlayer.setStartClick(1)
-                videoPlayer.setUp(playList[0].url, true, "")
-                videoPlayer.startPlayLogic()
+                (videoPlayer.currentPlayer as SampleCoverVideo).apply {
+                    setStartClick(1)
+                    setUp(playList[0].url, true, "")
+                    startPlayLogic()
+                }
             }
         }
     }
@@ -144,7 +192,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val list = detailBean.movieItems
         //默认播放第一集
         if (list.isNotEmpty()) {
-            if (!hasClickRecommend){
+            if (!hasClickRecommend) {
                 if (StringUtils.isEmpty(vid)) {
                     detailBean.movieItems[0].isSelect = true
                 } else {
@@ -152,17 +200,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         if (vid == list[i].vid) detailBean.movieItems[i].isSelect = true
                     }
                 }
-            }else{
+            } else {
                 detailBean.movieItems[0].isSelect = true
             }
             detailAdapter?.notifyItemChanged(0)
-            if (way == BridgeContext.WAY_RELEASE) {
+            if (way == WAY_RELEASE) {
                 //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
-                    if (!hasClickRecommend) {
-                        if (StringUtils.isEmpty(vid)) vid = list[0].vid
-                    }else{
-                        vid = list[0].vid
-                    }
+                if (!hasClickRecommend) {
+                    if (StringUtils.isEmpty(vid)) vid = list[0].vid
+                } else {
+                    vid = list[0].vid
+                }
                 viewModel.moviePlayInfo(vid, movieId)
             } else if (way == BridgeContext.WAY_H5) {
                 //如果是H5版本
@@ -178,14 +226,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
             fullscreenButton.setOnClickListener {
-                this.startWindowFullscreen(context, true, true)
+                startWindowFullscreen(context, true, true)
             }
             //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
             isAutoFullWithSize = false
             //音频焦点冲突时是否释放
             isReleaseWhenLossAudio = false
             //全屏动画
-            isShowFullAnimation = true
+            isShowFullAnimation = false
             //非wifi环境下，显示流量提醒
             isNeedShowWifiTip = true
             isShowDragProgressTextOnSeekBar = true //拖动进度条时，是否在 seekbar 开始部位显示拖动进度
@@ -261,13 +309,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onSelectClick(vid: String, movieId: String) {
         this.vid = vid
-        if (way == BridgeContext.WAY_RELEASE) {
+        if (way == WAY_RELEASE) {
             //只有正常班的才会去请求接口
             viewModel.moviePlayInfo(vid, movieId, 1)
         }
     }
 
     private var hasClickRecommend = false
+
     /**
      * 点击了推荐的视频
      * @param movieId String
@@ -289,6 +338,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onResume() {
+        videoPlayer.currentPlayer.onVideoResume(false)
         super.onResume()
         GSYVideoManager.onResume()
     }
@@ -301,12 +351,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onPause() {
+        videoPlayer.currentPlayer.onVideoPause()
         super.onPause()
         GSYVideoManager.onPause()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
+        (videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(if (way == WAY_RELEASE) 1 else 0)
+        Log.d("movieDetail", "当前播放路径是：$way")
         when (newConfig.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
                 //横屏
