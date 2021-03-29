@@ -21,6 +21,7 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.domain.LocationBean
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
@@ -42,7 +43,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var hotList: List<String>? = null
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
     private var hasRequestPermission = false
-    private var bean:Version? = null
+    private var bean: Version? = null
 
     override fun initView() {
         tvSearch.setOnClickListener {
@@ -82,7 +83,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val versionCode = OsUtils.getVerCode(requireContext())
             if (versionCode != -1 && it.version_number > versionCode) {
                 //需要升级  弹出升级框
-                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content,it.url)
+                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content, it.url)
                 upgradeDialogFragment?.showNow(childFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             }
@@ -139,7 +140,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
                 locationUtils?.startLocation()
             }
             hasRequestPermission = true
-            if (null != bean){
+            if (null != bean) {
                 //这时候接口请求已经完成了 接口请求还没完成就走正常流程
                 checkUpdate(bean)
             }
@@ -164,7 +165,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
                 ADDRESS,
                 "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${
                     StringUtils.gbEncoding(bean.locality)
-                }\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\"}"
+                }\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\",\"v\":${
+                    OsUtils.getVerCode(requireContext())
+                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
             )
         }
     }
