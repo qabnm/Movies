@@ -20,5 +20,6 @@ data class VideoWatchHistoryBean(
     var currentLength:Int,
     var totalLength:Int,
     var vidTitle:String,
+    var currentTime:Long,
     var isSelect:Boolean = false
 )

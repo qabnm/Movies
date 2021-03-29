@@ -10,7 +10,6 @@ import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.WatchHistoryAdapter
-import com.duoduovv.movie.bean.WatchHistoryBean
 import com.duoduovv.room.WatchHistoryDatabase
 import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.view.BridgeActivity
@@ -19,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 
 /**
  * @author: jun.liu
@@ -44,15 +44,70 @@ class WatchHistoryActivity : BridgeActivity() {
         }
         layoutTopBar.setRightClick { onEditClick() }
         tvAllSelect.setOnClickListener { allSelect() }
+        tvDelete.setOnClickListener { onDeleteClick() }
+    }
+
+    /**
+     * 删除观看历史数据
+     */
+    private fun onDeleteClick() {
+        //取出当前被选中的item
+        val dataList = historyAdapter?.data
+        if (dataList?.isNotEmpty() == true) {
+            //当前有选中删除的项目
+            GlobalScope.launch(Dispatchers.Main) {
+                for (i in dataList.indices) {
+                    if (dataList[i].isSelect) {
+                        deleteMovie(dataList[i])
+                    }
+                }
+                onDeleteSuccess()
+            }
+        }
+    }
+
+    /**
+     * 删除成功
+     */
+    private fun onDeleteSuccess() {
+        historyAdapter?.isEdit(false)
+        //删除成功 直接刷新接口
+        initData()
+        selectCount = 0
+        isFirst = true
+        layoutSelect.visibility = View.GONE
+        layoutTopBar.setRightText("编辑")
     }
 
     override fun initData() {
         GlobalScope.launch(Dispatchers.Main) {
             val dataList = getDB()
+            if (dataList.isEmpty()) {
+                //观看历史为空
+                layoutEmpty.setEmptyVisibility(1)
+                layoutSelect.visibility = View.GONE
+                layoutTopBar.setRightText("编辑")
+                isFirst = true
+            } else {
+                Collections.sort(dataList) { o1, o2 -> (o2.currentTime - o1.currentTime).toInt() }
+                layoutEmpty.setEmptyVisibility(0)
+            }
             historyAdapter?.setList(dataList)
         }
     }
 
+    /**
+     * 删除数据
+     * @param bean VideoWatchHistoryBean
+     */
+    private suspend fun deleteMovie(bean: VideoWatchHistoryBean) = withContext(Dispatchers.IO) {
+        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().delete(bean)
+    }
+
+    /**
+     * 获取数据库数据
+     * @return List<VideoWatchHistoryBean>
+     */
     private suspend fun getDB() = withContext(Dispatchers.IO) {
         WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAll()
     }
@@ -108,6 +163,7 @@ class WatchHistoryActivity : BridgeActivity() {
      * 编辑按钮点击事件
      */
     private fun onEditClick() {
+        if (historyAdapter?.data?.isEmpty() == true) return
         if (isFirst) {
             isFirst = false
             layoutTopBar.setRightText("取消")

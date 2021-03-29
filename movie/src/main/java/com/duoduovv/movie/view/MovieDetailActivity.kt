@@ -55,7 +55,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var playUrl = ""
     private var title = ""
     private var currentPlayPosition = 0  //默认是从第一集开始播放
-    private var vidTitle =""
+    private var vidTitle = ""
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, resources.getColor(R.color.color000000))
     }
@@ -213,7 +213,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             if (way == WAY_RELEASE) {
                 //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
                 if (!hasClickRecommend) {
-                    if (StringUtils.isEmpty(vid)){
+                    if (StringUtils.isEmpty(vid)) {
                         vid = list[0].vid
                     }
                 } else {
@@ -315,7 +315,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param vid String
      * @param movieId String
      */
-    override fun onSelectClick(vid: String, movieId: String,vidTitle:String) {
+    override fun onSelectClick(vid: String, movieId: String, vidTitle: String) {
         this.vid = vid
         this.vidTitle = vidTitle
         if (way == WAY_RELEASE) {
@@ -332,9 +332,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
-        GSYVideoManager.releaseAllVideos()
-        hasClickRecommend = true
-        viewModel.movieDetail(movieId)
+        GlobalScope.launch(Dispatchers.Main) {
+            updateDB()
+//            GSYVideoManager.releaseAllVideos()
+            hasClickRecommend = true
+            viewModel.movieDetail(movieId)
+        }
+//        updateDB()
+//        GSYVideoManager.releaseAllVideos()
+//        hasClickRecommend = true
+//        viewModel.movieDetail(movieId)
     }
 
     override fun onBackPressed() {
@@ -355,33 +362,61 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         updateDB()
         super.onStop()
     }
-    private fun updateDB(){
+
+    private fun updateDB() {
         //保存下当前播放的视频信息
-        GlobalScope.launch (Dispatchers.IO){
+        GlobalScope.launch(Dispatchers.IO) {
             val progress = videoPlayer.currentPlayer.currentPositionWhenPlaying
             Log.d("videoPlayer", "当前播放的进度是：$progress")
             detailBean?.let {
                 if (progress > 0) {
-                    //当前有视频播放 将播放的视频信息添加或者更新到数据库
-                        val flag = it.movie.movie_flag
-                        if (flag== MovieContext.TYPE_TV || flag == MovieContext.TYPE_VARIETY){
-                            //是电视剧或者综艺类型的
-                            detailBean!!.movieItems
+                    //首先查询数据库是否有当前影片 如果有了就执行update操作
+                     val dataList = WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAll()
+                    if (dataList.isNotEmpty()){
+                        var updateBean:VideoWatchHistoryBean?=null
+                        for(i in dataList.indices){
+                            if (movieId == dataList[i].movieId){
+                                //如果已经存在数据库中 直接执行更新操作
+                                updateBean = dataList[i]
+                            }
                         }
-                    val bean = VideoWatchHistoryBean(
-                        coverUrl = it.movie.cover_url,
-                        title = it.movie.vod_name,
-                        type = flag,
-                        movieId = movieId,
-                        vid = vid,
-                        currentLength = progress,
-                        vidTitle = vidTitle,
-                        totalLength = videoPlayer.currentPlayer.duration
-                    )
-                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().insert(bean)
+                        if (null != updateBean){
+                            updateBean.vid = vid
+                            updateBean.vidTitle = vidTitle
+                            updateBean.currentLength = progress
+                            updateBean.currentTime = System.currentTimeMillis()
+                            WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().update(updateBean)
+                        }else{
+                            //执行插入操作
+                            insert(it, progress)
+                        }
+                    }else{
+                        insert(it, progress)
+                    }
                 }
             }
         }
+    }
+
+    private fun insert(bean:MovieDetailBean,progress:Int){
+        //当前有视频播放 将播放的视频信息添加或者更新到数据库
+        val flag = bean.movie.movie_flag
+        if (flag == MovieContext.TYPE_TV || flag == MovieContext.TYPE_VARIETY) {
+            //是电视剧或者综艺类型的
+            detailBean!!.movieItems
+        }
+        val videoBean = VideoWatchHistoryBean(
+            coverUrl = bean.movie.cover_url,
+            title = bean.movie.vod_name,
+            type = flag,
+            movieId = movieId,
+            vid = vid,
+            currentLength = progress,
+            vidTitle = vidTitle,
+            currentTime = System.currentTimeMillis(),
+            totalLength = videoPlayer.currentPlayer.duration
+        )
+        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().insert(videoBean)
     }
 
     override fun onDestroy() {
@@ -426,7 +461,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 选集弹窗的点击事件
      * @param vid String
      */
-    override fun onDialogClick(vid: String,vidTitle:String) {
-        onSelectClick(vid, movieId,vidTitle)
+    override fun onDialogClick(vid: String, vidTitle: String) {
+        onSelectClick(vid, movieId, vidTitle)
     }
 }

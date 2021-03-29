@@ -11,11 +11,16 @@ import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 
 import com.duoduovv.common.BaseApplication;
+import com.duoduovv.room.domain.VideoWatchHistoryBean;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author: jun.liu
@@ -124,6 +129,13 @@ public class OsUtils {
 
     public static int getVerCode(Context context) {
         try {
+            List<VideoWatchHistoryBean> dataList = new ArrayList<>();
+            Collections.sort(dataList, new Comparator<VideoWatchHistoryBean>() {
+                @Override
+                public int compare(VideoWatchHistoryBean o1, VideoWatchHistoryBean o2) {
+                    return (int) (o2.getCurrentTime()- o1.getCurrentTime());
+                }
+            });
             return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (Exception e) {
             return -1;

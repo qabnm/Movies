@@ -22,6 +22,7 @@
         android:background="@color/colorF0F0F0" />
 
     <com.duoduovv.common.view.EmptyLayout
+        android:id="@+id/layoutEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:emptyText="暂无收藏记录"
