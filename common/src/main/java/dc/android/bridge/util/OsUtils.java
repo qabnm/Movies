@@ -129,13 +129,6 @@ public class OsUtils {
 
     public static int getVerCode(Context context) {
         try {
-            List<VideoWatchHistoryBean> dataList = new ArrayList<>();
-            Collections.sort(dataList, new Comparator<VideoWatchHistoryBean>() {
-                @Override
-                public int compare(VideoWatchHistoryBean o1, VideoWatchHistoryBean o2) {
-                    return (int) (o2.getCurrentTime()- o1.getCurrentTime());
-                }
-            });
             return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
         } catch (Exception e) {
             return -1;
