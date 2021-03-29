@@ -13,11 +13,12 @@ data class VideoWatchHistoryBean(
     @PrimaryKey(autoGenerate = true)
     var number:Long = 0,
     var coverUrl:String,
-    var playUrl:String,
     var title:String,
-    var type:String,
-    var videoId:String,
-    var where:String,
-    var currentLength:Long,
-    var time:Long
+    var type:String?,
+    var movieId:String,
+    var vid:String,
+    var currentLength:Int,
+    var totalLength:Int,
+    var vidTitle:String,
+    var isSelect:Boolean = false
 )

@@ -96,7 +96,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                listener?.onSelectClick(vid, detailBean.movie.str_id)
+                listener?.onSelectClick(vid, detailBean.movie.str_id,data[position].title)
             }
             holder.tvWhere.setOnClickListener { listener?.onSelectClick(detailBean.movieItems) }
         } else {
@@ -121,7 +121,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                listener?.onSelectClick(vid, detailBean.movie.str_id)
+                listener?.onSelectClick(vid, detailBean.movie.str_id,data[position].title)
             }
         } else {
             holder.layoutAlbum.visibility = View.GONE
@@ -183,7 +183,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         fun onDetailClick(bean: MovieDetail)
         fun onSelectClick(dataList: List<MovieItem>)
         fun onMovieClick(movieId: String)
-        fun onSelectClick(vid: String, movieId: String)
+        fun onSelectClick(vid: String, movieId: String,vidTitle:String)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

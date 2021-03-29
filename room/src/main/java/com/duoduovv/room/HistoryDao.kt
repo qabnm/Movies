@@ -22,7 +22,7 @@ interface HistoryDao {
      * @param id String
      * @return VideoWatchHistoryBean
      */
-    @Query("select * from VideoWatchHistoryBean where videoId = (:id)")
+    @Query("select * from VideoWatchHistoryBean where movieId = (:id)")
     fun queryById(id: String): VideoWatchHistoryBean
 
     /**

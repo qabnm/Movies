@@ -108,8 +108,7 @@
 
             <LinearLayout
                 android:id="@+id/layoutHistory"
-                style="@style/centerIconLinear"
-                android:visibility="gone">
+                style="@style/centerIconLinear">
 
                 <ImageView
                     android:layout_width="@dimen/dp_22"
@@ -124,7 +123,7 @@
                 <ImageView style="@style/centerMoreInfo" />
             </LinearLayout>
 
-            <View style="@style/centerIconLine" android:visibility="gone" />
+            <View style="@style/centerIconLine"/>
 
             <LinearLayout
                 android:id="@+id/layoutDownload"

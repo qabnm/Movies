@@ -45,7 +45,7 @@ class MovieDetailSelectDialogFragment(
             data[position].isSelect = true
             ad.notifyDataSetChanged()
             val vid = data[position].vid
-            listener?.onDialogClick(vid)
+            listener?.onDialogClick(vid, data[position].title)
         }
         val imgCancel: ImageView = layoutView.findViewById(R.id.imgCancel)
         imgCancel.setOnClickListener { dismiss() }
@@ -57,7 +57,7 @@ class MovieDetailSelectDialogFragment(
     }
 
     interface OnSelectDialogItemClickListener {
-        fun onDialogClick(vid: String)
+        fun onDialogClick(vid: String, vidTitle:String)
     }
 
     /**

@@ -7,18 +7,19 @@ import android.view.WindowManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SampleCoverVideo
+import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
-import com.duoduovv.movie.bean.MovieDetail
-import com.duoduovv.movie.bean.MovieDetailBean
-import com.duoduovv.movie.bean.MovieItem
-import com.duoduovv.movie.bean.MoviePlayInfoBean
+import com.duoduovv.movie.bean.*
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
+import com.duoduovv.room.WatchHistoryDatabase
+import com.duoduovv.room.domain.VideoWatchHistoryBean
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
@@ -26,11 +27,13 @@ import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.URL
 import dc.android.bridge.BridgeContext.Companion.WAY_RELEASE
 import dc.android.bridge.util.AndroidUtils
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import kotlinx.android.synthetic.main.activity_movie_detail.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * @author: jun.liu
@@ -52,6 +55,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var playUrl = ""
     private var title = ""
     private var currentPlayPosition = 0  //默认是从第一集开始播放
+    private var vidTitle =""
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, resources.getColor(R.color.color000000))
     }
@@ -101,10 +105,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             orientationUtils?.backToProtVideo()
         }
 
-        override fun onComplete(url: String?, vararg objects: Any?) {
-            super.onComplete(url, *objects)
-        }
-
         override fun onAutoComplete(url: String?, vararg objects: Any?) {
             super.onAutoComplete(url, *objects)
             //播放完成了
@@ -117,13 +117,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                             currentPlayPosition = i
                         }
                     }
-                    if (currentPlayPosition < movieItems.size - 1){
+                    if (currentPlayPosition < movieItems.size - 1) {
                         //还有下一集 播放下一集
                         currentPlayPosition++
                         vid = movieItems[currentPlayPosition].vid
+                        vidTitle = movieItems[currentPlayPosition].title
                         viewModel.moviePlayInfo(vid, movieId, 1)
                         //更新选集显示
-                        for (i in movieItems.indices){
+                        for (i in movieItems.indices) {
                             movieItems[i].isSelect = false
                         }
                         movieItems[currentPlayPosition].isSelect = true
@@ -195,19 +196,26 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             if (!hasClickRecommend) {
                 if (StringUtils.isEmpty(vid)) {
                     detailBean.movieItems[0].isSelect = true
+                    vidTitle = detailBean.movieItems[0].title
                 } else {
                     for (i in list.indices) {
-                        if (vid == list[i].vid) detailBean.movieItems[i].isSelect = true
+                        if (vid == list[i].vid) {
+                            detailBean.movieItems[i].isSelect = true
+                            vidTitle = detailBean.movieItems[i].title
+                        }
                     }
                 }
             } else {
                 detailBean.movieItems[0].isSelect = true
+                vidTitle = detailBean.movieItems[0].title
             }
             detailAdapter?.notifyItemChanged(0)
             if (way == WAY_RELEASE) {
                 //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
                 if (!hasClickRecommend) {
-                    if (StringUtils.isEmpty(vid)) vid = list[0].vid
+                    if (StringUtils.isEmpty(vid)){
+                        vid = list[0].vid
+                    }
                 } else {
                     vid = list[0].vid
                 }
@@ -307,8 +315,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param vid String
      * @param movieId String
      */
-    override fun onSelectClick(vid: String, movieId: String) {
+    override fun onSelectClick(vid: String, movieId: String,vidTitle:String) {
         this.vid = vid
+        this.vidTitle = vidTitle
         if (way == WAY_RELEASE) {
             //只有正常班的才会去请求接口
             viewModel.moviePlayInfo(vid, movieId, 1)
@@ -340,7 +349,39 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onResume() {
         videoPlayer.currentPlayer.onVideoResume(false)
         super.onResume()
-        GSYVideoManager.onResume()
+    }
+
+    override fun onStop() {
+        updateDB()
+        super.onStop()
+    }
+    private fun updateDB(){
+        //保存下当前播放的视频信息
+        GlobalScope.launch (Dispatchers.IO){
+            val progress = videoPlayer.currentPlayer.currentPositionWhenPlaying
+            Log.d("videoPlayer", "当前播放的进度是：$progress")
+            detailBean?.let {
+                if (progress > 0) {
+                    //当前有视频播放 将播放的视频信息添加或者更新到数据库
+                        val flag = it.movie.movie_flag
+                        if (flag== MovieContext.TYPE_TV || flag == MovieContext.TYPE_VARIETY){
+                            //是电视剧或者综艺类型的
+                            detailBean!!.movieItems
+                        }
+                    val bean = VideoWatchHistoryBean(
+                        coverUrl = it.movie.cover_url,
+                        title = it.movie.vod_name,
+                        type = flag,
+                        movieId = movieId,
+                        vid = vid,
+                        currentLength = progress,
+                        vidTitle = vidTitle,
+                        totalLength = videoPlayer.currentPlayer.duration
+                    )
+                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().insert(bean)
+                }
+            }
+        }
     }
 
     override fun onDestroy() {
@@ -353,7 +394,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onPause() {
         videoPlayer.currentPlayer.onVideoPause()
         super.onPause()
-        GSYVideoManager.onPause()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -386,7 +426,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 选集弹窗的点击事件
      * @param vid String
      */
-    override fun onDialogClick(vid: String) {
-        onSelectClick(vid, movieId)
+    override fun onDialogClick(vid: String,vidTitle:String) {
+        onSelectClick(vid, movieId,vidTitle)
     }
 }
