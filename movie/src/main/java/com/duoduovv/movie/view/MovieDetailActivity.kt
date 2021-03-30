@@ -287,13 +287,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param bean MovieDetail
      */
     override fun onDetailClick(bean: MovieDetail) {
+        if (OsUtils.isFastClick()) return
         val screenHeight = OsUtils.getRealDisplayHeight(this)
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
-        val realHeight = screenHeight - topBarHeight - videoHeight
+        val navHeight = OsUtils.getNavigationBarHeight(this)
+        val realHeight = screenHeight - topBarHeight - videoHeight-navHeight
         Log.d(
             "height",
-            "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"
+            "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}**navHeight${navHeight}"
         )
         val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean)
         dialogFragment.showNow(supportFragmentManager, "detail")
@@ -307,7 +309,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val screenHeight = OsUtils.getRealDisplayHeight(this)
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
-        val realHeight = screenHeight - topBarHeight - videoHeight
+        val navHeight = OsUtils.getNavigationBarHeight(this)
+        val realHeight = screenHeight - topBarHeight - videoHeight-navHeight
         Log.d(
             "height",
             "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"

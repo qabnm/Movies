@@ -81,11 +81,19 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             //是电视类型
             holder.layoutContainer.visibility = View.VISIBLE
             holder.tvWhere.text = detailBean.movie.remark
+            if (detailBean.movieItems.size > 6) {
+                holder.tvWhere.visibility = View.VISIBLE
+            } else {
+                holder.tvWhere.visibility = View.GONE
+            }
             val adapter = MovieEpisodesAdapter(detailBean.movieItems as MutableList<MovieItem>)
             holder.rvList.adapter = adapter
-            for (i in detailBean.movieItems.indices){
-                if (detailBean.movieItems[i].isSelect){
-                    if (i !=0) (holder.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(i, 0)
+            for (i in detailBean.movieItems.indices) {
+                if (detailBean.movieItems[i].isSelect) {
+                    if (i != 0) (holder.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                        i,
+                        0
+                    )
                 }
             }
             adapter.setOnItemClickListener { ad, _, position ->
@@ -96,7 +104,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                listener?.onSelectClick(vid, detailBean.movie.str_id,data[position].title)
+                listener?.onSelectClick(vid, detailBean.movie.str_id, data[position].title)
             }
             holder.tvWhere.setOnClickListener { listener?.onSelectClick(detailBean.movieItems) }
         } else {
@@ -108,9 +116,12 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.layoutAlbum.visibility = View.VISIBLE
             val adapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
             holder.rvAlbum.adapter = adapter
-            for (i in detailBean.movieItems.indices){
-                if (detailBean.movieItems[i].isSelect){
-                    if (i !=0) (holder.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(i, 0)
+            for (i in detailBean.movieItems.indices) {
+                if (detailBean.movieItems[i].isSelect) {
+                    if (i != 0) (holder.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                        i,
+                        0
+                    )
                 }
             }
             adapter.setOnItemClickListener { ad, _, position ->
@@ -121,7 +132,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                listener?.onSelectClick(vid, detailBean.movie.str_id,data[position].title)
+                listener?.onSelectClick(vid, detailBean.movie.str_id, data[position].title)
             }
         } else {
             holder.layoutAlbum.visibility = View.GONE
@@ -183,7 +194,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         fun onDetailClick(bean: MovieDetail)
         fun onSelectClick(dataList: List<MovieItem>)
         fun onMovieClick(movieId: String)
-        fun onSelectClick(vid: String, movieId: String,vidTitle:String)
+        fun onSelectClick(vid: String, movieId: String, vidTitle: String)
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {

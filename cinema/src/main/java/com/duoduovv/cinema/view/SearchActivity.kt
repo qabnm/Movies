@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.KeyEvent
+import android.view.inputmethod.EditorInfo
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.component.HistoryUtil
@@ -11,6 +13,7 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_search.*
@@ -33,17 +36,29 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         ARouter.getInstance().inject(this)
         hotList = intent.getStringArrayListExtra(BridgeContext.LIST)
         imgBack.setOnClickListener { finish() }
-        tvCancel.setOnClickListener {
-            if (!TextUtils.isEmpty(etSearch.text)) {
-                if (searchResultFragment?.isVisible == true) return@setOnClickListener
-                toResultFragment(etSearch.text.toString())
-            } else{
-                finish()
-            }
-        }
+        tvCancel.setOnClickListener { onCancelClick() }
         //添加显示搜索记录的fragment
         showSearchFragment()
         etSearch.addTextChangedListener(textChangeWatcher)
+        etSearch.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN){
+                if (TextUtils.isEmpty(etSearch.text)){
+                    AndroidUtils.toast("请输入搜索内容",this)
+                }else{
+                    onCancelClick()
+                }
+            }
+            false
+        }
+    }
+
+    private fun onCancelClick(){
+        if (!TextUtils.isEmpty(etSearch.text)) {
+            if (searchResultFragment?.isVisible == true) return
+            toResultFragment(etSearch.text.toString())
+        } else{
+            finish()
+        }
     }
 
     override fun initData() {

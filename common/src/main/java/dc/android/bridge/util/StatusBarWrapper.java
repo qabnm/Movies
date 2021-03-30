@@ -22,7 +22,7 @@ import dc.android.bridge.view.BaseActivity;
 public class StatusBarWrapper {
     private boolean isDark;
     private BaseActivity activity;
-    protected boolean FLAG_BAR_NAV;
+    protected boolean FLAG_BAR_NAV = true;
     protected FrameLayout layoutContent;
     protected View vStatusBar;
     private boolean showBarView = true;
