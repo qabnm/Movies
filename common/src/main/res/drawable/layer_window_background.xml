@@ -17,7 +17,7 @@
 
     </item>
 
-    <item android:top="@dimen/dp_106">
+    <item android:top="@dimen/dp_180">
         <bitmap
             android:gravity="top"
             android:filter="true"

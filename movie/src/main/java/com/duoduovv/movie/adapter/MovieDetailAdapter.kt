@@ -84,7 +84,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             if (detailBean.movieItems.size > 6) {
                 holder.tvWhere.visibility = View.VISIBLE
             } else {
-                holder.tvWhere.visibility = View.GONE
+                holder.tvWhere.visibility = View.INVISIBLE
             }
             val adapter = MovieEpisodesAdapter(detailBean.movieItems as MutableList<MovieItem>)
             holder.rvList.adapter = adapter

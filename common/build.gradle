@@ -102,4 +102,6 @@ dependencies {
     api 'com.contrarywind:Android-PickerView:4.1.9'
     api 'com.tencent.bugly:crashreport:3.3.3'
 
+    implementation 'com.airbnb.android:lottie:3.6.0'
+
 }

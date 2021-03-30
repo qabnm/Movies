@@ -1,5 +1,7 @@
 package com.duoduovv.main.view
 
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.RouterPath
@@ -70,7 +72,9 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
     }
 
     private fun toMainActivity() {
-        ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
-        this.finish()
+        Handler(Looper.getMainLooper()).postDelayed({
+            ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
+            this.finish()
+        },2000)
     }
 }
