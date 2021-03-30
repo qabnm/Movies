@@ -10,13 +10,22 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgCover"
-        android:layout_width="@dimen/dp_82"
+        android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_115"
         app:layout_constraintLeft_toLeftOf="parent"
         android:scaleType="centerCrop"
         app:shapeAppearanceOverlay="@style/StyleShapeRounder3"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@drawable/movie_default"/>
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="@dimen/dp_90"
+        android:layout_height="@dimen/dp_115"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:scaleType="centerCrop"
+        android:background="@drawable/gradual_img_cover"
+        app:shapeAppearanceOverlay="@style/StyleShapeRounder3"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.duoduovv.common.view.RoundCornerLayout
         android:id="@+id/layoutRound"

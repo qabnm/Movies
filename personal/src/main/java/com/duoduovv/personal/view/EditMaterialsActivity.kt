@@ -76,7 +76,7 @@ class EditMaterialsActivity : BaseViewModelActivity<PersonViewModel>(), ITakePho
             tvWhere,
             "${user.province}${user.city}${user.area}"
         )
-        if (!StringUtils.isEmpty(user.created_at)) setText(tvBirthday, user.created_at)
+//        if (!StringUtils.isEmpty(user.created_at)) setText(tvBirthday, user.created_at)
         if (!StringUtils.isEmpty(user.cellphone)) setText(tvSign, user.cellphone)
     }
 
