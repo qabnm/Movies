@@ -74,12 +74,21 @@ class SearchResultListAdapter(
                     holder.rvListTv.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchTvSelectAdapter).data
-                        for (i in dataList.indices) {
-                            dataList[i].isSelect = false
+//                        for (i in dataList.indices) {
+//                            dataList[i].isSelect = false
+//                        }
+//                        dataList[pos].isSelect = true
+//                        ad.notifyDataSetChanged()
+//                        listener?.onSelectClick(dataList[pos].vid)
+                        if (data.size <= 6) {
+                            listener?.onSelectClick(dataList[pos].vid, bean.str_id)
+                        } else {
+                            if (pos != 2){
+                                listener?.onSelectClick(dataList[pos].vid, bean.str_id)
+                            }else{
+                                listener?.onMoreSelectClick(data, bean.str_id,bean.vod_name)
+                            }
                         }
-                        dataList[pos].isSelect = true
-                        ad.notifyDataSetChanged()
-                        listener?.onSelectClick(dataList[pos].vid)
                     }
                 }
             }
@@ -107,7 +116,7 @@ class SearchResultListAdapter(
                         for (i in dataList.indices) dataList[i].isSelect = false
                         dataList[pos].isSelect = true
                         ad.notifyDataSetChanged()
-                        listener?.onSelectClick(dataList[pos].vid)
+                        listener?.onSelectClick(dataList[pos].vid, bean.str_id)
                     }
                 }
             }
@@ -137,6 +146,7 @@ class SearchResultListAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(movieId: String)
-        fun onSelectClick(vid: String)
+        fun onSelectClick(vid: String,movieId: String)
+        fun onMoreSelectClick(dataList:List<MovieItem>,movieId: String, title:String)
     }
 }

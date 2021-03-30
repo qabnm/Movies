@@ -91,5 +91,10 @@ class RouterPath {
          * 关于我们
          */
         const val PATH_ABOUT_US = "/personal/AboutUsActivity"
+
+        /**
+         * 搜索结果更多选集
+         */
+        const val PATH_SEARCH_MORE_SELECT = "/cinema/SearchMoreSelectActivity"
     }
 }

@@ -1,5 +1,8 @@
 package com.duoduovv.cinema.bean
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * @author: jun.liu
  * @date: 2021/1/8 17:42
@@ -34,13 +37,14 @@ data class SearchResultList(
     val vod_name: String,
     val vod_number: Int,
     val vod_year: String,
-    val type_id_text:String,
-    val id:String,
-    val movie_flag:Int
+    val type_id_text: String,
+    val id: String,
+    val movie_flag: Int
 )
 
+@Parcelize
 data class MovieItem(
     var vid: String,
     var title: String,
-    var isSelect:Boolean = false
-)
+    var isSelect: Boolean = false
+) : Parcelable
