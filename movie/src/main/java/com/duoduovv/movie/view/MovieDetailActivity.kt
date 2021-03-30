@@ -23,7 +23,10 @@ import com.duoduovv.room.domain.VideoWatchHistoryBean
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.CURRENT_LENGTH
+import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
+import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.BridgeContext.Companion.URL
 import dc.android.bridge.BridgeContext.Companion.WAY_RELEASE
 import dc.android.bridge.util.AndroidUtils
@@ -56,6 +59,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var title = ""
     private var currentPlayPosition = 0  //默认是从第一集开始播放
     private var vidTitle = ""
+    private var currentLength: Long = 0
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, resources.getColor(R.color.color000000))
     }
@@ -98,6 +102,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         override fun onPrepared(url: String?, vararg objects: Any?) {
             super.onPrepared(url, *objects)
             orientationUtils?.isEnable = videoPlayer.isRotateWithSystem
+            if (currentLength > 0){
+                videoPlayer.seekTo(currentLength)
+                currentLength = 0
+            }
         }
 
         override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
@@ -170,8 +178,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun initData() {
-        vid = intent.getStringExtra(BridgeContext.TYPE_ID) ?: ""
-        movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
+        currentLength = intent.getLongExtra(CURRENT_LENGTH, 0)
+        vid = intent.getStringExtra(TYPE_ID) ?: ""
+        movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
     }
 
@@ -371,26 +380,29 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             detailBean?.let {
                 if (progress > 0) {
                     //首先查询数据库是否有当前影片 如果有了就执行update操作
-                     val dataList = WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAll()
-                    if (dataList.isNotEmpty()){
-                        var updateBean:VideoWatchHistoryBean?=null
-                        for(i in dataList.indices){
-                            if (movieId == dataList[i].movieId){
+                    val dataList =
+                        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
+                            .queryAll()
+                    if (dataList.isNotEmpty()) {
+                        var updateBean: VideoWatchHistoryBean? = null
+                        for (i in dataList.indices) {
+                            if (movieId == dataList[i].movieId) {
                                 //如果已经存在数据库中 直接执行更新操作
                                 updateBean = dataList[i]
                             }
                         }
-                        if (null != updateBean){
+                        if (null != updateBean) {
                             updateBean.vid = vid
                             updateBean.vidTitle = vidTitle
                             updateBean.currentLength = progress
                             updateBean.currentTime = System.currentTimeMillis()
-                            WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().update(updateBean)
-                        }else{
+                            WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
+                                .update(updateBean)
+                        } else {
                             //执行插入操作
                             insert(it, progress)
                         }
-                    }else{
+                    } else {
                         insert(it, progress)
                     }
                 }
@@ -398,7 +410,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
-    private fun insert(bean:MovieDetailBean,progress:Int){
+    private fun insert(bean: MovieDetailBean, progress: Int) {
         //当前有视频播放 将播放的视频信息添加或者更新到数据库
         val flag = bean.movie.movie_flag
         if (flag == MovieContext.TYPE_TV || flag == MovieContext.TYPE_VARIETY) {

@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.common.BaseApplication
@@ -12,6 +13,10 @@ import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.WatchHistoryAdapter
 import com.duoduovv.room.WatchHistoryDatabase
 import com.duoduovv.room.domain.VideoWatchHistoryBean
+import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.CURRENT_LENGTH
+import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_watch_history.*
 import kotlinx.coroutines.Dispatchers
@@ -45,6 +50,12 @@ class WatchHistoryActivity : BridgeActivity() {
         layoutTopBar.setRightClick { onEditClick() }
         tvAllSelect.setOnClickListener { allSelect() }
         tvDelete.setOnClickListener { onDeleteClick() }
+        historyAdapter?.setOnItemClickListener { adapter, _, position ->
+            val bean = (adapter as WatchHistoryAdapter).data[position]
+            ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL)
+                .withString(ID, bean.movieId).withString(TYPE_ID, bean.vid)
+                .withLong(CURRENT_LENGTH, bean.currentLength.toLong()).navigation()
+        }
     }
 
     /**

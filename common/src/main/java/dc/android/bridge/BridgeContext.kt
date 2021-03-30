@@ -30,6 +30,7 @@ open class BridgeContext {
         const val WAY_RELEASE = 1
         const val WAY_H5 = 2
         const val AGREEMENT = "agree"
+        const val CURRENT_LENGTH = "currentLength"
         /**
          * 用户协议
          */
