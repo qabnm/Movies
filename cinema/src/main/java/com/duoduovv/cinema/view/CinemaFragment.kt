@@ -71,6 +71,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             intent?.let { startActivity(it) }
             requireActivity().finish()
         })
+        imgHistory.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation() }
     }
 
     /**

@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:emptyText="暂无收藏记录"
-        app:imgResource="@drawable/weichat">
+        app:imgResource="@drawable/look_history_empty">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvList"

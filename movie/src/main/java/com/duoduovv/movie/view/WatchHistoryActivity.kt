@@ -13,7 +13,6 @@ import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.WatchHistoryAdapter
 import com.duoduovv.room.WatchHistoryDatabase
 import com.duoduovv.room.domain.VideoWatchHistoryBean
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.CURRENT_LENGTH
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID

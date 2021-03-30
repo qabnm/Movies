@@ -19,7 +19,7 @@
         android:layout_width="@dimen/dp_42"
         android:layout_height="@dimen/dp_42"
         android:padding="@dimen/dp_10"
-        android:src="@drawable/movie_download"
+        android:src="@drawable/movie_no_download"
         app:layout_constraintRight_toLeftOf="@+id/imgShare"
         app:layout_constraintTop_toTopOf="parent" />
 

@@ -28,12 +28,12 @@
             android:textSize="@dimen/sp_14" />
 
         <ImageView
+            android:id="@+id/imgHistory"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_16"
             android:padding="@dimen/dp_4"
-            android:visibility="gone"
-            android:src="@drawable/common_download" />
+            android:src="@drawable/cinema_look_history" />
 
         <ImageView
             android:layout_width="@dimen/dp_30"

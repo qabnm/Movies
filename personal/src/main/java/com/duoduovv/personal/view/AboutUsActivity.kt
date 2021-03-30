@@ -86,6 +86,8 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             } else {
                 AndroidUtils.toast("已经是最新版本了！",this)
             }
+        }?:also {
+            AndroidUtils.toast("已经是最新版本了！",this)
         }
     }
 
