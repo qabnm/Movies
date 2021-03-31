@@ -39,6 +39,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     private var movieLibAdapter: MovieLibraryAdapter? = null
 
     override fun initView() {
+        showLoading()
         rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
         viewModel.getMovieLibList().observe(this, {
             val result = viewModel.getMovieLibList().value
@@ -66,6 +67,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     }
 
     private fun setData(movies: List<MovieLibList>?) {
+        dismissLoading()
         Log.i("typeList","${typeList?.isNotEmpty()}")
         if (typeList?.isNotEmpty() == true) {
             Log.i("typeList","adapter::${null == movieLibAdapter}movie:&&&&${movies?.isNotEmpty()}")

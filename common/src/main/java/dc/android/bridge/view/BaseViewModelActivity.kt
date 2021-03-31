@@ -1,6 +1,7 @@
 package dc.android.bridge.view
 
 import androidx.lifecycle.ViewModelProvider
+import com.duoduovv.common.component.LoadingDialogFragment
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
 import dc.android.bridge.BridgeContext.Companion.NETWORK_ERROR
 import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
@@ -8,7 +9,6 @@ import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
 import dc.android.bridge.util.AndroidUtils
-import dc.android.bridge.util.LoggerSnack
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -22,12 +22,14 @@ import java.net.UnknownHostException
 open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     protected lateinit var viewModel: VM
     open fun providerVMClass(): Class<VM>? = null
+    private var loadingDialog: LoadingDialogFragment?=null
 
     override fun initViewModel() {
         providerVMClass()?.let {
             viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
+        loadingDialog = LoadingDialogFragment()
     }
 
     override fun startObserve() {
@@ -55,13 +57,19 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
         }
     }
 
+    open fun showLoading() {
+        loadingDialog?.showNow(supportFragmentManager,"loading")
+    }
+
+    open fun dismissLoading() {
+        loadingDialog?.dismiss()
+    }
+
     open fun showError(errMsg: String?) {
-//        LoggerSnack.show(this , errMsg)
         AndroidUtils.toast(errMsg, this)
     }
 
     private fun parameterError(msg: String) {
-//        LoggerSnack.show(this , msg)
         AndroidUtils.toast(msg , this)
     }
 

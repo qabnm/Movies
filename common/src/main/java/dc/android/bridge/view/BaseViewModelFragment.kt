@@ -1,14 +1,13 @@
 package dc.android.bridge.view
 
 import androidx.lifecycle.ViewModelProvider
+import com.duoduovv.common.component.LoadingDialogFragment
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
 import dc.android.bridge.BridgeContext.Companion.NETWORK_ERROR
 import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
-import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
 import dc.android.bridge.util.AndroidUtils
-import dc.android.bridge.util.LoggerSnack
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -23,12 +22,14 @@ import java.net.UnknownHostException
 open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     protected lateinit var viewModel: VM
     open fun providerVMClass(): Class<VM>? = null
+    private var loadingDialog: LoadingDialogFragment? = null
 
     override fun initVM() {
         providerVMClass()?.let {
             viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
+        loadingDialog = LoadingDialogFragment()
     }
 
     override fun startObserve() {
@@ -42,6 +43,7 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
      */
     open fun requestError(throwable: Throwable?) {
         throwable?.let {
+            dismissLoading()
             when (it) {
                 is UnknownHostException -> showError(NETWORK_ERROR)
                 is SocketTimeoutException -> showError(NETWORK_ERROR)
@@ -59,21 +61,27 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     /**
      * token过期
      */
-    open fun tokenValid(){}
+    open fun tokenValid() {}
+
+    open fun showLoading() {
+        loadingDialog?.showNow(childFragmentManager, "loading")
+    }
+
+    open fun dismissLoading() {
+        loadingDialog?.dismiss()
+    }
 
     open fun showError(errMsg: String?) {
-//        LoggerSnack.show(requireActivity(), errMsg)
         AndroidUtils.toast(errMsg, requireActivity())
         finishLoading()
     }
 
     private fun parameterError(msg: String) {
-//        LoggerSnack.show(requireActivity(), msg)
         AndroidUtils.toast(msg, requireActivity())
         finishLoading()
     }
 
-    open fun finishLoading(){}
+    open fun finishLoading() {}
 
     override fun onDestroy() {
         super.onDestroy()

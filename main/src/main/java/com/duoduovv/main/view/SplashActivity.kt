@@ -6,10 +6,9 @@ import android.view.View
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
-import com.duoduovv.common.view.AlertDialogFragment
+import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.main.R
 import com.duoduovv.main.component.PrivacyDialogFragment
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
 import dc.android.bridge.view.BridgeActivity
 
@@ -22,7 +21,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
     override fun getLayoutId() = R.layout.activity_splash
     override fun showStatusBarView() = false
     private var privacyDialogFragment: PrivacyDialogFragment? = null
-    private var alertDialogFragment:AlertDialogFragment?= null
+    private var alertDialogFragment: AlertDialogFragment?= null
 
     override fun initData() {
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
@@ -49,7 +48,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             it.setCancel(false)
         }
     }
-    private val alertListener = object :AlertDialogFragment.OnDialogSureClickListener{
+    private val alertListener = object : AlertDialogFragment.OnDialogSureClickListener{
         override fun onSureClick() {
             alertDialogFragment?.dismiss()
             onDialogSureClick()

@@ -2,25 +2,21 @@ package com.duoduovv.main.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CINEMA
-import com.duoduovv.common.util.RouterPath.Companion.PATH_HOTSPOT
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
-import com.duoduovv.common.view.AlertDialogFragment
+import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.main.R
-import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatTool
 import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.view.BaseFragment
 import dc.android.bridge.view.BridgeActivity
 import dc.android.tools.LiveDataBus
@@ -178,7 +174,7 @@ class MainActivity : BridgeActivity() {
         showAlertDialog()
     }
 
-    private var dialogFragment:AlertDialogFragment?=null
+    private var dialogFragment: AlertDialogFragment?=null
     private fun showAlertDialog(){
         dialogFragment = AlertDialogFragment("确定要退出吗？",listener,250f)
         dialogFragment?.let {
@@ -191,7 +187,7 @@ class MainActivity : BridgeActivity() {
         }
     }
 
-    private val listener = object :AlertDialogFragment.OnDialogSureClickListener{
+    private val listener = object : AlertDialogFragment.OnDialogSureClickListener{
         override fun onSureClick() {
             dialogFragment?.dismiss()
         }

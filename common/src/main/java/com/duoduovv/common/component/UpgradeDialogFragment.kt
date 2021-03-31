@@ -1,4 +1,4 @@
-package com.duoduovv.common.view
+package com.duoduovv.common.component
 
 import android.os.Bundle
 import android.view.Gravity

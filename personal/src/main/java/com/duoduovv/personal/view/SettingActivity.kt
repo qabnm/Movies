@@ -2,14 +2,12 @@ package com.duoduovv.personal.view
 
 import android.annotation.SuppressLint
 import com.alibaba.android.arouter.facade.annotation.Route
-import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.FileUtils
-import com.duoduovv.common.util.RouterPath.Companion.PATH_CONTRACT_SERVICE_ACTIVITY
 import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
-import com.duoduovv.common.view.AlertDialogFragment
+import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.personal.R
 import dc.android.bridge.BridgeContext.Companion.NOTIFICATION
 import dc.android.bridge.view.BridgeActivity
@@ -24,7 +22,7 @@ import kotlinx.android.synthetic.main.activity_setting.*
 class SettingActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_setting
     private var isOpen = true
-    private var dialogFragment:AlertDialogFragment?= null
+    private var dialogFragment: AlertDialogFragment?= null
 
     override fun initView() {
         layoutContract.setOnClickListener {

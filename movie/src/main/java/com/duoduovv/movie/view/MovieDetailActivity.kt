@@ -178,6 +178,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun initData() {
+        showLoading()
         currentLength = intent.getLongExtra(CURRENT_LENGTH, 0)
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
@@ -185,6 +186,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     private fun setData(detailBean: MovieDetailBean?) {
+        dismissLoading()
         this.detailBean = detailBean
         if (detailBean == null) return
         movieId = detailBean.movie.str_id

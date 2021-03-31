@@ -53,9 +53,11 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
             setOnRefreshListener(this@SearchResultListFragment)
             setOnLoadMoreListener(this@SearchResultListFragment)
         }
+        showLoading()
     }
 
     private fun setData(dataList: List<SearchResultList>?) {
+        dismissLoading()
         if (dataList?.isNotEmpty() == true) {
             layoutEmpty.visibility = View.GONE
             refreshLayout.visibility = View.VISIBLE

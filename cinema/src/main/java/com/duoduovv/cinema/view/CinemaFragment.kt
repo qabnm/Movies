@@ -15,7 +15,7 @@ import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
-import com.duoduovv.common.view.UpgradeDialogFragment
+import com.duoduovv.common.component.UpgradeDialogFragment
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
@@ -51,6 +51,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
                 .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
         }
         viewModel.getConfigure().observe(this, {
+            dismissLoading()
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
@@ -149,6 +150,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     }
 
     override fun initData() {
+        showLoading()
         location()
         Log.i("address", SharedPreferencesHelper.helper.getValue(ADDRESS, "") as String)
         viewModel.configure()

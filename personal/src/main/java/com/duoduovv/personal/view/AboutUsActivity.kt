@@ -5,7 +5,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
-import com.duoduovv.common.view.UpgradeDialogFragment
+import com.duoduovv.common.component.UpgradeDialogFragment
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
@@ -13,7 +13,6 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.URL_PRIVACY
 import dc.android.bridge.BridgeContext.Companion.URL_USER_AGREEMENT
 import dc.android.bridge.util.AndroidUtils
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import kotlinx.android.synthetic.main.activity_about_us.*
