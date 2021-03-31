@@ -34,36 +34,20 @@ class ReportActivity : BaseViewModelActivity<ReportViewModel>() {
             finish()
         })
         btnSeQing.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                title = "色情"
-                btnSeQing.setTextColor(selectColor)
-            } else {
-                btnSeQing.setTextColor(normalColor)
-            }
+            btnSeQing.setTextColor(if (isChecked) selectColor else normalColor)
+            if (isChecked) title = "色情"
         }
         btnBaoLi.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                title = "暴力"
-                btnBaoLi.setTextColor(selectColor)
-            } else {
-                btnBaoLi.setTextColor(normalColor)
-            }
+            btnBaoLi.setTextColor(if (isChecked) selectColor else normalColor)
+            if (isChecked) title = "暴力"
         }
         btnQinQuan.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                title = "侵权"
-                btnQinQuan.setTextColor(selectColor)
-            } else {
-                btnQinQuan.setTextColor(normalColor)
-            }
+            btnQinQuan.setTextColor(if (isChecked) selectColor else normalColor)
+            if (isChecked) title = "侵权"
         }
         btnOther.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                title = "其它"
-                btnOther.setTextColor(selectColor)
-            } else {
-                btnOther.setTextColor(normalColor)
-            }
+            btnOther.setTextColor(if (isChecked) selectColor else normalColor)
+            if (isChecked) title = "其它"
         }
         btnCommit.setOnClickListener { commit() }
     }

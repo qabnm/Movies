@@ -9,13 +9,13 @@ import com.duoduovv.movie.bean.MovieItem
 
 /**
  * @author: jun.liu
- * @date: 2021/2/24 11:00
- * @des:影视详情选集
+ * @date: 2021/3/31 17:34
+ * @des:
  */
-class MovieEpisodesAdapter(list: MutableList<MovieItem>) :
-    BaseQuickAdapter<MovieItem, BaseViewHolder>(R.layout.item_movie_episodes, list) {
+class MovieEpisodesArtAdapter (list: MutableList<MovieItem>) :
+    BaseQuickAdapter<MovieItem, BaseViewHolder>(R.layout.item_art_more_select, list) {
     override fun convert(holder: BaseViewHolder, item: MovieItem) {
-        val tvTitle:TextView = holder.getView(R.id.tvEpisodes)
+        val tvTitle: TextView = holder.getView(R.id.tvTitle)
         tvTitle.text = item.title
         tvTitle.setTextColor(
             if (item.isSelect) ContextCompat.getColor(

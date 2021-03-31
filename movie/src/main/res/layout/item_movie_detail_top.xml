@@ -161,18 +161,37 @@
             android:layout_height="@dimen/dp_0_5"
             android:background="@color/colorF5F5F5" />
 
-        <com.duoduovv.common.view.MediumBoldTextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/dp_13"
-            android:layout_marginBottom="@dimen/dp_4"
-            android:drawableRight="@drawable/more_icon"
-            android:includeFontPadding="false"
-            android:text="专辑列表"
-            android:paddingTop="@dimen/dp_10"
-            android:paddingBottom="@dimen/dp_10"
-            android:textColor="#141414"
-            android:textSize="@dimen/sp_15" />
+            android:orientation="horizontal">
+
+            <com.duoduovv.common.view.MediumBoldTextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_13"
+                android:layout_marginBottom="@dimen/dp_4"
+                android:includeFontPadding="false"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:text="专辑列表"
+                android:textColor="#141414"
+                android:textSize="@dimen/sp_15" />
+            <com.duoduovv.common.view.MediumBoldTextView
+                android:id="@+id/tvZWhere"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@drawable/more_icon"
+                android:includeFontPadding="false"
+                android:layout_marginTop="@dimen/dp_5"
+                android:paddingTop="@dimen/dp_10"
+                android:paddingBottom="@dimen/dp_10"
+                android:textColor="@color/color666666"
+                android:textSize="@dimen/sp_12"
+                android:layout_gravity="center_vertical"
+                tools:text="更新至28集" />
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvAlbum"
@@ -186,10 +205,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_24"
         android:includeFontPadding="false"
+        android:paddingBottom="@dimen/dp_15"
         android:text="为你推荐"
         android:textColor="@color/color000000"
         android:textSize="@dimen/sp_15"
-        android:paddingBottom="@dimen/dp_15"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/layoutZhuanJi" />
 </androidx.constraintlayout.widget.ConstraintLayout>

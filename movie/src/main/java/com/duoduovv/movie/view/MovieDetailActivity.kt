@@ -15,6 +15,7 @@ import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.*
+import com.duoduovv.movie.component.MovieDetailArtSelectDialog
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
@@ -46,7 +47,7 @@ import kotlinx.coroutines.launch
 @Route(path = RouterPath.PATH_MOVIE_DETAIL)
 class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     MovieDetailAdapter.OnViewClickListener, SampleCoverVideo.OnStartClickListener,
-    MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener {
+    MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener,MovieDetailArtSelectDialog.OnSelectDialogItemClickListener {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private var movieId = ""
@@ -93,6 +94,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    /**
+     * 播放器相关状态和时间监听毁掉
+     */
     private val videoCallback = object : VideoPlayCallback() {
         override fun onPlayError(url: String?, vararg objects: Any?) {
             super.onPlayError(url, *objects)
@@ -240,6 +244,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    /**
+     * 设置播放器的基本功能
+     */
     private fun setVideoPlayer() {
         videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
@@ -303,6 +310,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         dialogFragment.showNow(supportFragmentManager, "detail")
     }
 
+    /**
+     * 举报按钮点击监听
+     */
     private val reportListener = object :MovieDetailDialogFragment.OnReportClickListener{
         override fun onReportClick(movieId: String) {
             ARouter.getInstance().build(RouterPath.PATH_REPORT).withString(ID, movieId).navigation()
@@ -310,7 +320,24 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     /**
-     * 选集
+     * 综艺类型的选集更多展开
+     * @param dataList List<MovieItem>
+     */
+    override fun onArtSelectClick(dataList: List<MovieItem>) {
+        val screenHeight = OsUtils.getRealDisplayHeight(this)
+        val topBarHeight = OsUtils.getStatusBarHeight(this)
+        val videoHeight = videoPlayer.measuredHeight
+        val navHeight = OsUtils.getNavigationBarHeight(this)
+        val realHeight = screenHeight - topBarHeight - videoHeight-navHeight
+        for (i in dataList.indices) {
+            if (vid == dataList[i].vid) dataList[i].isSelect = true
+        }
+        val dialogFragment = MovieDetailArtSelectDialog(height = realHeight, dataList, this)
+        dialogFragment.showNow(supportFragmentManager, "select")
+    }
+
+    /**
+     * 电视剧类型的选集更多展开
      * @param dataList List<String>
      */
     override fun onSelectClick(dataList: List<MovieItem>) {
@@ -358,10 +385,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             hasClickRecommend = true
             viewModel.movieDetail(movieId)
         }
-//        updateDB()
-//        GSYVideoManager.releaseAllVideos()
-//        hasClickRecommend = true
-//        viewModel.movieDetail(movieId)
     }
 
     override fun onBackPressed() {
@@ -383,6 +406,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         super.onStop()
     }
 
+    /**
+     * 更新数据  暂时先放这里 后期挪走 这是业务逻辑 不应该放在这里
+     */
     private fun updateDB() {
         //保存下当前播放的视频信息
         GlobalScope.launch(Dispatchers.IO) {
@@ -421,6 +447,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    /**
+     * 插入数据  后期挪走 这是业务逻辑 不应该放在这里
+     * @param bean MovieDetailBean
+     * @param progress Int
+     */
     private fun insert(bean: MovieDetailBean, progress: Int) {
         //当前有视频播放 将播放的视频信息添加或者更新到数据库
         val flag = bean.movie.movie_flag

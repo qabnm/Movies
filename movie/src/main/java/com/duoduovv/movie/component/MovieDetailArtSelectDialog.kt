@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailSelectAdapter
+import com.duoduovv.movie.adapter.MovieEpisodesArtAdapter
 import com.duoduovv.movie.bean.MovieItem
 
 /**
  * @author: jun.liu
- * @date: 2021/3/11 15:03
- * @des:电视剧类型的选集
+ * @date: 2021/3/31 17:19
+ * @des:综艺类型的更多选集
  */
-class MovieDetailSelectDialogFragment(
+class MovieDetailArtSelectDialog(
     private val height: Int,
     private val dataList: List<MovieItem>,
     private val listener: OnSelectDialogItemClickListener?
@@ -34,11 +35,11 @@ class MovieDetailSelectDialogFragment(
 
     private fun initViews(layoutView: View) {
         val rvList: RecyclerView = layoutView.findViewById(R.id.rvList)
-        rvList.layoutManager = GridLayoutManager(requireContext(), 5)
-        val adapter = MovieDetailSelectAdapter(dataList as MutableList<MovieItem>)
+        rvList.layoutManager = GridLayoutManager(requireContext(), 2)
+        val adapter = MovieEpisodesArtAdapter(dataList as MutableList)
         rvList.adapter = adapter
         adapter.setOnItemClickListener { ad, _, position ->
-            val data = (ad as MovieDetailSelectAdapter).data
+            val data = (ad as MovieEpisodesArtAdapter).data
             for (i in data.indices) {
                 data[i].isSelect = false
             }
@@ -57,7 +58,7 @@ class MovieDetailSelectDialogFragment(
     }
 
     interface OnSelectDialogItemClickListener {
-        fun onDialogClick(vid: String, vidTitle:String)
+        fun onDialogClick(vid: String, vidTitle: String)
     }
 
     /**
