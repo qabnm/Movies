@@ -299,8 +299,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             "height",
             "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}**navHeight${navHeight}"
         )
-        val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean)
+        val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean, reportListener)
         dialogFragment.showNow(supportFragmentManager, "detail")
+    }
+
+    private val reportListener = object :MovieDetailDialogFragment.OnReportClickListener{
+        override fun onReportClick(movieId: String) {
+            ARouter.getInstance().build(RouterPath.PATH_REPORT).withString(ID, movieId).navigation()
+        }
     }
 
     /**

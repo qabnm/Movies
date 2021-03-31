@@ -14,7 +14,7 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/2/24 17:24
  * @des:详情简介
  */
-class MovieDetailDialogFragment(private val height: Int, private val bean: MovieDetail) :
+class MovieDetailDialogFragment(private val height: Int, private val bean: MovieDetail,private val listener:OnReportClickListener?) :
     DialogFragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,5 +60,10 @@ class MovieDetailDialogFragment(private val height: Int, private val bean: Movie
         imgCancel.setOnClickListener { dismiss() }
         tvJubao.setOnClickListener {  }
         tvContent.text = bean.vod_blurb
+        tvJubao.setOnClickListener { listener?.onReportClick(bean.id) }
+    }
+
+    interface OnReportClickListener{
+        fun onReportClick(movieId:String)
     }
 }

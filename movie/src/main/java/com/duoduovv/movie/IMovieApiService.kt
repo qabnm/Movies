@@ -92,4 +92,14 @@ interface IMovieApiService {
      */
     @DELETE("api/user/favorite")
     suspend fun deleteCollection(@Query("movie_id") movieId: String): BaseResponseData<Any>
+
+    /**
+     * 举报
+     * @param content String
+     * @param movieId String
+     * @return BaseResponseData<Any>
+     */
+    @FormUrlEncoded
+    @POST("api/report")
+    suspend fun report(@Field("content") content:String,@Field("movie_id")movieId: String):BaseResponseData<Any>
 }

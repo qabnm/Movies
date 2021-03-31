@@ -95,6 +95,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      * @param name String  点击的条件  大陆 美国
      */
     override fun onTypeClick(key: String, name: String) {
+        showLoading()
         map[key] = name
         viewModel.movieLibList(map, page, typeId)
     }
@@ -126,6 +127,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     }
 
     private fun noMoreData(flag: String?) {
+        dismissLoading()
         if (NO_MORE_DATA == flag) {
             //没有更多数据了
             refreshLayout.apply {

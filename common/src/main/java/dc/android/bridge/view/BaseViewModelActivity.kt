@@ -9,6 +9,7 @@ import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
 import dc.android.bridge.util.AndroidUtils
+import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
@@ -44,10 +45,12 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
      */
     open fun requestError(throwable: Throwable?) {
         throwable?.let {
+            dismissLoading()
             when (it) {
                 is UnknownHostException -> showError(NETWORK_ERROR)
                 is SocketTimeoutException -> showError(NETWORK_ERROR)
                 is ConnectException -> showError(CONNECTION_ERROR)
+                is HttpException -> showError("服务繁忙，请稍后再试")
                 is IllegalStateException -> showError("数据解析异常")
                 is RuntimeException -> showError(RUNTIME_ERROR)
                 is BaseRepository.TokenException -> showError(TOKEN_ERROR)

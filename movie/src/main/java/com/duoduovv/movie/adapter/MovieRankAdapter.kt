@@ -1,11 +1,13 @@
 package com.duoduovv.movie.adapter
 
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.RankList
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
+import retrofit2.http.POST
 
 /**
  * @author: jun.liu
@@ -19,7 +21,25 @@ class MovieRankAdapter : BaseQuickAdapter<RankList, BaseViewHolder>(R.layout.ite
             url = item.cover_url,
             imageView = holder.getView(R.id.imgCover)
         )
-        holder.setText(R.id.tvRank, "${holder.layoutPosition + 1}")
+        val  tvRank:TextView = holder.getView(R.id.tvRank)
+        when(holder.layoutPosition){
+            0 ->{
+                tvRank.setBackgroundResource(R.drawable.movie_rank_first)
+                tvRank.text = ""
+            }
+            1 ->{
+                tvRank.setBackgroundResource(R.drawable.movie_rank_second)
+                tvRank.text = ""
+            }
+            2->{
+                tvRank.setBackgroundResource(R.drawable.movie_rank_third)
+                tvRank.text = ""
+            }
+            else ->{
+                tvRank.setBackgroundResource(R.drawable.movie_rank_other)
+                tvRank.text = "${holder.layoutPosition+1}"
+            }
+        }
         holder.setText(R.id.tvName, item.vod_name)
         holder.setText(
             R.id.tvTime,
