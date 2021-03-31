@@ -516,6 +516,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param vid String
      */
     override fun onDialogClick(vid: String, vidTitle: String) {
-        onSelectClick(vid, movieId, vidTitle)
+        //更新显示
+        detailBean?.let {
+            var pos = 0
+            for (i in it.movieItems.indices) {
+                it.movieItems[i].isSelect = false
+                if (vid == it.movieItems[i].vid) pos = i
+            }
+            it.movieItems[pos].isSelect = true
+            detailAdapter?.notifyItemChanged(0)
+            onSelectClick(vid, movieId, vidTitle)
+        }
     }
 }
