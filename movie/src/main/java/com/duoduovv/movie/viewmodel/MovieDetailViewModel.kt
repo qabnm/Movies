@@ -1,11 +1,19 @@
 package com.duoduovv.movie.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MoviePlayInfoBean
 import com.duoduovv.movie.repository.MovieRepository
+import com.duoduovv.room.WatchHistoryDatabase
+import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
+import kotlinx.android.synthetic.main.activity_movie_detail.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 /**
  * @author: jun.liu
@@ -23,7 +31,7 @@ class MovieDetailViewModel : BaseViewModel() {
     fun getMoviePlayInfo() = moviePlayInfo
 
     //以下是点击播放  直接可以播放
-    private var movieClickInfo:MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
+    private var movieClickInfo: MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
     fun getMovieClickInfo() = movieClickInfo
 
     private val repository = MovieRepository()
@@ -45,12 +53,12 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param id String
      * @return Job
      */
-    fun moviePlayInfo(vid: String, id: String,flag:Int = 0) = request {
+    fun moviePlayInfo(vid: String, id: String, flag: Int = 0) = request {
         val result = repository.moviePlayInfo(vid, id)
-        if (result.code == SUCCESS){
-            if (flag == 0){
+        if (result.code == SUCCESS) {
+            if (flag == 0) {
                 moviePlayInfo.postValue(result.data)
-            }else{
+            } else {
                 movieClickInfo.postValue(result.data)
             }
         }
@@ -74,5 +82,76 @@ class MovieDetailViewModel : BaseViewModel() {
     fun deleteCollection(movieId: String) = request {
         val result = repository.deleteCollection(movieId)
         if (result.code == SUCCESS) deleteCollectionState.postValue(200)
+    }
+
+    /**
+     * 更新数据
+     */
+    fun updateDB(
+        progress: Int,
+        detailBean: MovieDetailBean,
+        movieId: String,
+        vid: String,
+        vidTitle: String,
+        duration: Int
+    ) {
+        //保存下当前播放的视频信息
+        GlobalScope.launch(Dispatchers.IO) {
+            Log.d("videoPlayer", "当前播放的进度是：$progress")
+            if (progress > 0) {
+                //首先查询数据库是否有当前影片 如果有了就执行update操作
+                val dataList =
+                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
+                        .queryAll()
+                if (dataList.isNotEmpty()) {
+                    var updateBean: VideoWatchHistoryBean? = null
+                    for (i in dataList.indices) {
+                        if (movieId == dataList[i].movieId) {
+                            //如果已经存在数据库中 直接执行更新操作
+                            updateBean = dataList[i]
+                        }
+                    }
+                    updateBean?.let {
+                        it.vid = vid
+                        it.vidTitle = vidTitle
+                        it.currentLength = progress
+                        it.currentTime = System.currentTimeMillis()
+                        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
+                            .update(it)
+                    } ?: also { insert(detailBean, progress, movieId, vid, vidTitle, duration) }
+                } else {
+                    insert(detailBean, progress, movieId, vid, vidTitle, duration)
+                }
+            }
+        }
+    }
+
+    /**
+     * 插入数据
+     * @param bean MovieDetailBean
+     * @param progress Int
+     */
+    private fun insert(
+        bean: MovieDetailBean,
+        progress: Int,
+        movieId: String,
+        vid: String,
+        vidTitle: String,
+        duration: Int
+    ) {
+        //当前有视频播放 将播放的视频信息添加或者更新到数据库
+        val flag = bean.movie.movie_flag
+        val videoBean = VideoWatchHistoryBean(
+            coverUrl = bean.movie.cover_url,
+            title = bean.movie.vod_name,
+            type = flag,
+            movieId = movieId,
+            vid = vid,
+            currentLength = progress,
+            vidTitle = vidTitle,
+            currentTime = System.currentTimeMillis(),
+            totalLength = duration
+        )
+        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().insert(videoBean)
     }
 }

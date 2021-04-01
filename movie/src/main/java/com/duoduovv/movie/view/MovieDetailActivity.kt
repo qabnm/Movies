@@ -7,11 +7,9 @@ import android.view.WindowManager
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SampleCoverVideo
-import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.*
@@ -19,8 +17,6 @@ import com.duoduovv.movie.component.MovieDetailArtSelectDialog
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
-import com.duoduovv.room.WatchHistoryDatabase
-import com.duoduovv.room.domain.VideoWatchHistoryBean
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
@@ -47,7 +43,8 @@ import kotlinx.coroutines.launch
 @Route(path = RouterPath.PATH_MOVIE_DETAIL)
 class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     MovieDetailAdapter.OnViewClickListener, SampleCoverVideo.OnStartClickListener,
-    MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener,MovieDetailArtSelectDialog.OnSelectDialogItemClickListener {
+    MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener,
+    MovieDetailArtSelectDialog.OnSelectDialogItemClickListener {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private var movieId = ""
@@ -106,7 +103,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         override fun onPrepared(url: String?, vararg objects: Any?) {
             super.onPrepared(url, *objects)
             orientationUtils?.isEnable = videoPlayer.isRotateWithSystem
-            if (currentLength > 0){
+            if (currentLength > 0) {
                 videoPlayer.seekTo(currentLength)
                 currentLength = 0
             }
@@ -174,7 +171,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val playList = it.playUrls
             Log.d("videoPlayer", "****这里执行了：way=$way")
             if (playList?.isNotEmpty() == true) {
-//                val url = "http://down2.okdown10.com/20210105/2642_e5ede2d1/25岁当代单身女性尝试相亲APP的成果日记.EP03.mp4"
                 videoPlayer.setStartClick(1)
                 videoPlayer.setUp(playList[0].url, true, "")
             }
@@ -301,19 +297,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
         val navHeight = OsUtils.getNavigationBarHeight(this)
-        val realHeight = screenHeight - topBarHeight - videoHeight-navHeight
+        val realHeight = screenHeight - topBarHeight - videoHeight - navHeight
         Log.d(
             "height",
             "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}**navHeight${navHeight}"
         )
-        val dialogFragment = MovieDetailDialogFragment(height = realHeight, bean = bean, reportListener)
+        val dialogFragment =
+            MovieDetailDialogFragment(height = realHeight, bean = bean, reportListener)
         dialogFragment.showNow(supportFragmentManager, "detail")
     }
 
     /**
      * 举报按钮点击监听
      */
-    private val reportListener = object :MovieDetailDialogFragment.OnReportClickListener{
+    private val reportListener = object : MovieDetailDialogFragment.OnReportClickListener {
         override fun onReportClick(movieId: String) {
             ARouter.getInstance().build(RouterPath.PATH_REPORT).withString(ID, movieId).navigation()
         }
@@ -328,7 +325,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
         val navHeight = OsUtils.getNavigationBarHeight(this)
-        val realHeight = screenHeight - topBarHeight - videoHeight-navHeight
+        val realHeight = screenHeight - topBarHeight - videoHeight - navHeight
         for (i in dataList.indices) {
             if (vid == dataList[i].vid) dataList[i].isSelect = true
         }
@@ -345,7 +342,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         val topBarHeight = OsUtils.getStatusBarHeight(this)
         val videoHeight = videoPlayer.measuredHeight
         val navHeight = OsUtils.getNavigationBarHeight(this)
-        val realHeight = screenHeight - topBarHeight - videoHeight-navHeight
+        val realHeight = screenHeight - topBarHeight - videoHeight - navHeight
         Log.d(
             "height",
             "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"
@@ -406,71 +403,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         super.onStop()
     }
 
-    /**
-     * 更新数据  暂时先放这里 后期挪走 这是业务逻辑 不应该放在这里
-     */
     private fun updateDB() {
-        //保存下当前播放的视频信息
-        GlobalScope.launch(Dispatchers.IO) {
-            val progress = videoPlayer.currentPlayer.currentPositionWhenPlaying
-            Log.d("videoPlayer", "当前播放的进度是：$progress")
-            detailBean?.let {
-                if (progress > 0) {
-                    //首先查询数据库是否有当前影片 如果有了就执行update操作
-                    val dataList =
-                        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
-                            .queryAll()
-                    if (dataList.isNotEmpty()) {
-                        var updateBean: VideoWatchHistoryBean? = null
-                        for (i in dataList.indices) {
-                            if (movieId == dataList[i].movieId) {
-                                //如果已经存在数据库中 直接执行更新操作
-                                updateBean = dataList[i]
-                            }
-                        }
-                        if (null != updateBean) {
-                            updateBean.vid = vid
-                            updateBean.vidTitle = vidTitle
-                            updateBean.currentLength = progress
-                            updateBean.currentTime = System.currentTimeMillis()
-                            WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
-                                .update(updateBean)
-                        } else {
-                            //执行插入操作
-                            insert(it, progress)
-                        }
-                    } else {
-                        insert(it, progress)
-                    }
-                }
-            }
+        detailBean?.let {
+            viewModel.updateDB(
+                progress = videoPlayer.currentPlayer.currentPositionWhenPlaying,
+                detailBean = it,
+                movieId = movieId,
+                vid = vid,
+                vidTitle = vidTitle,
+                duration = videoPlayer.currentPlayer.duration
+            )
         }
-    }
-
-    /**
-     * 插入数据  后期挪走 这是业务逻辑 不应该放在这里
-     * @param bean MovieDetailBean
-     * @param progress Int
-     */
-    private fun insert(bean: MovieDetailBean, progress: Int) {
-        //当前有视频播放 将播放的视频信息添加或者更新到数据库
-        val flag = bean.movie.movie_flag
-        if (flag == MovieContext.TYPE_TV || flag == MovieContext.TYPE_VARIETY) {
-            //是电视剧或者综艺类型的
-            detailBean!!.movieItems
-        }
-        val videoBean = VideoWatchHistoryBean(
-            coverUrl = bean.movie.cover_url,
-            title = bean.movie.vod_name,
-            type = flag,
-            movieId = movieId,
-            vid = vid,
-            currentLength = progress,
-            vidTitle = vidTitle,
-            currentTime = System.currentTimeMillis(),
-            totalLength = videoPlayer.currentPlayer.duration
-        )
-        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().insert(videoBean)
     }
 
     override fun onDestroy() {
