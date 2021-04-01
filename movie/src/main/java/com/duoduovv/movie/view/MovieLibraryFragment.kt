@@ -1,6 +1,7 @@
 package com.duoduovv.movie.view
 
 import android.util.Log
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.util.RouterPath
@@ -39,7 +40,6 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     private var movieLibAdapter: MovieLibraryAdapter? = null
 
     override fun initView() {
-        showLoading()
         rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
         viewModel.getMovieLibList().observe(this, {
             val result = viewModel.getMovieLibList().value
@@ -56,6 +56,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     }
 
     override fun initData() {
+        showLoading()
         typeId = arguments?.getString(ID, "") ?: ""
         typeList = arguments?.getParcelableArrayList(LIST)
         if (typeList?.isNotEmpty() == true) {
