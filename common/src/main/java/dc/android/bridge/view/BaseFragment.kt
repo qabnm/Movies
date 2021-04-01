@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
  *
  */
 open class BaseFragment : Fragment() {
-    private var isOk = false
     private var isFirstLoad = true
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,7 +25,6 @@ open class BaseFragment : Fragment() {
         super.onActivityCreated(savedInstanceState)
         initVM()
         initView()
-        isOk = true
 //        initData()
         startObserve()
     }
@@ -36,14 +34,9 @@ open class BaseFragment : Fragment() {
         isFirstLoad = true
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        isOk = false
-    }
-
     override fun onResume() {
         super.onResume()
-        if (isOk && isFirstLoad) {
+        if (isFirstLoad) {
             isFirstLoad = false
             initData()
         }
