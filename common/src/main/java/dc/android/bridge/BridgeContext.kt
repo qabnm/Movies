@@ -19,7 +19,6 @@ open class BridgeContext {
         const val ID = "id"
         const val LIST = "list"
         const val NO_MORE_DATA = "noMoreData"
-        const val isRes = "isRes"
         const val SUCCESS = 200
         const val TOKEN = "token"
         const val TYPE_ID = "typeId"

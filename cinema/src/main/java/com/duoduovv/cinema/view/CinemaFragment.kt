@@ -60,8 +60,6 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             BaseApplication.hotList = hotList
             this.bean = result?.version
             checkUpdate(result?.version)
-            //已下先暂时写死发布版本  方便测试
-            SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, 1)
         })
         viewModel.getProgress().observe(this, {
             val progress = viewModel.getProgress().value

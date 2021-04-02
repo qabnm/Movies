@@ -1,6 +1,5 @@
 package com.duoduovv.personal.view
 
-import android.content.Intent
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -27,7 +26,6 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
@@ -44,7 +42,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun providerVMClass() = WeiChatViewModel::class.java
 
     override fun initView() {
-        if (SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1) == 1) {
+        if (SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, 0) !=BridgeContext.WAY_VERIFY) {
             //正式版
             layoutIsRes.visibility = View.VISIBLE
             layoutHistory.setOnClickListener {
@@ -55,8 +53,6 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
             layoutShare.setOnClickListener {
-//                val intent = Intent(requireActivity(),DownloadTestActivity::class.java)
-//                startActivity(intent)
             }
         } else {
             layoutIsRes.visibility = View.GONE
