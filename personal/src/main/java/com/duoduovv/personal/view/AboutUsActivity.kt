@@ -5,8 +5,8 @@ import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
-import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.component.UpgradeDialogFragment
+import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
@@ -30,8 +30,8 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
     override fun getLayoutId() = R.layout.activity_about_us
     override fun providerVMClass() = SettingViewModel::class.java
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
-    private var bean:VersionBean?=null
-    private var lastClickTime:Long = 0
+    private var bean: VersionBean? = null
+    private var lastClickTime: Long = 0
     private var clickTime = 0
 
     override fun initView() {
@@ -55,13 +55,16 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             toWebActivity("隐私政策", URL_PRIVACY)
         }
         imgIcon.setOnClickListener { onIconClick() }
-        if (OsUtils.isAppDebug()){
-            imgIcon.setOnLongClickListener{
+        if (OsUtils.isAppDebug()) {
+            imgIcon.setOnLongClickListener {
                 layoutDebug.visibility = View.VISIBLE
                 tvSure.setOnClickListener {
-                    if (!TextUtils.isEmpty(etInput.text)){
-                        SharedPreferencesHelper.helper.setValue(BridgeContext.DEBUG_WAY, etInput.text.toString())
-                        AndroidUtils.toast("切换完成,请重新进入再试！",this)
+                    if (!TextUtils.isEmpty(etInput.text)) {
+                        SharedPreferencesHelper.helper.setValue(
+                            BridgeContext.DEBUG_WAY,
+                            etInput.text.toString()
+                        )
+                        AndroidUtils.toast("切换完成,请重新进入再试！", this)
                     }
                 }
                 true
@@ -69,9 +72,9 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         }
     }
 
-    private fun onIconClick(){
+    private fun onIconClick() {
         fastClick()
-        if (clickTime > 5){
+        if (clickTime > 5) {
             vLine.visibility = View.VISIBLE
             layoutWhere.visibility = View.VISIBLE
             tvWhere.text = AndroidUtils.getAppMetaData()
@@ -88,7 +91,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             .withString(BridgeContext.URL, url).navigation()
     }
 
-    private fun checkUpgrade(){
+    private fun checkUpgrade() {
         //需要升级  弹出升级框
         bean?.let {
             val versionCode = OsUtils.getVerCode(this)
@@ -97,10 +100,10 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                 upgradeDialogFragment?.showNow(supportFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             } else {
-                AndroidUtils.toast("已经是最新版本了！",this)
+                AndroidUtils.toast("已经是最新版本了！", this)
             }
-        }?:also {
-            AndroidUtils.toast("已经是最新版本了！",this)
+        } ?: also {
+            AndroidUtils.toast("已经是最新版本了！", this)
         }
     }
 
@@ -131,11 +134,11 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         tvVersion.text = "v${OsUtils.getVerName(BaseApplication.baseCtx)}"
     }
 
-    private fun fastClick(){
+    private fun fastClick() {
         val time = System.currentTimeMillis()
-        if (time - lastClickTime< 500){
+        if (time - lastClickTime < 500) {
             clickTime++
-        }else {
+        } else {
             clickTime = 0
         }
         lastClickTime = time
