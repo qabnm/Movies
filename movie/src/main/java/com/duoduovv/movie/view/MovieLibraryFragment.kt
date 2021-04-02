@@ -105,12 +105,11 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      * 点击影片 跳转详情
      * @param movieId String
      */
-    override fun onMovieClick(movieId: String) {
-        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
-        val path = if (flag == 1) {
-            RouterPath.PATH_MOVIE_DETAIL
-        }else{
+    override fun onMovieClick(movieId: String, way:Int) {
+        val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        } else {
+            RouterPath.PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path)
             .withString(ID, movieId).navigation()

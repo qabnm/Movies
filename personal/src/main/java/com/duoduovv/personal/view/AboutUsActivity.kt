@@ -1,11 +1,13 @@
 package com.duoduovv.personal.view
 
+import android.text.TextUtils
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.component.UpgradeDialogFragment
+import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
@@ -53,6 +55,18 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             toWebActivity("隐私政策", URL_PRIVACY)
         }
         imgIcon.setOnClickListener { onIconClick() }
+        if (OsUtils.isAppDebug()){
+            imgIcon.setOnLongClickListener{
+                layoutDebug.visibility = View.VISIBLE
+                tvSure.setOnClickListener {
+                    if (!TextUtils.isEmpty(etInput.text)){
+                        SharedPreferencesHelper.helper.setValue(BridgeContext.DEBUG_WAY, etInput.text.toString())
+                        AndroidUtils.toast("切换完成,请重新进入再试！",this)
+                    }
+                }
+                true
+            }
+        }
     }
 
     private fun onIconClick(){

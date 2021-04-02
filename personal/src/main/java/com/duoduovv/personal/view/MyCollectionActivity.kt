@@ -40,11 +40,11 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
         collectionAdapter?.addChildClickViewIds(R.id.imgSelect)
         collectionAdapter?.setOnItemClickListener { adapter, _, position ->
             val movieId = (adapter as MyCollectionAdapter).data[position].str_id
-            val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes,1)
-            val path = if (flag == 1) {
-                RouterPath.PATH_MOVIE_DETAIL
-            }else{
+            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY,0)
+            val path = if (way == BridgeContext.WAY_VERIFY) {
                 RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+            } else {
+                RouterPath.PATH_MOVIE_DETAIL
             }
             ARouter.getInstance().build(path)
                 .withString(BridgeContext.ID, movieId).navigation()

@@ -116,15 +116,18 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * 跳转影视详情
      * @param movieId String
      */
-    override fun onMovieClick(movieId: String) {
-        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1)
-        val path = if (flag == 1) {
-            PATH_MOVIE_DETAIL
-        } else {
-            RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+    override fun onMovieClick(movieId: String, ways:Int) {
+        var way = ways
+        if (way == -1){
+            //这是从banner过来的 接口没有添加这个字段
+            way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY,0) as Int
         }
-        ARouter.getInstance().build(path)
-            .withString(ID, movieId).navigation()
+        val path = if (way == BridgeContext.WAY_VERIFY) {
+            RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        } else {
+            PATH_MOVIE_DETAIL
+        }
+        ARouter.getInstance().build(path).withString(ID, movieId).navigation()
     }
 
     /**

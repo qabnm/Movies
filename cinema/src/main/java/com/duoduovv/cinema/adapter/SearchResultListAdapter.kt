@@ -81,12 +81,12 @@ class SearchResultListAdapter(
 //                        ad.notifyDataSetChanged()
 //                        listener?.onSelectClick(dataList[pos].vid)
                         if (data.size <= 6) {
-                            listener?.onSelectClick(dataList[pos].vid, bean.str_id)
+                            listener?.onSelectClick(dataList[pos].vid, bean.str_id,bean.way)
                         } else {
                             if (pos != 2){
-                                listener?.onSelectClick(dataList[pos].vid, bean.str_id)
+                                listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
                             }else{
-                                listener?.onMoreSelectClick(data, bean.str_id,bean.vod_name)
+                                listener?.onMoreSelectClick(data, bean.str_id,bean.vod_name, bean.way)
                             }
                         }
                     }
@@ -116,12 +116,12 @@ class SearchResultListAdapter(
                         for (i in dataList.indices) dataList[i].isSelect = false
                         dataList[pos].isSelect = true
                         ad.notifyDataSetChanged()
-                        listener?.onSelectClick(dataList[pos].vid, bean.str_id)
+                        listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
                     }
                 }
             }
         }
-        holder.layoutContainer.setOnClickListener { listener?.onItemClick(bean.str_id) }
+        holder.layoutContainer.setOnClickListener { listener?.onItemClick(bean.str_id, bean.way) }
     }
 
     override fun getItemCount() = dataList.size
@@ -145,8 +145,8 @@ class SearchResultListAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(movieId: String)
-        fun onSelectClick(vid: String,movieId: String)
-        fun onMoreSelectClick(dataList:List<MovieItem>,movieId: String, title:String)
+        fun onItemClick(movieId: String,way:Int)
+        fun onSelectClick(vid: String,movieId: String, way: Int)
+        fun onMoreSelectClick(dataList:List<MovieItem>,movieId: String, title:String,way: Int)
     }
 }

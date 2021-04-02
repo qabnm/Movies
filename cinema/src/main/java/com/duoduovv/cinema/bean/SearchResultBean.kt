@@ -39,7 +39,8 @@ data class SearchResultList(
     val vod_year: String,
     val type_id_text: String,
     val id: String,
-    val movie_flag: Int
+    val movie_flag: Int,
+    val way:Int
 )
 
 @Parcelize

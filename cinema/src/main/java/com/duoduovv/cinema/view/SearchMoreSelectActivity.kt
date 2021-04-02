@@ -25,12 +25,14 @@ class SearchMoreSelectActivity : BridgeActivity() {
     private var title = ""
     private var movieId = ""
     private var dataList: List<MovieItem>? = null
+    private var way= 0
 
     override fun initView() {
         rvList.layoutManager = GridLayoutManager(this, 5)
     }
 
     override fun initData() {
+        way = intent.getIntExtra(BridgeContext.WAY,0)
         title = intent.getStringExtra(BridgeContext.TITLE) ?: ""
         dataList = intent.getParcelableArrayListExtra(BridgeContext.LIST)
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
@@ -44,11 +46,10 @@ class SearchMoreSelectActivity : BridgeActivity() {
     }
 
     private fun onItemClick(vid: String) {
-        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1)
-        val path = if (flag == 1) {
-            RouterPath.PATH_MOVIE_DETAIL
-        } else {
+        val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        } else {
+            RouterPath.PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path)
             .withString(BridgeContext.ID, movieId).withString(BridgeContext.TYPE_ID, vid)

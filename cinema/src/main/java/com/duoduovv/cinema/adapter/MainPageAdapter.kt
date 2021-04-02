@@ -115,7 +115,7 @@ class MainPageAdapter(
             holder.banner.setOnBannerListener { data, _ ->
                 val jumpType = (data as com.duoduovv.cinema.bean.Banner).jump_type
                 val movieId = data.movie_id
-                if (jumpType == "1") listener?.onMovieClick(movieId)
+                if (jumpType == "1") listener?.onMovieClick(movieId, -1)
             }
         }
     }
@@ -151,7 +151,8 @@ class MainPageAdapter(
             adapter?.setList(bean.mainPageBean.selectRecommends)
             adapter?.setOnItemClickListener { adapter, _, position ->
                 val movieId = (adapter as FilmRecommendAdapter).data[position].str_id
-                listener?.onMovieClick(movieId)
+                val way = adapter.data[position].way
+                listener?.onMovieClick(movieId, way)
             }
             holder.tvMore.setOnClickListener { listener?.onTodayMoreClick() }
         }
@@ -186,7 +187,7 @@ class MainPageAdapter(
             GlideUtils.setMovieImg(context, bean.cover_url, holder.coverImg)
             holder.tvName.text = bean.vod_name
             holder.tvScore.text = StringUtils.getString(bean.remark)
-            holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.str_id) }
+            holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.str_id, bean.way) }
         }
     }
 
@@ -260,7 +261,7 @@ class MainPageAdapter(
 
     interface OnItemClickListener {
         fun onCategoryClick(typeId: String)
-        fun onMovieClick(movieId: String)
+        fun onMovieClick(movieId: String,way:Int)
         fun onTodayMoreClick()
     }
 }

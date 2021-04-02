@@ -79,12 +79,14 @@
             android:layout_width="@dimen/dp_8"
             android:layout_height="@dimen/dp_8"
             android:layout_marginLeft="@dimen/dp_5"
-            android:visibility="gone"
-            android:background="@drawable/shape_raidus10_solid_ff0000" />
+            android:background="@drawable/shape_raidus10_solid_ff0000"
+            android:visibility="gone" />
     </LinearLayout>
-    <View style="@style/centerIconLine"
+
+    <View
         android:id="@+id/vLine"
-        android:visibility="gone"/>
+        style="@style/centerIconLine"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/layoutWhere"
@@ -103,6 +105,37 @@
             android:textColor="@color/color999999"
             android:textSize="@dimen/sp_13"
             tools:text="huawei" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layoutDebug"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:visibility="gone"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etInput"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="number"
+            android:textColorHint="@color/colorFFFFFF"
+            android:hint="输入：1正式可播放，2正式跳H5，3审核版本"
+            android:paddingLeft="@dimen/dp_12"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tvSure"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="match_parent"
+            android:background="@color/color567CE7"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_15" />
     </LinearLayout>
 </LinearLayout>

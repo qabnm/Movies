@@ -89,12 +89,11 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
      * 跳转详情页面
      * @param movieId String
      */
-    override fun onItemClick(movieId: String) {
-        val flag = SharedPreferencesHelper.helper.getValue(BridgeContext.isRes, 1)
-        val path = if (flag == 1) {
-            RouterPath.PATH_MOVIE_DETAIL
-        } else {
+    override fun onItemClick(movieId: String, way:Int) {
+        val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        } else {
+            RouterPath.PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path)
             .withString(ID, movieId).withString(TYPE_ID, vid).navigation()
@@ -104,19 +103,20 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
      * 点击了选集
      * @param vid String
      */
-    override fun onSelectClick(vid: String, movieId: String) {
+    override fun onSelectClick(vid: String, movieId: String,way: Int) {
         this.vid = vid
-        onItemClick(movieId)
+        onItemClick(movieId, way)
     }
 
     /**
      * 更多选集
      * @param dataList List<MovieItem>
      */
-    override fun onMoreSelectClick(dataList: List<MovieItem>, movieId: String, title: String) {
+    override fun onMoreSelectClick(dataList: List<MovieItem>, movieId: String, title: String,way: Int) {
         ARouter.getInstance().build(RouterPath.PATH_SEARCH_MORE_SELECT)
             .withString(BridgeContext.TITLE, title).withString(ID, movieId)
             .withParcelableArrayList(BridgeContext.LIST, dataList as ArrayList<out Parcelable>)
+            .withInt(BridgeContext.WAY,way)
             .navigation()
     }
 

@@ -9,10 +9,12 @@ import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
+import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.WatchHistoryAdapter
 import com.duoduovv.room.WatchHistoryDatabase
 import com.duoduovv.room.domain.VideoWatchHistoryBean
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.CURRENT_LENGTH
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
@@ -51,7 +53,13 @@ class WatchHistoryActivity : BridgeActivity() {
         tvDelete.setOnClickListener { onDeleteClick() }
         historyAdapter?.setOnItemClickListener { adapter, _, position ->
             val bean = (adapter as WatchHistoryAdapter).data[position]
-            ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL)
+            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY , 0)
+            val path = if (way == BridgeContext.WAY_VERIFY) {
+                RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+            } else {
+                RouterPath.PATH_MOVIE_DETAIL
+            }
+            ARouter.getInstance().build(path)
                 .withString(ID, bean.movieId).withString(TYPE_ID, bean.vid)
                 .withLong(CURRENT_LENGTH, bean.currentLength.toLong()).navigation()
         }

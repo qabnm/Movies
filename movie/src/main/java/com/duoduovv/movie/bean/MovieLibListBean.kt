@@ -24,5 +24,6 @@ data class MovieLibList(
     val vod_year: String,
     val remark:String,
     val last_remark:String,
-    val str_id:String
+    val str_id:String,
+    val way:Int
 )

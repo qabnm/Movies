@@ -7,9 +7,9 @@ package com.duoduovv.cinema.bean
  */
 data class ConfigureBean(
     val columns: List<Column>?,
-    val isRs: Int,
     val version: Version,
-    val hotSearch: List<String>
+    val hotSearch: List<String>,
+    val way:Int
 )
 
 data class Column(

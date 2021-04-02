@@ -27,5 +27,6 @@ data class RankList(
     val vod_name: String,
     val vod_number: String,
     val vod_year: String,
-    val type_id_text:String
+    val type_id_text:String,
+    val way:Int
 )

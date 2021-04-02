@@ -51,8 +51,7 @@ interface IMovieApiService {
     @GET("api/vod")
     suspend fun movieDetail(
         @Query("id") id: String,
-        @Query("vid") vid: String = "",
-        @Query("_local") local:Int = 1
+        @Query("vid") vid: String = ""
     ): BaseResponseData<MovieDetailBean>
 
     /**
@@ -72,8 +71,7 @@ interface IMovieApiService {
     @GET("api/vod/get_play")
     suspend fun moviePlayInfo(
         @Query("vid") vid: String,
-        @Query("id") id: String,
-        @Query("_local") local:Int = 1
+        @Query("id") id: String
     ): BaseResponseData<MoviePlayInfoBean>
 
     /**

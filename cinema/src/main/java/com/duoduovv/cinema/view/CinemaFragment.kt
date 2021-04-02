@@ -55,7 +55,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
-            SharedPreferencesHelper.helper.setValue(BridgeContext.isRes, result?.isRs ?: 1)
+            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way)
             hotList = result?.hotSearch
             BaseApplication.hotList = hotList
             this.bean = result?.version

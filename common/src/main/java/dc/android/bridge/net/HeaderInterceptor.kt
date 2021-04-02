@@ -3,6 +3,7 @@ package dc.android.bridge.net
 import android.webkit.WebSettings
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.SharedPreferencesHelper
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.util.AndroidUtils
@@ -21,10 +22,17 @@ class HeaderInterceptor : Interceptor {
         val userAgent = WebSettings.getDefaultUserAgent(BaseApplication.baseCtx)
         var location = SharedPreferencesHelper.helper.getValue(ADDRESS, "") as? String
         val emptyStr = ""
-        if (StringUtils.isEmpty(location)){
+        if (StringUtils.isEmpty(location)) {
             //还没有定位权限  拼接一个完整的json
             location = "{\"p\":\"${emptyStr}\",\"c\":\"${emptyStr}\",\"d\":\"${emptyStr}\",\"v\":${
-                OsUtils.getVerCode(BaseApplication.baseCtx)},\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+                OsUtils.getVerCode(BaseApplication.baseCtx)
+            },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+        }
+        if (OsUtils.isAppDebug()) {
+            builder.addHeader(
+                "WAYLEVEL",
+                SharedPreferencesHelper.helper.getValue(BridgeContext.DEBUG_WAY, "1") as String
+            )
         }
         builder.addHeader("User-Agent", "$userAgent---$location")
         builder.addHeader(

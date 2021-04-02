@@ -99,7 +99,7 @@ class MovieLibraryAdapter(
     interface OnItemClickListener {
         fun onTypeClick(key: String, name: String)
 
-        fun onMovieClick(movieId: String)
+        fun onMovieClick(movieId: String, way:Int)
     }
 
     fun setItemClickListener(itemClickListener: OnItemClickListener) {
@@ -110,7 +110,7 @@ class MovieLibraryAdapter(
         GlideUtils.setMovieImg(context, movieBean.cover_url, holder.imgCover)
         holder.tvName.text = movieBean.vod_name
         holder.tvScore.text = movieBean.last_remark
-        holder.layoutContainer.setOnClickListener { itemClickListener?.onMovieClick(movieBean.str_id) }
+        holder.layoutContainer.setOnClickListener { itemClickListener?.onMovieClick(movieBean.str_id, movieBean.way) }
     }
 
     override fun getItemCount() = if (movieList?.isNotEmpty() == true) {

@@ -20,8 +20,6 @@ open class BridgeContext {
         const val LIST = "list"
         const val NO_MORE_DATA = "noMoreData"
         const val isRes = "isRes"
-        const val NUM = "num"
-        const val WATCH_HISTORY = "watchHistory"
         const val SUCCESS = 200
         const val TOKEN = "token"
         const val TYPE_ID = "typeId"
@@ -29,8 +27,11 @@ open class BridgeContext {
         const val URL = "url"
         const val WAY_RELEASE = 1
         const val WAY_H5 = 2
+        const val WAY_VERIFY = 3
         const val AGREEMENT = "agree"
         const val CURRENT_LENGTH = "currentLength"
+        const val WAY = "way"
+        const val DEBUG_WAY = "debugWay"
         /**
          * 用户协议
          */
