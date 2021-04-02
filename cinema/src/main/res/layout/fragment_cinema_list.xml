@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:srlEnableFooterFollowWhenLoadFinished="true"
-    app:srlEnableLoadMoreWhenContentNotFull="false"
-    android:paddingTop="@dimen/dp_10">
+    app:srlEnableLoadMoreWhenContentNotFull="false">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"

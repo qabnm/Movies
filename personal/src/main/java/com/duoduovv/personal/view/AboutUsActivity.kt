@@ -65,6 +65,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                             etInput.text.toString()
                         )
                         AndroidUtils.toast("切换完成,请重新进入再试！", this)
+                        layoutDebug.visibility = View.GONE
                     }
                 }
                 true

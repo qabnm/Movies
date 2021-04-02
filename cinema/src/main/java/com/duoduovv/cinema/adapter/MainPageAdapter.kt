@@ -17,7 +17,6 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.MainBean
 import com.youth.banner.Banner
 import com.youth.banner.indicator.CircleIndicator
-import com.youth.banner.listener.OnBannerListener
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 
@@ -68,7 +67,7 @@ class MainPageAdapter(
     }
 
     override fun getItemCount() =
-        if (bean.mainRecommendBean.recommends?.isNotEmpty() == true) bean.mainRecommendBean.recommends!!.size + 3 else 3
+        if (bean.mainRecommendBean.recommends?.isNotEmpty() == true) bean.mainRecommendBean.recommends!!.size + 4 else 4
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
@@ -76,15 +75,23 @@ class MainPageAdapter(
             is CategoryViewHolder -> bindCategory(holder = holder)
             is TodayRecommendViewHolder -> bindTodayRecommend(holder)
             is TitleViewHolder -> bindTitle(holder = holder)
+            is EmptyViewHolder -> {
+            }
 //            is AllLookViewHolder -> bindAllLook(holder)
             is RecommendViewHolder -> {
-                if (position > 2) bindRecommend(holder, position - 3)
+                if (position > 3) bindRecommend(holder, position - 4)
             }
         }
     }
 
     override fun getItemViewType(position: Int) = when (position) {
-        0 -> CinemaContext.TYPE_BANNER
+        0 -> {
+            if (bean.mainPageBean.banners?.isNotEmpty() == true) {
+                CinemaContext.TYPE_BANNER
+            } else {
+                CinemaContext.TYPE_EMPTY
+            }
+        }
         1 -> {
             if (bean.mainPageBean.category?.isNotEmpty() == true) {
                 CinemaContext.TYPE_CATEGORY
@@ -168,9 +175,9 @@ class MainPageAdapter(
 
     private fun bindTitle(holder: TitleViewHolder) {
         holder.tvTitle.text = "热门推荐"
-        if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true){
+        if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
             holder.vLine.visibility = View.GONE
-        }else{
+        } else {
             holder.vLine.visibility = View.VISIBLE
         }
     }
@@ -187,7 +194,12 @@ class MainPageAdapter(
             GlideUtils.setMovieImg(context, bean.cover_url, holder.coverImg)
             holder.tvName.text = bean.vod_name
             holder.tvScore.text = StringUtils.getString(bean.remark)
-            holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.str_id, bean.way) }
+            holder.layoutContainer.setOnClickListener {
+                listener?.onMovieClick(
+                    bean.str_id,
+                    bean.way
+                )
+            }
         }
     }
 
@@ -201,6 +213,7 @@ class MainPageAdapter(
     private class AllLookViewHolder(itemView: View, context: Context) :
         RecyclerView.ViewHolder(itemView) {
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+
         init {
             rvList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -212,6 +225,7 @@ class MainPageAdapter(
         val tvMore: TextView = itemView.findViewById(R.id.tvMore)
         val tvChange: TextView = itemView.findViewById(R.id.tvChange)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
+
         init {
             rvList.layoutManager = GridLayoutManager(context, 3)
         }
@@ -235,7 +249,7 @@ class MainPageAdapter(
 
     private class TitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
-        val vLine:View = itemView.findViewById(R.id.vLine)
+        val vLine: View = itemView.findViewById(R.id.vLine)
     }
 
     private class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
@@ -261,7 +275,7 @@ class MainPageAdapter(
 
     interface OnItemClickListener {
         fun onCategoryClick(typeId: String)
-        fun onMovieClick(movieId: String,way:Int)
+        fun onMovieClick(movieId: String, way: Int)
         fun onTodayMoreClick()
     }
 }

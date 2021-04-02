@@ -1,13 +1,14 @@
 package com.duoduovv.personal.view
 
 import android.annotation.SuppressLint
+import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
-import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.personal.R
 import dc.android.bridge.BridgeContext.Companion.NOTIFICATION
 import dc.android.bridge.view.BridgeActivity
@@ -22,18 +23,14 @@ import kotlinx.android.synthetic.main.activity_setting.*
 class SettingActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_setting
     private var isOpen = true
-    private var dialogFragment: AlertDialogFragment?= null
+    private var dialogFragment: AlertDialogFragment? = null
 
     override fun initView() {
-        layoutContract.setOnClickListener {
-//            ARouter.getInstance().build(PATH_CONTRACT_SERVICE_ACTIVITY).navigation()
-            FeedbackAPI.openFeedbackActivity()
-        }
+        layoutContract.setOnClickListener { FeedbackAPI.openFeedbackActivity() }
         imgNotification.setOnClickListener { onSwitchClick() }
         val localState = SharedPreferencesHelper.helper.getValue(NOTIFICATION, true) as Boolean
         imgNotification.setImageResource(if (localState) R.drawable.notification_open else R.drawable.notification_close)
         isOpen = localState
-
     }
 
     /**
@@ -59,8 +56,11 @@ class SettingActivity : BridgeActivity() {
     override fun initData() {
         tvCache.text = FileUtils.getTotalCacheSize(BaseApplication.baseCtx)
         layoutClearCache.setOnClickListener {
-            dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener,290f)
-            dialogFragment?.showNow(supportFragmentManager, "clear")
+            dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener, 250f)
+            dialogFragment?.let {
+                it.showNow(supportFragmentManager, "clear")
+                it.setTitleVisibility(View.GONE)
+            }
         }
     }
 
