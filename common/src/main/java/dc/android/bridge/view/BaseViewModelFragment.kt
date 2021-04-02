@@ -68,7 +68,7 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     }
 
     open fun dismissLoading() {
-        loadingDialog?.dismiss()
+        if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
     }
 
     open fun showError(errMsg: String?) {

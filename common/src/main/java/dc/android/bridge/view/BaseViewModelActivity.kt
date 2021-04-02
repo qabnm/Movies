@@ -23,7 +23,7 @@ import java.net.UnknownHostException
 open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     protected lateinit var viewModel: VM
     open fun providerVMClass(): Class<VM>? = null
-    private var loadingDialog: LoadingDialogFragment?=null
+    private var loadingDialog: LoadingDialogFragment? = null
 
     override fun initViewModel() {
         providerVMClass()?.let {
@@ -61,11 +61,11 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     }
 
     open fun showLoading() {
-        loadingDialog?.showNow(supportFragmentManager,"loading")
+        loadingDialog?.showNow(supportFragmentManager, "loading")
     }
 
     open fun dismissLoading() {
-        loadingDialog?.dismiss()
+        if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
     }
 
     open fun showError(errMsg: String?) {
@@ -73,7 +73,7 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     }
 
     private fun parameterError(msg: String) {
-        AndroidUtils.toast(msg , this)
+        AndroidUtils.toast(msg, this)
     }
 
     override fun onDestroy() {
