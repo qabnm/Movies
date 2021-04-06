@@ -92,6 +92,9 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             .withString(BridgeContext.URL, url).navigation()
     }
 
+    /**
+     * 检查升级
+     */
     private fun checkUpgrade() {
         //需要升级  弹出升级框
         bean?.let {
@@ -108,6 +111,10 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         }
     }
 
+    /**
+     * 检查升级接口请求成功
+     * @param bean VersionBean?
+     */
     private fun onCheckSuccess(bean: VersionBean?) {
         this.bean = bean
         bean?.let {

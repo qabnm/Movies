@@ -403,6 +403,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         super.onStop()
     }
 
+    /**
+     * 更新数据库数据
+     */
     private fun updateDB() {
         detailBean?.let {
             viewModel.updateDB(

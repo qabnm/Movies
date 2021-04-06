@@ -116,17 +116,29 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             .withString(ID, movieId).navigation()
     }
 
+    /**
+     * 下拉刷新
+     * @param refreshLayout RefreshLayout
+     */
     override fun onRefresh(refreshLayout: RefreshLayout) {
         page = 1
         refreshLayout.resetNoMoreData()
         viewModel.movieLibList(map, page, typeId)
     }
 
+    /**
+     * 分页加载
+     * @param refreshLayout RefreshLayout
+     */
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
         viewModel.movieLibList(map, page, typeId)
     }
 
+    /**
+     * 分页没有更多数据的通知
+     * @param flag String?
+     */
     private fun noMoreData(flag: String?) {
         dismissLoading()
         if (NO_MORE_DATA == flag) {

@@ -41,10 +41,10 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         showSearchFragment()
         etSearch.addTextChangedListener(textChangeWatcher)
         etSearch.setOnKeyListener { _, keyCode, event ->
-            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN){
-                if (TextUtils.isEmpty(etSearch.text)){
-                    AndroidUtils.toast("请输入搜索内容",this)
-                }else{
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                if (TextUtils.isEmpty(etSearch.text)) {
+                    AndroidUtils.toast("请输入搜索内容", this)
+                } else {
                     onCancelClick()
                 }
             }
@@ -52,11 +52,11 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         }
     }
 
-    private fun onCancelClick(){
+    private fun onCancelClick() {
         if (!TextUtils.isEmpty(etSearch.text)) {
             if (searchResultFragment?.isVisible == true) return
             toResultFragment(etSearch.text.toString())
-        } else{
+        } else {
             finish()
         }
     }
@@ -78,14 +78,9 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
 
     private fun showSearchResultFragment(result: String) {
         val ts = supportFragmentManager.beginTransaction()
-//        searchResultFragment?.takeIf { null != searchResultFragment }?.also {
-//            it.initData()
-//            ts.show(it)
-//        } ?: run {
-            searchResultFragment = SearchResultFragment()
-            searchResultFragment?.setKeyWord(result)
-            ts.add(R.id.layoutContainer, searchResultFragment!!)
-//        }
+        searchResultFragment = SearchResultFragment()
+        searchResultFragment?.setKeyWord(result)
+        ts.add(R.id.layoutContainer, searchResultFragment!!)
         ts.commit()
     }
 
