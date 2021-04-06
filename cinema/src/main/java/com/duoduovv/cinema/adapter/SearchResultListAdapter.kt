@@ -48,15 +48,10 @@ class SearchResultListAdapter(
         )
         holder.tvDirector.text = "导演：${bean.vod_director}"
         when (bean.movie_flag) {
-            1 -> {
-                //电影
-                holder.rvListAlbum.visibility = View.GONE
-                holder.rvListTv.visibility = View.GONE
-            }
             2 -> {
                 //电视
-                holder.rvListAlbum.visibility = View.GONE
-                holder.rvListTv.visibility = View.VISIBLE
+                holder.rvList.visibility = View.VISIBLE
+                holder.rvList.layoutManager = GridLayoutManager(context, 6)
                 val data = bean.movie_items
                 if (data?.isNotEmpty() == true) {
                     val adapter = if (bean.vod_number <= 6) {
@@ -71,7 +66,7 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 1])
                         SearchTvSelectAdapter(tempData)
                     }
-                    holder.rvListTv.adapter = adapter
+                    holder.rvList.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchTvSelectAdapter).data
 //                        for (i in dataList.indices) {
@@ -92,10 +87,10 @@ class SearchResultListAdapter(
                     }
                 }
             }
-            else -> {
+            3 -> {
                 //综艺
-                holder.rvListAlbum.visibility = View.VISIBLE
-                holder.rvListTv.visibility = View.GONE
+                holder.rvList.visibility = View.VISIBLE
+                holder.rvList.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
                 val data = bean.movie_items
                 if (data?.isNotEmpty() == true) {
                     val adapter = if (bean.vod_number <= 6) {
@@ -110,7 +105,7 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 1])
                         SearchAlbumSelectAdapter(tempData)
                     }
-                    holder.rvListAlbum.adapter = adapter
+                    holder.rvList.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchAlbumSelectAdapter).data
                         for (i in dataList.indices) dataList[i].isSelect = false
@@ -119,6 +114,9 @@ class SearchResultListAdapter(
                         listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
                     }
                 }
+            }
+            else ->{
+                holder.rvList.visibility = View.GONE
             }
         }
         holder.layoutContainer.setOnClickListener { listener?.onItemClick(bean.str_id, bean.way) }
@@ -131,17 +129,14 @@ class SearchResultListAdapter(
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         val tvTime: TextView = itemView.findViewById(R.id.tvTime)
         val tvDirector: TextView = itemView.findViewById(R.id.tvDirector)
-        val tvPlay: TextView = itemView.findViewById(R.id.tvPlay)
-        val rvListTv: RecyclerView = itemView.findViewById(R.id.rvListTv)
-        val rvListAlbum: RecyclerView = itemView.findViewById(R.id.rvListAlbum)
+        val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
         val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
 
-        init {
-            rvListTv.layoutManager = GridLayoutManager(context, 6)
-            rvListTv.setHasFixedSize(true)
-            rvListAlbum.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        }
+//        init {
+//            rvListTv.layoutManager = GridLayoutManager(context, 6)
+//            rvListAlbum.layoutManager =
+//                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+//        }
     }
 
     interface OnItemClickListener {

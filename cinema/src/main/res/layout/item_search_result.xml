@@ -7,8 +7,7 @@
     android:background="@color/colorFFFFFF"
     android:paddingBottom="@dimen/dp_30"
     android:id="@+id/layoutContainer"
-    android:paddingLeft="@dimen/dp_12"
-    android:paddingRight="@dimen/dp_12">
+    android:paddingLeft="@dimen/dp_12">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgCover"
@@ -78,18 +77,10 @@
         app:layout_constraintLeft_toLeftOf="@+id/tvTitle" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvListTv"
+        android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_20"
-        app:layout_constraintTop_toBottomOf="@+id/imgCover" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvListAlbum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_20"
-        android:visibility="gone"
         app:layout_constraintTop_toBottomOf="@+id/imgCover" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
