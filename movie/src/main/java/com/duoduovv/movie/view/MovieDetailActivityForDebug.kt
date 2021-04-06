@@ -50,7 +50,6 @@ class MovieDetailActivityForDebug : BaseViewModelActivity<MovieDetailForDebugVie
         bean?.let {
             GlideUtils.setMovieImg(this, it.movie.cover_url, imgCover)
             tvName.text = it.movie.vod_name
-            tvYear.text = "（${it.movie.vod_year}）"
             tvType.text = "${it.movie.vod_area_text}/${it.movie.type_id_text}"
             tvYearUp.text = "上映时间：${it.movie.vod_year}（${it.movie.vod_area_text}上映）"
             tvDuration.text = "片长：123分钟"
