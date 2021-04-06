@@ -101,5 +101,10 @@ class RouterPath {
          * 举报
          */
         const val PATH_REPORT = "/movie/ReportActivity"
+
+        /**
+         * 更多推荐页面
+         */
+        const val PATH_RECOMMEND = "/cinema/RecommendActivity"
     }
 }

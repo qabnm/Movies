@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
+import com.duoduovv.cinema.bean.FilmRecommendBean
 import com.duoduovv.cinema.bean.MainBean
 import com.youth.banner.Banner
 import com.youth.banner.indicator.CircleIndicator
@@ -153,7 +154,7 @@ class MainPageAdapter(
      */
     private fun bindTodayRecommend(holder: TodayRecommendViewHolder) {
         if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
-            if (null == adapter) adapter = FilmRecommendAdapter()
+            if (null == adapter) adapter = FilmRecommendAdapter(true)
             holder.rvList.adapter = adapter
             adapter?.setList(bean.mainPageBean.selectRecommends)
             adapter?.setOnItemClickListener { adapter, _, position ->
@@ -161,7 +162,7 @@ class MainPageAdapter(
                 val way = adapter.data[position].way
                 listener?.onMovieClick(movieId, way)
             }
-            holder.tvMore.setOnClickListener { listener?.onTodayMoreClick() }
+            holder.tvMore.setOnClickListener { listener?.onTodayMoreClick(bean.mainPageBean.selectRecommends!!) }
         }
     }
 
@@ -276,7 +277,7 @@ class MainPageAdapter(
     interface OnItemClickListener {
         fun onCategoryClick(typeId: String)
         fun onMovieClick(movieId: String, way: Int)
-        fun onTodayMoreClick()
+        fun onTodayMoreClick(dataList:List<FilmRecommendBean>)
     }
 }
 

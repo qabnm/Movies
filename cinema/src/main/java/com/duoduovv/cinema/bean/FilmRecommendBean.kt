@@ -1,10 +1,14 @@
 package com.duoduovv.cinema.bean
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 /**
  * @author: jun.liu
  * @date: 2021/1/18 10:19
  * @des:推荐的bean
  */
+@Parcelize
 data class FilmRecommendBean(
     val cover_url: String,
     val hot: String,
@@ -21,4 +25,4 @@ data class FilmRecommendBean(
     val remark:String,
     val str_id:String,
     val way:Int
-)
+):Parcelable

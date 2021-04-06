@@ -1,10 +1,12 @@
 package com.duoduovv.cinema.view
 
+import android.os.Parcelable
 import android.view.View
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
+import com.duoduovv.cinema.bean.FilmRecommendBean
 import com.duoduovv.cinema.bean.MainBean
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
 import com.duoduovv.common.util.RouterPath
@@ -17,10 +19,12 @@ import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
 import kotlinx.android.synthetic.main.fragment_cinema_list.*
+import java.util.ArrayList
 
 /**
  * @author: jun.liu
@@ -133,7 +137,8 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     /**
      * 今日推荐查看更多
      */
-    override fun onTodayMoreClick() {
-        (rvList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(3, 0)
+    override fun onTodayMoreClick(dataList:List<FilmRecommendBean>) {
+//        (rvList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(3, 0)
+        ARouter.getInstance().build(RouterPath.PATH_RECOMMEND).withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
     }
 }
