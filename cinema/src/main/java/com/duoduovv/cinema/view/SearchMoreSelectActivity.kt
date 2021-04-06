@@ -24,23 +24,23 @@ class SearchMoreSelectActivity : BridgeActivity() {
     private var title = ""
     private var movieId = ""
     private var dataList: List<MovieItem>? = null
-    private var way= 0
-    private var movieFlag = 0
+    private var way = 0
+    private var movieFlag = ""
 
     override fun initView() {
-        movieFlag = intent.getIntExtra(BridgeContext.FLAG, 0)
+        movieFlag = intent.getStringExtra(BridgeContext.FLAG) ?: ""
         rvList.layoutManager = GridLayoutManager(this, if (movieFlag == MOVIE_FLAG_TV) 5 else 2)
     }
 
     override fun initData() {
-        way = intent.getIntExtra(BridgeContext.WAY,0)
+        way = intent.getIntExtra(BridgeContext.WAY, 0)
         title = intent.getStringExtra(BridgeContext.TITLE) ?: ""
         dataList = intent.getParcelableArrayListExtra(BridgeContext.LIST)
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
         layoutTopBar.setTopTitle(title)
-        val rvAdapter = if (movieFlag == MOVIE_FLAG_TV){
+        val rvAdapter = if (movieFlag == MOVIE_FLAG_TV) {
             SearchTvEpisodesAdapter(dataList as MutableList<MovieItem>)
-        }else{
+        } else {
             SearchAlbumEpisodesAdapter(dataList as MutableList<MovieItem>)
         }
         rvList.adapter = rvAdapter

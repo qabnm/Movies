@@ -20,8 +20,8 @@ class CinemaContext:BridgeContext() {
         const val TYPE_TITLE = 600
         const val TYPE_EMPTY = 700
 
-        const val MOVIE_FLAG_TV = 2
-        const val MOVIE_FLAG_MOVIE= 1
-        const val MOVIE_FLAG_ALBUM = 3
+        const val MOVIE_FLAG_TV = "2"
+        const val MOVIE_FLAG_MOVIE= "1"
+        const val MOVIE_FLAG_ALBUM = "3"
     }
 }

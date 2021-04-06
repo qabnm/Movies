@@ -164,7 +164,7 @@ class SearchResultListAdapter(
             movieId: String,
             title: String,
             way: Int,
-            movieFlag: Int
+            movieFlag: String
         )
     }
 }

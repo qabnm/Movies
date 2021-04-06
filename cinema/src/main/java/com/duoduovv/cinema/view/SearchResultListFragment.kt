@@ -117,13 +117,13 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
         movieId: String,
         title: String,
         way: Int,
-        movieFlag: Int
+        movieFlag: String
     ) {
         ARouter.getInstance().build(RouterPath.PATH_SEARCH_MORE_SELECT)
             .withString(BridgeContext.TITLE, title).withString(ID, movieId)
             .withParcelableArrayList(BridgeContext.LIST, dataList as ArrayList<out Parcelable>)
             .withInt(BridgeContext.WAY, way)
-            .withInt(BridgeContext.FLAG, movieFlag)
+            .withString(BridgeContext.FLAG, movieFlag)
             .navigation()
     }
 

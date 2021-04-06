@@ -118,7 +118,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.rvAlbum.adapter = adapter
             for (i in detailBean.movieItems.indices) {
                 if (detailBean.movieItems[i].isSelect) {
-                    if (i != 0) (holder.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(i, 0)
+                    if (i != 0) (holder.rvAlbum.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(i, 0)
                 }
             }
             adapter.setOnItemClickListener { ad, _, position ->
