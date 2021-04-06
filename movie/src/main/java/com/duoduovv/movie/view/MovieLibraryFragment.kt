@@ -97,6 +97,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      */
     override fun onTypeClick(key: String, name: String) {
         showLoading()
+        page = 1
         map[key] = name
         viewModel.movieLibList(map, page, typeId)
     }

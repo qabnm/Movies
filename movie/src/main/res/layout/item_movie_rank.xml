@@ -19,12 +19,12 @@
         app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:layout_width="@dimen/dp_90"
-        android:layout_height="@dimen/dp_115"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_50"
         android:background="@drawable/gradual_img_cover"
-        android:scaleType="centerCrop"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@id/imgCover"
+        app:layout_constraintRight_toRightOf="@+id/imgCover"
+        app:layout_constraintBottom_toBottomOf="@+id/imgCover"
         app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
 
     <TextView
