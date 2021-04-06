@@ -191,10 +191,12 @@ class MyCollectionActivity : BaseViewModelActivity<CollectionViewModel>() {
             //收藏为空
             layoutEmpty.setEmptyVisibility(1)
             layoutSelect.visibility = View.GONE
-            layoutTopBar.setRightText("编辑")
+            layoutTopBar.setRightVisibility(View.GONE)
             isFirst = true
         } else {
             layoutEmpty.setEmptyVisibility(0)
+            layoutTopBar.setRightVisibility(View.VISIBLE)
+            layoutTopBar.setRightText("编辑")
         }
         collectionAdapter?.setList(dataList)
     }

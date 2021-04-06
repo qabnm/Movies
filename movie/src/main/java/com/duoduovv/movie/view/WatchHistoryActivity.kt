@@ -104,11 +104,13 @@ class WatchHistoryActivity : BridgeActivity() {
                 //观看历史为空
                 layoutEmpty.setEmptyVisibility(1)
                 layoutSelect.visibility = View.GONE
-                layoutTopBar.setRightText("编辑")
+                layoutTopBar.setRightVisibility(View.GONE)
                 isFirst = true
             } else {
                 Collections.sort(dataList) { o1, o2 -> (o2.currentTime - o1.currentTime).toInt() }
                 layoutEmpty.setEmptyVisibility(0)
+                layoutTopBar.setRightVisibility(View.VISIBLE)
+                layoutTopBar.setRightText("编辑")
             }
             historyAdapter?.setList(dataList)
         }
