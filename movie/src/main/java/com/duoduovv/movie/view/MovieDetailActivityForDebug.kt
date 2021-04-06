@@ -30,6 +30,9 @@ class MovieDetailActivityForDebug : BaseViewModelActivity<MovieDetailForDebugVie
     private var movieId = ""
     private var actorAdapter: MovieDetailForDebugActorAdapter? = null
     private var photoAdapter: MovieDetailForDebugStagePhoto? = null
+    override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
+        super.setLayout(false, statusBarColor)
+    }
 
     override fun initView() {
         val layoutParams = layoutTopBar.layoutParams as LinearLayout.LayoutParams
