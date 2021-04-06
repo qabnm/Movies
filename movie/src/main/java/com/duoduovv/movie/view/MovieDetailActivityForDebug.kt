@@ -13,9 +13,15 @@ import com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.OsUtils
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_movie_detail_for_debug.*
+import kotlinx.android.synthetic.main.activity_movie_detail_for_debug.rvList
+import kotlinx.android.synthetic.main.activity_movie_detail_for_debug.tvDetail
+import kotlinx.android.synthetic.main.activity_movie_detail_for_debug.tvName
+import kotlinx.android.synthetic.main.activity_movie_detail_for_debug.tvType
+import kotlinx.android.synthetic.main.item_movie_detail_top.*
 
 /**
  * @author: jun.liu
@@ -52,8 +58,19 @@ class MovieDetailActivityForDebug : BaseViewModelActivity<MovieDetailForDebugVie
             tvName.text = it.movie.vod_name
             tvType.text = "${it.movie.vod_area_text}/${it.movie.type_id_text}"
             tvYearUp.text = "上映时间：${it.movie.vod_year}（${it.movie.vod_area_text}上映）"
-            tvDuration.text = "片长：123分钟"
+            if (StringUtils.isEmpty(it.movie.vod_director)){
+                tvDirector.visibility = View.GONE
+            }else{
+                tvDirector.visibility = View.VISIBLE
+                tvDirector.text = "导演：${it.movie.vod_director}"
+            }
             tvLanguage.text = "语言：${it.movie.vod_lang}"
+            if (StringUtils.isEmpty(it.movie.vod_actor)){
+                tvActor.visibility = View.GONE
+            }else{
+                tvActor.visibility = View.VISIBLE
+                tvActor.text = "主演：${it.movie.vod_actor}"
+            }
             tvDetail.text = it.movie.vod_blurb
             actorAdapter?.setList(it.movieDetail.actor_array)
             photoAdapter?.setList(it.movieDetail.stage_photo_array)
