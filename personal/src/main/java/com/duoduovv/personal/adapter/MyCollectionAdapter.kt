@@ -1,10 +1,12 @@
 package com.duoduovv.personal.adapter
 
+import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.FavoriteBean
 import dc.android.bridge.util.GlideUtils
+import dc.android.bridge.util.StringUtils
 
 /**
  * @author: jun.liu
@@ -17,13 +19,18 @@ class MyCollectionAdapter :
     override fun convert(holder: BaseViewHolder, item: FavoriteBean) {
         GlideUtils.setMovieImg(context, item.cover_url, holder.getView(R.id.imgCover))
         holder.setText(R.id.tvName, item.vod_name)
+        val tvWhere:TextView = holder.getView(R.id.tvWhere)
+        if (!StringUtils.isEmpty(item.vod_director)){
+            tvWhere.text = "导演：${item.vod_director}"
+        }else{
+            tvWhere.text = "主演：${item.vod_actor}"
+        }
         holder.setText(R.id.tvWhere, item.last_remark)
         holder.setGone(R.id.imgSelect, !isEdit)
         holder.setImageResource(
             R.id.imgSelect,
             if (item.isSelect) R.drawable.personal_collection_selected else R.drawable.personal_collection_unselected
         )
-
     }
 
     fun isEdit(isEdit: Boolean) {

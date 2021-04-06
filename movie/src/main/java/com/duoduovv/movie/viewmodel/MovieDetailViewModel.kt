@@ -6,7 +6,9 @@ import com.duoduovv.common.BaseApplication
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MoviePlayInfoBean
 import com.duoduovv.movie.repository.MovieRepository
-import com.duoduovv.room.WatchHistoryDatabase
+import com.duoduovv.room.database.CollectionDatabase
+import com.duoduovv.room.database.WatchHistoryDatabase
+import com.duoduovv.room.domain.CollectionBean
 import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
@@ -14,6 +16,7 @@ import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * @author: jun.liu
@@ -85,9 +88,9 @@ class MovieDetailViewModel : BaseViewModel() {
     }
 
     /**
-     * 更新数据
+     * 更新历史观看记录
      */
-    fun updateDB(
+    fun updateHistoryDB(
         progress: Int,
         detailBean: MovieDetailBean,
         movieId: String,
@@ -118,12 +121,37 @@ class MovieDetailViewModel : BaseViewModel() {
                         it.currentTime = System.currentTimeMillis()
                         WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
                             .update(it)
-                    } ?: also { insert(detailBean, progress, movieId, vid, vidTitle, duration) }
+                    } ?: also { insertHistory(detailBean, progress, movieId, vid, vidTitle, duration) }
                 } else {
-                    insert(detailBean, progress, movieId, vid, vidTitle, duration)
+                    insertHistory(detailBean, progress, movieId, vid, vidTitle, duration)
                 }
             }
         }
+    }
+
+    /**
+     * 通过id查询收藏状态
+     * @param id String
+     * @return CollectionBean
+     */
+    suspend fun queryCollectionById(id: String) = withContext(Dispatchers.IO){
+        CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().queryById(id)
+    }
+
+    /**
+     * 删除收藏
+     * @param collectionBean CollectionBean
+     */
+    suspend fun deleteCollection(collectionBean: CollectionBean) = withContext(Dispatchers.IO){
+        CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().delete(collectionBean)
+    }
+
+    /**
+     * 添加收藏
+     * @param collectionBean CollectionBean
+     */
+    suspend fun addCollection(collectionBean: CollectionBean) = withContext(Dispatchers.IO){
+        CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().insert(collectionBean)
     }
 
     /**
@@ -131,7 +159,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param bean MovieDetailBean
      * @param progress Int
      */
-    private fun insert(
+    private fun insertHistory(
         bean: MovieDetailBean,
         progress: Int,
         movieId: String,

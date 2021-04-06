@@ -1,9 +1,10 @@
-package com.duoduovv.room
+package com.duoduovv.room.database
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.duoduovv.room.dao.HistoryDao
 import com.duoduovv.room.domain.VideoWatchHistoryBean
 
 /**

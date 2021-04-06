@@ -16,6 +16,7 @@ import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MovieItem
+import com.duoduovv.room.domain.CollectionBean
 import dc.android.bridge.util.GlideUtils
 
 /**
@@ -28,6 +29,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
     private val typeDetail = 1
     private val typeList = 2
     private var listener: OnViewClickListener? = null
+    private var collectionBean: CollectionBean? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         typeDetail -> DetailViewHolder(
@@ -49,6 +51,11 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         notifyItemChanged(0)
     }
 
+    fun notifyCollectionChange(collectionBean: CollectionBean?) {
+        this.collectionBean = collectionBean
+        notifyItemChanged(0)
+    }
+
     override fun getItemCount() = detailBean.recommends.size + 1
 
     override fun getItemViewType(position: Int) = when (position) {
@@ -64,14 +71,13 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         holder.imgShare.setOnClickListener { listener?.onShareClick() }
         holder.imgDownload.setOnClickListener { listener?.onDownLoadClick() }
         holder.imgCollect.setOnClickListener {
-            listener?.onCollectClick(
-                detailBean.isFavorite,
-                detailBean.movie.id
-            )
+            listener?.onCollectClick(collectionBean)
         }
-        if (detailBean.isFavorite == 0) holder.imgCollect.setImageResource(R.drawable.movie_collect) else holder.imgCollect.setImageResource(
-            R.drawable.movie_has_collect
-        )
+        collectionBean?.let {
+            holder.imgCollect.setImageResource(if (it.isCollect) R.drawable.movie_has_collect else R.drawable.movie_collect)
+        } ?: also {
+            holder.imgCollect.setImageResource(R.drawable.movie_collect)
+        }
         holder.tvName.text = detailBean.movie.vod_name
         holder.tvDetail.setOnClickListener { listener?.onDetailClick(bean = detailBean.movie) }
         holder.tvScore.text = detailBean.movie.last_remark
@@ -118,7 +124,10 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.rvAlbum.adapter = adapter
             for (i in detailBean.movieItems.indices) {
                 if (detailBean.movieItems[i].isSelect) {
-                    if (i != 0) (holder.rvAlbum.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(i, 0)
+                    if (i != 0) (holder.rvAlbum.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                        i,
+                        0
+                    )
                 }
             }
             adapter.setOnItemClickListener { ad, _, position ->
@@ -171,7 +180,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
         val layoutAlbum: LinearLayout = itemView.findViewById(R.id.layoutZhuanJi)
         val rvAlbum: RecyclerView = itemView.findViewById(R.id.rvAlbum)
-        val tvZWhere:TextView = itemView.findViewById(R.id.tvZWhere)
+        val tvZWhere: TextView = itemView.findViewById(R.id.tvZWhere)
 
         init {
             rvList.layoutManager =
@@ -195,7 +204,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
     interface OnViewClickListener {
         fun onShareClick()
         fun onDownLoadClick()
-        fun onCollectClick(isCollection: Int, movieId: String)
+        fun onCollectClick(collectionBean: CollectionBean?)
         fun onDetailClick(bean: MovieDetail)
         fun onSelectClick(dataList: List<MovieItem>)
         fun onMovieClick(movieId: String)

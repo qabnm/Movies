@@ -12,7 +12,7 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.WatchHistoryAdapter
-import com.duoduovv.room.WatchHistoryDatabase
+import com.duoduovv.room.database.WatchHistoryDatabase
 import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.CURRENT_LENGTH

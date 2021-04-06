@@ -1,4 +1,4 @@
-package com.duoduovv.room
+package com.duoduovv.room.dao
 
 import androidx.room.*
 import com.duoduovv.room.domain.VideoWatchHistoryBean

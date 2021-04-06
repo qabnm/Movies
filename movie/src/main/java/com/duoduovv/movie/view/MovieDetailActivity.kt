@@ -17,6 +17,7 @@ import com.duoduovv.movie.component.MovieDetailArtSelectDialog
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
+import com.duoduovv.room.domain.CollectionBean
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
@@ -238,6 +239,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (urlList?.isNotEmpty() == true) playUrl = urlList[0].url
             }
         }
+        //更新收藏状态
+        GlobalScope.launch(Dispatchers.Main) {
+            val collectionBean = viewModel.queryCollectionById(detailBean.movie.id)
+            detailAdapter?.notifyCollectionChange(collectionBean)
+        }
     }
 
     /**
@@ -280,10 +286,36 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     /**
      * 收藏
      */
-    override fun onCollectClick(isCollection: Int, movieId: String) {
-        when (isCollection) {
-            1 -> viewModel.deleteCollection(movieId)
-            else -> viewModel.addCollection(movieId)
+    override fun onCollectClick(collectionBean: CollectionBean?) {
+        collectionBean?.let {
+            GlobalScope.launch(Dispatchers.Main) {
+                if (it.isCollect) {
+                    viewModel.deleteCollection(it)
+                } else {
+                    viewModel.addCollection(it)
+                }
+                val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
+                detailAdapter?.notifyCollectionChange(bean)
+            }
+        } ?: also {
+            GlobalScope.launch(Dispatchers.Main) {
+                val detailBean = detailBean!!.movie
+                val bean = CollectionBean(
+                    coverUrl = detailBean.cover_url,
+                    strId = detailBean.str_id,
+                    movieId = detailBean.id,
+                    lastRemark = detailBean.last_remark,
+                    actor = detailBean.vod_actor,
+                    direcotor = detailBean.vod_director,
+                    movieName = detailBean.vod_name,
+                    lang = detailBean.vod_lang,
+                    isCollect = true,
+                    collectionTime = System.currentTimeMillis()
+                )
+                viewModel.addCollection(bean)
+                val beans = viewModel.queryCollectionById(detailBean.id)
+                detailAdapter?.notifyCollectionChange(beans)
+            }
         }
     }
 
@@ -377,7 +409,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
-            updateDB()
+            updateHistoryDB()
 //            GSYVideoManager.releaseAllVideos()
             hasClickRecommend = true
             viewModel.movieDetail(movieId)
@@ -399,16 +431,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onStop() {
-        updateDB()
+        updateHistoryDB()
         super.onStop()
     }
 
     /**
      * 更新数据库数据
      */
-    private fun updateDB() {
+    private fun updateHistoryDB() {
         detailBean?.let {
-            viewModel.updateDB(
+            viewModel.updateHistoryDB(
                 progress = videoPlayer.currentPlayer.currentPositionWhenPlaying,
                 detailBean = it,
                 movieId = movieId,
