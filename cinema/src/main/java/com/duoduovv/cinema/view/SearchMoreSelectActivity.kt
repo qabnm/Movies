@@ -1,14 +1,14 @@
 package com.duoduovv.cinema.view
 
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.cinema.CinemaContext.Companion.MOVIE_FLAG_TV
 import com.duoduovv.cinema.R
-import com.duoduovv.cinema.adapter.SearchEpisodesAdapter
+import com.duoduovv.cinema.adapter.SearchAlbumEpisodesAdapter
+import com.duoduovv.cinema.adapter.SearchTvEpisodesAdapter
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.common.util.RouterPath
-import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_search_more_select.*
@@ -21,14 +21,15 @@ import kotlinx.android.synthetic.main.activity_search_more_select.*
 @Route(path = RouterPath.PATH_SEARCH_MORE_SELECT)
 class SearchMoreSelectActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_search_more_select
-    private var tvAdapter: SearchEpisodesAdapter? = null
     private var title = ""
     private var movieId = ""
     private var dataList: List<MovieItem>? = null
     private var way= 0
+    private var movieFlag = 0
 
     override fun initView() {
-        rvList.layoutManager = GridLayoutManager(this, 5)
+        movieFlag = intent.getIntExtra(BridgeContext.FLAG, 0)
+        rvList.layoutManager = GridLayoutManager(this, if (movieFlag == MOVIE_FLAG_TV) 5 else 2)
     }
 
     override fun initData() {
@@ -37,10 +38,14 @@ class SearchMoreSelectActivity : BridgeActivity() {
         dataList = intent.getParcelableArrayListExtra(BridgeContext.LIST)
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
         layoutTopBar.setTopTitle(title)
-        tvAdapter = SearchEpisodesAdapter(dataList as MutableList<MovieItem>)
-        rvList.adapter = tvAdapter
-        tvAdapter?.setOnItemClickListener { adapter, _, position ->
-            val data = (adapter as SearchEpisodesAdapter).data[position]
+        val rvAdapter = if (movieFlag == MOVIE_FLAG_TV){
+            SearchTvEpisodesAdapter(dataList as MutableList<MovieItem>)
+        }else{
+            SearchAlbumEpisodesAdapter(dataList as MutableList<MovieItem>)
+        }
+        rvList.adapter = rvAdapter
+        rvAdapter.setOnItemClickListener { adapter, _, position ->
+            val data = (adapter.data[position] as MovieItem)
             onItemClick(data.vid)
         }
     }
@@ -55,5 +60,4 @@ class SearchMoreSelectActivity : BridgeActivity() {
             .withString(BridgeContext.ID, movieId).withString(BridgeContext.TYPE_ID, vid)
             .navigation()
     }
-
 }

@@ -10,6 +10,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
@@ -28,7 +29,7 @@ class SearchResultListAdapter(
 ) : RecyclerView.Adapter<SearchResultListAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewHolder(
-        LayoutInflater.from(context).inflate(R.layout.item_search_result, parent, false), context
+        LayoutInflater.from(context).inflate(R.layout.item_search_result, parent, false)
     )
 
     fun notifyDataChanged(dataList: List<SearchResultList>) {
@@ -48,7 +49,7 @@ class SearchResultListAdapter(
         )
         holder.tvDirector.text = "导演：${bean.vod_director}"
         when (bean.movie_flag) {
-            2 -> {
+            CinemaContext.MOVIE_FLAG_TV -> {
                 //电视
                 holder.rvList.visibility = View.VISIBLE
                 holder.rvList.layoutManager = GridLayoutManager(context, 6)
@@ -76,21 +77,28 @@ class SearchResultListAdapter(
 //                        ad.notifyDataSetChanged()
 //                        listener?.onSelectClick(dataList[pos].vid)
                         if (data.size <= 6) {
-                            listener?.onSelectClick(dataList[pos].vid, bean.str_id,bean.way)
+                            listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
                         } else {
-                            if (pos != 2){
+                            if (pos != 2) {
                                 listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
-                            }else{
-                                listener?.onMoreSelectClick(data, bean.str_id,bean.vod_name, bean.way)
+                            } else {
+                                listener?.onMoreSelectClick(
+                                    data,
+                                    bean.str_id,
+                                    bean.vod_name,
+                                    bean.way,
+                                    bean.movie_flag
+                                )
                             }
                         }
                     }
                 }
             }
-            3 -> {
+            CinemaContext.MOVIE_FLAG_ALBUM -> {
                 //综艺
                 holder.rvList.visibility = View.VISIBLE
-                holder.rvList.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL, false)
+                holder.rvList.layoutManager =
+                    LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 val data = bean.movie_items
                 if (data?.isNotEmpty() == true) {
                     val adapter = if (bean.vod_number <= 6) {
@@ -108,14 +116,29 @@ class SearchResultListAdapter(
                     holder.rvList.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchAlbumSelectAdapter).data
-                        for (i in dataList.indices) dataList[i].isSelect = false
-                        dataList[pos].isSelect = true
-                        ad.notifyDataSetChanged()
-                        listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+//                        for (i in dataList.indices) dataList[i].isSelect = false
+//                        dataList[pos].isSelect = true
+//                        ad.notifyDataSetChanged()
+//                        listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+                        if (data.size <= 6) {
+                            listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+                        } else {
+                            if (pos != 2) {
+                                listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+                            } else {
+                                listener?.onMoreSelectClick(
+                                    data,
+                                    bean.str_id,
+                                    bean.vod_name,
+                                    bean.way,
+                                    bean.movie_flag
+                                )
+                            }
+                        }
                     }
                 }
             }
-            else ->{
+            else -> {
                 holder.rvList.visibility = View.GONE
             }
         }
@@ -124,24 +147,24 @@ class SearchResultListAdapter(
 
     override fun getItemCount() = dataList.size
 
-    class MyViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imgCover: ImageView = itemView.findViewById(R.id.imgCover)
         val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
         val tvTime: TextView = itemView.findViewById(R.id.tvTime)
         val tvDirector: TextView = itemView.findViewById(R.id.tvDirector)
         val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
         val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
-
-//        init {
-//            rvListTv.layoutManager = GridLayoutManager(context, 6)
-//            rvListAlbum.layoutManager =
-//                LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-//        }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(movieId: String,way:Int)
-        fun onSelectClick(vid: String,movieId: String, way: Int)
-        fun onMoreSelectClick(dataList:List<MovieItem>,movieId: String, title:String,way: Int)
+        fun onItemClick(movieId: String, way: Int)
+        fun onSelectClick(vid: String, movieId: String, way: Int)
+        fun onMoreSelectClick(
+            dataList: List<MovieItem>,
+            movieId: String,
+            title: String,
+            way: Int,
+            movieFlag: Int
+        )
     }
 }

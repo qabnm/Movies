@@ -31,6 +31,7 @@ open class BridgeContext {
         const val CURRENT_LENGTH = "currentLength"
         const val WAY = "way"
         const val DEBUG_WAY = "debugWay"
+        const val FLAG = "flag"
         /**
          * 用户协议
          */
