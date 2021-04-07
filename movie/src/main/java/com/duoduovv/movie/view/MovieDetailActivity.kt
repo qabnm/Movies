@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -59,8 +60,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var currentPlayPosition = 0  //默认是从第一集开始播放
     private var vidTitle = ""
     private var currentLength: Long = 0
+    private var screenHeight = 0
+    private var topBarHeight = 0
+    private var videoHeight = 0
+    private var navHeight = 0
+    private var realHeight = 0
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
-        super.setLayout(false, resources.getColor(R.color.color000000))
+        super.setLayout(false, ContextCompat.getColor(this,R.color.color000000))
     }
 
     override fun initView() {
@@ -70,18 +76,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             .observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
         viewModel.getMovieClickInfo()
             .observe(this, { setClickInfo(viewModel.getMovieClickInfo().value) })
-        viewModel.getAddState().observe(this, {
-            detailBean?.let {
-                it.isFavorite = 1
-                detailAdapter?.notifyDataChange(it)
-            }
-        })
-        viewModel.getDeleteState().observe(this, {
-            detailBean?.let {
-                it.isFavorite = 0
-                detailAdapter?.notifyDataChange(it)
-            }
-        })
         orientationUtils = OrientationUtils(this, videoPlayer)
         orientationUtils?.isEnable = false
         setVideoPlayer()
@@ -90,6 +84,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             orientationUtils?.resolveByClick()
             videoPlayer.startWindowFullscreen(this, true, true)
         }
+        screenHeight = OsUtils.getRealDisplayHeight(this)
+        topBarHeight = OsUtils.getStatusBarHeight(this)
+        navHeight = OsUtils.getNavigationBarHeight(this)
     }
 
     /**
@@ -319,17 +316,18 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    override fun onWindowFocusChanged(hasFocus: Boolean) {
+        super.onWindowFocusChanged(hasFocus)
+        videoHeight = videoPlayer.measuredHeight
+        realHeight = screenHeight - topBarHeight - videoHeight - navHeight
+    }
+
     /**
      * 点击详情 显示详情 介绍弹窗
      * @param bean MovieDetail
      */
     override fun onDetailClick(bean: MovieDetail) {
         if (OsUtils.isFastClick()) return
-        val screenHeight = OsUtils.getRealDisplayHeight(this)
-        val topBarHeight = OsUtils.getStatusBarHeight(this)
-        val videoHeight = videoPlayer.measuredHeight
-        val navHeight = OsUtils.getNavigationBarHeight(this)
-        val realHeight = screenHeight - topBarHeight - videoHeight - navHeight
         Log.d(
             "height",
             "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}**navHeight${navHeight}"
@@ -353,11 +351,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param dataList List<MovieItem>
      */
     override fun onArtSelectClick(dataList: List<MovieItem>) {
-        val screenHeight = OsUtils.getRealDisplayHeight(this)
-        val topBarHeight = OsUtils.getStatusBarHeight(this)
-        val videoHeight = videoPlayer.measuredHeight
-        val navHeight = OsUtils.getNavigationBarHeight(this)
-        val realHeight = screenHeight - topBarHeight - videoHeight - navHeight
         for (i in dataList.indices) {
             if (vid == dataList[i].vid) dataList[i].isSelect = true
         }
@@ -370,15 +363,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param dataList List<String>
      */
     override fun onSelectClick(dataList: List<MovieItem>) {
-        val screenHeight = OsUtils.getRealDisplayHeight(this)
-        val topBarHeight = OsUtils.getStatusBarHeight(this)
-        val videoHeight = videoPlayer.measuredHeight
-        val navHeight = OsUtils.getNavigationBarHeight(this)
-        val realHeight = screenHeight - topBarHeight - videoHeight - navHeight
-        Log.d(
-            "height",
-            "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}"
-        )
         for (i in dataList.indices) {
             if (vid == dataList[i].vid) dataList[i].isSelect = true
         }
