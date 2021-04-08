@@ -14,7 +14,7 @@ import dc.android.bridge.domain.LocationBean
  * @date: 2021/1/18 18:15
  * @des:定位工具类
  */
-class LocationUtils(private val context: Context,private val listener: LbsLocationListener?) {
+class LocationUtils(private val listener: LbsLocationListener?) {
     private lateinit var locationManager: LocationManager
     private var bestProvider: String? = null
 
@@ -27,10 +27,11 @@ class LocationUtils(private val context: Context,private val listener: LbsLocati
             BaseApplication.baseCtx.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //没有打开GPS
-            Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(this)
-            }
+//            Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                context.startActivity(this)
+//            }
+            listener?.gpsNotOpen()
         }
         getProviders()
     }
@@ -70,12 +71,13 @@ class LocationUtils(private val context: Context,private val listener: LbsLocati
 
     interface LbsLocationListener {
         fun onLocation(bean: LocationBean)
+        fun gpsNotOpen()
     }
 
     private class MyLocationListener(private val listener: LbsLocationListener?) : LocationListener {
         override fun onLocationChanged(location: Location) {
             val geocode = Geocoder(BaseApplication.baseCtx)
-            val address = geocode.getFromLocation(location.latitude, location.longitude, 10)
+            val address = geocode.getFromLocation(location.latitude, location.longitude, 1)
             for (element in address) {
                 val bean = LocationBean(
                     countryCode = element.countryCode,

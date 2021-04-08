@@ -13,9 +13,9 @@ import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
+import com.duoduovv.common.component.UpgradeDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
-import com.duoduovv.common.component.UpgradeDialogFragment
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
@@ -70,7 +70,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             intent?.let { startActivity(it) }
             requireActivity().finish()
         })
-        imgHistory.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation() }
+        imgHistory.setOnClickListener {
+            ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
+        }
     }
 
     /**
@@ -136,7 +138,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             scope.showForwardToSettingsDialog(deniedList, msg, "确定", "取消")
         }.request { allGranted, _, _ ->
             if (allGranted) {
-                locationUtils = LocationUtils(requireActivity(), LocationListener())
+                locationUtils = LocationUtils(locationListener)
                 locationUtils?.startLocation()
             }
             hasRequestPermission = true
@@ -154,10 +156,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         viewModel.configure()
     }
 
-    /**
-     * 获取定位信息
-     */
-    private inner class LocationListener : LocationUtils.LbsLocationListener {
+    private val locationListener = object : LocationUtils.LbsLocationListener {
         override fun onLocation(bean: LocationBean) {
             Log.i("address", bean.toString())
             locationUtils?.removeLocation()
@@ -170,6 +169,10 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
                     OsUtils.getVerCode(requireContext())
                 },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
             )
+        }
+
+        override fun gpsNotOpen() {
+            AndroidUtils.toast("请打开GPS", requireContext())
         }
     }
 }
