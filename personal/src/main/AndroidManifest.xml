@@ -32,6 +32,12 @@
         <activity android:name=".view.DownloadTestActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".view.TentPlayerActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="stateHidden"/>
+
         <activity android:name=".view.AboutUsActivity"
             android:screenOrientation="portrait"/>
     </application>

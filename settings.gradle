@@ -9,4 +9,5 @@ include ':weichat'
 include ':app'
 include ':common'
 include ':download'
+include ':superplayerkit'
 rootProject.name = "Movies"

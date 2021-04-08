@@ -1,5 +1,6 @@
 package com.duoduovv.personal.view
 
+import android.content.Intent
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -53,6 +54,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
             layoutShare.setOnClickListener {
+                startActivity(Intent(requireActivity(), TentPlayerActivity::class.java))
             }
         } else {
             layoutIsRes.visibility = View.GONE
