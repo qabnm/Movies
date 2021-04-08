@@ -11,6 +11,7 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SampleCoverVideo
+import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.*
@@ -171,6 +172,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             if (playList?.isNotEmpty() == true) {
                 videoPlayer.setStartClick(1)
                 videoPlayer.setUp(playList[0].url, true, "")
+                //如果是可播放的直接播放
+                if (way == WAY_RELEASE) videoPlayer.startPlayLogic()
             }
         }
     }
