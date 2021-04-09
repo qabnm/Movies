@@ -115,11 +115,11 @@ public class SuperPlayerView extends RelativeLayout {
      */
     private void initView() {
         mRootView = (ViewGroup) LayoutInflater.from(mContext).inflate(R.layout.superplayer_vod_view, null);
-        mTXCloudVideoView = (TXCloudVideoView) mRootView.findViewById(R.id.superplayer_cloud_video_view);
-        mFullScreenPlayer = (FullScreenPlayer) mRootView.findViewById(R.id.superplayer_controller_large);
-        mWindowPlayer = (WindowPlayer) mRootView.findViewById(R.id.superplayer_controller_small);
-        mFloatPlayer = (FloatPlayer) mRootView.findViewById(R.id.superplayer_controller_float);
-        mDanmuView = (DanmuView) mRootView.findViewById(R.id.superplayer_danmuku_view);
+        mTXCloudVideoView = mRootView.findViewById(R.id.superplayer_cloud_video_view);
+        mFullScreenPlayer = mRootView.findViewById(R.id.superplayer_controller_large);
+        mWindowPlayer = mRootView.findViewById(R.id.superplayer_controller_small);
+        mFloatPlayer = mRootView.findViewById(R.id.superplayer_controller_float);
+        mDanmuView = mRootView.findViewById(R.id.superplayer_danmuku_view);
 
         mVodControllerWindowParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         mVodControllerFullScreenParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);

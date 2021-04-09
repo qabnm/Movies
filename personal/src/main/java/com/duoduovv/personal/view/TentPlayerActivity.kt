@@ -1,13 +1,21 @@
 package com.duoduovv.personal.view
 
+import android.os.Environment
+import android.util.Log
 import androidx.core.content.ContextCompat
 import com.duoduovv.personal.R
 import com.tencent.liteav.demo.superplayer.SuperPlayerDef
 import com.tencent.liteav.demo.superplayer.SuperPlayerGlobalConfig
 import com.tencent.liteav.demo.superplayer.SuperPlayerModel
+import com.tencent.liteav.demo.superplayer.SuperPlayerView
 import com.tencent.rtmp.TXLiveConstants
+import com.tencent.rtmp.TXVodPlayer
+import com.tencent.rtmp.downloader.ITXVodDownloadListener
+import com.tencent.rtmp.downloader.TXVodDownloadManager
+import com.tencent.rtmp.downloader.TXVodDownloadMediaInfo
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_tent_player.*
+import kotlinx.android.synthetic.main.activity_tent_player.view.*
 
 /**
  * @author: jun.liu
@@ -37,18 +45,70 @@ class TentPlayerActivity :BridgeActivity(){
             // 设置播放器渲染模式
             enableHWAcceleration = true
             renderMode = TXLiveConstants.RENDER_MODE_FULL_FILL_SCREEN
-
         }
+        superPlayer.setPlayerViewCallback(object :SuperPlayerView.OnSuperPlayerViewCallback{
+            override fun onStartFullScreenPlay() {
+            }
+
+            override fun onStopFullScreenPlay() {
+            }
+
+            override fun onClickFloatCloseBtn() {
+            }
+
+            override fun onClickSmallReturnBtn() {
+                this@TentPlayerActivity.finish()
+            }
+
+            override fun onStartFloatWindowPlay() {
+            }
+        })
+        val url = "https://www.369hyt.com:65/20210318/1cZ2LyqC/index.m3u8"
+        superPlayer.play(url)
     }
 
     override fun initView() {
-        btnStart.setOnClickListener {
-            val model = SuperPlayerModel()
-            model.apply {
-                title = "腾讯测试视频播放"
-                url = "https://www.369hyt.com:65/20210312/dakMN0PS/index.m3u8"
-                superPlayer.playWithModel(model)
+        val downloader = TXVodDownloadManager.getInstance()
+        downloader.setDownloadPath(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath)
+        val url = "https://www.369hyt.com:65/20210318/1cZ2LyqC/index.m3u8"
+        downloader.setListener(object :ITXVodDownloadListener{
+            override fun onDownloadStart(p0: TXVodDownloadMediaInfo?) {
+                Log.d("download","onDownloadStart")
             }
+
+            override fun onDownloadProgress(p0: TXVodDownloadMediaInfo?) {
+                Log.d("download","onDownloadProgress${p0?.progress}")
+            }
+
+            override fun onDownloadStop(p0: TXVodDownloadMediaInfo?) {
+                Log.d("download","onDownloadStop")
+            }
+
+            override fun onDownloadFinish(p0: TXVodDownloadMediaInfo?) {
+                Log.d("download","onDownloadFinish")
+            }
+
+            override fun onDownloadError(p0: TXVodDownloadMediaInfo?, p1: Int, p2: String?) {
+                Log.d("download","onDownloadError${p2}${p1}")
+            }
+
+            override fun hlsKeyVerify(
+                p0: TXVodDownloadMediaInfo?,
+                p1: String?,
+                p2: ByteArray?
+            ): Int {
+                Log.d("download","hlsKeyVerify${p1}")
+                return 0
+            }
+        })
+        btnStart.setOnClickListener {
+//            val model = SuperPlayerModel()
+//            model.apply {
+//                title = "腾讯测试视频播放"
+//                url = "https://www.369hyt.com:65/20210312/dakMN0PS/index.m3u8"
+//                superPlayer.playWithModel(model)
+//            }
+            downloader.startDownloadUrl(url)
         }
     }
 

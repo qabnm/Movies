@@ -71,7 +71,8 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
     private float                               mWaterMarkBmpX;                         // 水印x坐标
     private float                               mWaterMarkBmpY;                         // 水印y坐标
     private long                                mLastClickTime;                         // 上次点击事件的时间
-    private ImageView ivPlay;
+//    private ImageView ivPlay;
+    private ImageView ivBack;
 
     public WindowPlayer(Context context) {
         super(context);
@@ -225,7 +226,9 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
         setBackground(mBackgroundBmp);
 
         mIvWatermark = (ImageView)findViewById(R.id.superplayer_small_iv_water_mark);
-        ivPlay = findViewById(R.id.tentPlay);
+//        ivPlay = findViewById(R.id.tentPlay);
+        ivBack = findViewById(R.id.superplayer_iv_back);
+        ivBack.setOnClickListener(this);
     }
 
     /**
@@ -309,7 +312,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
         isShowing = true;
         mLayoutTop.setVisibility(View.VISIBLE);
         mLayoutBottom.setVisibility(View.VISIBLE);
-        ivPlay.setVisibility(View.VISIBLE);
+//        ivPlay.setVisibility(View.VISIBLE);
 
         if (mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
             mTvBackToLive.setVisibility(View.VISIBLE);
@@ -324,7 +327,7 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
         isShowing = false;
         mLayoutTop.setVisibility(View.GONE);
         mLayoutBottom.setVisibility(View.GONE);
-        ivPlay.setVisibility(View.GONE);
+//        ivPlay.setVisibility(View.GONE);
 
         if (mPlayType == SuperPlayerDef.PlayerType.LIVE_SHIFT) {
             mTvBackToLive.setVisibility(View.GONE);
@@ -563,9 +566,9 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
         mLastClickTime = System.currentTimeMillis();
         int id = view.getId();
         if (id == R.id.superplayer_rl_top) { //顶部标题栏
-            if (mControllerCallback != null) {
-                mControllerCallback.onBackPressed(SuperPlayerDef.PlayerMode.WINDOW);
-            }
+//            if (mControllerCallback != null) {
+//                mControllerCallback.onBackPressed(SuperPlayerDef.PlayerMode.WINDOW);
+//            }
         } else if (id == R.id.superplayer_iv_pause) { //暂停\播放按钮
             togglePlayState();
         } else if (id == R.id.superplayer_iv_fullscreen) { //全屏按钮
@@ -579,6 +582,11 @@ public class WindowPlayer extends AbsPlayer implements View.OnClickListener,
         } else if (id == R.id.superplayer_tv_back_to_live) { //返回直播按钮
             if (mControllerCallback != null) {
                 mControllerCallback.onResumeLive();
+            }
+        }else if (id == R.id.superplayer_iv_back){
+            //返回键
+            if (mControllerCallback != null) {
+                mControllerCallback.onBackPressed(SuperPlayerDef.PlayerMode.WINDOW);
             }
         }
     }
