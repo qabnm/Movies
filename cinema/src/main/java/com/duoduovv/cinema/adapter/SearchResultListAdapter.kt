@@ -55,7 +55,7 @@ class SearchResultListAdapter(
                 holder.rvList.layoutManager = GridLayoutManager(context, 6)
                 val data = bean.movie_items
                 if (data?.isNotEmpty() == true) {
-                    val adapter = if (bean.vod_number <= 6) {
+                    val adapter = if (data.size <= 6) {
                         SearchTvSelectAdapter(data as MutableList<MovieItem>)
                     } else {
                         val tempData = ArrayList<MovieItem>()
@@ -101,7 +101,7 @@ class SearchResultListAdapter(
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 val data = bean.movie_items
                 if (data?.isNotEmpty() == true) {
-                    val adapter = if (bean.vod_number <= 6) {
+                    val adapter = if (data.size <= 6) {
                         SearchAlbumSelectAdapter(data as MutableList<MovieItem>)
                     } else {
                         val tempData = ArrayList<MovieItem>()
