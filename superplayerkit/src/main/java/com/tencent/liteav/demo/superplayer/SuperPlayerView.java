@@ -681,6 +681,30 @@ public class SuperPlayerView extends RelativeLayout {
         return mSuperPlayer.getPlayerState();
     }
 
+    public interface PlayStateCallback{
+        //开始播放
+        void onPlayBegin();
+        void onPlayPause();
+        void onPlayStop();
+        void onPlayLoading();
+        void onPlayProgress(long current, long duration);
+        void onSeek(int position);
+        void onSwitchStreamStart(boolean success, SuperPlayerDef.PlayerType playerType, VideoQuality quality);
+        void onSwitchStreamEnd(boolean success, SuperPlayerDef.PlayerType playerType, VideoQuality quality);
+        void onPlayerTypeChange(SuperPlayerDef.PlayerType playType);
+        void onPlayTimeShiftLive(TXLivePlayer player, String url);
+        void onVideoQualityListChange(List<VideoQuality> videoQualities, VideoQuality defaultVideoQuality);
+        void onError(int code, String message);
+    }
+
+    /**
+     * 滑动到指定位置播放
+     * @param position
+     */
+    public void seek(int position){
+        mSuperPlayer.seek(position);
+    }
+
     private SuperPlayerObserver mSuperPlayerObserver = new SuperPlayerObserver() {
         @Override
         public void onPlayBegin(String name) {
