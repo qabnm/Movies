@@ -64,6 +64,7 @@ class TentPlayerActivity :BridgeActivity(){
             }
         })
         val url = "https://www.369hyt.com:65/20210318/1cZ2LyqC/index.m3u8"
+//        val url = "http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8"
         superPlayer.play(url)
     }
 
@@ -71,6 +72,7 @@ class TentPlayerActivity :BridgeActivity(){
         val downloader = TXVodDownloadManager.getInstance()
         downloader.setDownloadPath(this.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath)
         val url = "https://www.369hyt.com:65/20210318/1cZ2LyqC/index.m3u8"
+//        val url = "http://devimages.apple.com/iphone/samples/bipbop/gear1/prog_index.m3u8"
         downloader.setListener(object :ITXVodDownloadListener{
             override fun onDownloadStart(p0: TXVodDownloadMediaInfo?) {
                 Log.d("download","onDownloadStart")
