@@ -11,6 +11,7 @@ import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.main.R
+import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
@@ -92,11 +93,11 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
         ).onExplainRequestReason { scope, deniedList ->
-            val msg = "多多影视需要获取您以下权限"
-            scope.showRequestReasonDialog(deniedList, msg, "确定", "取消")
+            val msg = "多多影视需要获取您的位置信息"
+            scope.showRequestReasonDialog(PermissionDialogFragment(deniedList, msg))
         }.onForwardToSettings { scope, deniedList ->
-            val msg = "多多影视请求授予定位权限"
-            scope.showForwardToSettingsDialog(deniedList, msg, "确定", "取消")
+            val msg = "多多影视需要定位权限\n拒绝可能影响您的正常体验"
+            scope.showForwardToSettingsDialog(PermissionDialogFragment(deniedList,msg))
         }.request { allGranted, _, _ ->
             if (allGranted) {
                 locationUtils = LocationUtils(locationListener)
@@ -130,6 +131,6 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         Handler(Looper.getMainLooper()).postDelayed({
             ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
             this.finish()
-        }, 1500)
+        }, 1600)
     }
 }
