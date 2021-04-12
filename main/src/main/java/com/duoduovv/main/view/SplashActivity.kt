@@ -109,7 +109,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
 
     private val locationListener = object : LocationUtils.LbsLocationListener {
         override fun onLocation(bean: LocationBean) {
-            Log.i("address", "定位成功")
+            Log.i("address", "定位成功${bean}")
             locationUtils?.removeLocation()
             //将定位信息保存到本地
             SharedPreferencesHelper.helper.setValue(
