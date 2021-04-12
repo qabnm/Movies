@@ -1,6 +1,5 @@
 package com.duoduovv.cinema.view
 
-import android.Manifest
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -16,15 +15,10 @@ import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.component.UpgradeDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
-import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
-import dc.android.bridge.domain.LocationBean
-import dc.android.bridge.util.AndroidUtils
-import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.OsUtils
-import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -39,10 +33,8 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     override fun getLayoutId() = R.layout.fragment_cinema
     override fun providerVMClass() = CinemaViewModel::class.java
-    private var locationUtils: LocationUtils? = null
     private var hotList: List<String>? = null
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
-    private var hasRequestPermission = false
     private var bean: Version? = null
 
     override fun initView() {
@@ -80,7 +72,6 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      * @param bean Version?
      */
     private fun checkUpdate(bean: Version?) {
-        if (!hasRequestPermission) return
         bean?.let {
             val versionCode = OsUtils.getVerCode(requireContext())
             if (versionCode != -1 && it.version_number > versionCode) {
@@ -126,53 +117,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         ViewPagerHelper.bind(indicator, vpContainer)
     }
 
-    private fun location() {
-        PermissionX.init(this).permissions(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ).onExplainRequestReason { scope, deniedList ->
-            val msg = "多多影视需要获取您以下权限"
-            scope.showRequestReasonDialog(deniedList, msg, "确定", "取消")
-        }.onForwardToSettings { scope, deniedList ->
-            val msg = "多多影视请求授予定位权限"
-            scope.showForwardToSettingsDialog(deniedList, msg, "确定", "取消")
-        }.request { allGranted, _, _ ->
-            if (allGranted) {
-                locationUtils = LocationUtils(locationListener)
-                locationUtils?.startLocation()
-            }
-            hasRequestPermission = true
-            if (null != bean) {
-                //这时候接口请求已经完成了 接口请求还没完成就走正常流程
-                checkUpdate(bean)
-            }
-        }
-    }
-
     override fun initData() {
         showLoading()
-        location()
         Log.i("address", SharedPreferencesHelper.helper.getValue(ADDRESS, "") as String)
         viewModel.configure()
-    }
-
-    private val locationListener = object : LocationUtils.LbsLocationListener {
-        override fun onLocation(bean: LocationBean) {
-            Log.i("address", bean.toString())
-            locationUtils?.removeLocation()
-            //将定位信息保存到本地
-            SharedPreferencesHelper.helper.setValue(
-                ADDRESS,
-                "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${
-                    StringUtils.gbEncoding(bean.locality)
-                }\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\",\"v\":${
-                    OsUtils.getVerCode(requireContext())
-                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
-            )
-        }
-
-        override fun gpsNotOpen() {
-            AndroidUtils.toast("请打开GPS", requireContext())
-        }
     }
 }

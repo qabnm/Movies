@@ -95,10 +95,12 @@ class LocationUtils(private val listener: LbsLocationListener?) {
 
         override fun onProviderEnabled(provider: String) {
             super.onProviderEnabled(provider)
+            Log.i("address","onProviderEnabled")
         }
 
         override fun onProviderDisabled(provider: String) {
             super.onProviderDisabled(provider)
+            Log.i("address","onProviderDisabled")
         }
 
     }
