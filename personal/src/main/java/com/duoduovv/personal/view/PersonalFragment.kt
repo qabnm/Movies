@@ -22,8 +22,9 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatAppId
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatSecret
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatUserInfoUrl
 import com.duoduovv.weichat.WeiChatTool
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TOKEN
+import dc.android.bridge.BridgeContext.Companion.WAY
+import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
@@ -42,7 +43,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun providerVMClass() = WeiChatViewModel::class.java
 
     override fun initView() {
-        if (SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, 0) !=BridgeContext.WAY_VERIFY) {
+        if (SharedPreferencesHelper.helper.getValue(WAY, 0) !=WAY_VERIFY) {
             //正式版
             layoutIsRes.visibility = View.VISIBLE
             layoutHistory.setOnClickListener {
@@ -54,9 +55,13 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             }
             layoutShare.setOnClickListener {
             }
+            layoutContainer.visibility = View.VISIBLE
         } else {
+            //审核版
             layoutIsRes.visibility = View.GONE
+            layoutContainer.visibility = View.GONE
         }
+
         layoutContract.setOnClickListener {
             //问题反馈
             FeedbackAPI.openFeedbackActivity()
@@ -92,7 +97,10 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     }
 
     override fun initData() {
-        viewModel.userInfo()
+        //正式版才请求登录接口
+        if (SharedPreferencesHelper.helper.getValue(WAY, 0) !=WAY_VERIFY){
+            viewModel.userInfo()
+        }
         setFeedbackUi()
     }
 
