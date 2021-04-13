@@ -267,7 +267,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
             isAutoFullWithSize = false
             //音频焦点冲突时是否释放
-            isReleaseWhenLossAudio = false
+            isReleaseWhenLossAudio = true
             //全屏动画
             isShowFullAnimation = false
             //非wifi环境下，显示流量提醒
@@ -276,6 +276,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             backButton.setOnClickListener { onBackPressed() }
             setIsTouchWiget(true)
             setStartClickListener(this@MovieDetailActivity)
+            isNeedLockFull = true
         }
     }
 
