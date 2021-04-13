@@ -31,4 +31,5 @@
         <attr name="radius" format="dimension"/>
         <attr name="solidColor" format="color"/>
     </declare-styleable>
+
 </resources>

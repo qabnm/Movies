@@ -21,6 +21,8 @@ import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.duoduovv.room.domain.CollectionBean
 import com.shuyu.gsyvideoplayer.GSYVideoManager
+import com.shuyu.gsyvideoplayer.cache.CacheFactory
+import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.CURRENT_LENGTH
@@ -37,6 +39,8 @@ import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
+import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
 
 /**
  * @author: jun.liu
@@ -250,6 +254,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 设置播放器的基本功能
      */
     private fun setVideoPlayer() {
+        //EXOPlayer内核，支持格式更多
+        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
+        ////exo缓存模式，支持m3u8，只支持exo
+        CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
         videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
