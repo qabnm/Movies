@@ -133,10 +133,11 @@
         android:layout_centerVertical="true"
         android:visibility="invisible" />
 
-    <com.duoduovv.common.view.PlayView
+    <ImageView
         android:id="@+id/start"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:src="@drawable/player_play"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical" />
@@ -160,6 +161,6 @@
         android:layout_centerVertical="true"
         android:layout_marginRight="30dp"
         android:src="@drawable/unlock"
-        android:visibility="visible" />
+        android:visibility="gone" />
 
 </RelativeLayout>

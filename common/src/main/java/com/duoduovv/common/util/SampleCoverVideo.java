@@ -24,6 +24,7 @@ import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 
 import dc.android.tools.LiveDataBus;
+import moe.codeest.enviews.ENPlayView;
 
 /**
  * @author: jun.liu
@@ -268,6 +269,30 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
 
     public interface OnStartClickListener {
         void onStartClick();
+    }
+
+    @Override
+    protected void updateStartImage() {
+        if (mStartButton instanceof ENPlayView) {
+            ENPlayView enPlayView = (ENPlayView) mStartButton;
+            enPlayView.setDuration(500);
+            if (mCurrentState == CURRENT_STATE_PLAYING) {
+                enPlayView.play();
+            } else if (mCurrentState == CURRENT_STATE_ERROR) {
+                enPlayView.pause();
+            } else {
+                enPlayView.pause();
+            }
+        } else if (mStartButton instanceof ImageView) {
+            ImageView imageView = (ImageView) mStartButton;
+            if (mCurrentState == CURRENT_STATE_PLAYING) {
+                imageView.setImageResource(R.drawable.selector_player_pause);
+            } else if (mCurrentState == CURRENT_STATE_ERROR) {
+                imageView.setImageResource(R.drawable.video_click_error_selector);
+            } else {
+                imageView.setImageResource(R.drawable.selector_player_play);
+            }
+        }
     }
 
     private OnStartClickListener listener;
