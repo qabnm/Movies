@@ -104,8 +104,7 @@ class MovieDetailViewModel : BaseViewModel() {
             if (progress > 0) {
                 //首先查询数据库是否有当前影片 如果有了就执行update操作
                 val dataList =
-                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
-                        .queryAll()
+                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAll()
                 if (dataList.isNotEmpty()) {
                     var updateBean: VideoWatchHistoryBean? = null
                     for (i in dataList.indices) {
@@ -121,12 +120,27 @@ class MovieDetailViewModel : BaseViewModel() {
                         it.currentTime = System.currentTimeMillis()
                         WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
                             .update(it)
-                    } ?: also { insertHistory(detailBean, progress, movieId, vid, vidTitle, duration) }
+                    } ?: also {
+                        //最多保存100条观看记录
+                        if (dataList.size == 100) {
+                            WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().delete(dataList[0])
+                        }
+                        insertHistory(detailBean, progress, movieId, vid, vidTitle, duration)
+                    }
                 } else {
                     insertHistory(detailBean, progress, movieId, vid, vidTitle, duration)
                 }
             }
         }
+    }
+
+    /**
+     * 通过id查询影片
+     * @param movieId String
+     * @return VideoWatchHistoryBean
+     */
+    suspend fun queryMovieById(movieId: String) = withContext(Dispatchers.IO){
+        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryById(movieId)
     }
 
     /**

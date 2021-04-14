@@ -23,7 +23,7 @@ interface HistoryDao {
      * @return VideoWatchHistoryBean
      */
     @Query("select * from VideoWatchHistoryBean where movieId = (:id)")
-    fun queryById(id: String): VideoWatchHistoryBean
+    fun queryById(id: String): VideoWatchHistoryBean?
 
     /**
      * 插入数据

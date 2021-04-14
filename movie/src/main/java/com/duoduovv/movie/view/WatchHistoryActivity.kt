@@ -60,8 +60,7 @@ class WatchHistoryActivity : BridgeActivity() {
                 RouterPath.PATH_MOVIE_DETAIL
             }
             ARouter.getInstance().build(path)
-                .withString(ID, bean.movieId).withString(TYPE_ID, bean.vid)
-                .withLong(CURRENT_LENGTH, bean.currentLength.toLong()).navigation()
+                .withString(ID, bean.movieId).withString(TYPE_ID, bean.vid).navigation()
         }
     }
 

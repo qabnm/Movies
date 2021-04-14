@@ -271,6 +271,9 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         void onStartClick();
     }
 
+    /**
+     * 播放按钮逻辑
+     */
     @Override
     protected void updateStartImage() {
         if (mStartButton instanceof ENPlayView) {
@@ -293,6 +296,14 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
                 imageView.setImageResource(R.drawable.selector_player_play);
             }
         }
+    }
+
+    /**
+     * 全屏锁屏的逻辑 可以修改锁频的图片
+     */
+    @Override
+    protected void lockTouchLogic() {
+        super.lockTouchLogic();
     }
 
     private OnStartClickListener listener;

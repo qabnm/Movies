@@ -11,7 +11,6 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SampleCoverVideo
-import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.*
@@ -25,7 +24,6 @@ import com.shuyu.gsyvideoplayer.cache.CacheFactory
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import dc.android.bridge.BridgeContext
-import dc.android.bridge.BridgeContext.Companion.CURRENT_LENGTH
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
@@ -70,8 +68,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var videoHeight = 0
     private var navHeight = 0
     private var realHeight = 0
+    private var vidByQuery = ""
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
-        super.setLayout(false, ContextCompat.getColor(this,R.color.color000000))
+        super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
 
     override fun initView() {
@@ -106,10 +105,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         override fun onPrepared(url: String?, vararg objects: Any?) {
             super.onPrepared(url, *objects)
             orientationUtils?.isEnable = videoPlayer.isRotateWithSystem
-            if (currentLength > 0) {
+            if (currentLength > 0 && vidByQuery == vid) {
                 videoPlayer.seekTo(currentLength)
-                currentLength = 0
             }
+            currentLength = 0
         }
 
         override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
@@ -177,76 +176,96 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 videoPlayer.setStartClick(1)
                 videoPlayer.setUp(playList[0].url, true, "")
                 //如果是可播放的直接播放
-                if (way == WAY_RELEASE) videoPlayer.startPlayLogic()
+//                if (way == WAY_RELEASE) videoPlayer.startPlayLogic()
             }
         }
     }
 
     override fun initData() {
         showLoading()
-        currentLength = intent.getLongExtra(CURRENT_LENGTH, 0)
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
     }
 
     private fun setData(detailBean: MovieDetailBean?) {
+        //查询视频详情
         dismissLoading()
         this.detailBean = detailBean
         if (detailBean == null) return
         movieId = detailBean.movie.str_id
         way = detailBean.way
         title = detailBean.movie.vod_name
-        //视频信息
-        videoPlayer.loadCoverImage(detailBean.movie.cover_url, R.drawable.back_white)
-        if (null == detailAdapter) {
-            detailAdapter = MovieDetailAdapter(this, detailBean = detailBean)
-            detailAdapter?.setOnViewClick(this)
-            rvList.adapter = detailAdapter
-        } else {
-            detailAdapter?.notifyDataChange(detailBean)
-        }
-        val list = detailBean.movieItems
-        //默认播放第一集
-        if (list.isNotEmpty()) {
-            if (!hasClickRecommend) {
-                if (StringUtils.isEmpty(vid)) {
-                    detailBean.movieItems[0].isSelect = true
-                    vidTitle = detailBean.movieItems[0].title
-                } else {
-                    for (i in list.indices) {
-                        if (vid == list[i].vid) {
-                            detailBean.movieItems[i].isSelect = true
-                            vidTitle = detailBean.movieItems[i].title
-                        }
-                    }
+        if (way == WAY_RELEASE) queryMovieById(movieId)
+    }
+
+    /**
+     * 通过id查询影片
+     * @param movieId String
+     * @return String
+     */
+    private fun queryMovieById(movieId: String) {
+        GlobalScope.launch(Dispatchers.Main) {
+            val bean = viewModel.queryMovieById(movieId)
+            bean?.let {
+                if (it.movieId == movieId) {
+                    vid = it.vid
+                    vidByQuery = it.vid
+                    currentLength = it.currentLength.toLong()
                 }
-            } else {
-                detailBean.movieItems[0].isSelect = true
-                vidTitle = detailBean.movieItems[0].title
             }
-            detailAdapter?.notifyItemChanged(0)
-            if (way == WAY_RELEASE) {
-                //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
+            //视频信息
+            videoPlayer.loadCoverImage(detailBean!!.movie.cover_url, R.drawable.back_white)
+            if (null == detailAdapter) {
+                detailAdapter =
+                    MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
+                detailAdapter?.setOnViewClick(this@MovieDetailActivity)
+                rvList.adapter = detailAdapter
+            } else {
+                detailAdapter?.notifyDataChange(detailBean!!)
+            }
+            val list = detailBean!!.movieItems
+            //默认播放第一集
+            if (list.isNotEmpty()) {
                 if (!hasClickRecommend) {
                     if (StringUtils.isEmpty(vid)) {
-                        vid = list[0].vid
+                        detailBean!!.movieItems[0].isSelect = true
+                        vidTitle = detailBean!!.movieItems[0].title
+                    } else {
+                        for (i in list.indices) {
+                            if (vid == list[i].vid) {
+                                detailBean!!.movieItems[i].isSelect = true
+                                vidTitle = detailBean!!.movieItems[i].title
+                            }
+                        }
                     }
                 } else {
-                    vid = list[0].vid
+                    detailBean!!.movieItems[0].isSelect = true
+                    vidTitle = detailBean!!.movieItems[0].title
                 }
-                viewModel.moviePlayInfo(vid, movieId)
-            } else if (way == BridgeContext.WAY_H5) {
-                //如果是H5版本
-                videoPlayer.setStartClick(0)
-                val urlList = detailBean.playUrls
-                if (urlList?.isNotEmpty() == true) playUrl = urlList[0].url
+                detailAdapter?.notifyItemChanged(0)
+                if (way == WAY_RELEASE) {
+                    //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
+                    if (!hasClickRecommend) {
+                        if (StringUtils.isEmpty(vid)) {
+                            vid = list[0].vid
+                        }
+                    } else {
+                        vid = list[0].vid
+                    }
+                    viewModel.moviePlayInfo(vid, movieId)
+                } else if (way == BridgeContext.WAY_H5) {
+                    //如果是H5版本
+                    videoPlayer.setStartClick(0)
+                    val urlList = detailBean!!.playUrls
+                    if (urlList?.isNotEmpty() == true) playUrl = urlList[0].url
+                }
             }
-        }
-        //更新收藏状态
-        GlobalScope.launch(Dispatchers.Main) {
-            val collectionBean = viewModel.queryCollectionById(detailBean.movie.id)
+            //更新收藏状态
+//            GlobalScope.launch(Dispatchers.Main) {
+            val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
             detailAdapter?.notifyCollectionChange(collectionBean)
+//            }
         }
     }
 
@@ -256,7 +275,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun setVideoPlayer() {
         //EXOPlayer内核，支持格式更多
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
-        ////exo缓存模式，支持m3u8，只支持exo
+        //exo缓存模式，支持m3u8，只支持exo
         CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
         videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
