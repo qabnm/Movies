@@ -31,9 +31,9 @@
                 android:layout_width="@dimen/dp_105"
                 android:layout_height="@dimen/dp_140"
                 android:scaleType="centerCrop"
+                android:src="@drawable/movie_default"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                android:src="@drawable/movie_default"
                 app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
 
             <com.duoduovv.common.view.MediumBoldTextView
@@ -42,12 +42,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/dp_15"
                 android:includeFontPadding="false"
+                android:lines="1"
+                android:paddingRight="@dimen/dp_15"
                 android:textColor="@color/colorFFFFFF"
                 android:textSize="@dimen/sp_18"
-                android:lines="1"
                 app:layout_constraintLeft_toRightOf="@+id/imgCover"
                 app:layout_constraintRight_toRightOf="parent"
-                android:paddingRight="@dimen/dp_15"
                 app:layout_constraintTop_toTopOf="@+id/imgCover"
                 tools:text="起跑线起跑线起跑线" />
 
@@ -95,11 +95,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_5"
+                android:ellipsize="end"
                 android:includeFontPadding="false"
+                android:maxLines="2"
                 android:textColor="#A0A6B1"
                 android:textSize="@dimen/sp_12"
-                android:maxLines="2"
-                android:ellipsize="end"
                 app:layout_constraintLeft_toLeftOf="@+id/tvName"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDirector"
@@ -149,9 +149,9 @@
                 android:layout_marginTop="@dimen/dp_25"
                 android:includeFontPadding="false"
                 android:text="演职员"
-                android:visibility="invisible"
                 android:textColor="@color/colorFFFFFF"
                 android:textSize="@dimen/sp_18"
+                android:visibility="invisible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvDetail" />
 
@@ -171,9 +171,9 @@
                 android:layout_marginTop="@dimen/dp_25"
                 android:includeFontPadding="false"
                 android:text="剧照"
-                android:visibility="invisible"
                 android:textColor="@color/colorFFFFFF"
                 android:textSize="@dimen/sp_18"
+                android:visibility="invisible"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/rvListActor" />
 
@@ -185,6 +185,11 @@
                 android:scrollbars="none"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvJuZhao" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_20"
+                app:layout_constraintTop_toBottomOf="@id/rvList" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -2,6 +2,7 @@ package com.duoduovv.cinema.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -18,6 +19,7 @@ import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_cinema.*
@@ -48,6 +50,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val columns = result?.columns
             initFragment(columns)
             SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way)
+            imgHistory.visibility = if (result?.way == WAY_VERIFY) View.INVISIBLE else View.VISIBLE
             hotList = result?.hotSearch
             BaseApplication.hotList = hotList
             this.bean = result?.version

@@ -56,10 +56,12 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             layoutShare.setOnClickListener {
             }
             layoutContainer.visibility = View.VISIBLE
+            vLine.visibility = View.VISIBLE
         } else {
             //审核版
             layoutIsRes.visibility = View.GONE
             layoutContainer.visibility = View.GONE
+            vLine.visibility = View.GONE
         }
 
         layoutContract.setOnClickListener {

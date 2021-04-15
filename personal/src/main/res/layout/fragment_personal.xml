@@ -180,6 +180,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/vLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_10"
             android:background="@color/colorF2F2F2" />
