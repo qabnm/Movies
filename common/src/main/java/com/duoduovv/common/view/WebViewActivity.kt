@@ -1,5 +1,6 @@
 package com.duoduovv.common.view
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -19,6 +20,7 @@ import kotlinx.android.synthetic.main.activity_web_view.*
 class WebViewActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_web_view
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun initView() {
         val title = intent.getStringExtra(BridgeContext.TITLE)
         val loadUrl = intent.getStringExtra(BridgeContext.URL) ?: ""
@@ -28,7 +30,7 @@ class WebViewActivity : BridgeActivity() {
             settings.javaScriptEnabled = true
             settings.setSupportZoom(false)
             settings.builtInZoomControls = false
-            this.webChromeClient = webChromeClient1
+            webChromeClient = webChromeClient1
         }
     }
 
