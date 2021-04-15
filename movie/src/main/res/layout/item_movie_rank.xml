@@ -10,33 +10,35 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgCover"
-        android:layout_width="@dimen/dp_82"
+        android:layout_width="@dimen/dp_90"
         android:layout_height="@dimen/dp_115"
-        app:layout_constraintLeft_toLeftOf="parent"
         android:scaleType="centerCrop"
-        app:shapeAppearanceOverlay="@style/StyleShapeRounder3"
+        android:src="@drawable/movie_default"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:background="@color/color666666" />
+        app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
 
-    <com.junliu.common.view.RoundCornerLayout
-        android:id="@+id/layoutRound"
-        android:layout_width="@dimen/dp_18"
-        android:layout_height="@dimen/dp_18"
+    <com.google.android.material.imageview.ShapeableImageView
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_50"
+        android:background="@drawable/gradual_img_cover"
+        app:layout_constraintLeft_toLeftOf="@id/imgCover"
+        app:layout_constraintRight_toRightOf="@+id/imgCover"
+        app:layout_constraintBottom_toBottomOf="@+id/imgCover"
+        app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
+
+    <TextView
+        android:id="@+id/tvRank"
+        android:layout_width="@dimen/dp_16"
+        android:layout_height="@dimen/dp_19"
         android:layout_marginLeft="@dimen/dp_10"
+        android:textColor="@color/colorFFFFFF"
+        android:textSize="@dimen/sp_13"
+        android:includeFontPadding="false"
+        android:gravity="center"
+        android:background="@drawable/movie_rank_first"
         app:layout_constraintLeft_toRightOf="@+id/imgCover"
-        app:layout_constraintTop_toTopOf="@+id/imgCover"
-        app:radius="@dimen/dp_9"
-        app:solidColor="@color/color567CE7">
-
-        <TextView
-            android:id="@+id/tvRank"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="1"
-            android:textColor="@color/colorFFFFFF"
-            android:textSize="@dimen/sp_14" />
-    </com.junliu.common.view.RoundCornerLayout>
+        app:layout_constraintTop_toTopOf="@+id/imgCover" />
 
     <TextView
         android:id="@+id/tvName"
@@ -48,7 +50,7 @@
         android:lines="1"
         android:textColor="@color/color333333"
         android:textSize="@dimen/sp_15"
-        app:layout_constraintLeft_toRightOf="@+id/layoutRound"
+        app:layout_constraintLeft_toRightOf="@+id/tvRank"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@+id/imgCover"
         tools:text="末日之战" />
@@ -61,7 +63,7 @@
         android:includeFontPadding="false"
         android:textColor="@color/color666666"
         android:textSize="@dimen/sp_12"
-        app:layout_constraintLeft_toLeftOf="@+id/layoutRound"
+        app:layout_constraintLeft_toLeftOf="@+id/tvRank"
         app:layout_constraintTop_toBottomOf="@+id/tvName"
         tools:text="2019 | 电视剧 | 日本 | 日语" />
 
@@ -70,10 +72,12 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_8"
+        android:ellipsize="end"
         android:includeFontPadding="false"
+        android:maxLines="2"
         android:textColor="@color/color666666"
         android:textSize="@dimen/sp_12"
-        app:layout_constraintLeft_toLeftOf="@+id/layoutRound"
+        app:layout_constraintLeft_toLeftOf="@+id/tvRank"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvTime"
         tools:text="主演：刘烨  马伊琍  梅婷  保剑锋  曾黎  刘烨" />
@@ -86,7 +90,7 @@
         android:includeFontPadding="false"
         android:textColor="@color/color666666"
         android:textSize="@dimen/sp_12"
-        app:layout_constraintLeft_toLeftOf="@+id/layoutRound"
+        app:layout_constraintLeft_toLeftOf="@+id/tvRank"
         app:layout_constraintTop_toBottomOf="@+id/tvMainActor"
         tools:text="导演：陈昆晖" />
 
@@ -94,10 +98,11 @@
         android:id="@+id/tvScore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_5"
+        android:layout_marginBottom="@dimen/dp_5"
+        android:includeFontPadding="false"
         android:textColor="#FF5E17"
-        android:textSize="@dimen/sp_12"
+        android:textSize="@dimen/sp_11"
         app:layout_constraintBottom_toBottomOf="@+id/imgCover"
         app:layout_constraintRight_toRightOf="@+id/imgCover"
         tools:text="9.6" />

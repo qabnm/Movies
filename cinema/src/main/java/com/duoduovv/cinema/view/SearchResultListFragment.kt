@@ -1,0 +1,155 @@
+package com.duoduovv.cinema.view
+
+import android.os.Parcelable
+import android.view.View
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.cinema.CinemaContext
+import com.duoduovv.cinema.CinemaContext.Companion.KEY_WORD
+import com.duoduovv.cinema.R
+import com.duoduovv.cinema.adapter.SearchResultListAdapter
+import com.duoduovv.cinema.bean.MovieItem
+import com.duoduovv.cinema.bean.SearchResultList
+import com.duoduovv.cinema.viewmodel.SearchResultViewModel
+import com.duoduovv.common.util.RouterPath
+import com.duoduovv.common.util.SharedPreferencesHelper
+import com.scwang.smart.refresh.footer.ClassicsFooter
+import com.scwang.smart.refresh.header.ClassicsHeader
+import com.scwang.smart.refresh.layout.api.RefreshLayout
+import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.TYPE_ID
+import dc.android.bridge.view.BaseViewModelFragment
+import kotlinx.android.synthetic.main.fragment_search_result_list.*
+import kotlinx.android.synthetic.main.layout_search_empty.*
+import java.util.ArrayList
+
+/**
+ * @author: jun.liu
+ * @date: 2021/1/8 16:59
+ * @des:搜索结果的列表页
+ */
+class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
+    SearchResultListAdapter.OnItemClickListener, OnRefreshListener, OnLoadMoreListener {
+    private var resultAdapter: SearchResultListAdapter? = null
+    override fun providerVMClass() = SearchResultViewModel::class.java
+
+    override fun getLayoutId() = R.layout.fragment_search_result_list
+    private var typeId = ""
+    private var keyWord = ""
+    private var page = 1
+    private var vid = ""
+
+    override fun initView() {
+        resultAdapter = null
+        viewModel.getSearchResult().observe(this, { setData(viewModel.getSearchResult().value) })
+        viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
+        rvList.layoutManager = LinearLayoutManager(requireActivity())
+        refreshLayout.apply {
+            setRefreshHeader(ClassicsHeader(requireActivity()))
+            setRefreshFooter(ClassicsFooter(requireActivity()))
+            setOnRefreshListener(this@SearchResultListFragment)
+            setOnLoadMoreListener(this@SearchResultListFragment)
+        }
+    }
+
+    private fun setData(dataList: List<SearchResultList>?) {
+        dismissLoading()
+        if (dataList?.isNotEmpty() == true) {
+            layoutEmpty.visibility = View.GONE
+            refreshLayout.visibility = View.VISIBLE
+            if (null == resultAdapter) {
+                resultAdapter = SearchResultListAdapter(dataList, requireActivity(), this)
+                rvList.adapter = resultAdapter
+            } else {
+                resultAdapter?.notifyDataChanged(dataList)
+            }
+        } else {
+            layoutEmpty.visibility = View.VISIBLE
+            refreshLayout.visibility = View.GONE
+        }
+        finishLoading()
+    }
+
+    override fun finishLoading() {
+        if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
+        if (refreshLayout.isLoading) refreshLayout.finishLoadMore()
+    }
+
+    override fun initData() {
+        showLoading()
+        typeId = arguments?.getString(ID, "") ?: ""
+        keyWord = arguments?.getString(KEY_WORD, "") ?: ""
+        viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
+    }
+
+    /**
+     * 跳转详情页面
+     * @param movieId String
+     */
+    override fun onItemClick(movieId: String, way: Int) {
+        val path = if (way == BridgeContext.WAY_VERIFY) {
+            RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
+        } else {
+            RouterPath.PATH_MOVIE_DETAIL
+        }
+        ARouter.getInstance().build(path)
+            .withString(ID, movieId).withString(TYPE_ID, vid).navigation()
+    }
+
+    /**
+     * 点击了选集
+     * @param vid String
+     */
+    override fun onSelectClick(vid: String, movieId: String, way: Int) {
+        this.vid = vid
+        onItemClick(movieId, way)
+    }
+
+    /**
+     * 更多选集
+     * @param dataList List<MovieItem>
+     */
+    override fun onMoreSelectClick(
+        dataList: List<MovieItem>,
+        movieId: String,
+        title: String,
+        way: Int,
+        movieFlag: String
+    ) {
+        ARouter.getInstance().build(RouterPath.PATH_SEARCH_MORE_SELECT)
+            .withString(BridgeContext.TITLE, title).withString(ID, movieId)
+            .withParcelableArrayList(BridgeContext.LIST, dataList as ArrayList<out Parcelable>)
+            .withInt(BridgeContext.WAY, way)
+            .withString(BridgeContext.FLAG, movieFlag)
+            .navigation()
+    }
+
+    override fun onRefresh(refreshLayout: RefreshLayout) {
+        page = 1
+        refreshLayout.resetNoMoreData()
+        viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
+    }
+
+    override fun onLoadMore(refreshLayout: RefreshLayout) {
+        page++
+        viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
+    }
+
+    /**
+     * 没有更多数据
+     * @param flag String?
+     */
+    private fun noMoreData(flag: String?) {
+        if (BridgeContext.NO_MORE_DATA == flag) {
+            //没有更多数据了
+            dismissLoading()
+            refreshLayout.apply {
+                finishLoadMoreWithNoMoreData()
+                setNoMoreData(true)
+            }
+        }
+    }
+}

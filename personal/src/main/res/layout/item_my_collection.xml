@@ -23,20 +23,20 @@
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgCover"
-        android:layout_width="@dimen/dp_120"
-        android:layout_height="@dimen/dp_68"
+        android:layout_width="@dimen/dp_80"
+        android:layout_height="@dimen/dp_80"
         android:scaleType="centerCrop"
         app:layout_constraintLeft_toRightOf="@+id/imgSelect"
         app:layout_constraintTop_toTopOf="parent"
         app:shapeAppearanceOverlay="@style/StyleShapeRounder3"
-        tools:background="@color/color567CE7" />
+        android:src="@drawable/movie_default"/>
 
     <TextView
         android:id="@+id/tvName"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginTop="@dimen/dp_13"
+        android:layout_marginTop="@dimen/dp_16"
         android:ellipsize="end"
         android:includeFontPadding="false"
         android:lines="1"
@@ -52,9 +52,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/dp_14"
-        android:ellipsize="end"
         android:includeFontPadding="false"
-        android:lines="1"
         android:textColor="@color/color666666"
         android:textSize="@dimen/sp_11"
         app:layout_constraintLeft_toLeftOf="@+id/tvName"

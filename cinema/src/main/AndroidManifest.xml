@@ -1,12 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.junliu.cinema">
+    package="com.duoduovv.cinema">
 
     <application>
 
         <activity android:name=".view.SearchActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.TestActivity"
+        <activity android:name=".view.SearchMoreSelectActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.RecommendActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

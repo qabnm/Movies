@@ -1,14 +1,13 @@
 package dc.android.bridge.view
 
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.duoduovv.common.component.LoadingDialogFragment
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
 import dc.android.bridge.BridgeContext.Companion.NETWORK_ERROR
 import dc.android.bridge.BridgeContext.Companion.RUNTIME_ERROR
-import dc.android.bridge.BridgeContext.Companion.TOKEN_ERROR
-import dc.android.bridge.util.LoggerSnack
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseViewModel
+import dc.android.bridge.util.AndroidUtils
 import retrofit2.HttpException
 import java.net.ConnectException
 import java.net.SocketTimeoutException
@@ -23,20 +22,19 @@ import java.net.UnknownHostException
 open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     protected lateinit var viewModel: VM
     open fun providerVMClass(): Class<VM>? = null
+    private var loadingDialog: LoadingDialogFragment? = null
 
     override fun initVM() {
         providerVMClass()?.let {
-            viewModel = ViewModelProvider(
-                requireActivity(),
-                ViewModelProvider.AndroidViewModelFactory.getInstance(requireActivity().application)
-            ).get(it)
+            viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
+        loadingDialog = LoadingDialogFragment()
     }
 
     override fun startObserve() {
         viewModel.run {
-            getException().observe(requireActivity(), Observer { requestError(it) })
+            getException().observe(this@BaseViewModelFragment, { requestError(it) })
         }
     }
 
@@ -45,26 +43,45 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
      */
     open fun requestError(throwable: Throwable?) {
         throwable?.let {
+            dismissLoading()
             when (it) {
                 is UnknownHostException -> showError(NETWORK_ERROR)
                 is SocketTimeoutException -> showError(NETWORK_ERROR)
                 is ConnectException -> showError(CONNECTION_ERROR)
-                is HttpException -> showError("${it.code()}${it.message()}")
+                is HttpException -> showError("服务繁忙，请稍后再试")
+                is IllegalStateException -> showError("数据解析异常")
                 is RuntimeException -> showError(RUNTIME_ERROR)
-                is BaseRepository.TokenException -> showError(TOKEN_ERROR)
+                is BaseRepository.TokenException -> tokenValid()
                 is BaseRepository.ParameterException -> parameterError(it.message.toString())
                 else -> showError(it.message)
             }
         }
     }
 
+    /**
+     * token过期
+     */
+    open fun tokenValid() {}
+
+    open fun showLoading() {
+        loadingDialog?.showNow(childFragmentManager, "loading")
+    }
+
+    open fun dismissLoading() {
+        if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
+    }
+
     open fun showError(errMsg: String?) {
-        LoggerSnack.show(requireActivity(), errMsg)
+        AndroidUtils.toast(errMsg, requireActivity())
+        finishLoading()
     }
 
     private fun parameterError(msg: String) {
-        LoggerSnack.show(requireActivity(), msg)
+        AndroidUtils.toast(msg, requireActivity())
+        finishLoading()
     }
+
+    open fun finishLoading() {}
 
     override fun onDestroy() {
         super.onDestroy()

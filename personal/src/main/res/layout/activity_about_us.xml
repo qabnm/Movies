@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorF2F2F2"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <com.duoduovv.common.view.TopBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        android:background="@color/colorFFFFFF"
+        app:contentTitle="关于我们" />
+
+    <ImageView
+        android:id="@+id/imgIcon"
+        android:layout_width="@dimen/dp_60"
+        android:layout_height="@dimen/dp_60"
+        android:layout_marginTop="@dimen/dp_80"
+        android:src="@drawable/person_icon_start" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_8"
+        android:layout_marginBottom="@dimen/dp_70"
+        android:includeFontPadding="false"
+        android:text="多多影视大全"
+        android:textColor="@color/color262828"
+        android:textSize="@dimen/sp_14" />
+
+    <LinearLayout
+        android:id="@+id/layoutUserAgreement"
+        style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="用户协议" />
+
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+
+    <View style="@style/centerIconLine" />
+
+    <LinearLayout
+        android:id="@+id/layoutPrivacy"
+        style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="隐私政策" />
+
+        <ImageView style="@style/centerMoreInfo" />
+    </LinearLayout>
+
+    <View style="@style/centerIconLine" />
+
+    <LinearLayout
+        android:id="@+id/layoutCheck"
+        style="@style/centerLinear">
+
+        <TextView
+            style="@style/commonText"
+            android:text="检查版本" />
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/color999999"
+            android:textSize="@dimen/sp_13"
+            tools:text="1.0.2" />
+
+        <View
+            android:id="@+id/vDot"
+            android:layout_width="@dimen/dp_8"
+            android:layout_height="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:background="@drawable/shape_raidus10_solid_ff0000"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/vLine"
+        style="@style/centerIconLine"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/layoutWhere"
+        style="@style/centerLinear"
+        android:visibility="gone">
+
+        <TextView
+            style="@style/commonText"
+            android:text="当前渠道" />
+
+        <TextView
+            android:id="@+id/tvWhere"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/color999999"
+            android:textSize="@dimen/sp_13"
+            tools:text="huawei" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutDebug"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_50"
+        android:visibility="gone"
+        android:background="@color/colorAccent"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etInput"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@null"
+            android:inputType="number"
+            android:textColorHint="@color/colorFFFFFF"
+            android:hint="输入：1正式可播放，2正式跳H5，3审核版本"
+            android:paddingLeft="@dimen/dp_12"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_14" />
+
+        <TextView
+            android:id="@+id/tvSure"
+            android:layout_width="@dimen/dp_80"
+            android:layout_height="match_parent"
+            android:background="@color/color567CE7"
+            android:gravity="center"
+            android:text="确定"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_15" />
+    </LinearLayout>
+</LinearLayout>

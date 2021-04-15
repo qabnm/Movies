@@ -4,17 +4,26 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.graphics.Point;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.inputmethod.InputMethodManager;
 
-import com.junliu.common.BaseApplication;
+import com.duoduovv.common.BaseApplication;
+import com.duoduovv.room.domain.VideoWatchHistoryBean;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * @author: jun.liu
@@ -33,6 +42,7 @@ public class OsUtils {
             return false;
         }
     }
+
     /**
      * 判断App是否是Debug版本
      *
@@ -74,6 +84,7 @@ public class OsUtils {
 
     /**
      * 隐藏软键盘
+     *
      * @param context
      */
     public static void hideKeyboard(Activity context) {
@@ -97,21 +108,27 @@ public class OsUtils {
         return statusBarHeight;
     }
 
-    public static int dip2px(Context context, float dipValue){
+    public static int dip2px(Context context, float dipValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(dipValue * scale + 0.5f);
+        return (int) (dipValue * scale + 0.5f);
     }
-    public static int px2dip(Context context, float pxValue){
+
+    public static int px2dip(Context context, float pxValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int)(pxValue / scale + 0.5f);
+        return (int) (pxValue / scale + 0.5f);
     }
 
     public static int getScreenWidth(Context context) {
         return context.getResources().getDisplayMetrics().widthPixels;
     }
 
+    public static int getScreenHeight(Context context) {
+        return context.getResources().getDisplayMetrics().heightPixels;
+    }
+
     /**
      * 获取屏幕显示的真实高度
+     *
      * @param activity
      * @return
      */
@@ -119,5 +136,50 @@ public class OsUtils {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
         return displayMetrics.heightPixels;
+    }
+
+    public static int getNavigationBarHeight(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        Point realSize = new Point();
+        display.getSize(size);
+        display.getRealSize(realSize);
+        Resources resources = activity.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        //超出系统默认的导航栏高度以上，则认为存在虚拟导航
+        if ((realSize.y - size.y) > (height - 10)) {
+            return height;
+        }
+        return 0;
+    }
+
+    public static int getVerCode(Context context) {
+        try {
+            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionCode;
+        } catch (Exception e) {
+            return -1;
+        }
+    }
+
+    public static String getVerName(Context context) {
+        try {
+            return context.getPackageManager().getPackageInfo(context.getPackageName(), 0).versionName;
+        } catch (Exception e) {
+            return "-1";
+        }
+    }
+
+    private static long lastClickTime = 0;
+    private static final int CLICK_TIME = 500; //快速点击间隔时间
+
+    // 判断按钮是否快速点击
+    public static boolean isFastClick() {
+        long time = System.currentTimeMillis();
+        if (time - lastClickTime < CLICK_TIME) {//判断系统时间差是否小于点击间隔时间
+            return true;
+        }
+        lastClickTime = time;
+        return false;
     }
 }

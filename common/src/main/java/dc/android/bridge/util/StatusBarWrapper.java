@@ -9,9 +9,8 @@ import android.widget.FrameLayout;
 import androidx.annotation.RequiresApi;
 
 
-import com.junliu.common.R;
+import com.duoduovv.common.R;
 
-import dc.android.bridge.util.OsUtils;
 import dc.android.bridge.view.BaseActivity;
 
 
@@ -23,7 +22,7 @@ import dc.android.bridge.view.BaseActivity;
 public class StatusBarWrapper {
     private boolean isDark;
     private BaseActivity activity;
-    protected boolean FLAG_BAR_NAV;
+    protected boolean FLAG_BAR_NAV = true;
     protected FrameLayout layoutContent;
     protected View vStatusBar;
     private boolean showBarView = true;
@@ -152,5 +151,9 @@ public class StatusBarWrapper {
 
     public void showStatusBarView(boolean showBarView){
         this.showBarView = showBarView;
+    }
+
+    public void setStatusBarVisible(int visible){
+        vStatusBar.setVisibility(visible);
     }
 }

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_radius3_solid_ffffff"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/dp_25"
+        android:layout_marginBottom="@dimen/dp_25"
+        android:includeFontPadding="false"
+        android:text="用户隐私政策"
+        android:textColor="@color/color262828"
+        android:textSize="@dimen/sp_18" />
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingMultiplier="1.1"
+        android:paddingLeft="@dimen/dp_12"
+        android:paddingRight="@dimen/dp_12"
+        android:text="感谢您选择多多影视大全App！我们非常重视您的个人信息和隐私保护。为了更好的保障您的个人权益，在您使用我们的产品前，请务必审慎阅读《多多影视大全用户协议》和《多多影视大全隐私政策》内的所有条款，尤其是：\n1、我们对您的个人信息的收集/保存/使用/保护等规则条款；\n2、约定我们的限制责任，免责条款；\n3、其他以颜色加粗进行标识的重要条款。\n\n如您点击”同意”的行为即表示您已阅读完毕并同意以上协议的全部内容。\n如您同意以上协议内容，请点击“同意”，开始使用我们的产品和服务！"
+        android:textColor="@color/color262828"
+        android:textSize="@dimen/sp_15" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:layout_marginTop="@dimen/dp_25"
+        android:background="@color/colorE5E5E5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_48"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvCancel"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="暂不同意"
+            android:textColor="@color/color262828"
+            android:textSize="@dimen/sp_15" />
+
+        <View
+            android:layout_width="@dimen/dp_0_5"
+            android:layout_height="match_parent"
+            android:background="@color/colorE5E5E5" />
+
+        <TextView
+            android:id="@+id/tvSure"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="同意"
+            android:textColor="@color/color567CE7"
+            android:textSize="@dimen/sp_15" />
+    </LinearLayout>
+</LinearLayout>

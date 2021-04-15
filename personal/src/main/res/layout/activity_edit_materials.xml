@@ -8,7 +8,7 @@
     android:background="@color/colorFFFFFF"
     tools:ignore="MissingDefaultResource">
 
-    <com.junliu.common.view.TopBarLayout
+    <com.duoduovv.common.view.TopBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
         app:contentTitle="编辑资料" />
@@ -33,9 +33,10 @@
             android:layout_width="@dimen/dp_33"
             android:layout_height="@dimen/dp_33"
             android:scaleType="centerCrop"
-            android:src="@drawable/center_icon"
+            tools:src="@drawable/center_icon"
             app:shapeAppearanceOverlay="@style/StyleShapeAppearanceImage" />
-        <ImageView style="@style/centerMoreInfo" />
+        <ImageView style="@style/centerMoreInfo"
+            android:visibility="gone"/>
     </LinearLayout>
     <View style="@style/centerIconLine" />
 
@@ -48,9 +49,9 @@
             android:text="昵称" />
         <TextView
             android:id="@+id/tvNickName"
-            android:text="请选择"
             style="@style/centerRightText"/>
-        <ImageView style="@style/centerMoreInfo" />
+        <ImageView style="@style/centerMoreInfo"
+            android:visibility="gone"/>
     </LinearLayout>
 
     <View style="@style/centerIconLine" />
@@ -63,9 +64,9 @@
             android:text="性别" />
         <TextView
             android:id="@+id/tvSex"
-            android:text="请选择"
             style="@style/centerRightText"/>
-        <ImageView style="@style/centerMoreInfo" />
+        <ImageView style="@style/centerMoreInfo"
+            android:visibility="gone"/>
     </LinearLayout>
     <View style="@style/centerIconLine" />
 
@@ -78,9 +79,9 @@
             android:text="所在地" />
         <TextView
             android:id="@+id/tvWhere"
-            android:text="请选择"
             style="@style/centerRightText"/>
-        <ImageView style="@style/centerMoreInfo" />
+        <ImageView style="@style/centerMoreInfo"
+            android:visibility="gone"/>
     </LinearLayout>
     <View style="@style/centerIconLine" />
 
@@ -93,9 +94,9 @@
             android:text="生日" />
         <TextView
             android:id="@+id/tvBirthday"
-            android:text="请选择"
             style="@style/centerRightText"/>
-        <ImageView style="@style/centerMoreInfo" />
+        <ImageView style="@style/centerMoreInfo"
+            android:visibility="gone"/>
     </LinearLayout>
     <View style="@style/centerIconLine" />
 
@@ -108,9 +109,9 @@
             android:text="个性签名" />
         <TextView
             android:id="@+id/tvSign"
-            android:text="请选择"
             style="@style/centerRightText"/>
-        <ImageView style="@style/centerMoreInfo" />
+        <ImageView style="@style/centerMoreInfo"
+            android:visibility="gone"/>
     </LinearLayout>
     <View
         android:layout_width="match_parent"

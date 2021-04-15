@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/dp_25">
+    android:paddingTop="@dimen/dp_20">
 
-    <TextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvRecommend"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -17,16 +17,16 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvMore" />
 
-    <TextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvMore"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:drawableRight="@drawable/more_icon"
-        android:paddingTop="@dimen/dp_14"
-        android:paddingBottom="@dimen/dp_14"
         android:text="查看更多"
         android:textColor="@color/color000000"
         android:textSize="@dimen/sp_11"
+        android:paddingBottom="@dimen/dp_3"
+        android:paddingTop="@dimen/dp_3"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -34,12 +34,11 @@
         android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_6"
         android:scrollbars="none"
+        android:layout_marginTop="@dimen/dp_12"
         app:layout_constraintTop_toBottomOf="@+id/tvMore" />
 
-    <TextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvChange"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -48,6 +47,7 @@
         android:paddingRight="@dimen/dp_10"
         android:paddingBottom="@dimen/dp_10"
         android:text="换一换"
+        android:visibility="gone"
         android:textColor="@color/color567CE7"
         android:textSize="@dimen/sp_12"
         app:layout_constraintLeft_toLeftOf="parent"

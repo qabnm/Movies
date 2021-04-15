@@ -6,13 +6,13 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal">
 
-    <com.junliu.common.view.MediumBoldTextView
+    <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvEpisodes"
         android:layout_width="@dimen/dp_55"
         android:layout_height="@dimen/dp_55"
         android:background="@drawable/shape_radius28_solid_f3f4f8"
         android:gravity="center"
-        android:textColor="@color/color009CFF"
+        android:textColor="@color/color000000"
         android:textSize="@dimen/sp_16"
         tools:text="1" />
 

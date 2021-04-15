@@ -50,5 +50,10 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">@dimen/dp_3</item>
     </style>
+    
+    <style name="BottomToTopAnim">
+        <item name="android:windowEnterAnimation">@anim/dialog_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/dialog_top_out</item>
+    </style>
 
 </resources>

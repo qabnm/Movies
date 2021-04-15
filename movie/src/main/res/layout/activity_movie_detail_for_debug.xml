@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_movie_detail"
+    android:orientation="vertical">
+
+    <com.duoduovv.common.view.TopBarLayout
+        android:id="@+id/layoutTopBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_44"
+        app:backSrc="@drawable/back_white"
+        app:contentTextColor="@color/colorFFFFFF"
+        app:contentTitle="影视详情" />
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_10">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/imgCover"
+                android:layout_width="@dimen/dp_105"
+                android:layout_height="@dimen/dp_140"
+                android:scaleType="centerCrop"
+                android:src="@drawable/movie_default"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
+
+            <com.duoduovv.common.view.MediumBoldTextView
+                android:id="@+id/tvName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/dp_15"
+                android:includeFontPadding="false"
+                android:lines="1"
+                android:paddingRight="@dimen/dp_15"
+                android:textColor="@color/colorFFFFFF"
+                android:textSize="@dimen/sp_18"
+                app:layout_constraintLeft_toRightOf="@+id/imgCover"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/imgCover"
+                tools:text="起跑线起跑线起跑线" />
+
+            <TextView
+                android:id="@+id/tvType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_12"
+                android:includeFontPadding="false"
+                android:textColor="#A0A6B1"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintLeft_toLeftOf="@+id/tvName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvName"
+                tools:text="美国/剧情/动作" />
+
+            <TextView
+                android:id="@+id/tvYearUp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:includeFontPadding="false"
+                android:textColor="#A0A6B1"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintLeft_toLeftOf="@+id/tvName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvType"
+                tools:text="上映时间：2020-12-12（美国上映）" />
+
+            <TextView
+                android:id="@+id/tvDirector"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:includeFontPadding="false"
+                android:textColor="#A0A6B1"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintLeft_toLeftOf="@+id/tvName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvYearUp"
+                tools:text="导演：杨幂" />
+
+            <TextView
+                android:id="@+id/tvActor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:ellipsize="end"
+                android:includeFontPadding="false"
+                android:maxLines="2"
+                android:textColor="#A0A6B1"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintLeft_toLeftOf="@+id/tvName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDirector"
+                tools:text="主演：杨幂" />
+
+            <TextView
+                android:id="@+id/tvLanguage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_5"
+                android:includeFontPadding="false"
+                android:textColor="#A0A6B1"
+                android:textSize="@dimen/sp_12"
+                app:layout_constraintLeft_toLeftOf="@+id/tvName"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvActor"
+                tools:text="语言：英语" />
+
+            <com.duoduovv.common.view.MediumBoldTextView
+                android:id="@+id/tvJianJie"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
+                android:includeFontPadding="false"
+                android:text="简介"
+                android:textColor="@color/colorFFFFFF"
+                android:textSize="@dimen/sp_18"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imgCover" />
+
+            <TextView
+                android:id="@+id/tvDetail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_13"
+                android:lineSpacingMultiplier="1.2"
+                android:paddingRight="@dimen/dp_10"
+                android:textColor="@color/colorFFFFFF"
+                android:textSize="@dimen/sp_14"
+                app:layout_constraintTop_toBottomOf="@+id/tvJianJie"
+                tools:text="基于Nathaniel Rich在《纽约时报》上发表的文章《The Lawyer Who Became DuPont’s Worst Nightmare》，围绕罗伯特·比洛特展开，他担任辩护律师长达8年之久，他对化工巨头杜邦公司提起了环境诉讼，这场官司揭露了几十年来杜邦公司化学污染的历史。" />
+
+            <com.duoduovv.common.view.MediumBoldTextView
+                android:id="@+id/tvMainActor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
+                android:includeFontPadding="false"
+                android:text="演职员"
+                android:textColor="@color/colorFFFFFF"
+                android:textSize="@dimen/sp_18"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDetail" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvListActor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:scrollbars="none"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMainActor" />
+
+            <com.duoduovv.common.view.MediumBoldTextView
+                android:id="@+id/tvJuZhao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_25"
+                android:includeFontPadding="false"
+                android:text="剧照"
+                android:textColor="@color/colorFFFFFF"
+                android:textSize="@dimen/sp_18"
+                android:visibility="invisible"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rvListActor" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/dp_15"
+                android:scrollbars="none"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvJuZhao" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dp_20"
+                app:layout_constraintTop_toBottomOf="@id/rvList" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.core.widget.NestedScrollView>
+</LinearLayout>

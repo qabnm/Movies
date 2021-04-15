@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/dp_272"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:ignore="MissingDefaultResource">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_136"
+        android:background="@drawable/apk_update_ground" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-3dp"
+        android:layout_marginRight="@dimen/dp_0_5"
+        android:background="@drawable/shape_radius6_solid_ffffff"
+        android:orientation="vertical">
+
+        <com.duoduovv.common.view.MediumBoldTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_20"
+            android:layout_marginTop="@dimen/dp_7"
+            android:layout_marginBottom="@dimen/dp_11"
+            android:includeFontPadding="false"
+            android:text="新功能"
+            android:textColor="#0E1818"
+            android:textSize="@dimen/sp_17" />
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_84"
+            android:scrollbars="none">
+
+            <TextView
+                android:id="@+id/tvContent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:includeFontPadding="false"
+                android:lineSpacingMultiplier="1.2"
+                android:paddingLeft="@dimen/dp_20"
+                android:paddingRight="@dimen/dp_20"
+                android:textColor="@color/color666666"
+                android:textSize="@dimen/sp_13"
+                android:paddingBottom="@dimen/dp_10"
+                tools:text="1.此行单行文字长度实际最多为十七个字\n2.影视模块更新更多功能\n3.修复BUG" />
+        </androidx.core.widget.NestedScrollView>
+
+
+        <Button
+            android:id="@+id/btnUpgrade"
+            android:layout_width="@dimen/dp_186"
+            android:layout_height="@dimen/dp_36"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/dp_5"
+            android:background="@drawable/shape_radius18_solid_0086ff"
+            android:text="立即升级"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_17" />
+
+        <com.duoduovv.common.view.MediumBoldTextView
+            android:id="@+id/tvCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:includeFontPadding="false"
+            android:paddingLeft="@dimen/dp_10"
+            android:paddingTop="@dimen/dp_5"
+            android:paddingRight="@dimen/dp_10"
+            android:paddingBottom="@dimen/dp_5"
+            android:text="暂不更新"
+            android:textColor="@color/color666666"
+            android:textSize="@dimen/sp_13" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_10"/>
+    </LinearLayout>
+</LinearLayout>

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/colorFFFFFF">
 
     <FrameLayout
@@ -20,7 +21,7 @@
             android:orientation="horizontal"
             android:paddingTop="@dimen/dp_44"
             android:paddingBottom="@dimen/dp_27"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/imageIcon"
@@ -28,7 +29,6 @@
                 android:layout_height="@dimen/dp_68"
                 android:layout_marginLeft="@dimen/dp_12"
                 android:scaleType="centerCrop"
-                android:src="@drawable/center_icon"
                 app:shapeAppearanceOverlay="@style/StyleShapeAppearanceImage" />
 
             <TextView
@@ -37,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/dp_20"
-                android:text="用户12090813"
+                tools:text="用户12090813"
                 android:textColor="@color/color333333"
                 android:textSize="@dimen/sp_16" />
         </LinearLayout>
@@ -45,9 +45,10 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutLogin"
             android:layout_width="match_parent"
+            android:visibility="gone"
             android:layout_height="wrap_content">
 
-            <com.junliu.common.view.MediumBoldTextView
+            <com.duoduovv.common.view.MediumBoldTextView
                 android:id="@+id/tvText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -66,7 +67,7 @@
                 android:layout_height="@dimen/dp_45"
                 android:layout_marginTop="@dimen/dp_12"
                 android:layout_marginBottom="@dimen/dp_30"
-                android:src="@drawable/weichat"
+                android:src="@drawable/personal_weichat"
                 app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:layout_marginRight="@dimen/dp_20"
@@ -78,7 +79,7 @@
                 android:id="@+id/imgQQ"
                 android:layout_width="@dimen/dp_45"
                 android:layout_height="@dimen/dp_45"
-                android:src="@drawable/weichat"
+                android:src="@drawable/personal_qq"
                 android:layout_marginLeft="@dimen/dp_20"
                 app:layout_constraintLeft_toRightOf="@+id/imgWeiChat"
                 app:layout_constraintRight_toRightOf="parent"
@@ -122,10 +123,11 @@
                 <ImageView style="@style/centerMoreInfo" />
             </LinearLayout>
 
-            <View style="@style/centerIconLine" />
+            <View style="@style/centerIconLine"/>
 
             <LinearLayout
                 android:id="@+id/layoutDownload"
+                android:visibility="gone"
                 style="@style/centerIconLinear">
 
                 <ImageView
@@ -140,7 +142,7 @@
                 <ImageView style="@style/centerMoreInfo" />
             </LinearLayout>
 
-            <View style="@style/centerIconLine" />
+            <View style="@style/centerIconLine" android:visibility="gone"/>
 
             <LinearLayout
                 android:id="@+id/layoutCollection"
@@ -178,6 +180,7 @@
         </LinearLayout>
 
         <View
+            android:id="@+id/vLine"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_10"
             android:background="@color/colorF2F2F2" />
@@ -226,7 +229,7 @@
             <ImageView
                 android:layout_width="@dimen/dp_22"
                 android:layout_height="@dimen/dp_22"
-                android:src="@drawable/person_contract" />
+                android:src="@drawable/personal_about_us" />
 
             <TextView
                 style="@style/centerIconText"

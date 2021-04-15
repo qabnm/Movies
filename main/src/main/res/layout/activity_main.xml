@@ -20,7 +20,7 @@
         android:layout_height="@dimen/dp_0_5"
         app:layout_constraintBottom_toTopOf="@+id/navigation"
         app:layout_constraintLeft_toLeftOf="parent" />
-    <!--<com.google.android.material.bottomnavigation.BottomNavigationView
+    <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_49"
@@ -30,14 +30,14 @@
         app:labelVisibilityMode="labeled"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:menu="@menu/navigation_item" />-->
+        app:menu="@menu/navigation_item" />
 
-    <com.junliu.main.view.BottomNavBar
+    <!--<com.duoduovv.main.component.BottomNavBar
         android:id="@+id/navigation"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_49"
         android:background="@color/colorFFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

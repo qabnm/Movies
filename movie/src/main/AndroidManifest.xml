@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.junliu.movie">
+    package="com.duoduovv.movie">
 
     <application>
         <activity
@@ -8,6 +8,12 @@
 
         <activity android:name=".view.MovieDetailActivity"
             android:screenOrientation="portrait"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:launchMode="singleTop"/>
+
+        <activity android:name=".view.MovieDetailActivityForDebug"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".view.ReportActivity"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

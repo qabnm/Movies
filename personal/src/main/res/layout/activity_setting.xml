@@ -8,7 +8,7 @@
     android:orientation="vertical"
     tools:ignore="MissingDefaultResource">
 
-    <com.junliu.common.view.TopBarLayout
+    <com.duoduovv.common.view.TopBarLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
         app:contentTitle="设置" />
@@ -18,13 +18,16 @@
         android:layout_height="@dimen/dp_10"
         android:background="@color/colorF2F2F2" />
 
-    <LinearLayout style="@style/centerLinear">
+    <LinearLayout
+        android:id="@+id/layoutClearCache"
+        style="@style/centerLinear">
 
         <TextView
             style="@style/commonText"
             android:text="清除缓存" />
 
         <TextView
+            android:id="@+id/tvCache"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -55,7 +58,8 @@
         android:layout_height="@dimen/dp_10"
         android:background="@color/colorF2F2F2" />
 
-    <LinearLayout style="@style/centerLinear">
+    <LinearLayout style="@style/centerLinear"
+        android:visibility="gone">
 
         <TextView
             style="@style/commonText"
@@ -64,9 +68,12 @@
         <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
-    <View style="@style/centerIconLine" />
+    <View style="@style/centerIconLine"
+        android:visibility="gone"/>
 
-    <LinearLayout style="@style/centerLinear">
+    <LinearLayout
+        style="@style/centerLinear"
+        android:visibility="gone">
 
         <TextView
             style="@style/commonText"
@@ -75,7 +82,9 @@
         <ImageView style="@style/centerMoreInfo" />
     </LinearLayout>
 
-    <View style="@style/centerIconLine" />
+    <View
+        style="@style/centerIconLine"
+        android:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/layoutContract"
@@ -86,49 +95,6 @@
             android:text="联系客服" />
 
         <ImageView style="@style/centerMoreInfo" />
-    </LinearLayout>
-
-    <View style="@style/centerIconLine" />
-
-    <LinearLayout style="@style/centerLinear">
-
-        <TextView
-            style="@style/commonText"
-            android:text="用户协议" />
-
-        <ImageView style="@style/centerMoreInfo" />
-    </LinearLayout>
-
-    <View style="@style/centerIconLine" />
-
-    <LinearLayout style="@style/centerLinear">
-
-        <TextView
-            style="@style/commonText"
-            android:text="隐私政策" />
-
-        <ImageView style="@style/centerMoreInfo" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/vDivider"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_10"
-        android:background="@color/colorF2F2F2" />
-
-    <LinearLayout style="@style/centerLinear">
-
-        <TextView
-            style="@style/commonText"
-            android:text="检查版本" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:textColor="@color/color999999"
-            android:textSize="@dimen/sp_13"
-            tools:text="1.0.2" />
     </LinearLayout>
 
     <View

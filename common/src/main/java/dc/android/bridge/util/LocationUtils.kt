@@ -1,15 +1,12 @@
 package dc.android.bridge.util
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.location.*
 import android.provider.Settings
 import android.util.Log
-import androidx.core.app.ActivityCompat
-import com.junliu.common.BaseApplication
+import com.duoduovv.common.BaseApplication
 import dc.android.bridge.domain.LocationBean
 
 /**
@@ -17,7 +14,7 @@ import dc.android.bridge.domain.LocationBean
  * @date: 2021/1/18 18:15
  * @des:定位工具类
  */
-class LocationUtils(private val context: Context,private val listener: LbsLocationListener?) {
+class LocationUtils(private val listener: LbsLocationListener?) {
     private lateinit var locationManager: LocationManager
     private var bestProvider: String? = null
 
@@ -30,10 +27,11 @@ class LocationUtils(private val context: Context,private val listener: LbsLocati
             BaseApplication.baseCtx.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             //没有打开GPS
-            Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                context.startActivity(this)
-            }
+//            Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS).apply {
+//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+//                context.startActivity(this)
+//            }
+            listener?.gpsNotOpen()
         }
         getProviders()
     }
@@ -73,12 +71,13 @@ class LocationUtils(private val context: Context,private val listener: LbsLocati
 
     interface LbsLocationListener {
         fun onLocation(bean: LocationBean)
+        fun gpsNotOpen()
     }
 
     private class MyLocationListener(private val listener: LbsLocationListener?) : LocationListener {
         override fun onLocationChanged(location: Location) {
             val geocode = Geocoder(BaseApplication.baseCtx)
-            val address = geocode.getFromLocation(location.latitude, location.longitude, 10)
+            val address = geocode.getFromLocation(location.latitude, location.longitude, 1)
             for (element in address) {
                 val bean = LocationBean(
                     countryCode = element.countryCode,
@@ -96,10 +95,12 @@ class LocationUtils(private val context: Context,private val listener: LbsLocati
 
         override fun onProviderEnabled(provider: String) {
             super.onProviderEnabled(provider)
+            Log.i("address","onProviderEnabled")
         }
 
         override fun onProviderDisabled(provider: String) {
             super.onProviderDisabled(provider)
+            Log.i("address","onProviderDisabled")
         }
 
     }

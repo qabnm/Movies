@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.junliu.personal">
+    package="com.duoduovv.personal">
 
     <application>
         <activity android:name=".view.SettingActivity"
@@ -15,7 +15,7 @@
 
         <provider
             android:name=".component.PhotoFileProvider"
-            android:authorities="com.junliu.personal.fileProvider"
+            android:authorities="com.duoduovv.personal.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -27,6 +27,12 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".view.ModifySignNameActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.DownloadTestActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.AboutUsActivity"
             android:screenOrientation="portrait"/>
     </application>
 </manifest>

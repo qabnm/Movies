@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.aliyun.ams.emas-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 def ext = rootProject.ext
@@ -7,6 +8,7 @@ def cfg = ext.android
 static def buildTime() {
     return new Date().format("yyyyMMdd")
 }
+
 android {
     compileSdkVersion cfg.compileSdkVersion
 
@@ -15,11 +17,53 @@ android {
         targetSdkVersion cfg.targetSdkVersion
         versionCode cfg.versionCode
         versionName cfg.versionName
+        applicationId "com.duoduovv.mhhh"
         //打包时间
         resValue "string", "build_time", buildTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
+//        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            outputFileName = "duoduo_${variant.productFlavors[0].name}_v${cfg.versionName}_${variant.buildType.name}.apk"
+        }
+    }
+    flavorDimensions 'default'
+    productFlavors {
+//        huawei {}
+//        xiaomi {}
+//        oppo {}
+//        vivo {}
+//        meizu {}
+//        yingyongbao {}
+//        wandoujia {}
+//        _360 {}
+        df{}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    signingConfigs {
+        release {
+            keyAlias "mihuahaohan"
+            keyPassword "mihuahaohan2021"
+            storeFile file("../keystore/mihuahaohan.jks")
+            storePassword "mihuahaohan2021"
+        }
+
+        debug {
+            keyAlias "mihuahaohan"
+            keyPassword "mihuahaohan2021"
+            storeFile file("../keystore/mihuahaohan.jks")
+            storePassword "mihuahaohan2021"
+        }
     }
 
     buildTypes {
@@ -31,11 +75,11 @@ android {
             //是否zip对齐
             zipAlignEnabled true
             // 缩减resource文件
-            shrinkResources false
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //签名
-//            signingConfig signingConfigs.release
+            signingConfig signingConfigs.release
         }
 
         debug {
@@ -47,6 +91,8 @@ android {
             shrinkResources false
             minifyEnabled false
             debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
 
@@ -55,34 +101,21 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    sourceSets{
-        main{
+    sourceSets {
+        main {
             manifest.srcFile 'src/main/AndroidManifest.xml'
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/main/res']
         }
     }
-
-//    signingConfigs {
-//        release {
-////            keyAlias 'guiying712'
-////            keyPassword 'guiying712'
-////            storeFile file('/mykey.jks')
-////            storePassword 'guiying712'
-//        }
-//
-//        debug{
-//
-//        }
-//    }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    if (isModule.toBoolean()){
+    if (isModule.toBoolean()) {
         //在组件开发模式下app壳工程只需要依赖Common功能组件
         implementation project(path: ':common')
-    }else{
+    } else {
         //在集成模式下app壳工程必须依赖所有在应用Application中声明的业务组件，并且不需要再依赖任何功能组件。
         implementation project(path: ':main')
         implementation project(path: ':cinema')

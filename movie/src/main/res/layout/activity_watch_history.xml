@@ -6,12 +6,12 @@
     android:background="@color/colorFFFFFF"
     android:orientation="vertical">
 
-    <com.junliu.common.view.TopBarLayout
+    <com.duoduovv.common.view.TopBarLayout
         android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
         app:contentTitle="观看历史"
-        app:rightText="编辑"
+        app:rightText=""
         app:rightTextColor="@color/color567CE7"
         app:rightTextSize="@dimen/sp_14"
         app:rightVisible="VISIBLE" />
@@ -21,11 +21,12 @@
         android:layout_height="@dimen/dp_0_5"
         android:background="@color/colorF0F0F0" />
 
-    <com.junliu.common.view.EmptyLayout
+    <com.duoduovv.common.view.EmptyLayout
+        android:id="@+id/layoutEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:emptyText="暂无收藏记录"
-        app:imgResource="@drawable/weichat">
+        app:emptyText="暂无播放记录"
+        app:imgResource="@drawable/look_history_empty">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvList"
@@ -65,5 +66,5 @@
                 android:textColor="#99F1303C"
                 android:textSize="@dimen/sp_15" />
         </LinearLayout>
-    </com.junliu.common.view.EmptyLayout>
+    </com.duoduovv.common.view.EmptyLayout>
 </LinearLayout>

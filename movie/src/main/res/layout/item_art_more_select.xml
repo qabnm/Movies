@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="@dimen/dp_15">
+
+    <com.duoduovv.common.view.MediumBoldTextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="@dimen/dp_40"
+        android:background="@drawable/shape_radius5_solid_cccccc"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/dp_15"
+        android:textColor="@color/color262828"
+        android:textSize="@dimen/sp_14"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/vLine"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="20102345期" />
+
+    <View
+        android:id="@+id/vLine"
+        android:layout_width="@dimen/dp_12"
+        android:layout_height="@dimen/dp_35"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvTitle" />
+</androidx.constraintlayout.widget.ConstraintLayout>

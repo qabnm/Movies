@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#0d000000"
     android:orientation="vertical">
 
     <LinearLayout
@@ -22,27 +23,30 @@
             android:background="@drawable/drawable_shape_f3f4f8_15_radius"
             android:gravity="center_vertical"
             android:paddingLeft="@dimen/dp_15"
-            android:text="万物皆可短歌行"
+            android:text="搜你所想搜"
             android:textColor="@color/color6E6F73"
             android:textSize="@dimen/sp_14" />
 
         <ImageView
+            android:id="@+id/imgHistory"
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_16"
             android:padding="@dimen/dp_4"
-            android:src="@drawable/common_download" />
+            android:src="@drawable/cinema_look_history" />
 
         <ImageView
             android:layout_width="@dimen/dp_30"
             android:layout_height="@dimen/dp_30"
             android:layout_marginLeft="@dimen/dp_12"
             android:padding="@dimen/dp_4"
+            android:visibility="gone"
             android:src="@drawable/common_download" />
     </LinearLayout>
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/indicator"
+        android:background="@color/colorFFFFFF"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44" />
 
