@@ -10,15 +10,14 @@ import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
+import com.duoduovv.location.LocationHelper
 import com.duoduovv.main.R
 import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
-import dc.android.bridge.domain.LocationBean
 import dc.android.bridge.util.AndroidUtils
-import dc.android.bridge.util.LocationUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BridgeActivity
@@ -33,7 +32,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
     override fun showStatusBarView() = false
     private var privacyDialogFragment: PrivacyDialogFragment? = null
     private var alertDialogFragment: AlertDialogFragment? = null
-    private var locationUtils: LocationUtils? = null
+    private var locationHelper:LocationHelper?=null
 
     override fun initData() {
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
@@ -85,7 +84,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
 
     private fun toMainActivity() {
         //跳转之前首先请求定位权限
-        location()
+       location()
     }
 
     private fun location() {
@@ -100,37 +99,49 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             scope.showForwardToSettingsDialog(PermissionDialogFragment(deniedList,msg))
         }.request { allGranted, _, _ ->
             if (allGranted) {
-                locationUtils = LocationUtils(locationListener)
-                locationUtils?.startLocation()
+                locationHelper = LocationHelper(BaseApplication.baseCtx, locationListener)
+                locationHelper?.startLocation()
+            }else{
+                SharedPreferencesHelper.helper.remove(BridgeContext.ADDRESS)
+                start()
             }
+        }
+    }
+
+    private val locationListener = object :LocationHelper.OnLocationListener{
+        override fun onLocationChange(
+            latitude: Double,
+            longitude: Double,
+            country: String,
+            province: String,
+            city: String,
+            district: String,
+            street: String,
+            aioName: String
+        ) {
+            Log.i("address", "定位成功$province$city$district$street")
+            SharedPreferencesHelper.helper.setValue(
+                BridgeContext.ADDRESS,
+                "{\"p\":\"${StringUtils.gbEncoding(province)}\",\"c\":\"${
+                    StringUtils.gbEncoding(city)
+                }\",\"d\":\"${StringUtils.gbEncoding(district)}\",\"v\":${
+                    OsUtils.getVerCode(BaseApplication.baseCtx)
+                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+            )
+            start()
+        }
+
+        override fun onLocationFail() {
+            SharedPreferencesHelper.helper.remove(BridgeContext.ADDRESS)
             start()
         }
     }
 
-    private val locationListener = object : LocationUtils.LbsLocationListener {
-        override fun onLocation(bean: LocationBean) {
-            Log.i("address", "定位成功${bean}")
-            locationUtils?.removeLocation()
-            //将定位信息保存到本地
-            SharedPreferencesHelper.helper.setValue(
-                BridgeContext.ADDRESS,
-                "{\"p\":\"${StringUtils.gbEncoding(bean.adminArea)}\",\"c\":\"${
-                    StringUtils.gbEncoding(bean.locality)
-                }\",\"d\":\"${StringUtils.gbEncoding(bean.subAdminArea)}\",\"v\":${
-                    OsUtils.getVerCode(BaseApplication.baseCtx)
-                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
-            )
-        }
-
-        override fun gpsNotOpen() {
-            AndroidUtils.toast("请打开GPS", this@SplashActivity)
-        }
-    }
-
     private fun start() {
+        locationHelper?.destroyLocation()
         Handler(Looper.getMainLooper()).postDelayed({
             ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
             this.finish()
-        }, 1600)
+        }, 800)
     }
 }

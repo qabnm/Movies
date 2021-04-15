@@ -46,6 +46,7 @@
                 android:paddingRight="@dimen/dp_20"
                 android:textColor="@color/color666666"
                 android:textSize="@dimen/sp_13"
+                android:paddingBottom="@dimen/dp_10"
                 tools:text="1.此行单行文字长度实际最多为十七个字\n2.影视模块更新更多功能\n3.修复BUG" />
         </androidx.core.widget.NestedScrollView>
 
