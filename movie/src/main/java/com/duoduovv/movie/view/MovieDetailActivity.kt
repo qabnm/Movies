@@ -196,7 +196,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         movieId = detailBean.movie.str_id
         way = detailBean.way
         title = detailBean.movie.vod_name
-        if (way == WAY_RELEASE) queryMovieById(movieId)
+        queryMovieById(movieId)
     }
 
     /**
@@ -206,12 +206,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     private fun queryMovieById(movieId: String) {
         GlobalScope.launch(Dispatchers.Main) {
-            val bean = viewModel.queryMovieById(movieId)
-            bean?.let {
-                if (it.movieId == movieId) {
-                    vid = it.vid
-                    vidByQuery = it.vid
-                    currentLength = it.currentLength.toLong()
+            if (way == WAY_RELEASE) {
+                val bean = viewModel.queryMovieById(movieId)
+                bean?.let {
+                    if (it.movieId == movieId) {
+                        vid = it.vid
+                        vidByQuery = it.vid
+                        currentLength = it.currentLength.toLong()
+                    }
                 }
             }
             //视频信息
@@ -262,10 +264,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
             }
             //更新收藏状态
-//            GlobalScope.launch(Dispatchers.Main) {
             val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
             detailAdapter?.notifyCollectionChange(collectionBean)
-//            }
         }
     }
 
