@@ -3,13 +3,14 @@ package com.duoduovv.cinema.view
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.cinema.CinemaContext.Companion.MOVIE_FLAG_TV
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchAlbumEpisodesAdapter
 import com.duoduovv.cinema.adapter.SearchTvEpisodesAdapter
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.android.synthetic.main.activity_search_more_select.*
 
@@ -29,7 +30,7 @@ class SearchMoreSelectActivity : BridgeActivity() {
 
     override fun initView() {
         movieFlag = intent.getStringExtra(BridgeContext.FLAG) ?: ""
-        rvList.layoutManager = GridLayoutManager(this, if (movieFlag == MOVIE_FLAG_TV) 5 else 2)
+        rvList.layoutManager = GridLayoutManager(this, if (movieFlag == TYPE_TV|| movieFlag == TYPE_TV0) 5 else 2)
     }
 
     override fun initData() {
@@ -38,7 +39,7 @@ class SearchMoreSelectActivity : BridgeActivity() {
         dataList = intent.getParcelableArrayListExtra(BridgeContext.LIST)
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
         layoutTopBar.setTopTitle(title)
-        val rvAdapter = if (movieFlag == MOVIE_FLAG_TV) {
+        val rvAdapter = if (movieFlag == TYPE_TV|| movieFlag == TYPE_TV0) {
             SearchTvEpisodesAdapter(dataList as MutableList<MovieItem>)
         } else {
             SearchAlbumEpisodesAdapter(dataList as MutableList<MovieItem>)

@@ -6,6 +6,9 @@ import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.room.domain.VideoWatchHistoryBean
+import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 import java.text.SimpleDateFormat
@@ -25,10 +28,10 @@ class WatchHistoryAdapter :
         holder.setText(R.id.tvName, item.title)
         val tvWhere: TextView = holder.getView(R.id.tvWhere)
         when (item.type) {
-            MovieContext.TYPE_TV -> {
+            TYPE_TV, TYPE_TV0 -> {
                 tvWhere.text = "观看到${item.vidTitle}集"
             }
-            MovieContext.TYPE_VARIETY -> {
+            TYPE_ALBUM -> {
                 tvWhere.text = "观看到${item.vidTitle}"
             }
             else -> {
