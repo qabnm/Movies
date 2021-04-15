@@ -10,10 +10,12 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
+import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 
@@ -49,7 +51,7 @@ class SearchResultListAdapter(
         )
         holder.tvDirector.text = "导演：${bean.vod_director}"
         when (bean.movie_flag) {
-            CinemaContext.MOVIE_FLAG_TV -> {
+            TYPE_TV, TYPE_TV0 -> {
                 //电视
                 holder.rvList.visibility = View.VISIBLE
                 holder.rvList.layoutManager = GridLayoutManager(context, 6)
@@ -94,7 +96,7 @@ class SearchResultListAdapter(
                     }
                 }
             }
-            CinemaContext.MOVIE_FLAG_ALBUM -> {
+            TYPE_ALBUM -> {
                 //综艺
                 holder.rvList.visibility = View.VISIBLE
                 holder.rvList.layoutManager =

@@ -32,6 +32,11 @@ open class BridgeContext {
         const val WAY = "way"
         const val DEBUG_WAY = "debugWay"
         const val FLAG = "flag"
+        const val TYPE_MOVIE = "1"
+        const val TYPE_TV0 = "0"
+        const val TYPE_TV = "2"
+        const val TYPE_ALBUM = "3"
+
         /**
          * 用户协议
          */

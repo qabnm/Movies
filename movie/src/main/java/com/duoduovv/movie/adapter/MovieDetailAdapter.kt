@@ -11,12 +11,14 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MovieItem
 import com.duoduovv.room.domain.CollectionBean
+import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV
+import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
 import dc.android.bridge.util.GlideUtils
 
 /**
@@ -83,7 +85,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         holder.tvScore.text = detailBean.movie.last_remark
         holder.tvType.text =
             " /  ${detailBean.movie.vod_area_text}  /  ${detailBean.movie.vod_lang}"
-        if (MovieContext.TYPE_TV == detailBean.movie.movie_flag) {
+        if (TYPE_TV == detailBean.movie.movie_flag|| TYPE_TV0 == detailBean.movie.movie_flag) {
             //是电视类型
             holder.layoutContainer.visibility = View.VISIBLE
             holder.tvWhere.text = detailBean.movie.remark
@@ -117,7 +119,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
             holder.layoutContainer.visibility = View.GONE
         }
 
-        if (MovieContext.TYPE_VARIETY == detailBean.movie.movie_flag) {
+        if (TYPE_ALBUM == detailBean.movie.movie_flag) {
             //综艺节目
             holder.layoutAlbum.visibility = View.VISIBLE
             val adapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)

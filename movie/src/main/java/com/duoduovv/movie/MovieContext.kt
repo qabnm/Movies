@@ -8,20 +8,4 @@ import dc.android.bridge.BridgeContext
  * @des:
  */
 class MovieContext :BridgeContext() {
-    companion object{
-        /**
-         * 电影
-         */
-        const val TYPE_MOVIE = "1"
-
-        /**
-         * 电视剧
-         */
-        const val TYPE_TV = "2"
-
-        /**
-         * 综艺
-         */
-        const val TYPE_VARIETY = "3"
-    }
 }
