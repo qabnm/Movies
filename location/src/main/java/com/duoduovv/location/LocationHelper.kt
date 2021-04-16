@@ -55,7 +55,10 @@ class LocationHelper(private val context: Context, private val lbsListener: OnLo
         } ?: also { lbsListener?.onLocationFail() }
     }
 
-    fun destroyLocation(){
+    /**
+     * 销毁定位
+     */
+    fun destroyLocation() {
         //停止定位后，本地定位服务并不会被销毁
 //        mLocationClient?.stopLocation()
         //销毁定位客户端，同时销毁本地定位服务。
@@ -85,6 +88,9 @@ class LocationHelper(private val context: Context, private val lbsListener: OnLo
             aioName: String
         )
 
+        /**
+         * 定位失败
+         */
         fun onLocationFail()
     }
 }

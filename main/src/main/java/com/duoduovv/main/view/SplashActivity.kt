@@ -142,6 +142,6 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         Handler(Looper.getMainLooper()).postDelayed({
             ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
             this.finish()
-        }, 800)
+        }, 1000)
     }
 }
