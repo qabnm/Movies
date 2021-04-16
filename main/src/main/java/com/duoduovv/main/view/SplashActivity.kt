@@ -15,7 +15,7 @@ import com.duoduovv.main.R
 import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.permissionx.guolindev.PermissionX
-import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
@@ -100,7 +100,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                 locationHelper = LocationHelper(BaseApplication.baseCtx, locationListener)
                 locationHelper?.startLocation()
             }else{
-                SharedPreferencesHelper.helper.remove(BridgeContext.ADDRESS)
+                SharedPreferencesHelper.helper.remove(ADDRESS)
                 start()
             }
         }
@@ -121,8 +121,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             aioName: String
         ) {
             Log.i("address", "定位成功$province$city$district$street")
-            SharedPreferencesHelper.helper.setValue(
-                BridgeContext.ADDRESS,
+            SharedPreferencesHelper.helper.setValue(ADDRESS,
                 "{\"p\":\"${StringUtils.gbEncoding(province)}\",\"c\":\"${
                     StringUtils.gbEncoding(city)
                 }\",\"d\":\"${StringUtils.gbEncoding(district)}\",\"v\":${
@@ -133,7 +132,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         }
 
         override fun onLocationFail() {
-            SharedPreferencesHelper.helper.remove(BridgeContext.ADDRESS)
+            SharedPreferencesHelper.helper.remove(ADDRESS)
             start()
         }
     }
