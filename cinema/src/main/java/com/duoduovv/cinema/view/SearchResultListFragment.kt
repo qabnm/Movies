@@ -4,7 +4,6 @@ import android.os.Parcelable
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.CinemaContext.Companion.KEY_WORD
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchResultListAdapter
@@ -12,7 +11,6 @@ import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
 import com.duoduovv.cinema.viewmodel.SearchResultViewModel
 import com.duoduovv.common.util.RouterPath
-import com.duoduovv.common.util.SharedPreferencesHelper
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -24,7 +22,7 @@ import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_search_result_list.*
 import kotlinx.android.synthetic.main.layout_search_empty.*
-import java.util.ArrayList
+import java.util.*
 
 /**
  * @author: jun.liu

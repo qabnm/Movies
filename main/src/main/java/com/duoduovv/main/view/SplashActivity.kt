@@ -40,7 +40,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                 privacyDialogFragment = PrivacyDialogFragment(this)
                 privacyDialogFragment?.showNow(supportFragmentManager, "privacy")
             }
-            else -> toMainActivity()
+            else -> location()
         }
     }
 
@@ -79,14 +79,12 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         //保存一个标识位到本地
         SharedPreferencesHelper.helper.setValue(AGREEMENT, true)
         privacyDialogFragment?.dismiss()
-        toMainActivity()
+        location()
     }
 
-    private fun toMainActivity() {
-        //跳转之前首先请求定位权限
-       location()
-    }
-
+    /**
+     * 申请定位权限
+     */
     private fun location() {
         PermissionX.init(this).permissions(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -108,6 +106,9 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         }
     }
 
+    /**
+     * 定位的监听
+     */
     private val locationListener = object :LocationHelper.OnLocationListener{
         override fun onLocationChange(
             latitude: Double,
@@ -137,6 +138,9 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         }
     }
 
+    /**
+     * 跳转首页activity
+     */
     private fun start() {
         locationHelper?.destroyLocation()
         Handler(Looper.getMainLooper()).postDelayed({
