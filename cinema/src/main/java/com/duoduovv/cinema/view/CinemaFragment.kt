@@ -117,7 +117,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
         CommonNavigator(requireActivity()).apply {
             adapter = ScaleTitleNavAdapter(vpContainer, titleList)
-            isAdjustMode = titleList.size <= 6
+            isAdjustMode = titleList.size <= 5
             indicator.navigator = this
         }
         ViewPagerHelper.bind(indicator, vpContainer)
