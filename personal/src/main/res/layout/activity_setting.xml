@@ -119,7 +119,7 @@
             android:textColor="@color/colorFFFFFF"
             android:textSize="@dimen/sp_18"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
-            android:visibility="visible"
+            android:visibility="gone"
             app:backgroundTint="@color/color0083FF"
             app:cornerRadius="@dimen/dp_4" />
     </FrameLayout>

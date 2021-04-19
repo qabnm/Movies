@@ -217,7 +217,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
             }
             //视频信息
-            videoPlayer.loadCoverImage(detailBean!!.movie.cover_url, R.drawable.back_white)
+            videoPlayer.loadCoverImage(detailBean!!.movie.cover_url, ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000))
             if (null == detailAdapter) {
                 detailAdapter =
                     MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
