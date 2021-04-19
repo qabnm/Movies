@@ -11,8 +11,16 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import dc.android.bridge.BridgeContext.Companion.NOTIFICATION
+import dc.android.bridge.BridgeContext.Companion.SUCCESS
+import dc.android.bridge.BridgeContext.Companion.TOKEN
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BridgeActivity
+import dc.android.tools.LiveDataBus
 import kotlinx.android.synthetic.main.activity_setting.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 /**
  * @author: jun.liu
@@ -23,7 +31,6 @@ import kotlinx.android.synthetic.main.activity_setting.*
 class SettingActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_setting
     private var isOpen = true
-    private var dialogFragment: AlertDialogFragment? = null
 
     override fun initView() {
         layoutContract.setOnClickListener { FeedbackAPI.openFeedbackActivity() }
@@ -54,25 +61,61 @@ class SettingActivity : BridgeActivity() {
 
     @SuppressLint("SetTextI18n")
     override fun initData() {
+        val token = SharedPreferencesHelper.helper.getValue(TOKEN, "") as String
+        if (!StringUtils.isEmpty(token)) {
+            btnLogout.visibility = View.VISIBLE
+            btnLogout.setOnClickListener { logout() }
+        } else {
+            btnLogout.visibility = View.GONE
+        }
         tvCache.text = FileUtils.getTotalCacheSize(BaseApplication.baseCtx)
         layoutClearCache.setOnClickListener {
-            dialogFragment = AlertDialogFragment("确定要清除缓存吗？", listener, 250f)
-            dialogFragment?.let {
-                it.showNow(supportFragmentManager, "clear")
-                it.setTitleVisibility(View.GONE)
+            val dialogFragment = AlertDialogFragment("确定要清除缓存吗？", 250f)
+            dialogFragment.apply {
+                setDialogClickListener(LogoutListener(this, "clear"))
+                showNow(supportFragmentManager, "clear")
+                setTitleVisibility(View.GONE)
             }
         }
     }
 
-    private val listener = object : AlertDialogFragment.OnDialogSureClickListener {
+    /**
+     * 退出登录
+     */
+    private fun logout() {
+        val dialogFragment = AlertDialogFragment("确定要退出登录吗？", 250f)
+        dialogFragment.apply {
+            setDialogClickListener(LogoutListener(this, "logout"))
+            showNow(supportFragmentManager, "logout")
+            setTitleVisibility(View.GONE)
+        }
+    }
+
+    private inner class LogoutListener(
+        val dialog: AlertDialogFragment?,
+        val flag: String
+    ) : AlertDialogFragment.OnDialogSureClickListener {
         override fun onSureClick() {
-            FileUtils.clearAllCache(BaseApplication.baseCtx)
-            tvCache.text = "0KB"
-            dialogFragment?.dismiss()
+            dialog?.let {
+                if ("clear" == flag) {
+                    FileUtils.clearAllCache(BaseApplication.baseCtx)
+                    tvCache.text = "0KB"
+                    it.dismiss()
+                } else {
+                    GlobalScope.launch(Dispatchers.Main) {
+                        withContext(Dispatchers.IO){
+                            SharedPreferencesHelper.helper.remove(TOKEN)
+                        }
+                        LiveDataBus.get().with("logout").value = SUCCESS
+                        it.dismiss()
+                        this@SettingActivity.finish()
+                    }
+                }
+            }
         }
 
         override fun onCancelClick() {
-            dialogFragment?.dismiss()
+            dialog?.dismiss()
         }
     }
 }

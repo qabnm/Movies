@@ -17,8 +17,8 @@ import dc.android.bridge.util.OsUtils
  */
 class AlertDialogFragment(
     private val content: String,
-    private val listener: OnDialogSureClickListener?,
-    private val width:Float = 300f
+    private val width:Float = 300f,
+    private var listener: OnDialogSureClickListener?=null
 ) : DialogFragment() {
     private lateinit var tvCancel: TextView
     private lateinit var tvSure: TextView
@@ -69,6 +69,10 @@ class AlertDialogFragment(
     interface OnDialogSureClickListener {
         fun onSureClick()
         fun onCancelClick()
+    }
+
+    fun setDialogClickListener(listener: OnDialogSureClickListener?){
+        this.listener = listener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

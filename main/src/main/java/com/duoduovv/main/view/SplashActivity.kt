@@ -49,8 +49,9 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
      */
     override fun onDialogCancelClick() {
         privacyDialogFragment?.dismiss()
-        alertDialogFragment = AlertDialogFragment("不同意将无法使用我们的产品和\n服务，并会退出App。", alertListener)
+        alertDialogFragment = AlertDialogFragment("不同意将无法使用我们的产品和\n服务，并会退出App。",260f)
         alertDialogFragment?.let {
+            it.setDialogClickListener(alertListener)
             it.showNow(supportFragmentManager, "alert")
             it.setTitleVisibility(View.GONE)
             it.setCancelText("不同意并退出")

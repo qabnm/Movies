@@ -178,7 +178,7 @@ class MainActivity : BridgeActivity() {
 
     private var dialogFragment: AlertDialogFragment?=null
     private fun showAlertDialog(){
-        dialogFragment = AlertDialogFragment("确定要退出吗？",listener,250f)
+        dialogFragment = AlertDialogFragment("确定要退出吗？",250f,listener)
         dialogFragment?.let {
             it.showNow(supportFragmentManager, "alert")
             it.setTitleVisibility(View.GONE)
