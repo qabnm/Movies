@@ -71,7 +71,6 @@ dependencies {
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ext.coroutines_android_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$ext.viewmodel_version"
     api project(path: ':weichat')
-    api project(path: ':download')
     api project(path: ':room')
     api project(path: ':tools')
     api project(path: ':location')

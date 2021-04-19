@@ -29,9 +29,6 @@
         <activity android:name=".view.ModifySignNameActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".view.DownloadTestActivity"
-            android:screenOrientation="portrait"/>
-
         <activity android:name=".view.AboutUsActivity"
             android:screenOrientation="portrait"/>
     </application>
