@@ -12,6 +12,7 @@ import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.BridgeContext.Companion.URL_PRIVACY
 import dc.android.bridge.BridgeContext.Companion.URL_USER_AGREEMENT
 import dc.android.bridge.util.AndroidUtils
@@ -64,6 +65,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                             BridgeContext.DEBUG_WAY,
                             etInput.text.toString()
                         )
+                        SharedPreferencesHelper.helper.remove(TOKEN)
                         AndroidUtils.toast("切换完成,请重新进入再试！", this)
                         layoutDebug.visibility = View.GONE
                     }
