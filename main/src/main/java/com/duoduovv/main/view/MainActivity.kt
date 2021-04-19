@@ -39,6 +39,8 @@ class MainActivity : BridgeActivity() {
     private var movieFragment: BaseFragment? = null
     private var mineFragment: BaseFragment? = null
 
+    override fun showStatusBarView() = false
+
     override fun initView() {
 //        navigation.setNavBarClickListener(this)
         LiveDataBus.get().with(TYPE_ID, String::class.java).observe(this, {

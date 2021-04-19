@@ -18,7 +18,7 @@
         app:banner_indicator_selected_color="@color/colorFFFFFF"
         app:banner_indicator_selected_width="@dimen/dp_5"
         app:banner_loop_time="4000"
-        app:layout_constraintDimensionRatio="27:13"
+        app:layout_constraintDimensionRatio="7:3"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,7 @@ package com.duoduovv.cinema.view
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -40,6 +41,8 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var bean: Version? = null
 
     override fun initView() {
+        val layoutParams = vStatusBar.layoutParams as LinearLayout.LayoutParams
+        layoutParams.height = OsUtils.getStatusBarHeight(requireActivity())
         tvSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
                 .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
