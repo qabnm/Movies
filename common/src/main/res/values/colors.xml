@@ -8,6 +8,7 @@
 
     <color name="colorFFFFFF">#FFFFFF</color>
     <color name="color000000">#000000</color>
+    <color name="colorTrans">#00000000</color>
     <color name="color333333">#333333</color>
     <color name="color999999">#999999</color>
     <color name="colorF9F9F9">#F9F9F9</color>

@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.AlertDialogFragment
@@ -30,6 +31,9 @@ import dc.android.bridge.view.BridgeActivity
 class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickListener {
     override fun getLayoutId() = R.layout.activity_splash
     override fun showStatusBarView() = false
+    override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
+        super.setLayout(false, ContextCompat.getColor(this,R.color.colorTrans))
+    }
     private var privacyDialogFragment: PrivacyDialogFragment? = null
     private var alertDialogFragment: AlertDialogFragment? = null
     private var locationHelper:LocationHelper?=null
