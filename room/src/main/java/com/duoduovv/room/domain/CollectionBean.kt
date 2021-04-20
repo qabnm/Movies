@@ -1,5 +1,6 @@
 package com.duoduovv.room.domain
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,6 +13,7 @@ import androidx.room.PrimaryKey
  * @ColumnInfo：指定类的属性在表中列的名字，如果不指定，默认就是属性名
  */
 @Entity
+@Keep
 data class CollectionBean(
     @PrimaryKey(autoGenerate = true)
     var number: Long = 0,
