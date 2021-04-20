@@ -33,6 +33,7 @@ class WeiChatTool {
         var weiChatApi: IWXAPI? = null
         var mTenCent: Tencent? = null
         var loginListener:TentLoginListener?=null
+        var shareListener:TentShareListener?=null
 
         /**
          * 注册APP到微信
@@ -145,6 +146,7 @@ class WeiChatTool {
             appName: String,
             type: Int
         ) {
+            shareListener = TentShareListener(context)
             Bundle().apply {
                 putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, SHARE_TO_QQ_TYPE_DEFAULT)
                 putString(QQShare.SHARE_TO_QQ_TITLE, title)
@@ -154,9 +156,9 @@ class WeiChatTool {
                 if (type == WeiChatBridgeContext.shareToQQ) mTenCent?.shareToQQ(
                     context as Activity?,
                     this,
-                    TentShareListener(context)
+                    shareListener
                 ) else mTenCent?.shareToQzone(
-                    context as Activity?, this, TentShareListener(context)
+                    context as Activity?, this, shareListener
                 )
             }
         }

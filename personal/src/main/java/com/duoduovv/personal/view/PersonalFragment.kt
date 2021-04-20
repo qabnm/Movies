@@ -1,11 +1,16 @@
 package com.duoduovv.personal.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.view.View
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_EDIT_MATERIALS
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
@@ -16,6 +21,7 @@ import com.duoduovv.personal.bean.*
 import com.duoduovv.personal.viewmodel.WeiChatViewModel
 import com.duoduovv.tent.TentLoginListener
 import com.duoduovv.tent.TentUserInfo
+import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenValidUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.refreshTokenUrl
@@ -57,8 +63,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             layoutCollection.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
-            layoutShare.setOnClickListener {
-            }
+            layoutShare.setOnClickListener { onShareClick() }
             layoutContainer.visibility = View.VISIBLE
             vLine.visibility = View.VISIBLE
         } else {
@@ -222,6 +227,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     }
 
     private var hasObserve = false
+
     /**
      * token过期
      */
@@ -254,6 +260,35 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(this, {
                 qqAuthSuccess(it)
             })
+        }
+    }
+
+    /**
+     * 分享
+     */
+    private fun onShareClick() {
+        val shareDialog = ShareDialogFragment(shareClickListener)
+        shareDialog.showNow(childFragmentManager, "share")
+    }
+
+    private val shareClickListener = object : ShareDialogFragment.OnShareClickListener {
+        override fun onQQShareClick(flag: Int) {
+            WeiChatTool.regToQQ(BaseApplication.baseCtx)
+            WeiChatTool.shareToQQ(
+                requireActivity(),
+                WeiChatBridgeContext.shareTitle,
+                WeiChatBridgeContext.shareContent,
+                WeiChatBridgeContext.shareLink,
+                resources.getString(R.string.app_name),
+                flag
+            )
+        }
+
+        override fun onCopyClick() {
+            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText(null, WeiChatBridgeContext.shareLink)
+            clipboard.setPrimaryClip(clipData)
+            AndroidUtils.toast("复制成功，快去打开看看吧！",requireActivity())
         }
     }
 }
