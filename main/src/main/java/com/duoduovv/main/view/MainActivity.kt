@@ -32,10 +32,11 @@ class MainActivity : BridgeActivity() {
     private var exitTime = 0L
     private var currentPosition = 0
     private val position = "position"
-    private var typeId:String?=null
+    private var typeId: String? = null
 
     private var cinemaFragment: BaseFragment? = null
-//    private var hotSpotFragment: BaseFragment? = null
+
+    //    private var hotSpotFragment: BaseFragment? = null
     private var movieFragment: BaseFragment? = null
     private var mineFragment: BaseFragment? = null
 
@@ -119,7 +120,8 @@ class MainActivity : BridgeActivity() {
     ) {
         currentPosition = position
         fragment.takeIf { null != fragment }?.also { transaction.show(it) } ?: run {
-            (ARouter.getInstance().build(path).withString(BridgeContext.TYPE_ID,typeId).navigation() as? BaseFragment)?.let {
+            (ARouter.getInstance().build(path).withString(BridgeContext.TYPE_ID, typeId)
+                .navigation() as? BaseFragment)?.let {
                 getFragment(path, it)
                 transaction.add(R.id.layoutContainer, it, path)
             }
@@ -176,9 +178,9 @@ class MainActivity : BridgeActivity() {
         showAlertDialog()
     }
 
-    private var dialogFragment: AlertDialogFragment?=null
-    private fun showAlertDialog(){
-        dialogFragment = AlertDialogFragment("确定要退出吗？",250f,listener)
+    private var dialogFragment: AlertDialogFragment? = null
+    private fun showAlertDialog() {
+        dialogFragment = AlertDialogFragment("确定要退出吗？", 250f, listener)
         dialogFragment?.let {
             it.showNow(supportFragmentManager, "alert")
             it.setTitleVisibility(View.GONE)
@@ -189,7 +191,7 @@ class MainActivity : BridgeActivity() {
         }
     }
 
-    private val listener = object : AlertDialogFragment.OnDialogSureClickListener{
+    private val listener = object : AlertDialogFragment.OnDialogSureClickListener {
         override fun onSureClick() {
             dialogFragment?.dismiss()
         }
@@ -202,7 +204,14 @@ class MainActivity : BridgeActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        UIListenerManager.getInstance().onActivityResult(requestCode, resultCode,data,WeiChatTool.loginListener)
+        UIListenerManager.getInstance().onActivityResult(
+            requestCode,
+            resultCode,
+            data,
+            if (null != WeiChatTool.loginListener) WeiChatTool.loginListener else WeiChatTool.shareListener
+        )
+        WeiChatTool.loginListener = null
+        WeiChatTool.shareListener = null
         super.onActivityResult(requestCode, resultCode, data)
     }
 }
