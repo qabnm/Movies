@@ -9,7 +9,7 @@
         android:id="@+id/layoutBanner"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginRight="@dimen/dp_5"
+        android:layout_marginEnd="@dimen/dp_5"
         app:banner_indicator_gravity="right"
         app:banner_indicator_marginBottom="@dimen/dp_15"
         app:banner_indicator_marginRight="@dimen/dp_12"

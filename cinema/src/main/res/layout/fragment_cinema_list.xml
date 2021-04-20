@@ -11,7 +11,7 @@
         android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_5"
         android:scrollbars="none" />
 </com.scwang.smart.refresh.layout.SmartRefreshLayout>

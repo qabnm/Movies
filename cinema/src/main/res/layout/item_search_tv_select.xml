@@ -7,8 +7,8 @@
 
     <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvEpisodes"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="0px"
+        android:layout_height="0px"
         app:layout_constraintDimensionRatio="1:1"
         android:background="@drawable/shape_radius28_solid_f3f4f8"
         android:gravity="center"
