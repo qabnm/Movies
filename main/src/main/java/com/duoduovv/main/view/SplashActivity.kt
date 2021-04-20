@@ -103,7 +103,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         }.request { allGranted, _, _ ->
             if (allGranted) {
                 locationHelper = LocationHelper(BaseApplication.baseCtx, locationListener)
-                locationHelper?.startLocation()
+                locationHelper?.startLocation(OsUtils.isAppDebug())
             }else{
                 SharedPreferencesHelper.helper.remove(ADDRESS)
                 start()

@@ -16,7 +16,7 @@ class LocationHelper(private val context: Context, private val lbsListener: OnLo
     /**
      * 开始定位
      */
-    fun startLocation() {
+    fun startLocation(isMock:Boolean) {
         mLocationClient = AMapLocationClient(context)
         mLocationClient?.setLocationListener(locationListener)
         AMapLocationClientOption().apply {
@@ -24,7 +24,7 @@ class LocationHelper(private val context: Context, private val lbsListener: OnLo
             isOnceLocation = true
             isNeedAddress = true
             //设置是否允许模拟位置,默认为true，允许模拟位置
-            isMockEnable = false
+            isMockEnable = isMock
             httpTimeOut = 20000
             //当开启定位缓存功能，在高精度模式和低功耗模式下进行的网络定位结果均会生成本地缓存
             isLocationCacheEnable = true
