@@ -89,7 +89,7 @@ interface IPersonApiService {
         @Field("open_type") openType: Int,
         @Field("open_id") openId: String,
         @Field("nick") nickName: String,
-        @Field("sex") sex: Int,
+        @Field("sex") sex: String,
         @Field("img") img: String,
         @Field("union_id") unionId: String = ""
     ): BaseResponseData<LoginBean>

@@ -93,7 +93,7 @@ class WeiChatViewModel : BaseViewModel() {
         openType: Int,
         openId: String,
         nickName: String,
-        sex: Int,
+        sex: String,
         img: String,
         unionId: String = ""
     ) = request {

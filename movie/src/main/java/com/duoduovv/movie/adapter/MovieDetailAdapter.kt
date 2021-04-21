@@ -85,7 +85,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         holder.tvScore.text = detailBean.movie.lastRemark
         holder.tvType.text =
             " /  ${detailBean.movie.vodArea}  /  ${detailBean.movie.vodLang}"
-        if (TYPE_TV == detailBean.movie.movieFlag|| TYPE_TV0 == detailBean.movie.movieFlag) {
+        if (TYPE_TV == detailBean.movie.movieFlag || TYPE_TV0 == detailBean.movie.movieFlag) {
             //是电视类型
             holder.layoutContainer.visibility = View.VISIBLE
             holder.tvWhere.text = detailBean.movie.lastRemark
@@ -161,10 +161,10 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
      */
     private fun bindList(holder: ListViewHolder, position: Int) {
         val bean = detailBean.recommends[position]
-        GlideUtils.setMovieImg(context, bean.cover_url, holder.imgCover)
-        holder.tvName.text = bean.vod_name
-        holder.tvScore.text = bean.remark
-        holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.str_id) }
+        GlideUtils.setMovieImg(context, bean.coverUrl, holder.imgCover)
+        holder.tvName.text = bean.vodName
+        holder.tvScore.text = bean.lastRemark
+        holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.strId) }
     }
 
     class DetailViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {

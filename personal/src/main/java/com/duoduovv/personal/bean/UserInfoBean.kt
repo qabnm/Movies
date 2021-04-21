@@ -24,6 +24,6 @@ data class User(
     @SerializedName("nick")
     val nickName: String,
     val province: String,
-    val sex: Int,
+    val sex: String,
     val uid: String
 )

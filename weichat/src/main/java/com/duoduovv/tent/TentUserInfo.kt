@@ -9,10 +9,10 @@ import androidx.annotation.Keep
  */
 @Keep
 data class TentUserInfo(
-    val ret: Int,
+    val ret: String,
     val msg: String,
     val nickName: String,
-    val sex: Int,
+    val sex: String,
     val headerUrl: String,
     var openId: String
 )

@@ -16,7 +16,7 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/3/4 14:04
  * @des:升级弹窗
  */
-class UpgradeDialogFragment(private val isForce:Int,private val upgradeContent:String,private val downloadUrl:String) : DialogFragment() {
+class UpgradeDialogFragment(private val isForce:String,private val upgradeContent:String,private val downloadUrl:String) : DialogFragment() {
     private lateinit var btnUpgrade: Button
     private var upgradeClickListener: OnUpgradeClickListener? = null
     override fun onCreateView(
@@ -33,7 +33,7 @@ class UpgradeDialogFragment(private val isForce:Int,private val upgradeContent:S
         val tvContent: TextView = view.findViewById(R.id.tvContent)
         btnUpgrade = view.findViewById(R.id.btnUpgrade)
         val tvCancel: TextView = view.findViewById(R.id.tvCancel)
-        if (isForce == 1) {
+        if (isForce == "1") {
             tvCancel.visibility = View.GONE
         } else {
             tvCancel.visibility = View.VISIBLE

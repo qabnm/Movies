@@ -12,7 +12,7 @@ data class UpgradeBean(val version: VersionBean)
 data class VersionBean(
     val content: String,
     @SerializedName("is_force")
-    val isForce: Int,
+    val isForce: String,
     val url: String,
     val version: String,
     @SerializedName("version_number")

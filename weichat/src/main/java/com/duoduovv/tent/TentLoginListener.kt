@@ -35,9 +35,9 @@ class TentLoginListener(private val context: Context) : IUiListener {
                         val js = p0 as? JSONObject
                         js?.let {
                             Log.d("tent", it.toString())
-                            val ret = it.getInt("ret")
+                            val ret = it.getString("ret")
                             val nickName = it.getString("nickname")
-                            val sex = it.getInt("gender_type")
+                            val sex = it.getString("gender_type")
                             val msg = it.getString("msg")
                             var headerUrl = it.getString("figureurl_qq_1")
                             if (it.has("figureurl_qq_2")) {

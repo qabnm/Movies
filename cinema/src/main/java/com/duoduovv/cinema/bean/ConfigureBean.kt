@@ -22,7 +22,7 @@ data class Column(
 data class Version(
     val content: String,
     @SerializedName("is_force")
-    val isForce: Int,
+    val isForce: String,
     val url: String,
     val version: String,
     @SerializedName("version_number")

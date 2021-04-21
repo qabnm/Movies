@@ -12,7 +12,7 @@ data class WeiChatUserInfoBean(
     val openId: String,
     @SerializedName("nickname")
     val nickName: String,
-    val sex: Int,
+    val sex: String,
     val province: String?,
     val city: String?,
     val country: String?,

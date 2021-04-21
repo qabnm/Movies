@@ -67,11 +67,7 @@ class EditMaterialsActivity : BaseViewModelActivity<PersonViewModel>(), ITakePho
             GlideUtils.setImg(this, user.imgUrl, imgHeader)
         }
         if (!StringUtils.isEmpty(user.nickName)) setText(tvNickName, user.nickName)
-        if (user.sex == 1) {
-            setText(tvSex, "男")
-        } else if (user.sex == 2) {
-            setText(tvSex, "女")
-        }
+        setText(tvSex, if ("1" == user.sex) "男" else "女")
         if (!StringUtils.isEmpty(user.province)) setText(
             tvWhere,
             "${user.province}${user.city}${user.area}"
