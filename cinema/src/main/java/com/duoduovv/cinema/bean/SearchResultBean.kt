@@ -34,7 +34,7 @@ data class SearchResultList(
     val typeText: String,
     @SerializedName("movie_flag")
     val movieFlag: String,
-    val way: Int
+    val way: String
 )
 
 @Parcelize

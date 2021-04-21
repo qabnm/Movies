@@ -159,13 +159,13 @@ class SearchResultListAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(movieId: String, way: Int)
-        fun onSelectClick(vid: String, movieId: String, way: Int)
+        fun onItemClick(movieId: String, way: String)
+        fun onSelectClick(vid: String, movieId: String, way: String)
         fun onMoreSelectClick(
             dataList: List<MovieItem>,
             movieId: String,
             title: String,
-            way: Int,
+            way: String,
             movieFlag: String
         )
     }

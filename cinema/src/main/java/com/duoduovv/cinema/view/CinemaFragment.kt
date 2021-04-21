@@ -52,7 +52,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
-            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way)
+            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way?:"")
             imgHistory.visibility = if (result?.way == WAY_VERIFY) View.INVISIBLE else View.VISIBLE
             hotList = result?.hotSearch
             BaseApplication.hotList = hotList

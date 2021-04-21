@@ -13,7 +13,7 @@ data class MovieDetailBean(
     val movieItems: List<MovieItem>,
     val playUrls: List<PlayUrlsBean>?,
     val recommends: List<DetailRecommend>,
-    val way: Int,
+    val way: String,
 )
 
 data class LineList(val line: String, val name: String)

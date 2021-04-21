@@ -66,7 +66,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var detailAdapter: MovieDetailAdapter? = null
     private var detailBean: MovieDetailBean? = null
     private var orientationUtils: OrientationUtils? = null
-    private var way = 2
+    private var way = "2"
     private var playUrl = ""
     private var title = ""
     private var currentPlayPosition = 0  //默认是从第一集开始播放

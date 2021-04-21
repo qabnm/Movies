@@ -11,7 +11,7 @@ data class ConfigureBean(
     val columns: List<Column>?,
     val version: Version,
     val hotSearch: List<String>,
-    val way:Int
+    val way:String
 )
 
 data class Column(

@@ -106,7 +106,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      * 点击影片 跳转详情
      * @param movieId String
      */
-    override fun onMovieClick(movieId: String, way:Int) {
+    override fun onMovieClick(movieId: String, way:String) {
         val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         } else {

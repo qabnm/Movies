@@ -53,7 +53,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun providerVMClass() = WeiChatViewModel::class.java
 
     override fun initView() {
-        if (SharedPreferencesHelper.helper.getValue(WAY, 0) != WAY_VERIFY) {
+        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
             //正式版
             layoutIsRes.visibility = View.VISIBLE
             layoutHistory.setOnClickListener {
@@ -115,7 +115,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
 
     override fun initData() {
         //正式版才请求登录接口
-        if (SharedPreferencesHelper.helper.getValue(WAY, 0) != WAY_VERIFY) {
+        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
             viewModel.userInfo()
         }
         setFeedbackUi()

@@ -32,5 +32,5 @@ data class RankList(
     val vodYear: String,
     @SerializedName("type_id_text")
     val typeText:String,
-    val way:Int
+    val way:String
 )

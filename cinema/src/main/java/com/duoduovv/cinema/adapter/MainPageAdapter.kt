@@ -123,7 +123,7 @@ class MainPageAdapter(
             holder.banner.setOnBannerListener { data, _ ->
                 val jumpType = (data as com.duoduovv.cinema.bean.Banner).jumpType
                 val movieId = data.movieId
-                if (jumpType == "1") listener?.onMovieClick(movieId, -1)
+                if (jumpType == "1") listener?.onMovieClick(movieId, "-1")
             }
         }
     }
@@ -276,7 +276,7 @@ class MainPageAdapter(
 
     interface OnItemClickListener {
         fun onCategoryClick(typeId: String)
-        fun onMovieClick(movieId: String, way: Int)
+        fun onMovieClick(movieId: String, way: String)
         fun onTodayMoreClick(dataList:List<FilmRecommendBean>)
     }
 }

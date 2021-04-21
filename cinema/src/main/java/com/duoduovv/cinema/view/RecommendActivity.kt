@@ -42,7 +42,7 @@ class RecommendActivity : BridgeActivity() {
      * 跳转影视详情
      * @param movieId String
      */
-    private fun onMovieClick(movieId: String, way: Int) {
+    private fun onMovieClick(movieId: String, way: String) {
         val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         } else {

@@ -87,7 +87,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
      * 跳转详情页面
      * @param movieId String
      */
-    override fun onItemClick(movieId: String, way: Int) {
+    override fun onItemClick(movieId: String, way: String) {
         val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         } else {
@@ -101,7 +101,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
      * 点击了选集
      * @param vid String
      */
-    override fun onSelectClick(vid: String, movieId: String, way: Int) {
+    override fun onSelectClick(vid: String, movieId: String, way: String) {
         this.vid = vid
         onItemClick(movieId, way)
     }
@@ -114,13 +114,13 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
         dataList: List<MovieItem>,
         movieId: String,
         title: String,
-        way: Int,
+        way: String,
         movieFlag: String
     ) {
         ARouter.getInstance().build(RouterPath.PATH_SEARCH_MORE_SELECT)
             .withString(BridgeContext.TITLE, title).withString(ID, movieId)
             .withParcelableArrayList(BridgeContext.LIST, dataList as ArrayList<out Parcelable>)
-            .withInt(BridgeContext.WAY, way)
+            .withString(BridgeContext.WAY, way)
             .withString(BridgeContext.FLAG, movieFlag)
             .navigation()
     }

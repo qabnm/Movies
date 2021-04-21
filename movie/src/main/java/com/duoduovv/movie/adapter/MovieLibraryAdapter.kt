@@ -99,7 +99,7 @@ class MovieLibraryAdapter(
     interface OnItemClickListener {
         fun onTypeClick(key: String, name: String)
 
-        fun onMovieClick(movieId: String, way:Int)
+        fun onMovieClick(movieId: String, way:String)
     }
 
     fun setItemClickListener(itemClickListener: OnItemClickListener) {

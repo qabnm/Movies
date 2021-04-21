@@ -20,5 +20,5 @@ data class MovieLibList(
     val strId:String,
     @SerializedName("vod_name")
     val vodName:String,
-    val way:Int
+    val way:String
 )

@@ -22,9 +22,9 @@ open class BridgeContext {
         const val TYPE_ID = "typeId"
         const val TITLE = "title"
         const val URL = "url"
-        const val WAY_RELEASE = 1
-        const val WAY_H5 = 2
-        const val WAY_VERIFY = 3
+        const val WAY_RELEASE = "1"
+        const val WAY_H5 = "2"
+        const val WAY_VERIFY = "3"
         const val AGREEMENT = "agree"
         const val WAY = "way"
         const val DEBUG_WAY = "debugWay"
