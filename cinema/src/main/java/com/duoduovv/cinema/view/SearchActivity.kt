@@ -5,11 +5,10 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
-import android.view.inputmethod.EditorInfo
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.R
+import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
@@ -27,7 +26,7 @@ import kotlinx.android.synthetic.main.activity_search.*
 @Route(path = RouterPath.PATH_SEARCH_ACTIVITY)
 class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     override fun getLayoutId() = R.layout.activity_search
-    private var searchFragment: SearchFragment? = null
+    private var historySearchFragment: HistorySearchFragment? = null
     private var searchResultFragment: SearchResultFragment? = null
     private var isSearchClick = false
     private var hotList: ArrayList<String>? = null
@@ -35,7 +34,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     override fun initView() {
         ARouter.getInstance().inject(this)
         hotList = intent.getStringArrayListExtra(BridgeContext.LIST)
-        imgBack.setOnClickListener { finish() }
+        imgBack.setOnClickListener { onBackClick() }
         tvCancel.setOnClickListener { onCancelClick() }
         //添加显示搜索记录的fragment
         showSearchFragment()
@@ -52,6 +51,20 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         }
     }
 
+    /**
+     * 返回键监听
+     */
+    private fun onBackClick() {
+        if (!TextUtils.isEmpty(etSearch.text)) {
+            etSearch.setText("")
+        } else {
+            finish()
+        }
+    }
+
+    /**
+     * 取消或者搜索键的点击
+     */
     private fun onCancelClick() {
         if (!TextUtils.isEmpty(etSearch.text)) {
             if (searchResultFragment?.isVisible == true) return
@@ -61,21 +74,21 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         }
     }
 
-    override fun initData() {
-
-    }
-
     private fun toResultFragment(result: String) {
         etSearch.clearFocus()
         OsUtils.hideKeyboard(this)
         isSearchClick = true
-        if (searchFragment?.isVisible == true) searchFragment?.let {
+        if (historySearchFragment?.isVisible == true) historySearchFragment?.let {
             supportFragmentManager.beginTransaction().hide(it).commit()
         }
         showSearchResultFragment(result)
         HistoryUtil.save(result)
     }
 
+    /**
+     * 显示搜索记录页面
+     * @param result String
+     */
     private fun showSearchResultFragment(result: String) {
         val ts = supportFragmentManager.beginTransaction()
         searchResultFragment = SearchResultFragment()
@@ -84,16 +97,20 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         ts.commit()
     }
 
+    /**
+     * 显示历史搜索 热门搜索的fragment
+     */
     private fun showSearchFragment() {
         val ts = supportFragmentManager.beginTransaction()
-        searchFragment?.takeIf { null != searchFragment }?.also { ts.show(it) } ?: run {
-            searchFragment = SearchFragment()
-            val bundle = Bundle()
-            bundle.putStringArrayList(BridgeContext.LIST, hotList)
-            searchFragment?.arguments = bundle
-            searchFragment?.setCallback(this)
-            ts.add(R.id.layoutContainer, searchFragment!!)
-        }
+        historySearchFragment?.takeIf { null != historySearchFragment }?.also { ts.show(it) }
+            ?: run {
+                historySearchFragment = HistorySearchFragment()
+                val bundle = Bundle()
+                bundle.putStringArrayList(BridgeContext.LIST, hotList)
+                historySearchFragment?.arguments = bundle
+                historySearchFragment?.setCallback(this)
+                ts.add(R.id.layoutContainer, historySearchFragment!!)
+            }
         ts.commit()
     }
 
@@ -108,14 +125,18 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
                 if (searchResultFragment?.isVisible == true) searchResultFragment?.let {
                     supportFragmentManager.beginTransaction().remove(it).commit()
                 }
-                if (searchFragment?.isVisible == false) {
+                if (historySearchFragment?.isVisible == false) {
                     showSearchFragment()
-                    searchFragment?.setSearchHistory()
+                    historySearchFragment?.setSearchHistory()
                 }
             }
         }
     }
 
+    /**
+     * 历史搜索记录的按钮点击
+     * @param result String
+     */
     override fun onHistoryClick(result: String) {
         etSearch.setText(result)
         toResultFragment(result = result)

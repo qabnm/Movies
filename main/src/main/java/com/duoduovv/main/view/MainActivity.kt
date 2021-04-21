@@ -6,11 +6,11 @@ import android.view.View
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CINEMA
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
-import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.main.R
 import com.duoduovv.weichat.WeiChatTool
 import com.tencent.connect.common.UIListenerManager

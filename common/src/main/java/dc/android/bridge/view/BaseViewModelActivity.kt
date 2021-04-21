@@ -70,11 +70,15 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
 
     open fun showError(errMsg: String?) {
         AndroidUtils.toast(errMsg, this)
+        finishLoading()
     }
 
     private fun parameterError(msg: String) {
         AndroidUtils.toast(msg, this)
+        finishLoading()
     }
+
+    open fun finishLoading() {}
 
     override fun onDestroy() {
         super.onDestroy()

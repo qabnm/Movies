@@ -3,9 +3,7 @@ package com.duoduovv.personal.view
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Intent
 import android.view.View
-import androidx.constraintlayout.widget.ConstraintLayout
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
@@ -29,14 +27,12 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatAppId
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatSecret
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatUserInfoUrl
 import com.duoduovv.weichat.WeiChatTool
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.BridgeContext.Companion.WAY
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
-import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
@@ -90,8 +86,10 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         imgQQ.setOnClickListener { qqLogin() }
         viewModel.getUserInfo().observe(this, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
         LiveDataBus.get().with("logout", Int::class.java).observe(this, {
-            WeiChatTool.mTenCent?.logout(requireActivity())
-            if (it == SUCCESS) viewModel.userInfo()
+            if (it == SUCCESS) {
+                WeiChatTool.mTenCent?.logout(requireContext())
+                viewModel.userInfo()
+            }
         })
     }
 
@@ -285,10 +283,11 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         }
 
         override fun onCopyClick() {
-            val clipboard = requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(null, WeiChatBridgeContext.shareLink)
             clipboard.setPrimaryClip(clipData)
-            AndroidUtils.toast("复制成功，快去打开看看吧！",requireActivity())
+            AndroidUtils.toast("复制成功，快去打开看看吧！", requireActivity())
         }
     }
 }

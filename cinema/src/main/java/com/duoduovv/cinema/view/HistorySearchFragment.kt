@@ -4,27 +4,27 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.cinema.CinemaContext
-import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.HotSearchAdapter
+import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.util.FlowLayout
 import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_search.*
+import kotlinx.android.synthetic.main.fragment_history_search.*
 
 /**
  * @author: jun.liu
  * @date: 2021/1/8 14:19
  * @des:历史搜索 搜索热词
  */
-class SearchFragment : BaseFragment(), IHistoryClickCallback {
-    override fun getLayoutId() = R.layout.fragment_search
+class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
+    override fun getLayoutId() = R.layout.fragment_history_search
     private var cb: IHistoryClickCallback? = null
     private var hotSearchAdapter: HotSearchAdapter? = null
-    private var hotList:List<String>? =null
+    private var hotList: List<String>? = null
 
     fun setCallback(cb: IHistoryClickCallback) {
         this.cb = cb
