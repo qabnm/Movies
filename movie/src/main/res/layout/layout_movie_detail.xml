@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/dp_13"
+    android:paddingStart="@dimen/dp_13"
     android:paddingTop="@dimen/dp_20"
-    android:paddingRight="@dimen/dp_13"
+    android:paddingEnd="@dimen/dp_13"
     android:paddingBottom="@dimen/dp_20"
     >
 
@@ -58,7 +58,8 @@
         android:id="@+id/tvJubao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_10"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="0px"
         android:text="举报"
         android:textColor="#F1303C"
         app:layout_constraintBottom_toBottomOf="@+id/tvType"

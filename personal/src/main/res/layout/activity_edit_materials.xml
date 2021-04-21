@@ -26,7 +26,8 @@
 
         <TextView
             style="@style/centerIconText"
-            android:paddingLeft="0dp"
+            android:paddingStart="0px"
+            android:paddingEnd="0px"
             android:text="图像" />
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/imgHeader"
@@ -45,7 +46,8 @@
         style="@style/centerIconLinear">
         <TextView
             style="@style/centerIconText"
-            android:paddingLeft="0dp"
+            android:paddingStart="0px"
+            android:paddingEnd="0px"
             android:text="昵称" />
         <TextView
             android:id="@+id/tvNickName"
@@ -60,7 +62,8 @@
         style="@style/centerIconLinear">
         <TextView
             style="@style/centerIconText"
-            android:paddingLeft="0dp"
+            android:paddingStart="0px"
+            android:paddingEnd="0px"
             android:text="性别" />
         <TextView
             android:id="@+id/tvSex"
@@ -75,7 +78,8 @@
         style="@style/centerIconLinear">
         <TextView
             style="@style/centerIconText"
-            android:paddingLeft="0dp"
+            android:paddingStart="0px"
+            android:paddingEnd="0px"
             android:text="所在地" />
         <TextView
             android:id="@+id/tvWhere"
@@ -90,7 +94,8 @@
         style="@style/centerIconLinear">
         <TextView
             style="@style/centerIconText"
-            android:paddingLeft="0dp"
+            android:paddingStart="0px"
+            android:paddingEnd="0px"
             android:text="生日" />
         <TextView
             android:id="@+id/tvBirthday"
@@ -105,7 +110,8 @@
         style="@style/centerIconLinear">
         <TextView
             style="@style/centerIconText"
-            android:paddingLeft="0dp"
+            android:paddingStart="0px"
+            android:paddingEnd="0px"
             android:text="个性签名" />
         <TextView
             android:id="@+id/tvSign"

@@ -14,7 +14,7 @@
         android:id="@+id/imgSearch"
         android:layout_width="@dimen/dp_36"
         android:layout_height="@dimen/dp_36"
-        android:layout_marginRight="@dimen/dp_2"
+        android:layout_marginEnd="@dimen/dp_2"
         android:padding="@dimen/dp_10"
         android:src="@drawable/movie_search"
         app:layout_constraintBottom_toBottomOf="@+id/indicator"

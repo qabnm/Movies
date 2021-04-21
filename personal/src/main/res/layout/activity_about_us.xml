@@ -124,7 +124,8 @@
             android:inputType="number"
             android:textColorHint="@color/colorFFFFFF"
             android:hint="输入：1正式可播放，2正式跳H5，3审核版本"
-            android:paddingLeft="@dimen/dp_12"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingEnd="0px"
             android:textColor="@color/colorFFFFFF"
             android:textSize="@dimen/sp_14" />
 
