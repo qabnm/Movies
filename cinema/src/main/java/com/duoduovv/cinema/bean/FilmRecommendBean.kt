@@ -1,6 +1,7 @@
 package com.duoduovv.cinema.bean
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -10,19 +11,12 @@ import kotlinx.android.parcel.Parcelize
  */
 @Parcelize
 data class FilmRecommendBean(
-    val cover_url: String,
-    val hot: String,
-    val id: String,
-    val score: String,
-    val vod_actor: String,
-    val vod_area: String,
-    val vod_area_text: String,
-    val vod_director: String,
-    val vod_lang: String,
-    val vod_name: String,
-    val vod_number: String,
-    val vod_year: String,
+    @SerializedName("cover_url")
+    val coverUrl: String,
+    @SerializedName("vod_name")
+    val vodName: String,
     val remark:String,
-    val str_id:String,
+    @SerializedName("str_id")
+    val strId:String,
     val way:Int
 ):Parcelable

@@ -13,7 +13,7 @@ import dc.android.bridge.util.GlideUtils
  */
 class MovieDetailForDebugActorAdapter :BaseQuickAdapter<ActorArray,BaseViewHolder>(R.layout.item_movie_detail_for_debug) {
     override fun convert(holder: BaseViewHolder, item: ActorArray) {
-        GlideUtils.setImg(context, item.Img, holder.getView(R.id.imgCover))
-        holder.setText(R.id.tvName, item.Name)
+        GlideUtils.setImg(context, item.imgCover, holder.getView(R.id.imgCover))
+        holder.setText(R.id.tvName, item.name)
     }
 }

@@ -108,8 +108,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         value?.let {
             layoutLogin.visibility = View.GONE
             layoutTop.visibility = View.VISIBLE
-            GlideUtils.setImg(requireActivity(), it.img, imageIcon)
-            tvUser.text = it.nick
+            GlideUtils.setImg(requireActivity(), it.imgUrl, imageIcon)
+            tvUser.text = it.nickName
         }
     }
 
@@ -156,7 +156,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun setUserInfo(infoBean: WeiChatUserInfoBean?) {
         infoBean?.let {
-            viewModel.login(2, it.openid, it.nickname, it.sex, it.headimgurl ?: "", it.unionid)
+            viewModel.login(2, it.openId, it.nickName, it.sex, it.imgUrl ?: "", it.unionId)
         }
     }
 
@@ -166,7 +166,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun accessTokenValid(bean: AccessTokenValidBean?) {
         bean?.let {
-            if (it.errcode == 0) {
+            if (it.errCode == 0) {
                 //如果accessToken有效  获取用户信息
                 viewModel.weiCharUserInfo(
                     url = weiChatUserInfoUrl,
@@ -187,7 +187,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             viewModel.refreshToken(
                 url = refreshTokenUrl,
                 appId = weiChatAppId,
-                token = it.refresh_token
+                token = it.refreshToken
             )
         }
     }
@@ -201,8 +201,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             //检验accessToken是否有效
             viewModel.accessTokenValid(
                 url = accessTokenValidUrl,
-                accessToken = it.access_token,
-                openId = it.openid
+                accessToken = it.accessToken,
+                openId = it.openId
             )
         }
     }

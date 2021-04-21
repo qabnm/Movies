@@ -121,8 +121,8 @@ class MainPageAdapter(
             holder.banner.addBannerLifecycleObserver(context as AppCompatActivity)
                 .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
             holder.banner.setOnBannerListener { data, _ ->
-                val jumpType = (data as com.duoduovv.cinema.bean.Banner).jump_type
-                val movieId = data.movie_id
+                val jumpType = (data as com.duoduovv.cinema.bean.Banner).jumpType
+                val movieId = data.movieId
                 if (jumpType == "1") listener?.onMovieClick(movieId, -1)
             }
         }
@@ -140,7 +140,7 @@ class MainPageAdapter(
             holder.rvList.adapter = categoryAdapter
             categoryAdapter.setList(category)
             categoryAdapter.setOnItemClickListener { _, _, position ->
-                val typeId = category[position].type_spe_array.type_id
+                val typeId = category[position].typeSpeArray.typeId
                 listener?.onCategoryClick(typeId = typeId)
             }
         }
@@ -158,7 +158,7 @@ class MainPageAdapter(
             holder.rvList.adapter = adapter
             adapter?.setList(bean.mainPageBean.selectRecommends)
             adapter?.setOnItemClickListener { adapter, _, position ->
-                val movieId = (adapter as FilmRecommendAdapter).data[position].str_id
+                val movieId = (adapter as FilmRecommendAdapter).data[position].strId
                 val way = adapter.data[position].way
                 listener?.onMovieClick(movieId, way)
             }
@@ -192,12 +192,12 @@ class MainPageAdapter(
         val dataList = bean.mainRecommendBean.recommends
         if (dataList != null && dataList.isNotEmpty()) {
             val bean = dataList[position]
-            GlideUtils.setMovieImg(context, bean.cover_url, holder.coverImg)
-            holder.tvName.text = bean.vod_name
+            GlideUtils.setMovieImg(context, bean.coverUrl, holder.coverImg)
+            holder.tvName.text = bean.vodName
             holder.tvScore.text = StringUtils.getString(bean.remark)
             holder.layoutContainer.setOnClickListener {
                 listener?.onMovieClick(
-                    bean.str_id,
+                    bean.strId,
                     bean.way
                 )
             }

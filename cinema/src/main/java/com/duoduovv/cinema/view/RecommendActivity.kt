@@ -26,7 +26,7 @@ class RecommendActivity : BridgeActivity() {
         adapter = FilmRecommendAdapter(false)
         rvList.adapter = adapter
         adapter?.setOnItemClickListener { adapter, _, position ->
-            val movieId = (adapter as FilmRecommendAdapter).data[position].str_id
+            val movieId = (adapter as FilmRecommendAdapter).data[position].strId
             val way = adapter.data[position].way
             onMovieClick(movieId, way)
         }

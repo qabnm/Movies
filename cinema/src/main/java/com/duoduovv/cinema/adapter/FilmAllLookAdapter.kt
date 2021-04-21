@@ -17,7 +17,7 @@ class FilmAllLookAdapter(data: List<FilmRecommendBean>?) :
         data as MutableList<FilmRecommendBean>?
     ) {
     override fun convert(holder: BaseViewHolder, item: FilmRecommendBean) {
-        GlideUtils.setMovieImg(context, item.cover_url, holder.getView(R.id.imgCover))
-        holder.setText(R.id.tvName, item.vod_name)
+        GlideUtils.setMovieImg(context, item.coverUrl, holder.getView(R.id.imgCover))
+        holder.setText(R.id.tvName, item.vodName)
     }
 }

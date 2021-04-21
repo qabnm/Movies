@@ -107,10 +107,10 @@ class MovieLibraryAdapter(
     }
 
     private fun bindList(holder: ListViewHolder, movieBean: MovieLibList) {
-        GlideUtils.setMovieImg(context, movieBean.cover_url, holder.imgCover)
-        holder.tvName.text = movieBean.vod_name
-        holder.tvScore.text = movieBean.last_remark
-        holder.layoutContainer.setOnClickListener { itemClickListener?.onMovieClick(movieBean.str_id, movieBean.way) }
+        GlideUtils.setMovieImg(context, movieBean.coverUrl, holder.imgCover)
+        holder.tvName.text = movieBean.vodName
+        holder.tvScore.text = movieBean.lastRemark
+        holder.layoutContainer.setOnClickListener { itemClickListener?.onMovieClick(movieBean.strId, movieBean.way) }
     }
 
     override fun getItemCount() = if (movieList?.isNotEmpty() == true) {

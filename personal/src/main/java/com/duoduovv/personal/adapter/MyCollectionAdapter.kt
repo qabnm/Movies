@@ -4,7 +4,6 @@ import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
 import com.duoduovv.personal.R
-import com.duoduovv.personal.bean.FavoriteBean
 import com.duoduovv.room.domain.CollectionBean
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils

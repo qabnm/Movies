@@ -26,10 +26,6 @@ import kotlinx.coroutines.withContext
 class MovieDetailViewModel : BaseViewModel() {
     private var movieDetail: MutableLiveData<MovieDetailBean> = MutableLiveData()
     fun getMovieDetail() = movieDetail
-    private var addCollectionState: MutableLiveData<Int> = MutableLiveData()
-    fun getAddState() = addCollectionState
-    private var deleteCollectionState: MutableLiveData<Int> = MutableLiveData()
-    fun getDeleteState() = deleteCollectionState
     private var moviePlayInfo: MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
     fun getMoviePlayInfo() = moviePlayInfo
 
@@ -65,26 +61,6 @@ class MovieDetailViewModel : BaseViewModel() {
                 movieClickInfo.postValue(result.data)
             }
         }
-    }
-
-    /**
-     * 添加收藏
-     * @param movieId String
-     * @return Job
-     */
-    fun addCollection(movieId: String) = request {
-        val result = repository.addCollection(movieId)
-        if (result.code == SUCCESS) addCollectionState.postValue(200)
-    }
-
-    /**
-     * 删除收藏
-     * @param movieId String
-     * @return Job
-     */
-    fun deleteCollection(movieId: String) = request {
-        val result = repository.deleteCollection(movieId)
-        if (result.code == SUCCESS) deleteCollectionState.postValue(200)
     }
 
     /**
@@ -182,10 +158,10 @@ class MovieDetailViewModel : BaseViewModel() {
         duration: Int
     ) {
         //当前有视频播放 将播放的视频信息添加或者更新到数据库
-        val flag = bean.movie.movie_flag
+        val flag = bean.movie.movieFlag
         val videoBean = VideoWatchHistoryBean(
-            coverUrl = bean.movie.cover_url,
-            title = bean.movie.vod_name,
+            coverUrl = bean.movie.coverUrl,
+            title = bean.movie.vodName,
             type = flag,
             movieId = movieId,
             vid = vid,

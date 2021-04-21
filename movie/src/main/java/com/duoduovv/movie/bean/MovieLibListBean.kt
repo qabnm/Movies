@@ -1,5 +1,7 @@
 package com.duoduovv.movie.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author: jun.liu
  * @date: 2021/1/21 15:24
@@ -10,20 +12,13 @@ data class MovieLibListBean(
 )
 
 data class MovieLibList(
-    val cover_url: String,
-    val hot: String,
-    val id: String,
-    val score: String,
-    val vod_actor: String,
-    val vod_area: String,
-    val vod_area_text: String,
-    val vod_director: String,
-    val vod_lang: String,
-    val vod_name: String,
-    val vod_number: String,
-    val vod_year: String,
-    val remark:String,
-    val last_remark:String,
-    val str_id:String,
+    @SerializedName("cover_url")
+    val coverUrl: String,
+    @SerializedName("last_remark")
+    val lastRemark:String,
+    @SerializedName("str_id")
+    val strId:String,
+    @SerializedName("vod_name")
+    val vodName:String,
     val way:Int
 )

@@ -1,5 +1,7 @@
 package com.duoduovv.cinema.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author: jun.liu
  * @date: 2021/1/15 13:52
@@ -19,8 +21,10 @@ data class Column(
 
 data class Version(
     val content: String,
-    val is_force: Int,
+    @SerializedName("is_force")
+    val isForce: Int,
     val url: String,
     val version: String,
-    val version_number: Int
+    @SerializedName("version_number")
+    val versionNum: Int
 )

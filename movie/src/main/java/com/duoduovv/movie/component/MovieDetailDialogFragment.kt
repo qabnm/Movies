@@ -55,11 +55,11 @@ class MovieDetailDialogFragment(private val height: Int, private val bean: Movie
         val imgCancel: ImageView = view.findViewById(R.id.imgCancel)
         val tvJubao: TextView = view.findViewById(R.id.tvJubao)
         val tvContent: TextView = view.findViewById(R.id.tvContent)
-        tvName.text = bean.vod_name
-        tvType.text = "${bean.vod_area_text}/${bean.vod_year}"
+        tvName.text = bean.vodName
+        tvType.text = "${bean.vodArea}/${bean.vodYear}"
         imgCancel.setOnClickListener { dismiss() }
         tvJubao.setOnClickListener {  }
-        tvContent.text = bean.vod_blurb
+        tvContent.text = bean.vodDetail
         tvJubao.setOnClickListener { listener?.onReportClick(bean.id) }
     }
 

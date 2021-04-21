@@ -30,7 +30,7 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
         rankAdapter = MovieRankAdapter()
         rvList.adapter = rankAdapter
         rankAdapter?.setOnItemClickListener { adapter, _, position ->
-            val movieId = (adapter as MovieRankAdapter).data[position].str_id
+            val movieId = (adapter as MovieRankAdapter).data[position].strId
             val way = adapter.data[position].way
             val path = if (way == BridgeContext.WAY_VERIFY) {
                 RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG

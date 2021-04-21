@@ -14,6 +14,6 @@ import dc.android.bridge.util.GlideUtils
 class MovieDetailForDebugStagePhoto :
     BaseQuickAdapter<StagePhotoArray, BaseViewHolder>(R.layout.item_movie_detail_for_debug_stage_photo) {
     override fun convert(holder: BaseViewHolder, item: StagePhotoArray) {
-        GlideUtils.setImg(context, item.Img, holder.getView(R.id.imgCover))
+        GlideUtils.setImg(context, item.imgCover, holder.getView(R.id.imgCover))
     }
 }

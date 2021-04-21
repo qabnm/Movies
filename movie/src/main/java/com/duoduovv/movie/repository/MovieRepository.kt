@@ -70,30 +70,12 @@ class MovieRepository : MovieApiRepository() {
     }
 
     /**
-     * 添加收藏
-     * @param movieId String
-     * @return BaseResponseData<Any>
-     */
-    suspend fun addCollection(movieId: String) = request {
-        apiService.addCollection(movieId)
-    }
-
-    /**
-     * 删除收藏
-     * @param movieId String
-     * @return BaseResponseData<Any>
-     */
-    suspend fun deleteCollection(movieId: String) = request {
-        apiService.deleteCollection(movieId)
-    }
-
-    /**
      * 举报
      * @param content String
      * @param movieId String
      * @return BaseResponseData<Any>
      */
-    suspend fun report(content:String,movieId: String) = request {
+    suspend fun report(content: String, movieId: String) = request {
         apiService.report(content, movieId)
     }
 }

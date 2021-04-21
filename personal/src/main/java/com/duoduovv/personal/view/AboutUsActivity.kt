@@ -101,8 +101,8 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         //需要升级  弹出升级框
         bean?.let {
             val versionCode = OsUtils.getVerCode(this)
-            if (versionCode != -1 && it.version_number > versionCode) {
-                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content, it.url)
+            if (versionCode != -1 && it.versionNum > versionCode) {
+                upgradeDialogFragment = UpgradeDialogFragment(it.isForce, it.content, it.url)
                 upgradeDialogFragment?.showNow(supportFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             } else {
@@ -121,7 +121,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         this.bean = bean
         bean?.let {
             val versionCode = OsUtils.getVerCode(this)
-            if (versionCode != -1 && it.version_number > versionCode) {
+            if (versionCode != -1 && it.versionNum > versionCode) {
                 //显示升级小红点
                 vDot.visibility = View.VISIBLE
             } else {

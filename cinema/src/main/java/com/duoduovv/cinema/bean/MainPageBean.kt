@@ -1,5 +1,7 @@
 package com.duoduovv.cinema.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author: jun.liu
  * @date: 2021/1/15 14:06
@@ -14,16 +16,18 @@ data class MainPageBean(
 
 data class Banner(
     val img: String,
-    val jump_type: String,
-    val movie_id: String,
+    @SerializedName("jump_type")
+    val jumpType: String,
+    @SerializedName("movie_id")
+    val movieId: String,
     val title: String
 )
 
 data class Category(
     val icon: String,
     val name: String,
-    val spe: String,
-    val type_spe_array:TypeSpeBean
+    @SerializedName("type_spe_array")
+    val typeSpeArray: TypeSpeBean
 )
 
-data class TypeSpeBean(val type_id:String)
+data class TypeSpeBean(@SerializedName("type_id") val typeId: String)

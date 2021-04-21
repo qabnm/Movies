@@ -86,24 +86,6 @@ class PersonRepository : PersonApiRepository() {
     }
 
     /**
-     * 收藏列表
-     * @param page Int
-     * @return BaseResponseData<MyCollectionBean>
-     */
-    suspend fun collectionList(page: Int) = request {
-        apiService.collectionList(page)
-    }
-
-    /**
-     * 删除收藏
-     * @param movieId String
-     * @return BaseResponseData<Any>
-     */
-    suspend fun deleteCollection(movieId: String) = request {
-        apiService.deleteCollection(movieId)
-    }
-
-    /**
      * 檢查升級
      * @return BaseResponseData<UpgradeBean>
      */

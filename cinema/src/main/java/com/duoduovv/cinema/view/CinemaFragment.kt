@@ -80,9 +80,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private fun checkUpdate(bean: Version?) {
         bean?.let {
             val versionCode = OsUtils.getVerCode(requireContext())
-            if (versionCode != -1 && it.version_number > versionCode) {
+            if (versionCode != -1 && it.versionNum > versionCode) {
                 //需要升级  弹出升级框
-                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content, it.url)
+                upgradeDialogFragment = UpgradeDialogFragment(it.isForce, it.content, it.url)
                 upgradeDialogFragment?.showNow(childFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             }

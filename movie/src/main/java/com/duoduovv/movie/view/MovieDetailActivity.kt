@@ -202,9 +202,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         dismissLoading()
         this.detailBean = detailBean
         if (detailBean == null) return
-        movieId = detailBean.movie.str_id
+        movieId = detailBean.movie.strId
         way = detailBean.way
-        title = detailBean.movie.vod_name
+        title = detailBean.movie.vodName
         queryMovieById(movieId)
     }
 
@@ -226,7 +226,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
             }
             //视频信息
-            videoPlayer.loadCoverImage(detailBean!!.movie.cover_url, ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000))
+            videoPlayer.loadCoverImage(detailBean!!.movie.coverUrl, ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000))
             if (null == detailAdapter) {
                 detailAdapter =
                     MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
@@ -361,14 +361,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             GlobalScope.launch(Dispatchers.Main) {
                 val detailBean = detailBean!!.movie
                 val bean = CollectionBean(
-                    coverUrl = detailBean.cover_url,
-                    strId = detailBean.str_id,
+                    coverUrl = detailBean.coverUrl,
+                    strId = detailBean.strId,
                     movieId = detailBean.id,
-                    lastRemark = detailBean.last_remark,
-                    actor = detailBean.vod_actor,
-                    direcotor = detailBean.vod_director,
-                    movieName = detailBean.vod_name,
-                    lang = detailBean.vod_lang,
+                    lastRemark = detailBean.lastRemark,
+                    actor = detailBean.vodActor,
+                    direcotor = detailBean.vodDirector,
+                    movieName = detailBean.vodName,
+                    lang = detailBean.vodLang,
                     isCollect = true,
                     collectionTime = System.currentTimeMillis()
                 )
