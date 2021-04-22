@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 /**
  * @author: jun.liu
  * @date: 2021/1/18 10:19
- * @des:推荐的bean
+ * @des:今日推荐的bean
  */
 @Parcelize
 data class FilmRecommendBean(
@@ -15,6 +15,7 @@ data class FilmRecommendBean(
     val coverUrl: String,
     @SerializedName("vod_name")
     val vodName: String,
+    @SerializedName("last_remark")
     val remark:String,
     @SerializedName("str_id")
     val strId:String,

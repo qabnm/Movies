@@ -16,12 +16,48 @@ data class MovieDetailBean(
     val way: String,
 )
 
+/**
+ * 线路信息
+ * @property line String
+ * @property name String
+ * @constructor
+ */
 data class LineList(val line: String, val name: String)
 
+/**
+ * 播放线路信息
+ * @property key String
+ * @property name String
+ * @property url String
+ * @constructor
+ */
 data class PlayUrlsBean(val key: String, val name: String, val url: String)
 
+/**
+ * 选集信息
+ * @property vid String
+ * @property title String
+ * @property isSelect Boolean
+ * @constructor
+ */
 data class MovieItem(val vid: String, val title: String, var isSelect: Boolean = false)
 
+/**
+ * 详情
+ * @property coverUrl String
+ * @property lastRemark String
+ * @property strId String
+ * @property vodActor String
+ * @property vodArea String
+ * @property vodDetail String
+ * @property vodDirector String
+ * @property vodLang String
+ * @property vodName String
+ * @property vodYear String
+ * @property movieFlag String?
+ * @property id String
+ * @constructor
+ */
 data class MovieDetail(
     @SerializedName("cover_url")
     val coverUrl: String,
@@ -48,6 +84,14 @@ data class MovieDetail(
     val id: String
 )
 
+/**
+ * 视频 推荐
+ * @property coverUrl String
+ * @property lastRemark String
+ * @property strId String
+ * @property vodName String
+ * @constructor
+ */
 data class DetailRecommend(
     @SerializedName("cover_url")
     val coverUrl: String,

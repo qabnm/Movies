@@ -14,11 +14,26 @@ data class ConfigureBean(
     val way:String
 )
 
+/**
+ * 首页顶部栏目分类
+ * @property id String
+ * @property name String
+ * @constructor
+ */
 data class Column(
     val id: String,
     val name: String
 )
 
+/**
+ * 版本更新
+ * @property content String
+ * @property isForce String
+ * @property url String
+ * @property version String
+ * @property versionNum Int
+ * @constructor
+ */
 data class Version(
     val content: String,
     @SerializedName("is_force")

@@ -74,6 +74,10 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         }
     }
 
+    /**
+     * 显示搜索结果页面
+     * @param result String
+     */
     private fun toResultFragment(result: String) {
         etSearch.clearFocus()
         OsUtils.hideKeyboard(this)

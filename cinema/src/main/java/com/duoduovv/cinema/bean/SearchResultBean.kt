@@ -13,6 +13,21 @@ data class SearchResultBean(
     val result: List<SearchResultList>?
 )
 
+/**
+ * 搜索结果
+ * @property coverUrl String
+ * @property movieItems List<MovieItem>?
+ * @property strId String
+ * @property vodArea String
+ * @property vodDirector String
+ * @property vodLang String
+ * @property vodName String
+ * @property vodYear String
+ * @property typeText String
+ * @property movieFlag String
+ * @property way String
+ * @constructor
+ */
 data class SearchResultList(
     @SerializedName("cover_url")
     val coverUrl: String,
@@ -37,6 +52,13 @@ data class SearchResultList(
     val way: String
 )
 
+/**
+ * 影视选集信息
+ * @property vid String
+ * @property title String
+ * @property isSelect Boolean
+ * @constructor
+ */
 @Parcelize
 data class MovieItem(
     var vid: String,

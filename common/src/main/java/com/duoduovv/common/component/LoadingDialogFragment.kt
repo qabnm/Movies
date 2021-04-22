@@ -14,7 +14,7 @@ import kotlinx.android.synthetic.main.dialog_loading.*
 /**
  * @author: jun.liu
  * @date: 2021/3/31 11:24
- * @des:
+ * @des:loading弹窗
  */
 class LoadingDialogFragment : DialogFragment() {
     override fun onCreateView(

@@ -10,7 +10,7 @@ import dc.android.bridge.util.StringUtils
 /**
  * @author: jun.liu
  * @date: 2021/1/18 10:40
- * @des:推荐adapter
+ * @des:今日推荐adapter
  */
 class FilmRecommendAdapter(private val isMainPage:Boolean) :
     BaseQuickAdapter<FilmRecommendBean, BaseViewHolder>(R.layout.item_movie_library) {

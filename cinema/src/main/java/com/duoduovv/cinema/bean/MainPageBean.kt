@@ -14,6 +14,14 @@ data class MainPageBean(
     val selectRecommends: List<FilmRecommendBean>?//今日推荐
 )
 
+/**
+ * 首页banner
+ * @property img String
+ * @property jumpType String
+ * @property movieId String
+ * @property title String
+ * @constructor
+ */
 data class Banner(
     val img: String,
     @SerializedName("jump_type")
@@ -23,6 +31,13 @@ data class Banner(
     val title: String
 )
 
+/**
+ * 首页分类
+ * @property icon String
+ * @property name String
+ * @property typeSpeArray TypeSpeBean
+ * @constructor
+ */
 data class Category(
     val icon: String,
     val name: String,

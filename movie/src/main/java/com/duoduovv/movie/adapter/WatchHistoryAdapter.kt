@@ -3,7 +3,6 @@ package com.duoduovv.movie.adapter
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
-import com.duoduovv.movie.MovieContext
 import com.duoduovv.movie.R
 import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM

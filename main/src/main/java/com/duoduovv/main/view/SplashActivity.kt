@@ -126,6 +126,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             aioName: String
         ) {
             Log.i("address", "定位成功$province$city$district$street")
+//            AndroidUtils.toast("$province**$city**$district",this@SplashActivity)
             SharedPreferencesHelper.helper.setValue(ADDRESS,
                 "{\"p\":\"${StringUtils.gbEncoding(province)}\",\"c\":\"${
                     StringUtils.gbEncoding(city)

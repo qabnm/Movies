@@ -12,6 +12,19 @@ data class MovieDetailForDebugBean(
     val movieDetail: MovieDetailForDebug
 )
 
+/**
+ * 影视详情信息
+ * @property coverUrl String
+ * @property vodActor String
+ * @property vodArea String
+ * @property vodDetail String
+ * @property vodDirector String
+ * @property vodLang String
+ * @property vodName String
+ * @property vodYear String
+ * @property typeText String
+ * @constructor
+ */
 data class MovieForDebug(
     @SerializedName("cover_url")
     val coverUrl: String,
@@ -40,6 +53,12 @@ data class MovieDetailForDebug(
     val photoArray: List<StagePhotoArray>?
 )
 
+/**
+ * 演员表
+ * @property imgCover String
+ * @property name String
+ * @constructor
+ */
 data class ActorArray(
     @SerializedName("Img")
     val imgCover: String,
@@ -47,6 +66,11 @@ data class ActorArray(
     val name:String
 )
 
+/**
+ * 剧照
+ * @property imgCover String
+ * @constructor
+ */
 data class StagePhotoArray(
     @SerializedName("Img")
     val imgCover: String
