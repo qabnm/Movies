@@ -34,7 +34,7 @@ class MainPageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         CinemaContext.TYPE_BANNER -> BannerViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_main_banner, parent, false), context
+            LayoutInflater.from(context).inflate(R.layout.item_main_banner, parent, false)
         )
         CinemaContext.TYPE_CATEGORY -> CategoryViewHolder(
             LayoutInflater.from(context).inflate(R.layout.item_layout_category, parent, false),
@@ -232,7 +232,7 @@ class MainPageAdapter(
         }
     }
 
-    private class BannerViewHolder(itemView: View, context: Context) :
+    private class BannerViewHolder(itemView: View) :
         RecyclerView.ViewHolder(itemView) {
         val banner: Banner<com.duoduovv.cinema.bean.Banner, BannerImgAdapter> =
             itemView.findViewById(R.id.layoutBanner)

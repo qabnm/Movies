@@ -103,5 +103,5 @@ dependencies {
     api "com.tencent.bugly:crashreport:$ext.bugly_crash"
 
     implementation "com.airbnb.android:lottie:$ext.lottie_version"
-    compileOnly 'org.checkerframework:checker-qual:3.3.0'
+    /*compileOnly 'org.checkerframework:checker-qual:3.3.0'*/
 }
