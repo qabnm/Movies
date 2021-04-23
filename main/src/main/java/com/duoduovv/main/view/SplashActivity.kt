@@ -125,7 +125,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             street: String,
             aioName: String
         ) {
-            Log.i("address", "定位成功$province$city$district$street")
+            Log.d("address", "定位成功$province$city$district$street")
 //            AndroidUtils.toast("$province**$city**$district",this@SplashActivity)
             SharedPreferencesHelper.helper.setValue(ADDRESS,
                 "{\"p\":\"${StringUtils.gbEncoding(province)}\",\"c\":\"${
@@ -134,6 +134,13 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                     OsUtils.getVerCode(BaseApplication.baseCtx)
                 },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
             )
+//            SharedPreferencesHelper.helper.setValue(ADDRESS,
+//                "{\"p\":\"${StringUtils.gbEncoding("湖北省")}\",\"c\":\"${
+//                    StringUtils.gbEncoding("十堰")
+//                }\",\"d\":\"${StringUtils.gbEncoding("房县")}\",\"v\":${
+//                    OsUtils.getVerCode(BaseApplication.baseCtx)
+//                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+//            )
             start()
         }
 

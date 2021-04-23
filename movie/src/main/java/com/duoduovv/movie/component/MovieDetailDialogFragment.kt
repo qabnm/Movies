@@ -50,7 +50,6 @@ class MovieDetailDialogFragment(private val height: Int, private val bean: Movie
 
     private fun initViews(view: View) {
         val tvName: TextView = view.findViewById(R.id.tvName)
-        val tvCount: TextView = view.findViewById(R.id.tvCount)
         val tvType: TextView = view.findViewById(R.id.tvType)
         val imgCancel: ImageView = view.findViewById(R.id.imgCancel)
         val tvJubao: TextView = view.findViewById(R.id.tvJubao)

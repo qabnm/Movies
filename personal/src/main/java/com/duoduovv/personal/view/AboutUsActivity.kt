@@ -11,6 +11,7 @@ import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
+import com.duoduovv.weichat.WeiChatTool
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.BridgeContext.Companion.URL_PRIVACY
@@ -66,6 +67,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                             etInput.text.toString()
                         )
                         SharedPreferencesHelper.helper.remove(TOKEN)
+                        WeiChatTool.mTenCent?.logout(this)
                         AndroidUtils.toast("切换完成,请重新进入再试！", this)
                         layoutDebug.visibility = View.GONE
                     }

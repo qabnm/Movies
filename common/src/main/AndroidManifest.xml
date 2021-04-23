@@ -41,5 +41,13 @@
         </provider>
         <activity android:name=".view.WebViewActivity"
             android:screenOrientation="portrait"/>
+
+        <service android:name=".download.ExoDownloadService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.exoplayer.downloadService.action.RESTART"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
     </application>
 </manifest>
