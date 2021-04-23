@@ -125,7 +125,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
 
     override fun initData() {
         showLoading()
-        Log.i("address", SharedPreferencesHelper.helper.getValue(ADDRESS, "") as String)
+        Log.i("address", "${SharedPreferencesHelper.helper.getValue(ADDRESS, "")}")
         viewModel.configure()
     }
 }

@@ -6,7 +6,7 @@ def ext = rootProject.ext
 def cfg = ext.android
 
 static def buildTime() {
-    return new Date().format("yyyyMMdd")
+    return new Date().format("yyyyMMddHHmm")
 }
 
 android {
@@ -22,7 +22,7 @@ android {
         resValue "string", "build_time", buildTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
+        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
     }
 
     applicationVariants.all { variant ->
