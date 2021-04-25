@@ -226,7 +226,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
             }
             //视频信息
-            videoPlayer.loadCoverImage(detailBean!!.movie.coverUrl, ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000))
+            videoPlayer.loadCoverImage(
+                this@MovieDetailActivity,
+                detailBean!!.movie.coverUrl,
+                ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
+            )
             if (null == detailAdapter) {
                 detailAdapter =
                     MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
@@ -333,7 +337,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
             val clipData = ClipData.newPlainText(null, WeiChatBridgeContext.shareLink)
             clipboard.setPrimaryClip(clipData)
-            AndroidUtils.toast("复制成功，快去打开看看吧！",this@MovieDetailActivity)
+            AndroidUtils.toast("复制成功，快去打开看看吧！", this@MovieDetailActivity)
         }
     }
 
@@ -555,7 +559,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        UIListenerManager.getInstance().onActivityResult(requestCode, resultCode,data,WeiChatTool.shareListener)
+        UIListenerManager.getInstance()
+            .onActivityResult(requestCode, resultCode, data, WeiChatTool.shareListener)
         super.onActivityResult(requestCode, resultCode, data)
     }
 }

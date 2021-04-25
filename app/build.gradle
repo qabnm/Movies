@@ -32,14 +32,17 @@ android {
     }
     flavorDimensions 'default'
     productFlavors {
-//        huawei {}
-//        xiaomi {}
-//        oppo {}
-//        vivo {}
-//        meizu {}
-//        yingyongbao {}
-//        wandoujia {}
-//        _360 {}
+//        sd10001 {}
+//        sd10002 {}
+//        sd10003 {}
+//        sd10004 {}
+//        sd10005 {}
+//        sd10006 {}
+//        sd10007 {}
+//        sd10008 {}
+//        sd10009 {}
+//        sd10010 {}
+//        sd10011 {}
         df{}
     }
     productFlavors.all {
