@@ -125,15 +125,24 @@
             android:background="@null"
             android:inputType="number"
             android:textColorHint="@color/colorFFFFFF"
-            android:hint="输入：1正式可播放，2正式跳H5，3审核版本"
+            android:hint="1可播放，2跳H5，3审核版本"
             android:paddingStart="@dimen/dp_12"
             android:paddingEnd="0px"
             android:textColor="@color/colorFFFFFF"
             android:textSize="@dimen/sp_14" />
+        <TextView
+            android:id="@+id/tvClear"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="清除"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/tvSure"
-            android:layout_width="@dimen/dp_80"
+            android:layout_width="@dimen/dp_50"
             android:layout_height="match_parent"
             android:background="@color/color567CE7"
             android:gravity="center"

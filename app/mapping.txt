@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 2.0.74
 # min_api: 21
-# pg_map_id: b1ce28d
+# pg_map_id: eaf42f5
 # common_typos_disable
 $$ServiceLoaderMethods -> a:
     java.util.Iterator $load1() -> a
@@ -19274,8 +19274,9 @@ com.duoduovv.common.util.FileUtils -> com.duoduovv.common.util.a:
     boolean deleteDir(java.io.File) -> b
     long getFolderSize(java.io.File) -> c
     java.lang.String getFormatSize(double) -> d
-    java.lang.String getTotalCacheSize(android.content.Context) -> e
-    void is2File(java.io.InputStream,java.lang.String,com.duoduovv.common.util.FileUtils$Callback) -> f
+    java.lang.String getFromAssets(java.lang.String,android.content.Context) -> e
+    java.lang.String getTotalCacheSize(android.content.Context) -> f
+    void is2File(java.io.InputStream,java.lang.String,com.duoduovv.common.util.FileUtils$Callback) -> g
 com.duoduovv.common.util.FileUtils$Callback -> com.duoduovv.common.util.a$a:
     void doSuss(java.lang.String) -> a
     void doSchedule(long) -> b
@@ -20442,10 +20443,19 @@ com.duoduovv.personal.R$drawable -> f.d.g.c:
 com.duoduovv.personal.R$id -> f.d.g.d:
 com.duoduovv.personal.R$layout -> f.d.g.e:
 com.duoduovv.personal.R$string -> f.d.g.f:
-com.duoduovv.personal.adapter.MyCollectionAdapter -> f.d.g.g.a:
+com.duoduovv.personal.adapter.AreaAdapter -> f.d.g.g.a:
+    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.String) -> P
+    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.Object) -> f
+com.duoduovv.personal.adapter.CityAdapter -> f.d.g.g.b:
+    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.duoduovv.personal.bean.City) -> P
+    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.Object) -> f
+com.duoduovv.personal.adapter.MyCollectionAdapter -> f.d.g.g.c:
     boolean isEdit -> A
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.duoduovv.room.domain.CollectionBean) -> P
     void isEdit(boolean) -> Q
+    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.Object) -> f
+com.duoduovv.personal.adapter.ProvinceAdapter -> f.d.g.g.d:
+    void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.duoduovv.personal.bean.CityBeanItem) -> P
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,java.lang.Object) -> f
 com.duoduovv.personal.repository.PersonApiRepository -> f.d.g.h.a:
     kotlin.Lazy apiService$delegate -> a
@@ -20547,7 +20557,7 @@ com.duoduovv.personal.view.AboutUsActivity -> com.duoduovv.personal.view.AboutUs
     com.duoduovv.common.component.UpgradeDialogFragment upgradeDialogFragment -> v
     int clickTime -> y
     java.util.HashMap _$_findViewCache -> A
-    void onIconClick() -> A0
+    void onIconClick(int) -> A0
     void toWebActivity(java.lang.String,java.lang.String) -> B0
     void initData() -> U
     void initView() -> Y
@@ -20558,7 +20568,7 @@ com.duoduovv.personal.view.AboutUsActivity -> com.duoduovv.personal.view.AboutUs
     com.duoduovv.common.component.UpgradeDialogFragment access$getUpgradeDialogFragment$p(com.duoduovv.personal.view.AboutUsActivity) -> s0
     com.duoduovv.personal.viewmodel.SettingViewModel access$getViewModel$p(com.duoduovv.personal.view.AboutUsActivity) -> t0
     void access$onCheckSuccess(com.duoduovv.personal.view.AboutUsActivity,com.duoduovv.personal.bean.VersionBean) -> u0
-    void access$onIconClick(com.duoduovv.personal.view.AboutUsActivity) -> v0
+    void access$onIconClick(com.duoduovv.personal.view.AboutUsActivity,int) -> v0
     void access$toWebActivity(com.duoduovv.personal.view.AboutUsActivity,java.lang.String,java.lang.String) -> w0
     void checkUpgrade() -> x0
     void fastClick() -> y0
@@ -20585,11 +20595,48 @@ com.duoduovv.personal.view.AboutUsActivity$initView$7 -> com.duoduovv.personal.v
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
 com.duoduovv.personal.view.AboutUsActivity$initView$8 -> com.duoduovv.personal.view.AboutUsActivity$h:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$initView$8$1 -> com.duoduovv.personal.view.AboutUsActivity$h$a:
-    com.duoduovv.personal.view.AboutUsActivity$initView$8 this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$upgradeListener$1 -> com.duoduovv.personal.view.AboutUsActivity$i:
+com.duoduovv.personal.view.AboutUsActivity$initView$9 -> com.duoduovv.personal.view.AboutUsActivity$i:
+    com.duoduovv.personal.view.AboutUsActivity this$0 -> a
+com.duoduovv.personal.view.AboutUsActivity$initView$9$1 -> com.duoduovv.personal.view.AboutUsActivity$i$a:
+    com.duoduovv.personal.view.AboutUsActivity$initView$9 this$0 -> a
+com.duoduovv.personal.view.AboutUsActivity$upgradeListener$1 -> com.duoduovv.personal.view.AboutUsActivity$j:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
     void onUpgradeClick(java.lang.String) -> a
+com.duoduovv.personal.view.CitySelectActivity -> com.duoduovv.personal.view.CitySelectActivity:
+    java.lang.String province -> w
+    java.util.HashMap _$_findViewCache -> z
+    java.lang.String area -> y
+    java.lang.String city -> x
+    com.duoduovv.personal.adapter.ProvinceAdapter provinceAdapter -> t
+    com.duoduovv.personal.adapter.CityAdapter cityAdapter -> u
+    com.duoduovv.personal.adapter.AreaAdapter areaAdapter -> v
+    void initData() -> U
+    void initView() -> Y
+    int getLayoutId() -> c0
+    android.view.View _$_findCachedViewById(int) -> i0
+    java.lang.String access$getArea$p(com.duoduovv.personal.view.CitySelectActivity) -> j0
+    com.duoduovv.personal.adapter.AreaAdapter access$getAreaAdapter$p(com.duoduovv.personal.view.CitySelectActivity) -> k0
+    java.lang.String access$getCity$p(com.duoduovv.personal.view.CitySelectActivity) -> l0
+    com.duoduovv.personal.adapter.CityAdapter access$getCityAdapter$p(com.duoduovv.personal.view.CitySelectActivity) -> m0
+    java.lang.String access$getProvince$p(com.duoduovv.personal.view.CitySelectActivity) -> n0
+    void access$setArea$p(com.duoduovv.personal.view.CitySelectActivity,java.lang.String) -> o0
+    void access$setCity$p(com.duoduovv.personal.view.CitySelectActivity,java.lang.String) -> p0
+    void access$setProvince$p(com.duoduovv.personal.view.CitySelectActivity,java.lang.String) -> q0
+com.duoduovv.personal.view.CitySelectActivity$initData$1 -> com.duoduovv.personal.view.CitySelectActivity$a:
+    com.duoduovv.personal.bean.CityBean $dataList -> b
+    com.duoduovv.personal.view.CitySelectActivity this$0 -> a
+    void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int) -> a
+com.duoduovv.personal.view.CitySelectActivity$initData$2 -> com.duoduovv.personal.view.CitySelectActivity$b:
+    com.duoduovv.personal.view.CitySelectActivity this$0 -> a
+    void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int) -> a
+com.duoduovv.personal.view.CitySelectActivity$initData$3 -> com.duoduovv.personal.view.CitySelectActivity$c:
+    com.duoduovv.personal.view.CitySelectActivity this$0 -> a
+    void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int) -> a
+com.duoduovv.personal.view.CitySelectActivity$initData$dataList$1 -> com.duoduovv.personal.view.CitySelectActivity$d:
+com.duoduovv.personal.view.CitySelectActivity$initView$1 -> com.duoduovv.personal.view.CitySelectActivity$e:
+    com.duoduovv.personal.view.CitySelectActivity this$0 -> a
+com.duoduovv.personal.view.CitySelectActivity$initView$2 -> com.duoduovv.personal.view.CitySelectActivity$f:
+    com.duoduovv.personal.view.CitySelectActivity this$0 -> a
 com.duoduovv.personal.view.ContractServiceActivity -> com.duoduovv.personal.view.ContractServiceActivity:
     java.util.HashMap _$_findViewCache -> t
     void initData() -> U
@@ -41130,24 +41177,28 @@ com.google.gson.Gson -> f.e.c.e:
     boolean generateNonExecutableJson -> g
     boolean htmlSafe -> h
     com.google.gson.internal.bind.JsonAdapterAnnotationTypeAdapterFactory jsonAdapterFactory -> d
-    com.google.gson.TypeAdapter atomicLongAdapter(com.google.gson.TypeAdapter) -> a
-    com.google.gson.TypeAdapter atomicLongArrayAdapter(com.google.gson.TypeAdapter) -> b
-    void checkValidFloatingPoint(double) -> c
-    com.google.gson.TypeAdapter doubleAdapter(boolean) -> d
-    com.google.gson.TypeAdapter floatAdapter(boolean) -> e
-    com.google.gson.TypeAdapter getAdapter(com.google.gson.reflect.TypeToken) -> f
-    com.google.gson.TypeAdapter getAdapter(java.lang.Class) -> g
-    com.google.gson.TypeAdapter getDelegateAdapter(com.google.gson.TypeAdapterFactory,com.google.gson.reflect.TypeToken) -> h
-    com.google.gson.TypeAdapter longAdapter(com.google.gson.LongSerializationPolicy) -> i
-    com.google.gson.stream.JsonReader newJsonReader(java.io.Reader) -> j
-    com.google.gson.stream.JsonWriter newJsonWriter(java.io.Writer) -> k
-    java.lang.String toJson(com.google.gson.JsonElement) -> l
-    java.lang.String toJson(java.lang.Object) -> m
-    java.lang.String toJson(java.lang.Object,java.lang.reflect.Type) -> n
-    void toJson(com.google.gson.JsonElement,com.google.gson.stream.JsonWriter) -> o
-    void toJson(com.google.gson.JsonElement,java.lang.Appendable) -> p
-    void toJson(java.lang.Object,java.lang.reflect.Type,com.google.gson.stream.JsonWriter) -> q
-    void toJson(java.lang.Object,java.lang.reflect.Type,java.lang.Appendable) -> r
+    void assertFullConsumption(java.lang.Object,com.google.gson.stream.JsonReader) -> a
+    com.google.gson.TypeAdapter atomicLongAdapter(com.google.gson.TypeAdapter) -> b
+    com.google.gson.TypeAdapter atomicLongArrayAdapter(com.google.gson.TypeAdapter) -> c
+    void checkValidFloatingPoint(double) -> d
+    com.google.gson.TypeAdapter doubleAdapter(boolean) -> e
+    com.google.gson.TypeAdapter floatAdapter(boolean) -> f
+    java.lang.Object fromJson(com.google.gson.stream.JsonReader,java.lang.reflect.Type) -> g
+    java.lang.Object fromJson(java.io.Reader,java.lang.reflect.Type) -> h
+    java.lang.Object fromJson(java.lang.String,java.lang.reflect.Type) -> i
+    com.google.gson.TypeAdapter getAdapter(com.google.gson.reflect.TypeToken) -> j
+    com.google.gson.TypeAdapter getAdapter(java.lang.Class) -> k
+    com.google.gson.TypeAdapter getDelegateAdapter(com.google.gson.TypeAdapterFactory,com.google.gson.reflect.TypeToken) -> l
+    com.google.gson.TypeAdapter longAdapter(com.google.gson.LongSerializationPolicy) -> m
+    com.google.gson.stream.JsonReader newJsonReader(java.io.Reader) -> n
+    com.google.gson.stream.JsonWriter newJsonWriter(java.io.Writer) -> o
+    java.lang.String toJson(com.google.gson.JsonElement) -> p
+    java.lang.String toJson(java.lang.Object) -> q
+    java.lang.String toJson(java.lang.Object,java.lang.reflect.Type) -> r
+    void toJson(com.google.gson.JsonElement,com.google.gson.stream.JsonWriter) -> s
+    void toJson(com.google.gson.JsonElement,java.lang.Appendable) -> t
+    void toJson(java.lang.Object,java.lang.reflect.Type,com.google.gson.stream.JsonWriter) -> u
+    void toJson(java.lang.Object,java.lang.reflect.Type,java.lang.Appendable) -> v
 com.google.gson.Gson$1 -> f.e.c.e$a:
     java.lang.Object read(com.google.gson.stream.JsonReader) -> b
     void write(com.google.gson.stream.JsonWriter,java.lang.Object) -> d

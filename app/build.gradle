@@ -43,7 +43,8 @@ android {
 //        sd10009 {}
 //        sd10010 {}
 //        sd10011 {}
-        df{}
+//        df{}
+        _test{}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

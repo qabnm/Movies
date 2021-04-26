@@ -29,10 +29,13 @@ class HeaderInterceptor : Interceptor {
             },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
         }
         if (OsUtils.isAppDebug()) {
-            builder.addHeader(
-                "WAYLEVEL",
-                SharedPreferencesHelper.helper.getValue(BridgeContext.DEBUG_WAY, "1") as String
-            )
+            val debugWay = SharedPreferencesHelper.helper.getValue(BridgeContext.DEBUG_WAY, "") as String
+            if (!StringUtils.isEmpty(debugWay)) {
+                builder.addHeader(
+                    "WAYLEVEL",
+                    SharedPreferencesHelper.helper.getValue(BridgeContext.DEBUG_WAY, "2") as String
+                )
+            }
         }
         builder.addHeader("User-Agent", "$userAgent---$location")
         builder.addHeader(

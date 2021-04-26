@@ -75,6 +75,10 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                 }
                 true
             }
+            tvClear.setOnClickListener {
+                SharedPreferencesHelper.helper.remove(BridgeContext.DEBUG_WAY)
+                AndroidUtils.toast("清除成功",this)
+            }
         }
     }
 
