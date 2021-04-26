@@ -33,7 +33,9 @@ open class BridgeContext {
         const val TYPE_TV0 = "0"
         const val TYPE_TV = "2"
         const val TYPE_ALBUM = "3"
-
+        const val PROVINCE = "province"
+        const val CITY = "city"
+        const val AREA = "area"
 
 
         const val BASE_URL = "https://www.duoduovv.cn/"

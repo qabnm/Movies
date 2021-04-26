@@ -56,7 +56,8 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             //隐私政策
             toWebActivity("隐私政策", URL_PRIVACY)
         }
-        imgIcon.setOnClickListener { onIconClick() }
+        imgIcon.setOnClickListener { onIconClick(0) }
+        tvLogoName.setOnClickListener { onIconClick(1) }
         if (OsUtils.isAppDebug()) {
             imgIcon.setOnLongClickListener {
                 layoutDebug.visibility = View.VISIBLE
@@ -77,12 +78,18 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         }
     }
 
-    private fun onIconClick() {
+    private fun onIconClick(flag:Int) {
         fastClick()
         if (clickTime > 5) {
-            vLine.visibility = View.VISIBLE
-            layoutWhere.visibility = View.VISIBLE
-            tvWhere.text = AndroidUtils.getAppMetaData()
+            if (flag == 0) {
+                //显示渠道名称
+                vLine.visibility = View.VISIBLE
+                layoutWhere.visibility = View.VISIBLE
+                tvWhere.text = AndroidUtils.getAppMetaData()
+            }else{
+                //显示位置切换功能
+                ARouter.getInstance().build(RouterPath.PATH_CITY_SELECT).navigation()
+            }
         }
     }
 

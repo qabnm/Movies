@@ -106,5 +106,10 @@ class RouterPath {
          * 更多推荐页面
          */
         const val PATH_RECOMMEND = "/cinema/RecommendActivity"
+
+        /**
+         * 城市选择功能
+         */
+        const val PATH_CITY_SELECT = "/personal/CitySelectActivity"
     }
 }

@@ -22,10 +22,12 @@
         android:src="@drawable/person_icon_start" />
 
     <TextView
+        android:id="@+id/tvLogoName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_70"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_60"
         android:includeFontPadding="false"
         android:text="多多影视大全"
         android:textColor="@color/color262828"

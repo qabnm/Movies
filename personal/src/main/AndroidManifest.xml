@@ -31,5 +31,9 @@
 
         <activity android:name=".view.AboutUsActivity"
             android:screenOrientation="portrait"/>
+
+        <activity android:name=".view.CitySelectActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>
