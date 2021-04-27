@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 2.0.74
 # min_api: 21
-# pg_map_id: eaf42f5
+# pg_map_id: 9a025a2
 # common_typos_disable
 $$ServiceLoaderMethods -> a:
     java.util.Iterator $load1() -> a
@@ -20573,33 +20573,35 @@ com.duoduovv.personal.view.AboutUsActivity -> com.duoduovv.personal.view.AboutUs
     void checkUpgrade() -> x0
     void fastClick() -> y0
     void onCheckSuccess(com.duoduovv.personal.bean.VersionBean) -> z0
-com.duoduovv.personal.view.AboutUsActivity$initView$1 -> com.duoduovv.personal.view.AboutUsActivity$a:
+com.duoduovv.personal.view.AboutUsActivity$initView$1 -> com.duoduovv.personal.view.AboutUsActivity$b:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$initView$2 -> com.duoduovv.personal.view.AboutUsActivity$b:
+com.duoduovv.personal.view.AboutUsActivity$initView$10 -> com.duoduovv.personal.view.AboutUsActivity$a:
+    com.duoduovv.personal.view.AboutUsActivity this$0 -> a
+com.duoduovv.personal.view.AboutUsActivity$initView$2 -> com.duoduovv.personal.view.AboutUsActivity$c:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
     void onChanged(java.lang.Object) -> a
     void onChanged(com.duoduovv.personal.bean.VersionBean) -> b
-com.duoduovv.personal.view.AboutUsActivity$initView$3 -> com.duoduovv.personal.view.AboutUsActivity$c:
+com.duoduovv.personal.view.AboutUsActivity$initView$3 -> com.duoduovv.personal.view.AboutUsActivity$d:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
     void onChanged(java.lang.Object) -> a
     void onChanged(java.lang.Integer) -> b
-com.duoduovv.personal.view.AboutUsActivity$initView$4 -> com.duoduovv.personal.view.AboutUsActivity$d:
+com.duoduovv.personal.view.AboutUsActivity$initView$4 -> com.duoduovv.personal.view.AboutUsActivity$e:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
     void onChanged(java.lang.Object) -> a
     void onChanged(android.content.Intent) -> b
-com.duoduovv.personal.view.AboutUsActivity$initView$5 -> com.duoduovv.personal.view.AboutUsActivity$e:
+com.duoduovv.personal.view.AboutUsActivity$initView$5 -> com.duoduovv.personal.view.AboutUsActivity$f:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$initView$6 -> com.duoduovv.personal.view.AboutUsActivity$f:
+com.duoduovv.personal.view.AboutUsActivity$initView$6 -> com.duoduovv.personal.view.AboutUsActivity$g:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$initView$7 -> com.duoduovv.personal.view.AboutUsActivity$g:
+com.duoduovv.personal.view.AboutUsActivity$initView$7 -> com.duoduovv.personal.view.AboutUsActivity$h:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$initView$8 -> com.duoduovv.personal.view.AboutUsActivity$h:
+com.duoduovv.personal.view.AboutUsActivity$initView$8 -> com.duoduovv.personal.view.AboutUsActivity$i:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$initView$9 -> com.duoduovv.personal.view.AboutUsActivity$i:
+com.duoduovv.personal.view.AboutUsActivity$initView$9 -> com.duoduovv.personal.view.AboutUsActivity$j:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$initView$9$1 -> com.duoduovv.personal.view.AboutUsActivity$i$a:
+com.duoduovv.personal.view.AboutUsActivity$initView$9$1 -> com.duoduovv.personal.view.AboutUsActivity$j$a:
     com.duoduovv.personal.view.AboutUsActivity$initView$9 this$0 -> a
-com.duoduovv.personal.view.AboutUsActivity$upgradeListener$1 -> com.duoduovv.personal.view.AboutUsActivity$j:
+com.duoduovv.personal.view.AboutUsActivity$upgradeListener$1 -> com.duoduovv.personal.view.AboutUsActivity$k:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
     void onUpgradeClick(java.lang.String) -> a
 com.duoduovv.personal.view.CitySelectActivity -> com.duoduovv.personal.view.CitySelectActivity:
