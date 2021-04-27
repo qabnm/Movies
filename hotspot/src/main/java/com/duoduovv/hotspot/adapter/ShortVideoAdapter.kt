@@ -22,7 +22,7 @@ class ShortVideoAdapter : BaseQuickAdapter<ShortVideoBean, BaseViewHolder>(R.lay
             backButton.visibility = View.GONE  //设置返回键
             //设置封面
             thumbImageViewLayout.visibility = View.VISIBLE
-            loadCoverImage(item.coverUlr,R.drawable.back)
+            loadCoverImage(context,item.coverUlr,R.drawable.back)
             //设置全屏按键功能
             fullscreenButton.setOnClickListener { this.startWindowFullscreen(context, false, true) }
             //防止错位设置

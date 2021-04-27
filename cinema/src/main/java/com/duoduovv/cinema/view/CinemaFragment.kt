@@ -3,6 +3,7 @@ package com.duoduovv.cinema.view
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -40,6 +41,8 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var bean: Version? = null
 
     override fun initView() {
+        val layoutParams = vStatusBar.layoutParams as LinearLayout.LayoutParams
+        layoutParams.height = OsUtils.getStatusBarHeight(requireActivity())
         tvSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
                 .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
@@ -49,7 +52,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
-            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way)
+            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way?:"")
             imgHistory.visibility = if (result?.way == WAY_VERIFY) View.INVISIBLE else View.VISIBLE
             hotList = result?.hotSearch
             BaseApplication.hotList = hotList
@@ -77,9 +80,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private fun checkUpdate(bean: Version?) {
         bean?.let {
             val versionCode = OsUtils.getVerCode(requireContext())
-            if (versionCode != -1 && it.version_number > versionCode) {
+            if (versionCode != -1 && it.versionNum > versionCode) {
                 //需要升级  弹出升级框
-                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content, it.url)
+                upgradeDialogFragment = UpgradeDialogFragment(it.isForce, it.content, it.url)
                 upgradeDialogFragment?.showNow(childFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             }
@@ -114,7 +117,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
         CommonNavigator(requireActivity()).apply {
             adapter = ScaleTitleNavAdapter(vpContainer, titleList)
-            isAdjustMode = titleList.size <= 6
+            isAdjustMode = titleList.size <= 5
             indicator.navigator = this
         }
         ViewPagerHelper.bind(indicator, vpContainer)
@@ -122,7 +125,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
 
     override fun initData() {
         showLoading()
-        Log.i("address", SharedPreferencesHelper.helper.getValue(ADDRESS, "") as String)
+        Log.i("address", "${SharedPreferencesHelper.helper.getValue(ADDRESS, "")}")
         viewModel.configure()
     }
 }

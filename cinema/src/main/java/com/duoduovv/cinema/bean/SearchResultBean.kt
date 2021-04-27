@@ -1,6 +1,7 @@
 package com.duoduovv.cinema.bean
 
 import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 /**
@@ -9,40 +10,55 @@ import kotlinx.android.parcel.Parcelize
  * @des:搜索结果展示页面
  */
 data class SearchResultBean(
-    val paging: Paging,
     val result: List<SearchResultList>?
 )
 
-data class Paging(
-    val page: Int,
-    val pageSize: Int
-)
-
+/**
+ * 搜索结果
+ * @property coverUrl String
+ * @property movieItems List<MovieItem>?
+ * @property strId String
+ * @property vodArea String
+ * @property vodDirector String
+ * @property vodLang String
+ * @property vodName String
+ * @property vodYear String
+ * @property typeText String
+ * @property movieFlag String
+ * @property way String
+ * @constructor
+ */
 data class SearchResultList(
-    val cover_url: String,
-    val hot: String,
-    val is_copy: String,
-    val is_end: String,
-    val last_remark: String,
-    val movie_items: List<MovieItem>?,
-    val remark: String,
-    val score: String,
-    val str_id: String,
-    val type_id: String,
-    val vod_actor: String,
-    val vod_area: String,
-    val vod_area_text: String,
-    val vod_director: String,
-    val vod_lang: String,
-    val vod_name: String,
-    val vod_number: Int,
-    val vod_year: String,
-    val type_id_text: String,
-    val id: String,
-    val movie_flag: String,
-    val way:Int
+    @SerializedName("cover_url")
+    val coverUrl: String,
+    @SerializedName("movie_items")
+    val movieItems: List<MovieItem>?,
+    @SerializedName("str_id")
+    val strId: String,
+    @SerializedName("vod_area_text")
+    val vodArea: String,
+    @SerializedName("vod_director")
+    val vodDirector: String,
+    @SerializedName("vod_lang")
+    val vodLang: String,
+    @SerializedName("vod_name")
+    val vodName: String,
+    @SerializedName("vod_year")
+    val vodYear: String,
+    @SerializedName("type_id_text")
+    val typeText: String,
+    @SerializedName("movie_flag")
+    val movieFlag: String,
+    val way: String
 )
 
+/**
+ * 影视选集信息
+ * @property vid String
+ * @property title String
+ * @property isSelect Boolean
+ * @constructor
+ */
 @Parcelize
 data class MovieItem(
     var vid: String,

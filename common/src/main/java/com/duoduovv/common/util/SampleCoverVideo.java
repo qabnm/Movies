@@ -15,6 +15,7 @@ import android.widget.SeekBar;
 import androidx.lifecycle.Observer;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.request.RequestOptions;
 import com.duoduovv.common.R;
 import com.shuyu.gsyvideoplayer.utils.CommonUtil;
@@ -61,7 +62,6 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
                 (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
             mThumbImageViewLayout.setVisibility(VISIBLE);
         }
-        Log.i("movieDetail", "****999999init这里执行了：flag=" + flag);
     }
 
     @Override
@@ -69,18 +69,11 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         return R.layout.video_layout_cover;
     }
 
-    public void loadCoverImage(String url, int res) {
+    public void loadCoverImage(Context context,String url, int res) {
         mCoverOriginUrl = url;
         mDefaultRes = res;
-        Glide.with(getContext().getApplicationContext())
-                .setDefaultRequestOptions(
-                        new RequestOptions()
-                                .frame(1000000)
-                                .centerCrop()
-                                .error(res)
-                                .placeholder(res))
-                .load(url)
-                .into(mCoverImage);
+        RequestOptions options = new RequestOptions().centerCrop().error(res).placeholder(res);
+        Glide.with(context).load(url).apply(options).into(mCoverImage);
     }
 
     public void loadCoverImageBy(int id, int res) {
@@ -94,7 +87,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         GSYBaseVideoPlayer gsyBaseVideoPlayer = super.startWindowFullscreen(context, actionBar, statusBar);
         SampleCoverVideo sampleCoverVideo = (SampleCoverVideo) gsyBaseVideoPlayer;
         if (mCoverOriginUrl != null) {
-            sampleCoverVideo.loadCoverImage(mCoverOriginUrl, mDefaultRes);
+            sampleCoverVideo.loadCoverImage(context,mCoverOriginUrl, mDefaultRes);
         } else if (mCoverOriginId != 0) {
             sampleCoverVideo.loadCoverImageBy(mCoverOriginId, mDefaultRes);
         }

@@ -23,8 +23,8 @@
         android:gravity="center"
         android:textColor="#3C4452"
         android:textSize="@dimen/sp_15"
-        android:paddingLeft="@dimen/dp_20"
-        android:paddingRight="@dimen/dp_20"
+        android:paddingStart="@dimen/dp_20"
+        android:paddingEnd="@dimen/dp_20"
         tools:text="这是提示文字文字" />
 
     <View

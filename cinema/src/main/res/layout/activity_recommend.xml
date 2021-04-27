@@ -28,8 +28,8 @@
         android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/dp_12"
-        android:paddingRight="@dimen/dp_7"
+        android:paddingStart="@dimen/dp_12"
+        android:paddingEnd="@dimen/dp_7"
         android:layout_marginTop="@dimen/dp_10"
         android:scrollbars="none" />
     <!--</com.scwang.smart.refresh.layout.SmartRefreshLayout>-->

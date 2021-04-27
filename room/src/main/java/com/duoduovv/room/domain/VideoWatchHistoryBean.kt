@@ -1,5 +1,6 @@
 package com.duoduovv.room.domain
 
+import androidx.annotation.Keep
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -9,6 +10,7 @@ import androidx.room.PrimaryKey
  * @des:浏览历史数据
  */
 @Entity
+@Keep
 data class VideoWatchHistoryBean(
     @PrimaryKey(autoGenerate = true)
     var number:Long = 0,

@@ -57,7 +57,7 @@ class MovieRankNavFragment : BaseViewModelFragment<MovieRankCategoryViewModel>()
                 unSelectSize = R.dimen.sp_14,
                 selectSize = R.dimen.sp_15
             )
-            isAdjustMode = titleList.size < 7
+            isAdjustMode = false
             indicator.navigator = this
         }
         ViewPagerHelper.bind(indicator, vpContainer)

@@ -25,7 +25,7 @@ class SearchMoreSelectActivity : BridgeActivity() {
     private var title = ""
     private var movieId = ""
     private var dataList: List<MovieItem>? = null
-    private var way = 0
+    private var way = ""
     private var movieFlag = ""
 
     override fun initView() {
@@ -34,7 +34,7 @@ class SearchMoreSelectActivity : BridgeActivity() {
     }
 
     override fun initData() {
-        way = intent.getIntExtra(BridgeContext.WAY, 0)
+        way = intent.getStringExtra(BridgeContext.WAY) ?:""
         title = intent.getStringExtra(BridgeContext.TITLE) ?: ""
         dataList = intent.getParcelableArrayListExtra(BridgeContext.LIST)
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""

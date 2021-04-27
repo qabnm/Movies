@@ -1,5 +1,7 @@
 package com.duoduovv.personal.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author: jun.liu
  * @date: 2021/3/22 18:27
@@ -9,8 +11,10 @@ data class UpgradeBean(val version: VersionBean)
 
 data class VersionBean(
     val content: String,
-    val is_force: Int,
+    @SerializedName("is_force")
+    val isForce: String,
     val url: String,
     val version: String,
-    val version_number: Int
+    @SerializedName("version_number")
+    val versionNum: Int
 )

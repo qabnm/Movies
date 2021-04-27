@@ -29,16 +29,16 @@ import java.util.ArrayList
 /**
  * @author: jun.liu
  * @date: 2021/1/19 17:36
- * @des:首页
+ * @des:首页列表
  */
 class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefreshListener,
     OnLoadMoreListener, MainPageAdapter.OnItemClickListener {
+    override fun getLayoutId() = R.layout.fragment_cinema_list
+    override fun providerVMClass() = CinemaListViewModel::class.java
     private var page = 1
     private var adapter: MainPageAdapter? = null
     private var column = ""
-    override fun providerVMClass() = CinemaListViewModel::class.java
-
-    override fun getLayoutId() = R.layout.fragment_cinema_list
+    private var mainBean: MainBean? = null
 
     override fun initView() {
         adapter = null
@@ -60,7 +60,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
     }
 
-    private var mainBean: MainBean? = null
     private fun setData(value: MainBean?) {
         dismissLoading()
         mainBean = value
@@ -97,12 +96,20 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         viewModel.main(1, column)
     }
 
+    /**
+     * 下拉刷新
+     * @param refreshLayout RefreshLayout
+     */
     override fun onRefresh(refreshLayout: RefreshLayout) {
         refreshLayout.resetNoMoreData()
         page = 1
         viewModel.main(page, column = column)
     }
 
+    /**
+     * 请求分页数据
+     * @param refreshLayout RefreshLayout
+     */
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
         viewModel.mainRecommend(page, column = column)
@@ -120,13 +127,12 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * 跳转影视详情
      * @param movieId String
      */
-    override fun onMovieClick(movieId: String, ways:Int) {
-        var way = ways
-        if (way == -1){
+    override fun onMovieClick(movieId: String, way:String) {
+        val ways = if (way == "-1"){
             //这是从banner过来的 接口没有添加这个字段
-            way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY,0) as Int
-        }
-        val path = if (way == BridgeContext.WAY_VERIFY) {
+            SharedPreferencesHelper.helper.getValue(BridgeContext.WAY,"") as String
+        }else way
+        val path = if (ways == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         } else {
             PATH_MOVIE_DETAIL

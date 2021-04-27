@@ -1,14 +1,20 @@
 package com.duoduovv.personal.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author: jun.liu
  * @date: 2021/2/25 14:09
  * @des:刷新token
  */
 data class RefreshTokenBean(
-    val access_token: String,
-    val expires_in: Int,
-    val refresh_token: String,
-    val openid: String,
+    @SerializedName("access_token")
+    val accessToken: String,
+    @SerializedName("expires_in")
+    val expiresIn: Int,
+    @SerializedName("refresh_token")
+    val refreshToken: String,
+    @SerializedName("openid")
+    val openId: String,
     val scope: String
 )

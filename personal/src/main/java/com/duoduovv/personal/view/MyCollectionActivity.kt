@@ -44,7 +44,7 @@ class MyCollectionActivity : BridgeActivity() {
         collectionAdapter?.addChildClickViewIds(R.id.imgSelect)
         collectionAdapter?.setOnItemClickListener { adapter, _, position ->
             val movieId = (adapter as MyCollectionAdapter).data[position].strId
-            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, 0)
+            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, "")
             val path = if (way == BridgeContext.WAY_VERIFY) {
                 RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
             } else {

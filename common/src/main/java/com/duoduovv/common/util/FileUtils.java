@@ -4,10 +4,12 @@ import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.math.BigDecimal;
 
@@ -147,5 +149,20 @@ public class FileUtils {
         }
         BigDecimal result4 = new BigDecimal(teraBytes);
         return result4.setScale(2, BigDecimal.ROUND_HALF_UP).toPlainString() + "TB";
+    }
+
+    public static String getFromAssets(String fileName,Context context){
+        try {
+            InputStreamReader inputReader = new InputStreamReader( context.getResources().getAssets().open(fileName) );
+            BufferedReader bufReader = new BufferedReader(inputReader);
+            String line="";
+            StringBuilder result= new StringBuilder();
+            while((line = bufReader.readLine()) != null)
+                result.append(line);
+            return result.toString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

@@ -80,15 +80,15 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         } ?: also {
             holder.imgCollect.setImageResource(R.drawable.movie_collect)
         }
-        holder.tvName.text = detailBean.movie.vod_name
+        holder.tvName.text = detailBean.movie.vodName
         holder.tvDetail.setOnClickListener { listener?.onDetailClick(bean = detailBean.movie) }
-        holder.tvScore.text = detailBean.movie.last_remark
+        holder.tvScore.text = detailBean.movie.lastRemark
         holder.tvType.text =
-            " /  ${detailBean.movie.vod_area_text}  /  ${detailBean.movie.vod_lang}"
-        if (TYPE_TV == detailBean.movie.movie_flag|| TYPE_TV0 == detailBean.movie.movie_flag) {
+            " /  ${detailBean.movie.vodArea}  /  ${detailBean.movie.vodLang}"
+        if (TYPE_TV == detailBean.movie.movieFlag || TYPE_TV0 == detailBean.movie.movieFlag) {
             //是电视类型
             holder.layoutContainer.visibility = View.VISIBLE
-            holder.tvWhere.text = detailBean.movie.remark
+            holder.tvWhere.text = detailBean.movie.lastRemark
             if (detailBean.movieItems.size > 6) {
                 holder.tvWhere.visibility = View.VISIBLE
                 holder.tvWhere.setOnClickListener { listener?.onSelectClick(detailBean.movieItems) }
@@ -113,13 +113,13 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                listener?.onSelectClick(vid, detailBean.movie.str_id, data[position].title)
+                listener?.onSelectClick(vid, detailBean.movie.strId, data[position].title)
             }
         } else {
             holder.layoutContainer.visibility = View.GONE
         }
 
-        if (TYPE_ALBUM == detailBean.movie.movie_flag) {
+        if (TYPE_ALBUM == detailBean.movie.movieFlag) {
             //综艺节目
             holder.layoutAlbum.visibility = View.VISIBLE
             val adapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
@@ -140,11 +140,11 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                listener?.onSelectClick(vid, detailBean.movie.str_id, data[position].title)
+                listener?.onSelectClick(vid, detailBean.movie.strId, data[position].title)
             }
             if (detailBean.movieItems.size > 5) {
                 holder.tvZWhere.visibility = View.VISIBLE
-                holder.tvZWhere.text = detailBean.movie.last_remark
+                holder.tvZWhere.text = detailBean.movie.lastRemark
                 holder.tvZWhere.setOnClickListener { listener?.onArtSelectClick(detailBean.movieItems) }
             } else {
                 holder.tvZWhere.visibility = View.INVISIBLE
@@ -161,10 +161,10 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
      */
     private fun bindList(holder: ListViewHolder, position: Int) {
         val bean = detailBean.recommends[position]
-        GlideUtils.setMovieImg(context, bean.cover_url, holder.imgCover)
-        holder.tvName.text = bean.vod_name
-        holder.tvScore.text = bean.remark
-        holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.str_id) }
+        GlideUtils.setMovieImg(context, bean.coverUrl, holder.imgCover)
+        holder.tvName.text = bean.vodName
+        holder.tvScore.text = bean.lastRemark
+        holder.layoutContainer.setOnClickListener { listener?.onMovieClick(bean.strId) }
     }
 
     class DetailViewHolder(itemView: View, context: Context) : RecyclerView.ViewHolder(itemView) {

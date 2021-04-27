@@ -52,7 +52,7 @@ class WatchHistoryActivity : BridgeActivity() {
         tvDelete.setOnClickListener { onDeleteClick() }
         historyAdapter?.setOnItemClickListener { adapter, _, position ->
             val bean = (adapter as WatchHistoryAdapter).data[position]
-            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY , 0)
+            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY , "")
             val path = if (way == BridgeContext.WAY_VERIFY) {
                 RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
             } else {

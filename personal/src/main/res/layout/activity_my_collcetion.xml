@@ -47,7 +47,7 @@
 
             <TextView
                 android:id="@+id/tvAllSelect"
-                android:layout_width="0dp"
+                android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
@@ -57,7 +57,7 @@
 
             <TextView
                 android:id="@+id/tvDelete"
-                android:layout_width="0dp"
+                android:layout_width="0px"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:enabled="false"

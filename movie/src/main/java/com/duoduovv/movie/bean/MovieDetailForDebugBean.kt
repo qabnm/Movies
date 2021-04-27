@@ -1,5 +1,7 @@
 package com.duoduovv.movie.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author: jun.liu
  * @date: 2021/3/10 10:26
@@ -10,87 +12,66 @@ data class MovieDetailForDebugBean(
     val movieDetail: MovieDetailForDebug
 )
 
+/**
+ * 影视详情信息
+ * @property coverUrl String
+ * @property vodActor String
+ * @property vodArea String
+ * @property vodDetail String
+ * @property vodDirector String
+ * @property vodLang String
+ * @property vodName String
+ * @property vodYear String
+ * @property typeText String
+ * @constructor
+ */
 data class MovieForDebug(
-    val cover_url: String,
-    val hot: String,
-    val id: String,
-    val is_end: String,
-    val last_remark: String,
-    val movie_detail_id: String,
-    val movie_flag: String,
-    val remark: String,
-    val score: String,
-    val str_id: String,
-    val type_id: String,
-    val type_id_text: String,
-    val vod_actor: String,
-    val vod_area: String,
-    val vod_area_text: String,
-    val vod_blurb: String,
-    val vod_director: String,
-    val vod_lang: String,
-    val vod_name: String,
-    val vod_number: String,
-    val vod_year: String
+    @SerializedName("cover_url")
+    val coverUrl: String,
+    @SerializedName("vod_actor")
+    val vodActor: String,
+    @SerializedName("vod_area_text")
+    val vodArea: String,
+    @SerializedName("vod_blurb")
+    val vodDetail: String,
+    @SerializedName("vod_director")
+    val vodDirector: String,
+    @SerializedName("vod_lang")
+    val vodLang: String,
+    @SerializedName("vod_name")
+    val vodName: String,
+    @SerializedName("vod_year")
+    val vodYear: String,
+    @SerializedName("type_id_text")
+    val typeText:String
 )
 
 data class MovieDetailForDebug(
-    val actor: String,
-    val actor_array: List<ActorArray>?,
-    val alias_name: String,
-    val area: String,
-    val blurb: String,
-    val category: String,
-    val comment_array: List<CommentArray>,
-    val comment_count: String,
-    val created_at: String,
-    val director: String,
-    val drama: String,
-    val duration: String,
-    val id: String,
-    val imdb: String,
-    val lang: String,
-    val name: String,
-    val numbers: String,
-    val playbill_array: List<PlaybillArray>,
-    val recommend_array: List<RecommendArray>,
-    val released_date: String,
-    val score: String,
-    val source: String,
-    val source_id: String,
-    val stage_photo_array: List<StagePhotoArray>?,
-    val tag_array: List<String>,
-    val updated_at: String,
-    val year: String
+    @SerializedName("actor_array")
+    val actorArray: List<ActorArray>?,
+    @SerializedName("stage_photo_array")
+    val photoArray: List<StagePhotoArray>?
 )
 
+/**
+ * 演员表
+ * @property imgCover String
+ * @property name String
+ * @constructor
+ */
 data class ActorArray(
-    val Img: String,
-    val Name: String,
-    val Role: String
+    @SerializedName("Img")
+    val imgCover: String,
+    @SerializedName("Name")
+    val name:String
 )
 
-data class CommentArray(
-    val Content: String,
-    val Nick: String,
-    val Score: Double,
-    val Time: String
-)
-
-data class PlaybillArray(
-    val Img: String,
-    val Size: String,
-    val Title: String
-)
-
-data class RecommendArray(
-    val Img: String,
-    val Name: String,
-    val Url: String
-)
-
+/**
+ * 剧照
+ * @property imgCover String
+ * @constructor
+ */
 data class StagePhotoArray(
-    val Img: String,
-    val Size: String,
-    val Title: String
+    @SerializedName("Img")
+    val imgCover: String
 )

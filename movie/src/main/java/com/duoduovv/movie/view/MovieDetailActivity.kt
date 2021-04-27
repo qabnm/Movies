@@ -1,5 +1,9 @@
 package com.duoduovv.movie.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Intent
 import android.content.res.Configuration
 import android.util.Log
 import android.view.View
@@ -8,6 +12,8 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SampleCoverVideo
@@ -19,10 +25,16 @@ import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.duoduovv.room.domain.CollectionBean
+import com.duoduovv.weichat.WeiChatBridgeContext
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
+import com.duoduovv.weichat.WeiChatTool
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
+import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
@@ -57,7 +69,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var detailAdapter: MovieDetailAdapter? = null
     private var detailBean: MovieDetailBean? = null
     private var orientationUtils: OrientationUtils? = null
-    private var way = 2
+    private var way = "2"
     private var playUrl = ""
     private var title = ""
     private var currentPlayPosition = 0  //默认是从第一集开始播放
@@ -193,9 +205,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         dismissLoading()
         this.detailBean = detailBean
         if (detailBean == null) return
-        movieId = detailBean.movie.str_id
+        movieId = detailBean.movie.strId
         way = detailBean.way
-        title = detailBean.movie.vod_name
+        title = detailBean.movie.vodName
         queryMovieById(movieId)
     }
 
@@ -217,7 +229,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
             }
             //视频信息
-            videoPlayer.loadCoverImage(detailBean!!.movie.cover_url, R.drawable.back_white)
+            videoPlayer.loadCoverImage(
+                this@MovieDetailActivity,
+                detailBean!!.movie.coverUrl,
+                ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
+            )
             if (null == detailAdapter) {
                 detailAdapter =
                     MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
@@ -303,6 +319,29 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 分享
      */
     override fun onShareClick() {
+        val shareDialog = ShareDialogFragment(shareClickListener)
+        shareDialog.showNow(supportFragmentManager, "share")
+    }
+
+    private val shareClickListener = object : ShareDialogFragment.OnShareClickListener {
+        override fun onQQShareClick(flag: Int) {
+            WeiChatTool.regToQQ(BaseApplication.baseCtx)
+            WeiChatTool.shareToQQ(
+                this@MovieDetailActivity,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                SHARE_LINK,
+                resources.getString(R.string.app_name),
+                flag
+            )
+        }
+
+        override fun onCopyClick() {
+            val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText(null, SHARE_LINK)
+            clipboard.setPrimaryClip(clipData)
+            AndroidUtils.toast("复制成功，快去打开看看吧！", this@MovieDetailActivity)
+        }
     }
 
     /**
@@ -329,14 +368,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             GlobalScope.launch(Dispatchers.Main) {
                 val detailBean = detailBean!!.movie
                 val bean = CollectionBean(
-                    coverUrl = detailBean.cover_url,
-                    strId = detailBean.str_id,
+                    coverUrl = detailBean.coverUrl,
+                    strId = detailBean.strId,
                     movieId = detailBean.id,
-                    lastRemark = detailBean.last_remark,
-                    actor = detailBean.vod_actor,
-                    direcotor = detailBean.vod_director,
-                    movieName = detailBean.vod_name,
-                    lang = detailBean.vod_lang,
+                    lastRemark = detailBean.lastRemark,
+                    actor = detailBean.vodActor,
+                    direcotor = detailBean.vodDirector,
+                    movieName = detailBean.vodName,
+                    lang = detailBean.vodLang,
                     isCollect = true,
                     collectionTime = System.currentTimeMillis()
                 )
@@ -520,5 +559,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             detailAdapter?.notifyItemChanged(0)
             onSelectClick(vid, movieId, vidTitle)
         }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        UIListenerManager.getInstance()
+            .onActivityResult(requestCode, resultCode, data, WeiChatTool.shareListener)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 }

@@ -6,7 +6,7 @@ def ext = rootProject.ext
 def cfg = ext.android
 
 static def buildTime() {
-    return new Date().format("yyyyMMdd")
+    return new Date().format("yyyyMMddHHmm")
 }
 
 android {
@@ -22,7 +22,7 @@ android {
         resValue "string", "build_time", buildTime()
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-//        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
+        consumerProguardFiles "consumer-rules.pro"//把混淆文件打入aar
     }
 
     applicationVariants.all { variant ->
@@ -32,15 +32,19 @@ android {
     }
     flavorDimensions 'default'
     productFlavors {
-//        huawei {}
-//        xiaomi {}
-//        oppo {}
-//        vivo {}
-//        meizu {}
-//        yingyongbao {}
-//        wandoujia {}
-//        _360 {}
+        sd10001 {}
+        sd10002 {}
+        sd10003 {}
+        sd10004 {}
+        sd10005 {}
+        sd10006 {}
+        sd10007 {}
+        sd10008 {}
+        sd10009 {}
+        sd10010 {}
+        sd10011 {}
         df{}
+//        _test{}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

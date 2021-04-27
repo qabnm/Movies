@@ -9,7 +9,7 @@ import dc.android.bridge.net.BaseViewModel
 /**
  * @author: jun.liu
  * @date: 2021/1/25 15:03
- * @des:搜索结果分类
+ * @des:搜索结果顶部分类信息
  */
 class SearchResultCategoryViewModel : BaseViewModel() {
     private var searchResultCategory: MutableLiveData<SearchResultCategoryBean> = MutableLiveData()

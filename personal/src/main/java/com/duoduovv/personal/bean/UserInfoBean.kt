@@ -1,5 +1,7 @@
 package com.duoduovv.personal.bean
 
+import com.google.gson.annotations.SerializedName
+
 /**
  * @author: jun.liu
  * @date: 2021/2/24 18:05
@@ -11,13 +13,17 @@ data class UserInfoBean(
 
 data class User(
     val area: String,
-    val cellphone: String,
+    @SerializedName("cellphone")
+    val cellPhone: String,
     val city: String,
     val country: String,
-    val created_at: String,
-    val img: String,
-    val nick: String,
+    @SerializedName("created_at")
+    val createdTime: String,
+    @SerializedName("img")
+    val imgUrl: String,
+    @SerializedName("nick")
+    val nickName: String,
     val province: String,
-    val sex: Int,
+    val sex: String,
     val uid: String
 )

@@ -1,7 +1,10 @@
 package com.duoduovv.cinema.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.duoduovv.cinema.bean.*
+import com.duoduovv.cinema.bean.FilmRecommendBean
+import com.duoduovv.cinema.bean.MainBean
+import com.duoduovv.cinema.bean.MainPageBean
+import com.duoduovv.cinema.bean.MainRecommendBean
 import com.duoduovv.cinema.repository.CinemaRepository
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
@@ -13,16 +16,14 @@ import kotlinx.coroutines.async
 /**
  * @author: jun.liu
  * @date: 2021/1/15 14:33
- * @des:
+ * @des:首页列表
  */
 class CinemaListViewModel : BaseViewModel() {
-    private var mainPageData: MutableLiveData<BaseResponseData<MainPageBean>> = MutableLiveData()
     private var mainRecommend: MutableLiveData<ArrayList<FilmRecommendBean>> = MutableLiveData()
     private var mainBean: MutableLiveData<MainBean> = MutableLiveData()
     private var noMoreData: MutableLiveData<String> = MutableLiveData()
     private val repository = CinemaRepository()
 
-    fun getMainPage() = mainPageData
     fun getMainRecommend() = mainRecommend
     fun getMain() = mainBean
     fun getNoMoreData() = noMoreData
@@ -55,15 +56,6 @@ class CinemaListViewModel : BaseViewModel() {
             if (list?.isNotEmpty() == true) dataList.addAll(list)
             mainBean.postValue(MainBean(result1.await()!!.data, result2.await()!!.data))
         }
-    }
-
-    /**
-     * 首页列表
-     * @return Job
-     */
-    fun mainPage(column: String) = request {
-        val result = repository.mainPage(column = column)
-        if (result.code == SUCCESS) mainPageData.postValue(result)
     }
 
     /**

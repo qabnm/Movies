@@ -5,6 +5,7 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.AlertDialogFragment
@@ -16,6 +17,7 @@ import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
@@ -30,9 +32,13 @@ import dc.android.bridge.view.BridgeActivity
 class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickListener {
     override fun getLayoutId() = R.layout.activity_splash
     override fun showStatusBarView() = false
+    override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
+        super.setLayout(false, ContextCompat.getColor(this, R.color.colorTrans))
+    }
+
     private var privacyDialogFragment: PrivacyDialogFragment? = null
     private var alertDialogFragment: AlertDialogFragment? = null
-    private var locationHelper:LocationHelper?=null
+    private var locationHelper: LocationHelper? = null
 
     override fun initData() {
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
@@ -40,7 +46,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                 privacyDialogFragment = PrivacyDialogFragment(this)
                 privacyDialogFragment?.showNow(supportFragmentManager, "privacy")
             }
-            else -> toMainActivity()
+            else -> location()
         }
     }
 
@@ -49,8 +55,9 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
      */
     override fun onDialogCancelClick() {
         privacyDialogFragment?.dismiss()
-        alertDialogFragment = AlertDialogFragment("不同意将无法使用我们的产品和\n服务，并会退出App。", alertListener)
+        alertDialogFragment = AlertDialogFragment("不同意将无法使用我们的产品和\n服务，并会退出App。", 260f)
         alertDialogFragment?.let {
+            it.setDialogClickListener(alertListener)
             it.showNow(supportFragmentManager, "alert")
             it.setTitleVisibility(View.GONE)
             it.setCancelText("不同意并退出")
@@ -79,14 +86,12 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         //保存一个标识位到本地
         SharedPreferencesHelper.helper.setValue(AGREEMENT, true)
         privacyDialogFragment?.dismiss()
-        toMainActivity()
+        location()
     }
 
-    private fun toMainActivity() {
-        //跳转之前首先请求定位权限
-       location()
-    }
-
+    /**
+     * 申请定位权限
+     */
     private fun location() {
         PermissionX.init(this).permissions(
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -96,19 +101,22 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             scope.showRequestReasonDialog(PermissionDialogFragment(deniedList, msg))
         }.onForwardToSettings { scope, deniedList ->
             val msg = "多多影视需要定位权限\n拒绝可能影响您的正常体验"
-            scope.showForwardToSettingsDialog(PermissionDialogFragment(deniedList,msg))
+            scope.showForwardToSettingsDialog(PermissionDialogFragment(deniedList, msg))
         }.request { allGranted, _, _ ->
             if (allGranted) {
                 locationHelper = LocationHelper(BaseApplication.baseCtx, locationListener)
-                locationHelper?.startLocation()
-            }else{
-                SharedPreferencesHelper.helper.remove(BridgeContext.ADDRESS)
+                locationHelper?.startLocation(OsUtils.isAppDebug())
+            } else {
+                SharedPreferencesHelper.helper.remove(ADDRESS)
                 start()
             }
         }
     }
 
-    private val locationListener = object :LocationHelper.OnLocationListener{
+    /**
+     * 定位的监听
+     */
+    private val locationListener = object : LocationHelper.OnLocationListener {
         override fun onLocationChange(
             latitude: Double,
             longitude: Double,
@@ -119,29 +127,56 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             street: String,
             aioName: String
         ) {
-            Log.i("address", "定位成功$province$city$district$street")
-            SharedPreferencesHelper.helper.setValue(
-                BridgeContext.ADDRESS,
-                "{\"p\":\"${StringUtils.gbEncoding(province)}\",\"c\":\"${
-                    StringUtils.gbEncoding(city)
-                }\",\"d\":\"${StringUtils.gbEncoding(district)}\",\"v\":${
-                    OsUtils.getVerCode(BaseApplication.baseCtx)
-                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
-            )
+            Log.d("address", "定位成功$province$city$district$street")
+//            AndroidUtils.toast("$province**$city**$district",this@SplashActivity)
+            val dfProvince = SharedPreferencesHelper.helper.getValue(BridgeContext.PROVINCE, "") as String
+            val dfCity = SharedPreferencesHelper.helper.getValue(BridgeContext.CITY, "") as String
+            val dfArea = SharedPreferencesHelper.helper.getValue(BridgeContext.AREA, "") as String
+            if (StringUtils.isEmpty(dfProvince)|| StringUtils.isEmpty(dfCity) || StringUtils.isEmpty(dfArea)) {
+                //没有默认地址
+                SharedPreferencesHelper.helper.setValue(
+                    ADDRESS,
+                    "{\"p\":\"${StringUtils.gbEncoding(province)}\",\"c\":\"${
+                        StringUtils.gbEncoding(city)
+                    }\",\"d\":\"${StringUtils.gbEncoding(district)}\",\"v\":${
+                        OsUtils.getVerCode(BaseApplication.baseCtx)
+                    },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+                )
+            }else{
+                //有默认地址就用默认地址
+                SharedPreferencesHelper.helper.setValue(
+                    ADDRESS,
+                    "{\"p\":\"${StringUtils.gbEncoding(dfProvince)}\",\"c\":\"${
+                        StringUtils.gbEncoding(dfCity)
+                    }\",\"d\":\"${StringUtils.gbEncoding(dfArea)}\",\"v\":${
+                        OsUtils.getVerCode(BaseApplication.baseCtx)
+                    },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+                )
+            }
+//            SharedPreferencesHelper.helper.setValue(ADDRESS,
+//                "{\"p\":\"${StringUtils.gbEncoding("湖北省")}\",\"c\":\"${
+//                    StringUtils.gbEncoding("十堰")
+//                }\",\"d\":\"${StringUtils.gbEncoding("房县")}\",\"v\":${
+//                    OsUtils.getVerCode(BaseApplication.baseCtx)
+//                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+//            )
             start()
         }
 
         override fun onLocationFail() {
-            SharedPreferencesHelper.helper.remove(BridgeContext.ADDRESS)
+            SharedPreferencesHelper.helper.remove(ADDRESS)
             start()
         }
     }
 
+    /**
+     * 跳转首页activity
+     */
     private fun start() {
         locationHelper?.destroyLocation()
         Handler(Looper.getMainLooper()).postDelayed({
             ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
             this.finish()
-        }, 800)
+        }, 1000)
     }
 }

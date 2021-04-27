@@ -63,21 +63,17 @@ class EditMaterialsActivity : BaseViewModelActivity<PersonViewModel>(), ITakePho
 
     private fun setUserInfo(user: User?) {
         if (null == user) return
-        if (!StringUtils.isEmpty(user.img)) {
-            GlideUtils.setImg(this, user.img, imgHeader)
+        if (!StringUtils.isEmpty(user.imgUrl)) {
+            GlideUtils.setImg(this, user.imgUrl, imgHeader)
         }
-        if (!StringUtils.isEmpty(user.nick)) setText(tvNickName, user.nick)
-        if (user.sex == 1) {
-            setText(tvSex, "男")
-        } else if (user.sex == 2) {
-            setText(tvSex, "女")
-        }
+        if (!StringUtils.isEmpty(user.nickName)) setText(tvNickName, user.nickName)
+        setText(tvSex, if ("1" == user.sex) "男" else "女")
         if (!StringUtils.isEmpty(user.province)) setText(
             tvWhere,
             "${user.province}${user.city}${user.area}"
         )
 //        if (!StringUtils.isEmpty(user.created_at)) setText(tvBirthday, user.created_at)
-        if (!StringUtils.isEmpty(user.cellphone)) setText(tvSign, user.cellphone)
+        if (!StringUtils.isEmpty(user.cellPhone)) setText(tvSign, user.cellPhone)
     }
 
     private fun setText(textView: TextView, text: String) {

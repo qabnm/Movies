@@ -17,8 +17,8 @@ import dc.android.bridge.util.OsUtils
  */
 class AlertDialogFragment(
     private val content: String,
-    private val listener: OnDialogSureClickListener?,
-    private val width:Float = 300f
+    private val width:Float = 300f,
+    private var listener: OnDialogSureClickListener?=null
 ) : DialogFragment() {
     private lateinit var tvCancel: TextView
     private lateinit var tvSure: TextView
@@ -46,22 +46,42 @@ class AlertDialogFragment(
         }
     }
 
+    /**
+     * 设置取消按钮的文字
+     * @param text String
+     */
     fun setCancelText(text: String) {
         tvCancel.text = text
     }
 
+    /**
+     * 设置确认按钮的文字
+     * @param text String
+     */
     fun setSureText(text: String) {
         tvSure.text = text
     }
 
+    /**
+     * 是否显示标题
+     * @param visibility Int
+     */
     fun setTitleVisibility(visibility: Int) {
         tvTitle.visibility = visibility
     }
 
+    /**
+     * 是否允许外部触摸取消dialog
+     * @param outCancel Boolean
+     */
     fun setCanceledOnTouchOut(outCancel: Boolean) {
         dialog?.setCanceledOnTouchOutside(outCancel)
     }
 
+    /**
+     * 是否可以取消dialog
+     * @param cancelAble Boolean
+     */
     fun setCancel(cancelAble: Boolean) {
         dialog?.setCancelable(cancelAble)
     }
@@ -69,6 +89,10 @@ class AlertDialogFragment(
     interface OnDialogSureClickListener {
         fun onSureClick()
         fun onCancelClick()
+    }
+
+    fun setDialogClickListener(listener: OnDialogSureClickListener?){
+        this.listener = listener
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

@@ -11,7 +11,9 @@ import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.viewmodel.SettingViewModel
+import com.duoduovv.weichat.WeiChatTool
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.BridgeContext.Companion.URL_PRIVACY
 import dc.android.bridge.BridgeContext.Companion.URL_USER_AGREEMENT
 import dc.android.bridge.util.AndroidUtils
@@ -54,7 +56,8 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             //隐私政策
             toWebActivity("隐私政策", URL_PRIVACY)
         }
-        imgIcon.setOnClickListener { onIconClick() }
+        imgIcon.setOnClickListener { onIconClick(0) }
+        tvLogoName.setOnClickListener { onIconClick(1) }
         if (OsUtils.isAppDebug()) {
             imgIcon.setOnLongClickListener {
                 layoutDebug.visibility = View.VISIBLE
@@ -64,21 +67,33 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                             BridgeContext.DEBUG_WAY,
                             etInput.text.toString()
                         )
+                        SharedPreferencesHelper.helper.remove(TOKEN)
+                        WeiChatTool.mTenCent?.logout(this)
                         AndroidUtils.toast("切换完成,请重新进入再试！", this)
                         layoutDebug.visibility = View.GONE
                     }
                 }
                 true
             }
+            tvClear.setOnClickListener {
+                SharedPreferencesHelper.helper.remove(BridgeContext.DEBUG_WAY)
+                AndroidUtils.toast("清除成功",this)
+            }
         }
     }
 
-    private fun onIconClick() {
+    private fun onIconClick(flag:Int) {
         fastClick()
         if (clickTime > 5) {
-            vLine.visibility = View.VISIBLE
-            layoutWhere.visibility = View.VISIBLE
-            tvWhere.text = AndroidUtils.getAppMetaData()
+            if (flag == 0) {
+                //显示渠道名称
+                vLine.visibility = View.VISIBLE
+                layoutWhere.visibility = View.VISIBLE
+                tvWhere.text = AndroidUtils.getAppMetaData()
+            }else{
+                //显示位置切换功能
+                ARouter.getInstance().build(RouterPath.PATH_CITY_SELECT).navigation()
+            }
         }
     }
 
@@ -99,8 +114,8 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         //需要升级  弹出升级框
         bean?.let {
             val versionCode = OsUtils.getVerCode(this)
-            if (versionCode != -1 && it.version_number > versionCode) {
-                upgradeDialogFragment = UpgradeDialogFragment(it.is_force, it.content, it.url)
+            if (versionCode != -1 && it.versionNum > versionCode) {
+                upgradeDialogFragment = UpgradeDialogFragment(it.isForce, it.content, it.url)
                 upgradeDialogFragment?.showNow(supportFragmentManager, "upgrade")
                 upgradeDialogFragment?.setOnUpgradeClickListener(upgradeListener)
             } else {
@@ -119,7 +134,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         this.bean = bean
         bean?.let {
             val versionCode = OsUtils.getVerCode(this)
-            if (versionCode != -1 && it.version_number > versionCode) {
+            if (versionCode != -1 && it.versionNum > versionCode) {
                 //显示升级小红点
                 vDot.visibility = View.VISIBLE
             } else {

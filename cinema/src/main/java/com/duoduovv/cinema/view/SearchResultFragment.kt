@@ -8,6 +8,7 @@ import com.duoduovv.cinema.bean.SearchResultCategoryBean
 import com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel
 import com.duoduovv.common.adapter.NoLineIndicatorAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
+import com.google.android.exoplayer2.offline.DownloadManager
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_search_result.*

@@ -14,7 +14,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"
-        android:paddingLeft="@dimen/dp_12"
+        android:paddingStart="@dimen/dp_12"
         android:layout_marginTop="@dimen/dp_20"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

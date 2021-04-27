@@ -26,7 +26,7 @@ class RecommendActivity : BridgeActivity() {
         adapter = FilmRecommendAdapter(false)
         rvList.adapter = adapter
         adapter?.setOnItemClickListener { adapter, _, position ->
-            val movieId = (adapter as FilmRecommendAdapter).data[position].str_id
+            val movieId = (adapter as FilmRecommendAdapter).data[position].strId
             val way = adapter.data[position].way
             onMovieClick(movieId, way)
         }
@@ -42,7 +42,7 @@ class RecommendActivity : BridgeActivity() {
      * 跳转影视详情
      * @param movieId String
      */
-    private fun onMovieClick(movieId: String, way: Int) {
+    private fun onMovieClick(movieId: String, way: String) {
         val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         } else {

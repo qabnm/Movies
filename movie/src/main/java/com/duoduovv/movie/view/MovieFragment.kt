@@ -2,6 +2,7 @@ package com.duoduovv.movie.view
 
 import android.os.Bundle
 import android.util.Log
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -11,6 +12,7 @@ import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseFragment
 import dc.android.tools.LiveDataBus
 import kotlinx.android.synthetic.main.fragment_movie.*
@@ -29,6 +31,8 @@ class MovieFragment : BaseFragment() {
     private var libFragment:MovieLibraryNavFragment?=null
 
     override fun initView() {
+        val layoutParams = vStatusBar.layoutParams as ConstraintLayout.LayoutParams
+        layoutParams.height = OsUtils.getStatusBarHeight(requireActivity())
         imgSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
                 .withStringArrayList(BridgeContext.LIST, BaseApplication.hotList as? ArrayList).navigation()

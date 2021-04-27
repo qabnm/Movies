@@ -54,32 +54,32 @@ class MovieDetailActivityForDebug : BaseViewModelActivity<MovieDetailForDebugVie
 
     private fun setData(bean: MovieDetailForDebugBean?) {
         bean?.let {
-            GlideUtils.setMovieImg(this, it.movie.cover_url, imgCover)
-            tvName.text = it.movie.vod_name
-            tvType.text = "${it.movie.vod_area_text}/${it.movie.type_id_text}"
-            tvYearUp.text = "上映时间：${it.movie.vod_year}（${it.movie.vod_area_text}上映）"
-            if (StringUtils.isEmpty(it.movie.vod_director)){
+            GlideUtils.setMovieImg(this, it.movie.coverUrl, imgCover)
+            tvName.text = it.movie.vodName
+            tvType.text = "${it.movie.vodArea}/${it.movie.typeText}"
+            tvYearUp.text = "上映时间：${it.movie.vodYear}（${it.movie.vodArea}上映）"
+            if (StringUtils.isEmpty(it.movie.vodDirector)){
                 tvDirector.visibility = View.GONE
             }else{
                 tvDirector.visibility = View.VISIBLE
-                tvDirector.text = "导演：${it.movie.vod_director}"
+                tvDirector.text = "导演：${it.movie.vodDirector}"
             }
-            tvLanguage.text = "语言：${it.movie.vod_lang}"
-            if (StringUtils.isEmpty(it.movie.vod_actor)){
+            tvLanguage.text = "语言：${it.movie.vodLang}"
+            if (StringUtils.isEmpty(it.movie.vodActor)){
                 tvActor.visibility = View.GONE
             }else{
                 tvActor.visibility = View.VISIBLE
-                tvActor.text = "主演：${it.movie.vod_actor}"
+                tvActor.text = "主演：${it.movie.vodActor}"
             }
-            tvDetail.text = it.movie.vod_blurb
-            actorAdapter?.setList(it.movieDetail.actor_array)
-            photoAdapter?.setList(it.movieDetail.stage_photo_array)
-            if (it.movieDetail.actor_array?.isNotEmpty() == true){
+            tvDetail.text = it.movie.vodDetail
+            actorAdapter?.setList(it.movieDetail.actorArray)
+            photoAdapter?.setList(it.movieDetail.photoArray)
+            if (it.movieDetail.actorArray?.isNotEmpty() == true){
                 tvMainActor.visibility = View.VISIBLE
             }else{
                 tvMainActor.visibility = View.GONE
             }
-            if (it.movieDetail.stage_photo_array?.isNotEmpty() == true){
+            if (it.movieDetail.photoArray?.isNotEmpty() == true){
                 tvJuZhao.visibility = View.VISIBLE
             }else{
                 tvJuZhao.visibility = View.GONE

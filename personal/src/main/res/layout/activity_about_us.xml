@@ -22,10 +22,12 @@
         android:src="@drawable/person_icon_start" />
 
     <TextView
+        android:id="@+id/tvLogoName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_8"
-        android:layout_marginBottom="@dimen/dp_70"
+        android:paddingTop="@dimen/dp_8"
+        android:paddingBottom="@dimen/dp_10"
+        android:layout_marginBottom="@dimen/dp_60"
         android:includeFontPadding="false"
         android:text="多多影视大全"
         android:textColor="@color/color262828"
@@ -123,14 +125,24 @@
             android:background="@null"
             android:inputType="number"
             android:textColorHint="@color/colorFFFFFF"
-            android:hint="输入：1正式可播放，2正式跳H5，3审核版本"
-            android:paddingLeft="@dimen/dp_12"
+            android:hint="1可播放，2跳H5，3审核版本"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingEnd="0px"
             android:textColor="@color/colorFFFFFF"
             android:textSize="@dimen/sp_14" />
+        <TextView
+            android:id="@+id/tvClear"
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="清除"
+            android:textColor="@color/colorFFFFFF"
+            android:textSize="@dimen/sp_15" />
 
         <TextView
             android:id="@+id/tvSure"
-            android:layout_width="@dimen/dp_80"
+            android:layout_width="@dimen/dp_50"
             android:layout_height="match_parent"
             android:background="@color/color567CE7"
             android:gravity="center"

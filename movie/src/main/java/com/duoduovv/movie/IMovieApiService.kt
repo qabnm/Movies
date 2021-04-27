@@ -75,23 +75,6 @@ interface IMovieApiService {
     ): BaseResponseData<MoviePlayInfoBean>
 
     /**
-     * 添加收藏
-     * @param movieId String
-     * @return BaseResponseData<Any>
-     */
-    @FormUrlEncoded
-    @POST("api/user/favorite")
-    suspend fun addCollection(@Field("movie_id") movieId: String): BaseResponseData<Any>
-
-    /**
-     * 删除收藏
-     * @param movieId String
-     * @return BaseResponseData<Any>
-     */
-    @DELETE("api/user/favorite")
-    suspend fun deleteCollection(@Query("movie_id") movieId: String): BaseResponseData<Any>
-
-    /**
      * 举报
      * @param content String
      * @param movieId String

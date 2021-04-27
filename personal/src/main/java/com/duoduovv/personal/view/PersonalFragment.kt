@@ -1,10 +1,14 @@
 package com.duoduovv.personal.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_EDIT_MATERIALS
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
@@ -15,6 +19,10 @@ import com.duoduovv.personal.bean.*
 import com.duoduovv.personal.viewmodel.WeiChatViewModel
 import com.duoduovv.tent.TentLoginListener
 import com.duoduovv.tent.TentUserInfo
+import com.duoduovv.weichat.WeiChatBridgeContext
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenValidUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.refreshTokenUrl
@@ -22,6 +30,7 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatAppId
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatSecret
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatUserInfoUrl
 import com.duoduovv.weichat.WeiChatTool
+import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.BridgeContext.Companion.WAY
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
@@ -43,7 +52,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun providerVMClass() = WeiChatViewModel::class.java
 
     override fun initView() {
-        if (SharedPreferencesHelper.helper.getValue(WAY, 0) !=WAY_VERIFY) {
+        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
             //正式版
             layoutIsRes.visibility = View.VISIBLE
             layoutHistory.setOnClickListener {
@@ -53,17 +62,15 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             layoutCollection.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
-            layoutShare.setOnClickListener {
-            }
-            layoutContainer.visibility = View.VISIBLE
+            layoutShare.setOnClickListener { onShareClick() }
+//            layoutContainer.visibility = View.VISIBLE
             vLine.visibility = View.VISIBLE
         } else {
             //审核版
             layoutIsRes.visibility = View.GONE
-            layoutContainer.visibility = View.GONE
+//            layoutContainer.visibility = View.GONE
             vLine.visibility = View.GONE
         }
-
         layoutContract.setOnClickListener {
             //问题反馈
             FeedbackAPI.openFeedbackActivity()
@@ -71,16 +78,24 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
         }
-        layoutAbout.setOnClickListener { ARouter.getInstance().build(RouterPath.PATH_ABOUT_US).navigation() }
+        layoutAbout.setOnClickListener {
+            ARouter.getInstance().build(RouterPath.PATH_ABOUT_US).navigation()
+        }
         layoutTop.setOnClickListener {
             ARouter.getInstance().build(PATH_EDIT_MATERIALS).navigation()
         }
         imgWeiChat.setOnClickListener { weiChatLogin() }
         imgQQ.setOnClickListener { qqLogin() }
         viewModel.getUserInfo().observe(this, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
+        LiveDataBus.get().with("logout", Int::class.java).observe(this, {
+            if (it == SUCCESS) {
+                WeiChatTool.mTenCent?.logout(requireContext())
+                viewModel.userInfo()
+            }
+        })
     }
 
-    private fun setFeedbackUi(){
+    private fun setFeedbackUi() {
         FeedbackAPI.setBackIcon(R.drawable.back)
         FeedbackAPI.setTranslucent(true)
     }
@@ -93,16 +108,16 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         value?.let {
             layoutLogin.visibility = View.GONE
             layoutTop.visibility = View.VISIBLE
-            GlideUtils.setImg(requireActivity(), it.img, imageIcon)
-            tvUser.text = it.nick
+            GlideUtils.setImg(requireActivity(), it.imgUrl, imageIcon)
+            tvUser.text = it.nickName
         }
     }
 
     override fun initData() {
         //正式版才请求登录接口
-        if (SharedPreferencesHelper.helper.getValue(WAY, 0) !=WAY_VERIFY){
-            viewModel.userInfo()
-        }
+//        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
+//            viewModel.userInfo()
+//        }
         setFeedbackUi()
     }
 
@@ -141,7 +156,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun setUserInfo(infoBean: WeiChatUserInfoBean?) {
         infoBean?.let {
-            viewModel.login(2, it.openid, it.nickname, it.sex, it.headimgurl ?: "", it.unionid)
+            viewModel.login(2, it.openId, it.nickName, it.sex, it.imgUrl ?: "", it.unionId)
         }
     }
 
@@ -151,7 +166,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun accessTokenValid(bean: AccessTokenValidBean?) {
         bean?.let {
-            if (it.errcode == 0) {
+            if (it.errCode == 0) {
                 //如果accessToken有效  获取用户信息
                 viewModel.weiCharUserInfo(
                     url = weiChatUserInfoUrl,
@@ -172,7 +187,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             viewModel.refreshToken(
                 url = refreshTokenUrl,
                 appId = weiChatAppId,
-                token = it.refresh_token
+                token = it.refreshToken
             )
         }
     }
@@ -186,8 +201,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             //检验accessToken是否有效
             viewModel.accessTokenValid(
                 url = accessTokenValidUrl,
-                accessToken = it.access_token,
-                openId = it.openid
+                accessToken = it.accessToken,
+                openId = it.openId
             )
         }
     }
@@ -196,7 +211,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * 微信登录
      */
     private fun weiChatLogin() {
-        AndroidUtils.toast("开发完善中",requireActivity())
+        AndroidUtils.toast("开发完善中", requireActivity())
         return
 //        WeiChatTool.regToWx(BaseApplication.baseCtx)
 //        WeiChatTool.weiChatLogin(requireContext())
@@ -211,6 +226,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         WeiChatTool.qqLogin(requireActivity(), WeiChatTool.loginListener!!)
     }
 
+    private var hasObserve = false
+
     /**
      * token过期
      */
@@ -218,27 +235,61 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         layoutLogin.visibility = View.VISIBLE
         layoutTop.visibility = View.GONE
 
-        LiveDataBus.get().with("wxCode", String::class.java).observe(this, {
-            //请求微信的accessToken
-            viewModel.accessToken(
-                url = accessTokenUrl,
-                appId = weiChatAppId,
-                secret = weiChatSecret,
-                code = it
-            )
-        })
-        viewModel.getAccessToken().observe(this, { accessToken(viewModel.getAccessToken().value) })
-        viewModel.getRefreshToken()
-            .observe(this, { refreshToken(viewModel.getRefreshToken().value) })
-        viewModel.getAccessTokenValid()
-            .observe(this, { accessTokenValid(viewModel.getAccessTokenValid().value) })
-        viewModel.getWeiChatUseInfo()
-            .observe(this, { setUserInfo(viewModel.getWeiChatUseInfo().value) })
-        viewModel.getToken().observe(this, { loginSuccess(viewModel.getToken().value) })
+        if (!hasObserve) {
+            hasObserve = true
+            LiveDataBus.get().with("wxCode", String::class.java).observe(this, {
+                //请求微信的accessToken
+                viewModel.accessToken(
+                    url = accessTokenUrl,
+                    appId = weiChatAppId,
+                    secret = weiChatSecret,
+                    code = it
+                )
+            })
+            viewModel.getAccessToken()
+                .observe(this, { accessToken(viewModel.getAccessToken().value) })
+            viewModel.getRefreshToken()
+                .observe(this, { refreshToken(viewModel.getRefreshToken().value) })
+            viewModel.getAccessTokenValid()
+                .observe(this, { accessTokenValid(viewModel.getAccessTokenValid().value) })
+            viewModel.getWeiChatUseInfo()
+                .observe(this, { setUserInfo(viewModel.getWeiChatUseInfo().value) })
+            viewModel.getToken().observe(this, { loginSuccess(viewModel.getToken().value) })
 
-        //注册QQ登录的监听
-        LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(this, {
-            qqAuthSuccess(it)
-        })
+            //注册QQ登录的监听
+            LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(this, {
+                qqAuthSuccess(it)
+            })
+        }
+    }
+
+    /**
+     * 分享
+     */
+    private fun onShareClick() {
+        val shareDialog = ShareDialogFragment(shareClickListener)
+        shareDialog.showNow(childFragmentManager, "share")
+    }
+
+    private val shareClickListener = object : ShareDialogFragment.OnShareClickListener {
+        override fun onQQShareClick(flag: Int) {
+            WeiChatTool.regToQQ(BaseApplication.baseCtx)
+            WeiChatTool.shareToQQ(
+                requireActivity(),
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                SHARE_LINK,
+                resources.getString(R.string.app_name),
+                flag
+            )
+        }
+
+        override fun onCopyClick() {
+            val clipboard =
+                requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clipData = ClipData.newPlainText(null, SHARE_LINK)
+            clipboard.setPrimaryClip(clipData)
+            AndroidUtils.toast("复制成功，快去打开看看吧！", requireActivity())
+        }
     }
 }

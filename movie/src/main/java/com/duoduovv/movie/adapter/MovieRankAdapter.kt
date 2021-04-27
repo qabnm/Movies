@@ -18,7 +18,7 @@ class MovieRankAdapter : BaseQuickAdapter<RankList, BaseViewHolder>(R.layout.ite
     override fun convert(holder: BaseViewHolder, item: RankList) {
         GlideUtils.setMovieImg(
             context = context,
-            url = item.cover_url,
+            url = item.coverUrl,
             imageView = holder.getView(R.id.imgCover)
         )
         val  tvRank:TextView = holder.getView(R.id.tvRank)
@@ -40,14 +40,14 @@ class MovieRankAdapter : BaseQuickAdapter<RankList, BaseViewHolder>(R.layout.ite
                 tvRank.text = "${holder.layoutPosition+1}"
             }
         }
-        holder.setText(R.id.tvName, item.vod_name)
+        holder.setText(R.id.tvName, item.vodName)
         holder.setText(
             R.id.tvTime,
-            "${item.vod_year} | ${item.type_id_text} | ${item.vod_area_text} | ${item.vod_lang}"
+            "${item.vodYear} | ${item.typeText} | ${item.vodArea} | ${item.vodLang}"
         )
-        holder.setGone(R.id.tvMainActor, StringUtils.isEmpty(item.vod_actor))
-        holder.setText(R.id.tvMainActor, "主演：${item.vod_actor}")
-        holder.setText(R.id.tvDirector, "导演：${item.vod_director}")
-        holder.setText(R.id.tvScore, item.remark)
+        holder.setGone(R.id.tvMainActor, StringUtils.isEmpty(item.vodActor))
+        holder.setText(R.id.tvMainActor, "主演：${item.vodActor}")
+        holder.setText(R.id.tvDirector, "导演：${item.vodDirector}")
+        holder.setText(R.id.tvScore, item.lastRemark)
     }
 }

@@ -41,21 +41,21 @@ class SearchResultListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bean = dataList[position]
-        GlideUtils.setMovieImg(context, bean.cover_url, holder.imgCover)
-        holder.tvTitle.text = bean.vod_name
+        GlideUtils.setMovieImg(context, bean.coverUrl, holder.imgCover)
+        holder.tvTitle.text = bean.vodName
         holder.tvTime.text = StringUtils.append(
-            bean.vod_year,
-            " ", bean.type_id_text,
-            " ", bean.vod_area_text,
-            " ", bean.vod_lang
+            bean.vodYear,
+            " ", bean.typeText,
+            " ", bean.vodArea,
+            " ", bean.vodLang
         )
-        holder.tvDirector.text = "导演：${bean.vod_director}"
-        when (bean.movie_flag) {
+        holder.tvDirector.text = "导演：${bean.vodDirector}"
+        when (bean.movieFlag) {
             TYPE_TV, TYPE_TV0 -> {
                 //电视
                 holder.rvList.visibility = View.VISIBLE
                 holder.rvList.layoutManager = GridLayoutManager(context, 6)
-                val data = bean.movie_items
+                val data = bean.movieItems
                 if (data?.isNotEmpty() == true) {
                     val adapter = if (data.size <= 6) {
                         SearchTvSelectAdapter(data as MutableList<MovieItem>)
@@ -79,17 +79,17 @@ class SearchResultListAdapter(
 //                        ad.notifyDataSetChanged()
 //                        listener?.onSelectClick(dataList[pos].vid)
                         if (data.size <= 6) {
-                            listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+                            listener?.onSelectClick(dataList[pos].vid, bean.strId, bean.way)
                         } else {
                             if (pos != 2) {
-                                listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+                                listener?.onSelectClick(dataList[pos].vid, bean.strId, bean.way)
                             } else {
                                 listener?.onMoreSelectClick(
                                     data,
-                                    bean.str_id,
-                                    bean.vod_name,
+                                    bean.strId,
+                                    bean.vodName,
                                     bean.way,
-                                    bean.movie_flag
+                                    bean.movieFlag
                                 )
                             }
                         }
@@ -101,7 +101,7 @@ class SearchResultListAdapter(
                 holder.rvList.visibility = View.VISIBLE
                 holder.rvList.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-                val data = bean.movie_items
+                val data = bean.movieItems
                 if (data?.isNotEmpty() == true) {
                     val adapter = if (data.size <= 6) {
                         SearchAlbumSelectAdapter(data as MutableList<MovieItem>)
@@ -123,17 +123,17 @@ class SearchResultListAdapter(
 //                        ad.notifyDataSetChanged()
 //                        listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
                         if (data.size <= 6) {
-                            listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+                            listener?.onSelectClick(dataList[pos].vid, bean.strId, bean.way)
                         } else {
                             if (pos != 2) {
-                                listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
+                                listener?.onSelectClick(dataList[pos].vid, bean.strId, bean.way)
                             } else {
                                 listener?.onMoreSelectClick(
                                     data,
-                                    bean.str_id,
-                                    bean.vod_name,
+                                    bean.strId,
+                                    bean.vodName,
                                     bean.way,
-                                    bean.movie_flag
+                                    bean.movieFlag
                                 )
                             }
                         }
@@ -144,7 +144,7 @@ class SearchResultListAdapter(
                 holder.rvList.visibility = View.GONE
             }
         }
-        holder.layoutContainer.setOnClickListener { listener?.onItemClick(bean.str_id, bean.way) }
+        holder.layoutContainer.setOnClickListener { listener?.onItemClick(bean.strId, bean.way) }
     }
 
     override fun getItemCount() = dataList.size
@@ -159,13 +159,13 @@ class SearchResultListAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(movieId: String, way: Int)
-        fun onSelectClick(vid: String, movieId: String, way: Int)
+        fun onItemClick(movieId: String, way: String)
+        fun onSelectClick(vid: String, movieId: String, way: String)
         fun onMoreSelectClick(
             dataList: List<MovieItem>,
             movieId: String,
             title: String,
-            way: Int,
+            way: String,
             movieFlag: String
         )
     }

@@ -7,7 +7,7 @@
     <com.duoduovv.common.util.SampleCoverVideo
         android:id="@+id/videoPlayer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0px"
         app:layout_constraintDimensionRatio="75:42"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -17,8 +17,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="none"
-        android:paddingLeft="@dimen/dp_10"
-        android:paddingRight="@dimen/dp_5"
+        android:paddingStart="@dimen/dp_10"
+        android:paddingEnd="@dimen/dp_5"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/videoPlayer" />
 </androidx.constraintlayout.widget.ConstraintLayout>

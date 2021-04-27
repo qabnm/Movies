@@ -4,7 +4,6 @@ import android.os.Parcelable
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.CinemaContext.Companion.KEY_WORD
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchResultListAdapter
@@ -12,7 +11,6 @@ import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
 import com.duoduovv.cinema.viewmodel.SearchResultViewModel
 import com.duoduovv.common.util.RouterPath
-import com.duoduovv.common.util.SharedPreferencesHelper
 import com.scwang.smart.refresh.footer.ClassicsFooter
 import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
@@ -24,7 +22,7 @@ import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BaseViewModelFragment
 import kotlinx.android.synthetic.main.fragment_search_result_list.*
 import kotlinx.android.synthetic.main.layout_search_empty.*
-import java.util.ArrayList
+import java.util.*
 
 /**
  * @author: jun.liu
@@ -89,7 +87,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
      * 跳转详情页面
      * @param movieId String
      */
-    override fun onItemClick(movieId: String, way: Int) {
+    override fun onItemClick(movieId: String, way: String) {
         val path = if (way == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         } else {
@@ -103,7 +101,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
      * 点击了选集
      * @param vid String
      */
-    override fun onSelectClick(vid: String, movieId: String, way: Int) {
+    override fun onSelectClick(vid: String, movieId: String, way: String) {
         this.vid = vid
         onItemClick(movieId, way)
     }
@@ -116,13 +114,13 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
         dataList: List<MovieItem>,
         movieId: String,
         title: String,
-        way: Int,
+        way: String,
         movieFlag: String
     ) {
         ARouter.getInstance().build(RouterPath.PATH_SEARCH_MORE_SELECT)
             .withString(BridgeContext.TITLE, title).withString(ID, movieId)
             .withParcelableArrayList(BridgeContext.LIST, dataList as ArrayList<out Parcelable>)
-            .withInt(BridgeContext.WAY, way)
+            .withString(BridgeContext.WAY, way)
             .withString(BridgeContext.FLAG, movieFlag)
             .navigation()
     }
