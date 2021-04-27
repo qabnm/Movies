@@ -3,6 +3,7 @@ package com.duoduovv.common
 import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.common.util.CrashHandler
 import com.duoduovv.weichat.WeiChatTool
 import com.tencent.bugly.crashreport.CrashReport
@@ -42,6 +43,10 @@ open class BaseApplication : Application() {
         //统计SDK基础统计指标自动采集
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
         if (OsUtils.isAppDebug()) UMConfigure.setLogEnabled(true)  //参数: boolean 默认为false，如需查看LOG设置为true
+        //初始化穿山甲SDK
+        AdvertBridge.ttAdSdkInit(applicationContext, OsUtils.isAppDebug())
+        //初始化腾讯广点通SDK
+        AdvertBridge.gdtInit(applicationContext)
     }
 
     override fun onTerminate() {

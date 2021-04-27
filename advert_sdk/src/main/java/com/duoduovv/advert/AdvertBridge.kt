@@ -5,6 +5,8 @@ import android.util.Log
 import com.bytedance.sdk.openadsdk.TTAdConfig
 import com.bytedance.sdk.openadsdk.TTAdConstant
 import com.bytedance.sdk.openadsdk.TTAdSdk
+import com.qq.e.comm.managers.GDTADManager
+import com.qq.e.comm.managers.setting.GlobalSetting
 
 /**
  * @author: jun.liu
@@ -13,7 +15,10 @@ import com.bytedance.sdk.openadsdk.TTAdSdk
  */
 class AdvertBridge {
     companion object {
+        //穿山甲的appId
         private const val ttAdAppId = ""
+        //腾讯广点通的appId
+        private const val gdtAppId = ""
         private const val appName = "多多影视大全"
 
         /**
@@ -56,6 +61,14 @@ class AdvertBridge {
                     }
                 }
             )
+        }
+
+        /**
+         * 初始化腾讯广点通SDK
+         * @param context Context
+         */
+        fun gdtInit(context: Context){
+            GDTADManager.getInstance().initWith(context, gdtAppId)
         }
     }
 }

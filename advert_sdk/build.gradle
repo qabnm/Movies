@@ -35,7 +35,7 @@ android {
         main {
             java.srcDirs = ['src/main/java']
             res.srcDirs = ['src/main/res']
-            jniLibs.srcDirs = ['libs']
+//            jniLibs.srcDirs = ['libs']
         }
     }
 
@@ -46,11 +46,18 @@ android {
     kotlinOptions {
         jvmTarget = '1.8'
     }
+
+    repositories {
+        flatDir {
+            dirs 'libs'
+        }
+    }
 }
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$ext.core_ktx_version"
     api 'com.pangle.cn:ads-sdk:3.5.0.8'
+    api (name:'GDTSDK.tbsNormal.4.351.1221', ext:'aar')
 //    implementation project(path: ':tools')
 }
