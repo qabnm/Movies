@@ -11,7 +11,7 @@ buildscript {
         maven {url 'https://artifact.bytedance.com/repository/pangle'}
     }
     dependencies {
-        classpath "com.android.tools.build:gradle:4.0.0"
+        classpath "com.android.tools.build:gradle:4.1.1"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         // 添加emas-services插件
         classpath 'com.aliyun.ams:emas-services:1.0.1'
