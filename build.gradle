@@ -8,6 +8,7 @@ buildscript {
         maven {url "https://jitpack.io"}
         maven {url 'https://dl.bintray.com/umsdk/release'}
         maven {url 'http://maven.aliyun.com/nexus/content/repositories/releases/'}
+        maven {url 'https://artifact.bytedance.com/repository/pangle'}
     }
     dependencies {
         classpath "com.android.tools.build:gradle:4.0.0"
@@ -27,6 +28,7 @@ allprojects {
         maven {url 'https://dl.bintray.com/umsdk/release'}
         maven {url 'http://maven.aliyun.com/nexus/content/repositories/releases/'}
         maven {url "https://jitpack.io"}
+        maven {url 'https://artifact.bytedance.com/repository/pangle'}
     }
 }
 
