@@ -20,6 +20,9 @@ import com.duoduovv.personal.viewmodel.WeiChatViewModel
 import com.duoduovv.tent.TentLoginListener
 import com.duoduovv.tent.TentUserInfo
 import com.duoduovv.weichat.WeiChatBridgeContext
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.accessTokenValidUrl
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.refreshTokenUrl
@@ -60,15 +63,14 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
             layoutShare.setOnClickListener { onShareClick() }
-            layoutContainer.visibility = View.VISIBLE
+//            layoutContainer.visibility = View.VISIBLE
             vLine.visibility = View.VISIBLE
         } else {
             //审核版
             layoutIsRes.visibility = View.GONE
-            layoutContainer.visibility = View.GONE
+//            layoutContainer.visibility = View.GONE
             vLine.visibility = View.GONE
         }
-
         layoutContract.setOnClickListener {
             //问题反馈
             FeedbackAPI.openFeedbackActivity()
@@ -113,9 +115,9 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
 
     override fun initData() {
         //正式版才请求登录接口
-        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
-            viewModel.userInfo()
-        }
+//        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
+//            viewModel.userInfo()
+//        }
         setFeedbackUi()
     }
 
@@ -274,9 +276,9 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             WeiChatTool.regToQQ(BaseApplication.baseCtx)
             WeiChatTool.shareToQQ(
                 requireActivity(),
-                WeiChatBridgeContext.shareTitle,
-                WeiChatBridgeContext.shareContent,
-                WeiChatBridgeContext.shareLink,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                SHARE_LINK,
                 resources.getString(R.string.app_name),
                 flag
             )
@@ -285,7 +287,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         override fun onCopyClick() {
             val clipboard =
                 requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText(null, WeiChatBridgeContext.shareLink)
+            val clipData = ClipData.newPlainText(null, SHARE_LINK)
             clipboard.setPrimaryClip(clipData)
             AndroidUtils.toast("复制成功，快去打开看看吧！", requireActivity())
         }

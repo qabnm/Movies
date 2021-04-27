@@ -26,6 +26,9 @@ import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.duoduovv.room.domain.CollectionBean
 import com.duoduovv.weichat.WeiChatBridgeContext
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
@@ -325,9 +328,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             WeiChatTool.regToQQ(BaseApplication.baseCtx)
             WeiChatTool.shareToQQ(
                 this@MovieDetailActivity,
-                WeiChatBridgeContext.shareTitle,
-                WeiChatBridgeContext.shareContent,
-                WeiChatBridgeContext.shareLink,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                SHARE_LINK,
                 resources.getString(R.string.app_name),
                 flag
             )
@@ -335,7 +338,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
         override fun onCopyClick() {
             val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-            val clipData = ClipData.newPlainText(null, WeiChatBridgeContext.shareLink)
+            val clipData = ClipData.newPlainText(null, SHARE_LINK)
             clipboard.setPrimaryClip(clipData)
             AndroidUtils.toast("复制成功，快去打开看看吧！", this@MovieDetailActivity)
         }

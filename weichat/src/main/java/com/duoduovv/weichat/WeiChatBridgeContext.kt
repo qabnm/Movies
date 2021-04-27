@@ -25,9 +25,9 @@ class WeiChatBridgeContext {
         const val shareToQQ = 1
         //分享到QQ空间
         const val shareToQQZone = 2
-        const val shareTitle = "多多影视大全-想看的这都全都有"
-        const val shareContent = "资源全、全免费，快分享给好友一起试试吧"
-        const val shareLink = " https://www.duoduovv.cn/app/share"
+        const val SHARE_TITLE = "多多影视大全-想看的这都全都有"
+        const val SHARE_CONTENT = "资源全、全免费，快分享给好友一起试试吧"
+        const val SHARE_LINK = "https://www.duoduovv.cn/app/share"
 
         /**
          * 获取微信accessToken
