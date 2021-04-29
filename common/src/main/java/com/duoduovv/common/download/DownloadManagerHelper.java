@@ -5,7 +5,9 @@ import android.net.Uri;
 import android.os.Build;
 
 import com.bumptech.glide.load.resource.bitmap.Downsampler;
+import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlayerLibraryInfo;
+import com.google.android.exoplayer2.RenderersFactory;
 import com.google.android.exoplayer2.database.DatabaseProvider;
 import com.google.android.exoplayer2.database.ExoDatabaseProvider;
 import com.google.android.exoplayer2.offline.DefaultDownloadIndex;
@@ -55,6 +57,12 @@ public class DownloadManagerHelper {
     private static DataSource.@MonotonicNonNull Factory dataSourceFactory;
     private static HttpDataSource.@MonotonicNonNull Factory httpDataSourceFactory;
     private static @MonotonicNonNull DownloadNotificationHelper downloadNotificationHelper;
+
+    public static RenderersFactory buildRenderersFactory(Context context, boolean preferExtensionRenderer) {
+        @DefaultRenderersFactory.ExtensionRendererMode
+        int extensionRendererMode = DefaultRenderersFactory.EXTENSION_RENDERER_MODE_OFF;
+        return new DefaultRenderersFactory(context.getApplicationContext()).setExtensionRendererMode(extensionRendererMode);
+    }
 
     /**
      * 获取downloadManager对象
@@ -165,24 +173,26 @@ public class DownloadManagerHelper {
 
     /**
      * 恢复所有的下载任务
+     *
      * @param context
      */
-    public static void resumeDownload(Context context){
+    public static void resumeDownload(Context context) {
         DownloadService.sendResumeDownloads(context, ExoDownloadService.class, false);
     }
 
     /**
      * 暂停所有的下载任务
+     *
      * @param context
      */
-    public static void pauseDownload(Context context){
+    public static void pauseDownload(Context context) {
         DownloadService.sendPauseDownloads(context, ExoDownloadService.class, false);
     }
 
     /**
      * Clear the stop reason for a single download
      *
-     * @param context Context
+     * @param context   Context
      * @param contentId String
      */
     public static void clearStopReason(Context context, String contentId) {
