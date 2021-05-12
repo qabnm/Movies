@@ -29,7 +29,6 @@ class ReportActivity : BaseViewModelActivity<ReportViewModel>() {
         normalColor = ContextCompat.getColor(this, R.color.color999999)
         selectColor = ContextCompat.getColor(this, R.color.colorFFFFFF)
         viewModel.getReport().observe(this, {
-            dismissLoading()
             AndroidUtils.toast("举报成功，我们会尽快处理！", this)
             finish()
         })
@@ -61,7 +60,6 @@ class ReportActivity : BaseViewModelActivity<ReportViewModel>() {
             AndroidUtils.toast("请输入举报内容", this)
             return
         }
-        showLoading()
         viewModel.report("$title：${etContent.text}", movieId)
     }
 }

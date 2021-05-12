@@ -35,6 +35,8 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     override fun startObserve() {
         viewModel.run {
             getException().observe(this@BaseViewModelFragment, { requestError(it) })
+            getLoadingState().observe(this@BaseViewModelFragment,
+                { if (it) showLoading() else dismissLoading() })
         }
     }
 
@@ -63,11 +65,11 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
      */
     open fun tokenValid() {}
 
-    open fun showLoading() {
+    private fun showLoading() {
         loadingDialog?.showNow(childFragmentManager, "loading")
     }
 
-    open fun dismissLoading() {
+    private fun dismissLoading() {
         if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
     }
 

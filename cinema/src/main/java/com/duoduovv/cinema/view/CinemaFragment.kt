@@ -48,7 +48,6 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
                 .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
         }
         viewModel.getConfigure().observe(this, {
-            dismissLoading()
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
@@ -124,7 +123,6 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     }
 
     override fun initData() {
-        showLoading()
         Log.i("address", "${SharedPreferencesHelper.helper.getValue(ADDRESS, "")}")
         viewModel.configure()
     }

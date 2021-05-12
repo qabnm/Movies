@@ -90,7 +90,7 @@ class CinemaViewModel : BaseViewModel() {
         }
 
         override fun err(str: String) {
-            error.postValue(BaseRepository.ParameterException("下载错误"))
+            getException().postValue(BaseRepository.ParameterException("下载错误"))
         }
     }
 }

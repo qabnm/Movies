@@ -194,7 +194,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun initData() {
-        showLoading()
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
@@ -202,7 +201,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     private fun setData(detailBean: MovieDetailBean?) {
         //查询视频详情
-        dismissLoading()
         this.detailBean = detailBean
         if (detailBean == null) return
         movieId = detailBean.movie.strId

@@ -51,7 +51,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         }
         viewModel.getMain().observe(this, { setData(viewModel.getMain().value) })
         viewModel.getMainRecommend().observe(this, {
-            dismissLoading()
+//            dismissLoading()
             val value = viewModel.getMainRecommend().value
             mainBean?.mainRecommendBean?.recommends = value
             mainBean?.let { adapter?.notifyDataChanged(it) }
@@ -61,7 +61,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     }
 
     private fun setData(value: MainBean?) {
-        dismissLoading()
+//        dismissLoading()
         mainBean = value
         if (null != value) {
             rvList.visibility = View.VISIBLE
@@ -91,7 +91,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     }
 
     override fun initData() {
-        showLoading()
+//        showLoading()
         column = arguments?.getString(ID) ?: ""
         viewModel.main(1, column)
     }

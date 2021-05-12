@@ -54,7 +54,6 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     }
 
     private fun setData(dataList: List<SearchResultList>?) {
-        dismissLoading()
         if (dataList?.isNotEmpty() == true) {
             layoutEmpty.visibility = View.GONE
             refreshLayout.visibility = View.VISIBLE
@@ -77,7 +76,6 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     }
 
     override fun initData() {
-        showLoading()
         typeId = arguments?.getString(ID, "") ?: ""
         keyWord = arguments?.getString(KEY_WORD, "") ?: ""
         viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
@@ -143,7 +141,6 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     private fun noMoreData(flag: String?) {
         if (BridgeContext.NO_MORE_DATA == flag) {
             //没有更多数据了
-            dismissLoading()
             refreshLayout.apply {
                 finishLoadMoreWithNoMoreData()
                 setNoMoreData(true)

@@ -43,7 +43,6 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
     }
 
     private fun setData(rankBean: MovieRankBean?) {
-        dismissLoading()
         val rankList = rankBean?.ranks
         if (rankList?.isNotEmpty() == true) {
             rankAdapter?.setList(rankList)
@@ -51,7 +50,6 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
     }
 
     override fun initData() {
-        showLoading()
         category = arguments?.getString(BridgeContext.ID, "") ?: ""
         viewModel.movieRankList(category)
     }

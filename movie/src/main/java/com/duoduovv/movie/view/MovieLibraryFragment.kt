@@ -56,7 +56,6 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     }
 
     override fun initData() {
-        showLoading()
         typeId = arguments?.getString(ID, "") ?: ""
         typeList = arguments?.getParcelableArrayList(LIST)
         if (typeList?.isNotEmpty() == true) {
@@ -68,7 +67,6 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     }
 
     private fun setData(movies: List<MovieLibList>?) {
-        dismissLoading()
         Log.i("typeList","${typeList?.isNotEmpty()}")
         if (typeList?.isNotEmpty() == true) {
             Log.i("typeList","adapter::${null == movieLibAdapter}movie:&&&&${movies?.isNotEmpty()}")
@@ -96,7 +94,6 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      * @param name String  点击的条件  大陆 美国
      */
     override fun onTypeClick(key: String, name: String) {
-        showLoading()
         page = 1
         map[key] = name
         viewModel.movieLibList(map, page, typeId)
@@ -140,7 +137,6 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      * @param flag String?
      */
     private fun noMoreData(flag: String?) {
-        dismissLoading()
         if (NO_MORE_DATA == flag) {
             //没有更多数据了
             refreshLayout.apply {

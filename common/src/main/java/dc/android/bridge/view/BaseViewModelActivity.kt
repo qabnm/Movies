@@ -37,6 +37,9 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
         //处理一些通用的异常
         viewModel.run {
             getException().observe(this@BaseViewModelActivity, { requestError(it) })
+            getLoadingState().observe(this@BaseViewModelActivity, {
+                if (it) showLoading() else dismissLoading()
+            })
         }
     }
 
@@ -60,11 +63,11 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
         }
     }
 
-    open fun showLoading() {
+    private fun showLoading() {
         loadingDialog?.showNow(supportFragmentManager, "loading")
     }
 
-    open fun dismissLoading() {
+    private fun dismissLoading() {
         if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
     }
 
