@@ -1,17 +1,18 @@
 package com.duoduovv.cinema.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.SearchResultCategoryBean
+import com.duoduovv.cinema.databinding.FragmentSearchResultBinding
 import com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel
 import com.duoduovv.common.adapter.NoLineIndicatorAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
-import com.google.android.exoplayer2.offline.DownloadManager
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
-import kotlinx.android.synthetic.main.fragment_search_result.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 
@@ -22,10 +23,14 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  */
 class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel>() {
     override fun getLayoutId() = R.layout.fragment_search_result
+    private lateinit var mBind:FragmentSearchResultBinding
     override fun providerVMClass() = SearchResultCategoryViewModel::class.java
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) = FragmentSearchResultBinding.inflate(inflater,container,false)
+
     private var keyWord = ""
 
     override fun initView() {
+        mBind = baseBinding as FragmentSearchResultBinding
         viewModel.getCategory().observe(this, {
             val result = viewModel.getCategory().value
             initFragment(result)
@@ -51,13 +56,13 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
                 if (dataList[i].name == "精选") dataList[i].name = "全部"
                 titleList.add(dataList[i].name)
             }
-            vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
+            mBind.vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
             CommonNavigator(requireActivity()).apply {
-                adapter = NoLineIndicatorAdapter(viewPager = vpContainer, data = titleList)
+                adapter = NoLineIndicatorAdapter(viewPager = mBind.vpContainer, data = titleList)
                 isAdjustMode = titleList.size <= 6
-                indicator.navigator = this
+                mBind.indicator.navigator = this
             }
-            ViewPagerHelper.bind(indicator, vpContainer)
+            ViewPagerHelper.bind(mBind.indicator, mBind.vpContainer)
         }
     }
 

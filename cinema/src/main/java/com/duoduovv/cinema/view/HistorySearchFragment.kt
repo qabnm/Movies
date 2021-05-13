@@ -1,19 +1,21 @@
 package com.duoduovv.cinema.view
 
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.HotSearchAdapter
 import com.duoduovv.cinema.component.HistoryUtil
+import com.duoduovv.cinema.databinding.FragmentHistorySearchBinding
 import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.util.FlowLayout
 import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_history_search.*
 
 /**
  * @author: jun.liu
@@ -21,6 +23,10 @@ import kotlinx.android.synthetic.main.fragment_history_search.*
  * @des:历史搜索 搜索热词
  */
 class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
+    private lateinit var mBind: FragmentHistorySearchBinding
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentHistorySearchBinding.inflate(inflater, container, false)
+
     override fun getLayoutId() = R.layout.fragment_history_search
     private var cb: IHistoryClickCallback? = null
     private var hotSearchAdapter: HotSearchAdapter? = null
@@ -31,16 +37,17 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
     }
 
     override fun initView() {
-        imgMore.setOnClickListener { onMoreClick() }
-        layoutHistory.setOnItemClickListener(listener)
-        imgClear.setOnClickListener {
+        mBind = baseBinding as FragmentHistorySearchBinding
+        mBind.imgMore.setOnClickListener { onMoreClick() }
+        mBind.layoutHistory.setOnItemClickListener(listener)
+        mBind.imgClear.setOnClickListener {
             SharedPreferencesHelper.helper.remove(CinemaContext.local)
-            layoutHistory.clear()
+            mBind.layoutHistory.clear()
             setSearchHistory()
         }
-        rvList.layoutManager = GridLayoutManager(requireActivity(), 2)
+        mBind.rvList.layoutManager = GridLayoutManager(requireActivity(), 2)
         hotSearchAdapter = HotSearchAdapter()
-        rvList.adapter = hotSearchAdapter
+        mBind.rvList.adapter = hotSearchAdapter
         hotSearchAdapter?.setOnItemClickListener { adapter, _, position ->
             cb?.onHistoryClick(adapter.data[position] as String)
         }
@@ -57,22 +64,22 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
      */
     fun setSearchHistory() {
         val history = HistoryUtil.getLocalHistory()
-        layoutHistory.setData(history)
-        if (history.isEmpty()) imgMore.visibility = View.GONE
+        mBind.layoutHistory.setData(history)
+        if (history.isEmpty()) mBind.imgMore.visibility = View.GONE
         if (history.isNotEmpty()) {
-            layoutHistoryContainer.visibility = View.VISIBLE
-            layoutFlowLayout.visibility = View.VISIBLE
-            val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
-            if (layoutHistory.isSingLine) {
+            mBind.layoutHistoryContainer.visibility = View.VISIBLE
+            mBind.layoutFlowLayout.visibility = View.VISIBLE
+            val layoutParams = mBind.layoutHistory.layoutParams as LinearLayout.LayoutParams
+            if (mBind.layoutHistory.isSingLine) {
                 layoutParams.height = OsUtils.dip2px(requireActivity(), 38f)
-                imgMore.visibility = View.GONE
+                mBind.imgMore.visibility = View.GONE
             } else {
                 layoutParams.height = OsUtils.dip2px(requireActivity(), 76f)
-                imgMore.visibility = View.VISIBLE
+                mBind.imgMore.visibility = View.VISIBLE
             }
         } else {
-            layoutHistoryContainer.visibility = View.GONE
-            layoutFlowLayout.visibility = View.GONE
+            mBind.layoutHistoryContainer.visibility = View.GONE
+            mBind.layoutFlowLayout.visibility = View.GONE
         }
     }
 
@@ -80,10 +87,10 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
      * 展开所有的本地搜索记录
      */
     private fun onMoreClick() {
-        val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
+        val layoutParams = mBind.layoutHistory.layoutParams as LinearLayout.LayoutParams
         //展开所有的记录
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
-        imgMore.visibility = View.GONE
+        mBind.imgMore.visibility = View.GONE
     }
 
     private var isFirstSet = true
@@ -96,14 +103,14 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         override fun isSingLine(isSingLine: Boolean) {
             if (isSingLine && isFirstSet) {
                 isFirstSet = false
-                val layoutParams = layoutHistory.layoutParams as LinearLayout.LayoutParams
+                val layoutParams = mBind.layoutHistory.layoutParams as LinearLayout.LayoutParams
                 layoutParams.height = OsUtils.dip2px(requireActivity(), 38f)
-                imgMore.visibility = View.GONE
+                mBind.imgMore.visibility = View.GONE
             }
         }
 
         override fun currentHeight(height: Int) {
-            imgMore.visibility = if (height > 76) View.VISIBLE else View.GONE
+            mBind.imgMore.visibility = if (height > 76) View.VISIBLE else View.GONE
         }
     }
 

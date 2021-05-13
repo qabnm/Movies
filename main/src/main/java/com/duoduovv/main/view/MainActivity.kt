@@ -12,6 +12,7 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_CINEMA
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.duoduovv.main.R
+import com.duoduovv.main.databinding.ActivityMainBinding
 import com.duoduovv.weichat.WeiChatTool
 import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext
@@ -20,7 +21,6 @@ import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BaseFragment
 import dc.android.bridge.view.BridgeActivity
 import dc.android.tools.LiveDataBus
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlin.system.exitProcess
 
 /**
@@ -29,6 +29,7 @@ import kotlin.system.exitProcess
 @Route(path = RouterPath.PATH_MAIN)
 class MainActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_main
+    private lateinit var mBind:ActivityMainBinding
     private var exitTime = 0L
     private var currentPosition = 0
     private val position = "position"
@@ -43,16 +44,17 @@ class MainActivity : BridgeActivity() {
     override fun showStatusBarView() = false
 
     override fun initView() {
+        mBind = ActivityMainBinding.bind(layoutView)
 //        navigation.setNavBarClickListener(this)
         LiveDataBus.get().with(TYPE_ID, String::class.java).observe(this, {
             typeId = it
-            navigation.selectedItemId = checkPage(1)
+            mBind.navigation.selectedItemId = checkPage(1)
             LiveDataBus.get().with(ID).value = it
         })
     }
 
     override fun initData(savedInstanceState: Bundle?) {
-        navigation.itemIconTintList = null
+        mBind.navigation.itemIconTintList = null
         if (savedInstanceState != null) {
             currentPosition = savedInstanceState.getInt(position)
             cinemaFragment = supportFragmentManager.getFragment(
@@ -67,7 +69,7 @@ class MainActivity : BridgeActivity() {
                 savedInstanceState, PATH_PERSONAL
             ) as? BaseFragment?
         }
-        navigation.setOnNavigationItemSelectedListener {
+        mBind.navigation.setOnNavigationItemSelectedListener {
             val ts = supportFragmentManager.beginTransaction()
             hideAllFragment(ts)
             when (it.itemId) {
@@ -79,7 +81,7 @@ class MainActivity : BridgeActivity() {
             ts.commitAllowingStateLoss()
             true
         }
-        navigation.selectedItemId = checkPage(currentPosition)
+        mBind.navigation.selectedItemId = checkPage(currentPosition)
 //        onNavClick(0)
     }
 

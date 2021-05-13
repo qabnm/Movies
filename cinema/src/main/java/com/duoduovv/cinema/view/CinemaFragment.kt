@@ -2,14 +2,18 @@ package com.duoduovv.cinema.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
+import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Column
 import com.duoduovv.cinema.bean.Version
+import com.duoduovv.cinema.databinding.FragmentCinemaBinding
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
@@ -23,7 +27,6 @@ import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelFragment
-import kotlinx.android.synthetic.main.fragment_cinema.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 
@@ -39,11 +42,16 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var hotList: List<String>? = null
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
     private var bean: Version? = null
+    private lateinit var mBind: FragmentCinemaBinding
+
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentCinemaBinding.inflate(inflater, container, false)
 
     override fun initView() {
-        val layoutParams = vStatusBar.layoutParams as LinearLayout.LayoutParams
+        mBind = baseBinding as FragmentCinemaBinding
+        val layoutParams = mBind.vStatusBar.layoutParams as LinearLayout.LayoutParams
         layoutParams.height = OsUtils.getStatusBarHeight(requireActivity())
-        tvSearch.setOnClickListener {
+        mBind.tvSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
                 .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
         }
@@ -51,8 +59,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             val result = viewModel.getConfigure().value?.data
             val columns = result?.columns
             initFragment(columns)
-            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way?:"")
-            imgHistory.visibility = if (result?.way == WAY_VERIFY) View.INVISIBLE else View.VISIBLE
+            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way ?: "")
+            mBind.imgHistory.visibility =
+                if (result?.way == WAY_VERIFY) View.INVISIBLE else View.VISIBLE
             hotList = result?.hotSearch
             BaseApplication.hotList = hotList
             this.bean = result?.version
@@ -67,7 +76,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             intent?.let { startActivity(it) }
             requireActivity().finish()
         })
-        imgHistory.setOnClickListener {
+        mBind.imgHistory.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
         }
     }
@@ -113,13 +122,13 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             fragmentList.add(fragment)
             titleList.add(columns[i].name)
         }
-        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
+        mBind.vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
         CommonNavigator(requireActivity()).apply {
-            adapter = ScaleTitleNavAdapter(vpContainer, titleList)
+            adapter = ScaleTitleNavAdapter(mBind.vpContainer, titleList)
             isAdjustMode = titleList.size <= 5
-            indicator.navigator = this
+            mBind.indicator.navigator = this
         }
-        ViewPagerHelper.bind(indicator, vpContainer)
+        ViewPagerHelper.bind(mBind.indicator, mBind.vpContainer)
     }
 
     override fun initData() {

@@ -20,5 +20,5 @@
             android:scrollbars="none" />
     </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 
-    <include layout="@layout/layout_search_empty" />
+    <include layout="@layout/layout_search_empty" android:id="@+id/includeEmpty" />
 </FrameLayout>

@@ -12,13 +12,13 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.WatchHistoryAdapter
+import com.duoduovv.movie.databinding.ActivityWatchHistoryBinding
 import com.duoduovv.room.database.WatchHistoryDatabase
 import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BridgeActivity
-import kotlinx.android.synthetic.main.activity_watch_history.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -33,6 +33,7 @@ import java.util.*
 @Route(path = RouterPath.PATH_WATCH_HISTORY)
 class WatchHistoryActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_watch_history
+    private lateinit var mBind: ActivityWatchHistoryBinding
 
     private var isFirst = true
     private var selectCount = 0
@@ -40,19 +41,20 @@ class WatchHistoryActivity : BridgeActivity() {
     private var isAllSelect = false
 
     override fun initView() {
-        rvList.layoutManager = LinearLayoutManager(this)
+        mBind = ActivityWatchHistoryBinding.bind(layoutView)
+        mBind.rvList.layoutManager = LinearLayoutManager(this)
         historyAdapter = WatchHistoryAdapter()
-        rvList.adapter = historyAdapter
+        mBind.rvList.adapter = historyAdapter
         historyAdapter?.addChildClickViewIds(R.id.imgSelect)
         historyAdapter?.setOnItemChildClickListener { adapter, view, position ->
             onClick(adapter, view, position)
         }
-        layoutTopBar.setRightClick { onEditClick() }
-        tvAllSelect.setOnClickListener { allSelect() }
-        tvDelete.setOnClickListener { onDeleteClick() }
+        mBind.layoutTopBar.setRightClick { onEditClick() }
+        mBind.tvAllSelect.setOnClickListener { allSelect() }
+        mBind.tvDelete.setOnClickListener { onDeleteClick() }
         historyAdapter?.setOnItemClickListener { adapter, _, position ->
             val bean = (adapter as WatchHistoryAdapter).data[position]
-            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY , "")
+            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, "")
             val path = if (way == BridgeContext.WAY_VERIFY) {
                 RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
             } else {
@@ -91,8 +93,8 @@ class WatchHistoryActivity : BridgeActivity() {
         initData()
         selectCount = 0
         isFirst = true
-        layoutSelect.visibility = View.GONE
-        layoutTopBar.setRightText("编辑")
+        mBind.layoutSelect.visibility = View.GONE
+        mBind.layoutTopBar.setRightText("编辑")
     }
 
     override fun initData() {
@@ -100,15 +102,15 @@ class WatchHistoryActivity : BridgeActivity() {
             val dataList = getDB()
             if (dataList.isEmpty()) {
                 //观看历史为空
-                layoutEmpty.setEmptyVisibility(1)
-                layoutSelect.visibility = View.GONE
-                layoutTopBar.setRightVisibility(View.GONE)
+                mBind.layoutEmpty.setEmptyVisibility(1)
+                mBind.layoutSelect.visibility = View.GONE
+                mBind.layoutTopBar.setRightVisibility(View.GONE)
                 isFirst = true
             } else {
                 Collections.sort(dataList) { o1, o2 -> (o2.currentTime - o1.currentTime).toInt() }
-                layoutEmpty.setEmptyVisibility(0)
-                layoutTopBar.setRightVisibility(View.VISIBLE)
-                layoutTopBar.setRightText("编辑")
+                mBind.layoutEmpty.setEmptyVisibility(0)
+                mBind.layoutTopBar.setRightVisibility(View.VISIBLE)
+                mBind.layoutTopBar.setRightText("编辑")
             }
             historyAdapter?.setList(dataList)
         }
@@ -142,7 +144,7 @@ class WatchHistoryActivity : BridgeActivity() {
                 }
                 selectCount = it.data.size
             }
-            tvAllSelect.text = "取消全选"
+            mBind.tvAllSelect.text = "取消全选"
         } else {
             isAllSelect = false //非全选状态
             historyAdapter?.let {
@@ -151,7 +153,7 @@ class WatchHistoryActivity : BridgeActivity() {
                 }
                 selectCount = 0
             }
-            tvAllSelect.text = "全选"
+            mBind.tvAllSelect.text = "全选"
         }
         historyAdapter?.notifyDataSetChanged()
         setDeleteState()
@@ -184,22 +186,22 @@ class WatchHistoryActivity : BridgeActivity() {
         if (historyAdapter?.data?.isEmpty() == true) return
         if (isFirst) {
             isFirst = false
-            layoutTopBar.setRightText("取消")
+            mBind.layoutTopBar.setRightText("取消")
             historyAdapter?.isEdit(true)
-            layoutSelect.visibility = View.VISIBLE
+            mBind.layoutSelect.visibility = View.VISIBLE
         } else {
             isFirst = true
             for (i in 0 until historyAdapter!!.data.size) {
                 historyAdapter!!.data[i].isSelect = false
             }
             selectCount = 0
-            layoutTopBar.setRightText("编辑")
+            mBind.layoutTopBar.setRightText("编辑")
             historyAdapter?.isEdit(false)
-            layoutSelect.visibility = View.GONE
+            mBind.layoutSelect.visibility = View.GONE
         }
-        tvDelete.text = "删除"
-        tvDelete.setTextColor(Color.parseColor("#99F1303C"))
-        tvDelete.isEnabled = false
+        mBind.tvDelete.text = "删除"
+        mBind.tvDelete.setTextColor(Color.parseColor("#99F1303C"))
+        mBind.tvDelete.isEnabled = false
         historyAdapter?.notifyDataSetChanged()
     }
 
@@ -208,13 +210,13 @@ class WatchHistoryActivity : BridgeActivity() {
      */
     private fun setDeleteState() {
         if (selectCount > 0) {
-            tvDelete.text = "删除$selectCount"
-            tvDelete.setTextColor(Color.parseColor("#F1303C"))
-            tvDelete.isEnabled = true
+            mBind.tvDelete.text = "删除$selectCount"
+            mBind.tvDelete.setTextColor(Color.parseColor("#F1303C"))
+            mBind.tvDelete.isEnabled = true
         } else {
-            tvDelete.text = "删除"
-            tvDelete.setTextColor(Color.parseColor("#99F1303C"))
-            tvDelete.isEnabled = false
+            mBind.tvDelete.text = "删除"
+            mBind.tvDelete.setTextColor(Color.parseColor("#99F1303C"))
+            mBind.tvDelete.isEnabled = false
         }
     }
 }

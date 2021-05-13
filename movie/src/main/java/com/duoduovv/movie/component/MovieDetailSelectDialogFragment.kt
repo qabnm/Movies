@@ -2,13 +2,12 @@ package com.duoduovv.movie.component
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailSelectAdapter
 import com.duoduovv.movie.bean.MovieItem
+import com.duoduovv.movie.databinding.ItemMovieDetailSelectBinding
 
 /**
  * @author: jun.liu
@@ -19,24 +18,23 @@ class MovieDetailSelectDialogFragment(
     private val height: Int,
     private val dataList: List<MovieItem>,
     private val listener: OnSelectDialogItemClickListener?
-) :
-    DialogFragment() {
+) : DialogFragment() {
+    private lateinit var mBind: ItemMovieDetailSelectBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        val layoutView = inflater.inflate(R.layout.item_movie_detail_select, container, false)
-        initViews(layoutView)
-        return layoutView
+        mBind = ItemMovieDetailSelectBinding.inflate(inflater, container, false)
+        initViews()
+        return mBind.root
     }
 
-    private fun initViews(layoutView: View) {
-        val rvList: RecyclerView = layoutView.findViewById(R.id.rvList)
-        rvList.layoutManager = GridLayoutManager(requireContext(), 5)
+    private fun initViews() {
+        mBind.rvList.layoutManager = GridLayoutManager(requireContext(), 5)
         val adapter = MovieDetailSelectAdapter(dataList as MutableList<MovieItem>)
-        rvList.adapter = adapter
+        mBind.rvList.adapter = adapter
         adapter.setOnItemClickListener { ad, _, position ->
             val data = (ad as MovieDetailSelectAdapter).data
             for (i in data.indices) {
@@ -47,8 +45,7 @@ class MovieDetailSelectDialogFragment(
             val vid = data[position].vid
             listener?.onDialogClick(vid, data[position].title)
         }
-        val imgCancel: ImageView = layoutView.findViewById(R.id.imgCancel)
-        imgCancel.setOnClickListener { dismiss() }
+        mBind.imgCancel.setOnClickListener { dismiss() }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -57,7 +54,7 @@ class MovieDetailSelectDialogFragment(
     }
 
     interface OnSelectDialogItemClickListener {
-        fun onDialogClick(vid: String, vidTitle:String)
+        fun onDialogClick(vid: String, vidTitle: String)
     }
 
     /**

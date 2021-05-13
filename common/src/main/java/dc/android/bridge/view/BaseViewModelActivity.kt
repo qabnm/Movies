@@ -1,6 +1,7 @@
 package dc.android.bridge.view
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.viewbinding.ViewBinding
 import com.duoduovv.common.component.LoadingDialogFragment
 import dc.android.bridge.BridgeContext.Companion.CONNECTION_ERROR
 import dc.android.bridge.BridgeContext.Companion.NETWORK_ERROR

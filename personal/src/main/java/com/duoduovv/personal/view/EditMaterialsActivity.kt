@@ -9,13 +9,13 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.User
 import com.duoduovv.personal.component.BirthdayDialog
+import com.duoduovv.personal.databinding.ActivityEditMaterialsBinding
 import com.duoduovv.personal.listener.ISelectSexListener
 import com.duoduovv.personal.listener.ITakePhotoResult
 import com.duoduovv.personal.viewmodel.PersonViewModel
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
-import kotlinx.android.synthetic.main.activity_edit_materials.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,9 +29,11 @@ class EditMaterialsActivity : BaseViewModelActivity<PersonViewModel>(), ITakePho
     BirthdayDialog.OnTimeSelectListener, ISelectSexListener {
     override fun getLayoutId() = R.layout.activity_edit_materials
     override fun providerVMClass() = PersonViewModel::class.java
+    private lateinit var mBind: ActivityEditMaterialsBinding
     private var normalColor = 0
 
     override fun initView() {
+        mBind = ActivityEditMaterialsBinding.bind(layoutView)
         //拍照
 //        layoutHeader.setOnClickListener {
 //            val dialogFragment = PhotoDialogFragment(this)
@@ -64,16 +66,16 @@ class EditMaterialsActivity : BaseViewModelActivity<PersonViewModel>(), ITakePho
     private fun setUserInfo(user: User?) {
         if (null == user) return
         if (!StringUtils.isEmpty(user.imgUrl)) {
-            GlideUtils.setImg(this, user.imgUrl, imgHeader)
+            GlideUtils.setImg(this, user.imgUrl, mBind.imgHeader)
         }
-        if (!StringUtils.isEmpty(user.nickName)) setText(tvNickName, user.nickName)
-        setText(tvSex, if ("1" == user.sex) "男" else "女")
+        if (!StringUtils.isEmpty(user.nickName)) setText(mBind.tvNickName, user.nickName)
+        setText(mBind.tvSex, if ("1" == user.sex) "男" else "女")
         if (!StringUtils.isEmpty(user.province)) setText(
-            tvWhere,
+            mBind.tvWhere,
             "${user.province}${user.city}${user.area}"
         )
 //        if (!StringUtils.isEmpty(user.created_at)) setText(tvBirthday, user.created_at)
-        if (!StringUtils.isEmpty(user.cellPhone)) setText(tvSign, user.cellPhone)
+        if (!StringUtils.isEmpty(user.cellPhone)) setText(mBind.tvSign, user.cellPhone)
     }
 
     private fun setText(textView: TextView, text: String) {
@@ -82,11 +84,11 @@ class EditMaterialsActivity : BaseViewModelActivity<PersonViewModel>(), ITakePho
     }
 
     override fun takePhotoResult(uri: Uri?) {
-        uri?.let { imgHeader.setImageURI(it) }
+        uri?.let { mBind.imgHeader.setImageURI(it) }
     }
 
     override fun takePhotoResult(path: String?) {
-        path?.let { imgHeader.setImageBitmap(BitmapFactory.decodeFile(it)) }
+        path?.let { mBind.imgHeader.setImageBitmap(BitmapFactory.decodeFile(it)) }
     }
 
     /**
@@ -95,12 +97,12 @@ class EditMaterialsActivity : BaseViewModelActivity<PersonViewModel>(), ITakePho
      */
     override fun onTimeSelect(date: Date) {
         val sdf = SimpleDateFormat("yyyy年MM月dd日")
-        tvBirthday.text = sdf.format(date)
-        tvBirthday.setTextColor(ContextCompat.getColor(this, R.color.color999999))
+        mBind.tvBirthday.text = sdf.format(date)
+        mBind.tvBirthday.setTextColor(ContextCompat.getColor(this, R.color.color999999))
     }
 
     override fun selectSex(sex: String) {
-        tvSex.text = sex
-        tvSex.setTextColor(ContextCompat.getColor(this, R.color.color999999))
+        mBind.tvSex.text = sex
+        mBind.tvSex.setTextColor(ContextCompat.getColor(this, R.color.color999999))
     }
 }

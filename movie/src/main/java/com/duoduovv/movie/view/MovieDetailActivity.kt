@@ -23,9 +23,9 @@ import com.duoduovv.movie.bean.*
 import com.duoduovv.movie.component.MovieDetailArtSelectDialog
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
+import com.duoduovv.movie.databinding.ActivityMovieDetailBinding
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.duoduovv.room.domain.CollectionBean
-import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
@@ -45,7 +45,6 @@ import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
-import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -64,6 +63,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     MovieDetailArtSelectDialog.OnSelectDialogItemClickListener {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
+    private lateinit var mBind: ActivityMovieDetailBinding
     private var movieId = ""
     private var vid = ""
     private var detailAdapter: MovieDetailAdapter? = null
@@ -86,19 +86,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun initView() {
-        rvList.layoutManager = GridLayoutManager(this, 3)
+        mBind = ActivityMovieDetailBinding.bind(layoutView)
+        mBind.rvList.layoutManager = GridLayoutManager(this, 3)
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
         viewModel.getMoviePlayInfo()
             .observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
         viewModel.getMovieClickInfo()
             .observe(this, { setClickInfo(viewModel.getMovieClickInfo().value) })
-        orientationUtils = OrientationUtils(this, videoPlayer)
+        orientationUtils = OrientationUtils(this, mBind.videoPlayer)
         orientationUtils?.isEnable = false
         setVideoPlayer()
-        videoPlayer.setVideoAllCallBack(videoCallback)
-        videoPlayer.fullscreenButton.setOnClickListener {
+        mBind.videoPlayer.setVideoAllCallBack(videoCallback)
+        mBind.videoPlayer.fullscreenButton.setOnClickListener {
             orientationUtils?.resolveByClick()
-            videoPlayer.startWindowFullscreen(this, true, true)
+            mBind.videoPlayer.startWindowFullscreen(this, true, true)
         }
         screenHeight = OsUtils.getRealDisplayHeight(this)
         topBarHeight = OsUtils.getStatusBarHeight(this)
@@ -116,9 +117,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
         override fun onPrepared(url: String?, vararg objects: Any?) {
             super.onPrepared(url, *objects)
-            orientationUtils?.isEnable = videoPlayer.isRotateWithSystem
+            orientationUtils?.isEnable = mBind.videoPlayer.isRotateWithSystem
             if (currentLength > 0 && vidByQuery == vid) {
-                videoPlayer.seekTo(currentLength)
+                mBind.videoPlayer.seekTo(currentLength)
             }
             currentLength = 0
         }
@@ -166,7 +167,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             val playList = it.playUrls
             if (playList?.isNotEmpty() == true) {
-                (videoPlayer.currentPlayer as SampleCoverVideo).apply {
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).apply {
                     setStartClick(1)
                     setUp(playList[0].url, true, "")
                     startPlayLogic()
@@ -185,8 +186,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val playList = it.playUrls
             Log.d("videoPlayer", "****这里执行了：way=$way")
             if (playList?.isNotEmpty() == true) {
-                videoPlayer.setStartClick(1)
-                videoPlayer.setUp(playList[0].url, true, "")
+                mBind.videoPlayer.setStartClick(1)
+                mBind.videoPlayer.setUp(playList[0].url, true, "")
                 //如果是可播放的直接播放
 //                if (way == WAY_RELEASE) videoPlayer.startPlayLogic()
             }
@@ -227,7 +228,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
             }
             //视频信息
-            videoPlayer.loadCoverImage(
+            mBind.videoPlayer.loadCoverImage(
                 this@MovieDetailActivity,
                 detailBean!!.movie.coverUrl,
                 ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
@@ -236,7 +237,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 detailAdapter =
                     MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
                 detailAdapter?.setOnViewClick(this@MovieDetailActivity)
-                rvList.adapter = detailAdapter
+                mBind.rvList.adapter = detailAdapter
             } else {
                 detailAdapter?.notifyDataChange(detailBean!!)
             }
@@ -272,7 +273,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     viewModel.moviePlayInfo(vid, movieId)
                 } else if (way == BridgeContext.WAY_H5) {
                     //如果是H5版本
-                    videoPlayer.setStartClick(0)
+                    mBind.videoPlayer.setStartClick(0)
                     val urlList = detailBean!!.playUrls
                     if (urlList?.isNotEmpty() == true) playUrl = urlList[0].url
                 }
@@ -291,7 +292,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
         //exo缓存模式，支持m3u8，只支持exo
         CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
-        videoPlayer.apply {
+        mBind.videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
             fullscreenButton.setOnClickListener {
@@ -386,7 +387,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        videoHeight = videoPlayer.measuredHeight
+        videoHeight = mBind.videoPlayer.measuredHeight
         realHeight = screenHeight - topBarHeight - videoHeight - navHeight
     }
 
@@ -473,12 +474,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         orientationUtils?.backToProtVideo()
         if (GSYVideoManager.backFromWindowFull(this)) return
         //释放所有
-        videoPlayer.setVideoAllCallBack(null)
+        mBind.videoPlayer.setVideoAllCallBack(null)
         super.onBackPressed()
     }
 
     override fun onResume() {
-        videoPlayer.currentPlayer.onVideoResume(false)
+        mBind.videoPlayer.currentPlayer.onVideoResume(false)
         super.onResume()
     }
 
@@ -493,12 +494,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun updateHistoryDB() {
         detailBean?.let {
             viewModel.updateHistoryDB(
-                progress = videoPlayer.currentPlayer.currentPositionWhenPlaying,
+                progress = mBind.videoPlayer.currentPlayer.currentPositionWhenPlaying,
                 detailBean = it,
                 movieId = movieId,
                 vid = vid,
                 vidTitle = vidTitle,
-                duration = videoPlayer.currentPlayer.duration
+                duration = mBind.videoPlayer.currentPlayer.duration
             )
         }
     }
@@ -511,13 +512,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onPause() {
-        videoPlayer.currentPlayer.onVideoPause()
+        mBind.videoPlayer.currentPlayer.onVideoPause()
         super.onPause()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        (videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(if (way == WAY_RELEASE) 1 else 0)
+        (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(if (way == WAY_RELEASE) 1 else 0)
         Log.d("movieDetail", "当前播放路径是：$way")
         when (newConfig.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {

@@ -5,10 +5,10 @@ import android.util.AttributeSet
 import android.view.Gravity
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieLibraryTypeAdapter
 import com.duoduovv.movie.bean.TypeListArray
+import com.duoduovv.movie.databinding.ItemRecyclerviewBinding
 
 /**
  * @author: jun.liu
@@ -20,16 +20,17 @@ class MovieTopLayout @JvmOverloads constructor(
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : LinearLayout(context, attrs, defStyleAttr) {
-    private var rvList: RecyclerView
+    private var mBind: ItemRecyclerviewBinding
     private var listener: OnTypeClickListener? = null
 
     init {
         removeAllViews()
         val view = inflate(context, R.layout.item_recyclerview, null)
+        mBind = ItemRecyclerviewBinding.bind(view)
         val layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         view.layoutParams = layoutParams
-        rvList = view.findViewById(R.id.rvList)
-        rvList.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        mBind.rvList.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         gravity = Gravity.CENTER_VERTICAL
         addView(view)
     }
@@ -37,7 +38,7 @@ class MovieTopLayout @JvmOverloads constructor(
     fun setList(data: ArrayList<TypeListArray>, key: String) {
         if (data.size > 0) {
             var count = 0
-            for (i in data.indices){
+            for (i in data.indices) {
                 //如果没有一个选项是被选中的 那么就选中第一个
                 if (!data[i].isSelect) count++
             }
@@ -53,7 +54,7 @@ class MovieTopLayout @JvmOverloads constructor(
             adapter.notifyDataSetChanged()
             listener?.onTypeClick(key, data[position].key)
         }
-        rvList.adapter = typeAdapter
+        mBind.rvList.adapter = typeAdapter
     }
 
     interface OnTypeClickListener {

@@ -19,7 +19,7 @@ import java.net.UnknownHostException
  *
  * 如果不需要用到liveData可以直接继承BaseFragment
  */
-open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
+abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     protected lateinit var viewModel: VM
     open fun providerVMClass(): Class<VM>? = null
     private var loadingDialog: LoadingDialogFragment? = null

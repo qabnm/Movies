@@ -2,6 +2,7 @@ package dc.android.bridge.view
 
 import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import androidx.annotation.ColorInt
 import dc.android.bridge.util.StatusBarWrapper
 
@@ -11,7 +12,7 @@ import dc.android.bridge.util.StatusBarWrapper
  */
 open class BridgeActivity : BaseActivity() {
     private lateinit var barWrapper: StatusBarWrapper
-
+    protected lateinit var layoutView:View
     override fun initAttach() {
         super.initAttach()
         barWrapper = StatusBarWrapper(this)
@@ -30,8 +31,8 @@ open class BridgeActivity : BaseActivity() {
         isStatusColorDark: Boolean = true,
         @ColorInt statusBarColor: Int = Color.WHITE
     ) {
-        val contentView = LayoutInflater.from(this).inflate(getLayoutId(), null)
-        barWrapper.onCreate(contentView)
+        layoutView = LayoutInflater.from(this).inflate(getLayoutId(), null)
+        barWrapper.onCreate(layoutView,this)
         barWrapper.setStatusBarColor(isStatusColorDark, statusBarColor)
     }
 

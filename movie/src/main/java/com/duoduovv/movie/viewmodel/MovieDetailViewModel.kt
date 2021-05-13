@@ -12,7 +12,6 @@ import com.duoduovv.room.domain.CollectionBean
 import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
-import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch

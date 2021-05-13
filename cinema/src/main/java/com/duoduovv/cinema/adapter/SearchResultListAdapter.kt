@@ -4,15 +4,13 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
+import com.duoduovv.cinema.databinding.ItemSearchResultBinding
 import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
@@ -29,10 +27,14 @@ class SearchResultListAdapter(
     private val context: Context,
     private val listener: OnItemClickListener? = null
 ) : RecyclerView.Adapter<SearchResultListAdapter.MyViewHolder>() {
+    private lateinit var mBind: ItemSearchResultBinding
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = MyViewHolder(
-        LayoutInflater.from(context).inflate(R.layout.item_search_result, parent, false)
-    )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
+        val itemView =
+            LayoutInflater.from(context).inflate(R.layout.item_search_result, parent, false)
+        mBind = ItemSearchResultBinding.bind(itemView)
+        return MyViewHolder(itemView)
+    }
 
     fun notifyDataChanged(dataList: List<SearchResultList>) {
         this.dataList = dataList
@@ -41,20 +43,20 @@ class SearchResultListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bean = dataList[position]
-        GlideUtils.setMovieImg(context, bean.coverUrl, holder.imgCover)
-        holder.tvTitle.text = bean.vodName
-        holder.tvTime.text = StringUtils.append(
+        GlideUtils.setMovieImg(context, bean.coverUrl, mBind.imgCover)
+        mBind.tvTitle.text = bean.vodName
+        mBind.tvTime.text = StringUtils.append(
             bean.vodYear,
             " ", bean.typeText,
             " ", bean.vodArea,
             " ", bean.vodLang
         )
-        holder.tvDirector.text = "导演：${bean.vodDirector}"
+        mBind.tvDirector.text = "导演：${bean.vodDirector}"
         when (bean.movieFlag) {
             TYPE_TV, TYPE_TV0 -> {
                 //电视
-                holder.rvList.visibility = View.VISIBLE
-                holder.rvList.layoutManager = GridLayoutManager(context, 6)
+                mBind.rvList.visibility = View.VISIBLE
+                mBind.rvList.layoutManager = GridLayoutManager(context, 6)
                 val data = bean.movieItems
                 if (data?.isNotEmpty() == true) {
                     val adapter = if (data.size <= 6) {
@@ -69,15 +71,9 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 1])
                         SearchTvSelectAdapter(tempData)
                     }
-                    holder.rvList.adapter = adapter
+                    mBind.rvList.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchTvSelectAdapter).data
-//                        for (i in dataList.indices) {
-//                            dataList[i].isSelect = false
-//                        }
-//                        dataList[pos].isSelect = true
-//                        ad.notifyDataSetChanged()
-//                        listener?.onSelectClick(dataList[pos].vid)
                         if (data.size <= 6) {
                             listener?.onSelectClick(dataList[pos].vid, bean.strId, bean.way)
                         } else {
@@ -98,8 +94,8 @@ class SearchResultListAdapter(
             }
             TYPE_ALBUM -> {
                 //综艺
-                holder.rvList.visibility = View.VISIBLE
-                holder.rvList.layoutManager =
+                mBind.rvList.visibility = View.VISIBLE
+                mBind.rvList.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 val data = bean.movieItems
                 if (data?.isNotEmpty() == true) {
@@ -115,13 +111,9 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 1])
                         SearchAlbumSelectAdapter(tempData)
                     }
-                    holder.rvList.adapter = adapter
+                    mBind.rvList.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchAlbumSelectAdapter).data
-//                        for (i in dataList.indices) dataList[i].isSelect = false
-//                        dataList[pos].isSelect = true
-//                        ad.notifyDataSetChanged()
-//                        listener?.onSelectClick(dataList[pos].vid, bean.str_id, bean.way)
                         if (data.size <= 6) {
                             listener?.onSelectClick(dataList[pos].vid, bean.strId, bean.way)
                         } else {
@@ -141,22 +133,15 @@ class SearchResultListAdapter(
                 }
             }
             else -> {
-                holder.rvList.visibility = View.GONE
+                mBind.rvList.visibility = View.GONE
             }
         }
-        holder.layoutContainer.setOnClickListener { listener?.onItemClick(bean.strId, bean.way) }
+        mBind.layoutContainer.setOnClickListener { listener?.onItemClick(bean.strId, bean.way) }
     }
 
     override fun getItemCount() = dataList.size
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imgCover: ImageView = itemView.findViewById(R.id.imgCover)
-        val tvTitle: TextView = itemView.findViewById(R.id.tvTitle)
-        val tvTime: TextView = itemView.findViewById(R.id.tvTime)
-        val tvDirector: TextView = itemView.findViewById(R.id.tvDirector)
-        val rvList: RecyclerView = itemView.findViewById(R.id.rvList)
-        val layoutContainer: ConstraintLayout = itemView.findViewById(R.id.layoutContainer)
-    }
+    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     interface OnItemClickListener {
         fun onItemClick(movieId: String, way: String)

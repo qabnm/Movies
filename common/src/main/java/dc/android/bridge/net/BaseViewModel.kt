@@ -24,6 +24,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
             Log.d("tag", "请求异常$e")
         }finally {
             loading.value = false
+            Log.d("tag", "请求完成")
         }
 
 //        kotlin.runCatching {

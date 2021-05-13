@@ -15,6 +15,7 @@ import com.duoduovv.location.LocationHelper
 import com.duoduovv.main.R
 import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
+import com.duoduovv.main.databinding.ActivitySplashBinding
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
@@ -31,6 +32,7 @@ import dc.android.bridge.view.BridgeActivity
  */
 class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickListener {
     override fun getLayoutId() = R.layout.activity_splash
+    private lateinit var mBind:ActivitySplashBinding
     override fun showStatusBarView() = false
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.colorTrans))
@@ -40,6 +42,9 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
     private var alertDialogFragment: AlertDialogFragment? = null
     private var locationHelper: LocationHelper? = null
 
+    override fun initView() {
+        mBind = ActivitySplashBinding.bind(layoutView)
+    }
     override fun initData() {
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
             false -> {

@@ -5,11 +5,11 @@ import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
+import com.duoduovv.movie.databinding.ActivityReportBinding
 import com.duoduovv.movie.viewmodel.ReportViewModel
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.view.BaseViewModelActivity
-import kotlinx.android.synthetic.main.activity_report.*
 
 /**
  * @author: jun.liu
@@ -19,6 +19,7 @@ import kotlinx.android.synthetic.main.activity_report.*
 @Route(path = RouterPath.PATH_REPORT)
 class ReportActivity : BaseViewModelActivity<ReportViewModel>() {
     override fun getLayoutId() = R.layout.activity_report
+    private lateinit var mBind: ActivityReportBinding
     override fun providerVMClass() = ReportViewModel::class.java
     private var title = "其它"
     private var movieId = ""
@@ -26,29 +27,30 @@ class ReportActivity : BaseViewModelActivity<ReportViewModel>() {
     private var selectColor = 0
 
     override fun initView() {
+        mBind = ActivityReportBinding.bind(layoutView)
         normalColor = ContextCompat.getColor(this, R.color.color999999)
         selectColor = ContextCompat.getColor(this, R.color.colorFFFFFF)
         viewModel.getReport().observe(this, {
             AndroidUtils.toast("举报成功，我们会尽快处理！", this)
             finish()
         })
-        btnSeQing.setOnCheckedChangeListener { _, isChecked ->
-            btnSeQing.setTextColor(if (isChecked) selectColor else normalColor)
+        mBind.btnSeQing.setOnCheckedChangeListener { _, isChecked ->
+            mBind.btnSeQing.setTextColor(if (isChecked) selectColor else normalColor)
             if (isChecked) title = "色情"
         }
-        btnBaoLi.setOnCheckedChangeListener { _, isChecked ->
-            btnBaoLi.setTextColor(if (isChecked) selectColor else normalColor)
+        mBind.btnBaoLi.setOnCheckedChangeListener { _, isChecked ->
+            mBind.btnBaoLi.setTextColor(if (isChecked) selectColor else normalColor)
             if (isChecked) title = "暴力"
         }
-        btnQinQuan.setOnCheckedChangeListener { _, isChecked ->
-            btnQinQuan.setTextColor(if (isChecked) selectColor else normalColor)
+        mBind.btnQinQuan.setOnCheckedChangeListener { _, isChecked ->
+            mBind.btnQinQuan.setTextColor(if (isChecked) selectColor else normalColor)
             if (isChecked) title = "侵权"
         }
-        btnOther.setOnCheckedChangeListener { _, isChecked ->
-            btnOther.setTextColor(if (isChecked) selectColor else normalColor)
+        mBind.btnOther.setOnCheckedChangeListener { _, isChecked ->
+            mBind.btnOther.setTextColor(if (isChecked) selectColor else normalColor)
             if (isChecked) title = "其它"
         }
-        btnCommit.setOnClickListener { commit() }
+        mBind.btnCommit.setOnClickListener { commit() }
     }
 
     override fun initData() {
@@ -56,10 +58,10 @@ class ReportActivity : BaseViewModelActivity<ReportViewModel>() {
     }
 
     private fun commit() {
-        if (TextUtils.isEmpty(etContent.text)) {
+        if (TextUtils.isEmpty(mBind.etContent.text)) {
             AndroidUtils.toast("请输入举报内容", this)
             return
         }
-        viewModel.report("$title：${etContent.text}", movieId)
+        viewModel.report("$title：${mBind.etContent.text}", movieId)
     }
 }

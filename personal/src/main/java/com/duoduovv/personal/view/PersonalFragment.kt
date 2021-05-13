@@ -3,7 +3,9 @@ package com.duoduovv.personal.view
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
@@ -16,10 +18,10 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.*
+import com.duoduovv.personal.databinding.FragmentPersonalBinding
 import com.duoduovv.personal.viewmodel.WeiChatViewModel
 import com.duoduovv.tent.TentLoginListener
 import com.duoduovv.tent.TentUserInfo
-import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
@@ -39,7 +41,6 @@ import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
-import kotlinx.android.synthetic.main.fragment_personal.*
 
 /**
  * @author: jun.liu
@@ -50,42 +51,44 @@ import kotlinx.android.synthetic.main.fragment_personal.*
 class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun getLayoutId() = R.layout.fragment_personal
     override fun providerVMClass() = WeiChatViewModel::class.java
+    private lateinit var mBind: FragmentPersonalBinding
 
     override fun initView() {
+        mBind = baseBinding as FragmentPersonalBinding
         if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
             //正式版
-            layoutIsRes.visibility = View.VISIBLE
-            layoutHistory.setOnClickListener {
+            mBind.layoutIsRes.visibility = View.VISIBLE
+            mBind.layoutHistory.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
             }
-            layoutDownload.setOnClickListener { }
-            layoutCollection.setOnClickListener {
+            mBind.layoutDownload.setOnClickListener { }
+            mBind.layoutCollection.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
-            layoutShare.setOnClickListener { onShareClick() }
+            mBind.layoutShare.setOnClickListener { onShareClick() }
 //            layoutContainer.visibility = View.VISIBLE
-            vLine.visibility = View.VISIBLE
+            mBind.vLine.visibility = View.VISIBLE
         } else {
             //审核版
-            layoutIsRes.visibility = View.GONE
+            mBind.layoutIsRes.visibility = View.GONE
 //            layoutContainer.visibility = View.GONE
-            vLine.visibility = View.GONE
+            mBind.vLine.visibility = View.GONE
         }
-        layoutContract.setOnClickListener {
+        mBind.layoutContract.setOnClickListener {
             //问题反馈
             FeedbackAPI.openFeedbackActivity()
         }
-        layoutSetting.setOnClickListener {
+        mBind.layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
         }
-        layoutAbout.setOnClickListener {
+        mBind.layoutAbout.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_ABOUT_US).navigation()
         }
-        layoutTop.setOnClickListener {
+        mBind.layoutTop.setOnClickListener {
             ARouter.getInstance().build(PATH_EDIT_MATERIALS).navigation()
         }
-        imgWeiChat.setOnClickListener { weiChatLogin() }
-        imgQQ.setOnClickListener { qqLogin() }
+        mBind.imgWeiChat.setOnClickListener { weiChatLogin() }
+        mBind.imgQQ.setOnClickListener { qqLogin() }
         viewModel.getUserInfo().observe(this, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
         LiveDataBus.get().with("logout", Int::class.java).observe(this, {
             if (it == SUCCESS) {
@@ -106,10 +109,10 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun onGetUserInfoSuc(value: User?) {
         value?.let {
-            layoutLogin.visibility = View.GONE
-            layoutTop.visibility = View.VISIBLE
-            GlideUtils.setImg(requireActivity(), it.imgUrl, imageIcon)
-            tvUser.text = it.nickName
+            mBind.layoutLogin.visibility = View.GONE
+            mBind.layoutTop.visibility = View.VISIBLE
+            GlideUtils.setImg(requireActivity(), it.imgUrl, mBind.imageIcon)
+            mBind.tvUser.text = it.nickName
         }
     }
 
@@ -140,10 +143,10 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             if (!StringUtils.isEmpty(it.token)) {
                 //登录成功了
                 SharedPreferencesHelper.helper.setValue(TOKEN, it.token)
-                layoutLogin.visibility = View.GONE
-                layoutTop.visibility = View.VISIBLE
-                GlideUtils.setImg(requireActivity(), it.img, imageIcon)
-                tvUser.text = it.nickName
+                mBind.layoutLogin.visibility = View.GONE
+                mBind.layoutTop.visibility = View.VISIBLE
+                GlideUtils.setImg(requireActivity(), it.img, mBind.imageIcon)
+                mBind.tvUser.text = it.nickName
             } else {
                 //登录失败
             }
@@ -232,8 +235,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * token过期
      */
     override fun tokenValid() {
-        layoutLogin.visibility = View.VISIBLE
-        layoutTop.visibility = View.GONE
+        mBind.layoutLogin.visibility = View.VISIBLE
+        mBind.layoutTop.visibility = View.GONE
 
         if (!hasObserve) {
             hasObserve = true
@@ -262,6 +265,9 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             })
         }
     }
+
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentPersonalBinding.inflate(inflater, container, false)
 
     /**
      * 分享

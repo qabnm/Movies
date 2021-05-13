@@ -7,9 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.duoduovv.common.R
-import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
-import kotlinx.android.synthetic.main.dialog_loading.*
 
 /**
  * @author: jun.liu

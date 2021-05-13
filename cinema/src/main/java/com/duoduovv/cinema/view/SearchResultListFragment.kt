@@ -1,7 +1,9 @@
 package com.duoduovv.cinema.view
 
 import android.os.Parcelable
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.CinemaContext.Companion.KEY_WORD
@@ -9,6 +11,7 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchResultListAdapter
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
+import com.duoduovv.cinema.databinding.FragmentSearchResultListBinding
 import com.duoduovv.cinema.viewmodel.SearchResultViewModel
 import com.duoduovv.common.util.RouterPath
 import com.scwang.smart.refresh.footer.ClassicsFooter
@@ -20,8 +23,6 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BaseViewModelFragment
-import kotlinx.android.synthetic.main.fragment_search_result_list.*
-import kotlinx.android.synthetic.main.layout_search_empty.*
 import java.util.*
 
 /**
@@ -35,6 +36,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     override fun providerVMClass() = SearchResultViewModel::class.java
 
     override fun getLayoutId() = R.layout.fragment_search_result_list
+    private lateinit var mBind:FragmentSearchResultListBinding
     private var typeId = ""
     private var keyWord = ""
     private var page = 1
@@ -42,10 +44,11 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
 
     override fun initView() {
         resultAdapter = null
+        mBind = baseBinding as FragmentSearchResultListBinding
         viewModel.getSearchResult().observe(this, { setData(viewModel.getSearchResult().value) })
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
-        rvList.layoutManager = LinearLayoutManager(requireActivity())
-        refreshLayout.apply {
+        mBind.rvList.layoutManager = LinearLayoutManager(requireActivity())
+        mBind.refreshLayout.apply {
             setRefreshHeader(ClassicsHeader(requireActivity()))
             setRefreshFooter(ClassicsFooter(requireActivity()))
             setOnRefreshListener(this@SearchResultListFragment)
@@ -55,25 +58,27 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
 
     private fun setData(dataList: List<SearchResultList>?) {
         if (dataList?.isNotEmpty() == true) {
-            layoutEmpty.visibility = View.GONE
-            refreshLayout.visibility = View.VISIBLE
+            mBind.includeEmpty.layoutEmpty.visibility = View.GONE
+            mBind.refreshLayout.visibility = View.VISIBLE
             if (null == resultAdapter) {
                 resultAdapter = SearchResultListAdapter(dataList, requireActivity(), this)
-                rvList.adapter = resultAdapter
+                mBind.rvList.adapter = resultAdapter
             } else {
                 resultAdapter?.notifyDataChanged(dataList)
             }
         } else {
-            layoutEmpty.visibility = View.VISIBLE
-            refreshLayout.visibility = View.GONE
+            mBind.includeEmpty.layoutEmpty.visibility = View.VISIBLE
+            mBind.refreshLayout.visibility = View.GONE
         }
         finishLoading()
     }
 
     override fun finishLoading() {
-        if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
-        if (refreshLayout.isLoading) refreshLayout.finishLoadMore()
+        if (mBind.refreshLayout.isRefreshing) mBind.refreshLayout.finishRefresh()
+        if (mBind.refreshLayout.isLoading) mBind.refreshLayout.finishLoadMore()
     }
+
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) = FragmentSearchResultListBinding.inflate(inflater,container,false)
 
     override fun initData() {
         typeId = arguments?.getString(ID, "") ?: ""
@@ -141,7 +146,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     private fun noMoreData(flag: String?) {
         if (BridgeContext.NO_MORE_DATA == flag) {
             //没有更多数据了
-            refreshLayout.apply {
+            mBind.refreshLayout.apply {
                 finishLoadMoreWithNoMoreData()
                 setNoMoreData(true)
             }

@@ -1,18 +1,20 @@
 package com.duoduovv.movie.view
 
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.Config
+import com.duoduovv.movie.databinding.FragmentMovieLibraryNavBinding
 import com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.view.BaseViewModelFragment
-import kotlinx.android.synthetic.main.fragment_movie_library_nav.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 
@@ -24,9 +26,14 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
 class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>() {
     override fun getLayoutId() = R.layout.fragment_movie_library_nav
     override fun providerVMClass() = MovieLibCategoryViewModel::class.java
-    private var dataList:List<Config>?=null
+    private lateinit var mBind: FragmentMovieLibraryNavBinding
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentMovieLibraryNavBinding.inflate(inflater, container, false)
+
+    private var dataList: List<Config>? = null
 
     override fun initView() {
+        mBind = baseBinding as FragmentMovieLibraryNavBinding
         viewModel.getMovieLibCategory().observe(this, Observer {
             val value = viewModel.getMovieLibCategory().value
             initFragment(value?.configs)
@@ -38,11 +45,11 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
         viewModel.movieLibCategory()
     }
 
-    fun setTypeId(typeId:String){
-        if (dataList?.isNotEmpty() == true){
-            for (i in dataList!!.indices){
-                if (dataList!![i].key == typeId){
-                    vpContainer.currentItem = i
+    fun setTypeId(typeId: String) {
+        if (dataList?.isNotEmpty() == true) {
+            for (i in dataList!!.indices) {
+                if (dataList!![i].key == typeId) {
+                    mBind.vpContainer.currentItem = i
                 }
             }
         }
@@ -69,10 +76,10 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
                 fragmentList.add(fragment)
                 if (typeId == configs[i].key) position = i
             }
-            vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
+            mBind.vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
             CommonNavigator(requireActivity()).apply {
                 adapter = ScaleTitleNavAdapter(
-                    viewPager = vpContainer,
+                    viewPager = mBind.vpContainer,
                     data = titleList,
                     unSelectColor = R.color.color666666,
                     selectColor = R.color.color000000,
@@ -80,10 +87,10 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
                     selectSize = R.dimen.sp_15
                 )
                 isAdjustMode = false
-                indicator.navigator = this
+                mBind.indicator.navigator = this
             }
-            ViewPagerHelper.bind(indicator, vpContainer)
-            vpContainer.currentItem = position
+            ViewPagerHelper.bind(mBind.indicator, mBind.vpContainer)
+            mBind.vpContainer.currentItem = position
         }
     }
 }

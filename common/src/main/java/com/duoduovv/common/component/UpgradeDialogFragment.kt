@@ -5,10 +5,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.duoduovv.common.R
+import com.duoduovv.common.databinding.DialogUpgradeBinding
 import dc.android.bridge.util.OsUtils
 
 /**
@@ -16,31 +14,32 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/3/4 14:04
  * @des:升级弹窗
  */
-class UpgradeDialogFragment(private val isForce:String,private val upgradeContent:String,private val downloadUrl:String) : DialogFragment() {
-    private lateinit var btnUpgrade: Button
+class UpgradeDialogFragment(
+    private val isForce: String,
+    private val upgradeContent: String,
+    private val downloadUrl: String
+) : DialogFragment() {
     private var upgradeClickListener: OnUpgradeClickListener? = null
+    private lateinit var mBind: DialogUpgradeBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.dialog_upgrade, container, false)
-        initViews(view)
-        return view
+    ): View {
+        mBind = DialogUpgradeBinding.inflate(inflater, container, false)
+        initViews()
+        return mBind.root
     }
 
-    private fun initViews(view: View) {
-        val tvContent: TextView = view.findViewById(R.id.tvContent)
-        btnUpgrade = view.findViewById(R.id.btnUpgrade)
-        val tvCancel: TextView = view.findViewById(R.id.tvCancel)
+    private fun initViews() {
         if (isForce == "1") {
-            tvCancel.visibility = View.GONE
+            mBind.tvCancel.visibility = View.GONE
         } else {
-            tvCancel.visibility = View.VISIBLE
-            tvCancel.setOnClickListener { dismiss() }
+            mBind.tvCancel.visibility = View.VISIBLE
+            mBind.tvCancel.setOnClickListener { dismiss() }
         }
-        tvContent.text = upgradeContent
-        btnUpgrade.setOnClickListener { upgradeClickListener?.onUpgradeClick(downloadUrl) }
+        mBind.tvContent.text = upgradeContent
+        mBind.btnUpgrade.setOnClickListener { upgradeClickListener?.onUpgradeClick(downloadUrl) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -53,13 +52,13 @@ class UpgradeDialogFragment(private val isForce:String,private val upgradeConten
     }
 
     fun onProgressUpdate(progress: Int) {
-        btnUpgrade.text = "下载中${progress}%"
-        btnUpgrade.isEnabled = false
+        mBind.btnUpgrade.text = "下载中${progress}%"
+        mBind.btnUpgrade.isEnabled = false
         if (progress == 100) dismiss()
     }
 
     interface OnUpgradeClickListener {
-        fun onUpgradeClick(url:String)
+        fun onUpgradeClick(url: String)
     }
 
     private fun initWindow() {

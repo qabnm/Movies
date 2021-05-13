@@ -10,13 +10,13 @@ import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
+import com.duoduovv.personal.databinding.ActivitySettingBinding
 import dc.android.bridge.BridgeContext.Companion.NOTIFICATION
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BridgeActivity
 import dc.android.tools.LiveDataBus
-import kotlinx.android.synthetic.main.activity_setting.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -30,13 +30,15 @@ import kotlinx.coroutines.withContext
 @Route(path = PATH_SETTING_ACTIVITY)
 class SettingActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_setting
+    private lateinit var mBind: ActivitySettingBinding
     private var isOpen = true
 
     override fun initView() {
-        layoutContract.setOnClickListener { FeedbackAPI.openFeedbackActivity() }
-        imgNotification.setOnClickListener { onSwitchClick() }
+        mBind = ActivitySettingBinding.bind(layoutView)
+        mBind.layoutContract.setOnClickListener { FeedbackAPI.openFeedbackActivity() }
+        mBind.imgNotification.setOnClickListener { onSwitchClick() }
         val localState = SharedPreferencesHelper.helper.getValue(NOTIFICATION, true) as Boolean
-        imgNotification.setImageResource(if (localState) R.drawable.notification_open else R.drawable.notification_close)
+        mBind.imgNotification.setImageResource(if (localState) R.drawable.notification_open else R.drawable.notification_close)
         isOpen = localState
     }
 
@@ -46,10 +48,10 @@ class SettingActivity : BridgeActivity() {
     private fun onSwitchClick() {
         if (isOpen) {
             isOpen = false
-            imgNotification.setImageResource(R.drawable.notification_close)
+            mBind.imgNotification.setImageResource(R.drawable.notification_close)
         } else {
             isOpen = true
-            imgNotification.setImageResource(R.drawable.notification_open)
+            mBind.imgNotification.setImageResource(R.drawable.notification_open)
         }
     }
 
@@ -63,13 +65,13 @@ class SettingActivity : BridgeActivity() {
     override fun initData() {
         val token = SharedPreferencesHelper.helper.getValue(TOKEN, "") as String
         if (!StringUtils.isEmpty(token)) {
-            btnLogout.visibility = View.VISIBLE
-            btnLogout.setOnClickListener { logout() }
+            mBind.btnLogout.visibility = View.VISIBLE
+            mBind.btnLogout.setOnClickListener { logout() }
         } else {
-            btnLogout.visibility = View.GONE
+            mBind.btnLogout.visibility = View.GONE
         }
-        tvCache.text = FileUtils.getTotalCacheSize(BaseApplication.baseCtx)
-        layoutClearCache.setOnClickListener {
+        mBind.tvCache.text = FileUtils.getTotalCacheSize(BaseApplication.baseCtx)
+        mBind.layoutClearCache.setOnClickListener {
             val dialogFragment = AlertDialogFragment("确定要清除缓存吗？", 250f)
             dialogFragment.apply {
                 setDialogClickListener(LogoutListener(this, "clear"))
@@ -99,11 +101,11 @@ class SettingActivity : BridgeActivity() {
             dialog?.let {
                 if ("clear" == flag) {
                     FileUtils.clearAllCache(BaseApplication.baseCtx)
-                    tvCache.text = "0KB"
+                    mBind.tvCache.text = "0KB"
                     it.dismiss()
                 } else {
                     GlobalScope.launch(Dispatchers.Main) {
-                        withContext(Dispatchers.IO){
+                        withContext(Dispatchers.IO) {
                             SharedPreferencesHelper.helper.remove(TOKEN)
                         }
                         LiveDataBus.get().with("logout").value = SUCCESS
