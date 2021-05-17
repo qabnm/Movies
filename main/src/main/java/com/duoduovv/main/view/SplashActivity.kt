@@ -70,7 +70,6 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
      * 请求开屏广告
      */
     private fun initSplashAd() {
-        //请求开屏广告
         //穿山甲开屏广告
         initTTSplashAd()
         //广点通的广告
@@ -94,65 +93,65 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             scope.showForwardToSettingsDialog(PermissionDialogFragment(deniedList, msg))
         }.request { _, _, _ ->
             //不管有没有获取到想要的权限都请求广点通的广告
-            val splashAD = SplashAD(
-                this,
-                GDT_AD_SPLASH_ID,
-                object : SplashADListener {
-                    /**
-                     * 广告关闭时调用，可能是用户关闭或者展示时间到
-                     */
-                    override fun onADDismissed() {
-                        Log.d("AD_DEMO", "onADDismissed")
-                        next()
-                    }
-
-                    /**
-                     * 广告加载失败
-                     * @param error AdError
-                     */
-                    override fun onNoAD(error: AdError?) {
-                        start()
-                    }
-
-                    /**
-                     * 广告展示成功
-                     */
-                    override fun onADPresent() {
-                        Log.d("AD_DEMO", "onADPresent")
-                    }
-
-                    /**
-                     * 广告被点击时调用，不代表满足计费条件（如点击时网络异常）
-                     */
-                    override fun onADClicked() {
-                        Log.d("AD_DEMO", "onADClicked")
-                    }
-
-                    /**
-                     * 倒计时的回调
-                     * @param p0 Long
-                     */
-                    override fun onADTick(p0: Long) {}
-
-                    /**
-                     * 广告曝光时调用
-                     */
-                    override fun onADExposure() {
-                        Log.d("AD_DEMO", "onADExposure")
-                    }
-
-                    /**
-                     * 广告加载成功的回调，在fetchAdOnly的情况下，表示广告拉取成功可以显示了。广告需要在SystemClock.elapsedRealtime <expireTimestamp前展示，
-                     * 否则在showAd时会返回广告超时错误。
-                     * @param expireTimestamp Long
-                     */
-                    override fun onADLoaded(expireTimestamp: Long) {
-                        Log.d("AD_DEMO", "onADLoaded")
-                    }
-                },
-                0
-            )
+            val splashAD = SplashAD(this, GDT_AD_SPLASH_ID, gdtSplashADListener, 0)
             splashAD.fetchAndShowIn(mBind.adContainer)
+        }
+    }
+
+    /**
+     * 广点通广告获取加载listener
+     */
+    private val gdtSplashADListener = object : SplashADListener {
+        /**
+         * 广告关闭时调用，可能是用户关闭或者展示时间到
+         */
+        override fun onADDismissed() {
+            Log.d("AD_DEMO", "onADDismissed")
+            next()
+        }
+
+        /**
+         * 广告加载失败
+         * @param error AdError
+         */
+        override fun onNoAD(error: AdError?) {
+            start()
+        }
+
+        /**
+         * 广告展示成功
+         */
+        override fun onADPresent() {
+            Log.d("AD_DEMO", "onADPresent")
+        }
+
+        /**
+         * 广告被点击时调用，不代表满足计费条件（如点击时网络异常）
+         */
+        override fun onADClicked() {
+            Log.d("AD_DEMO", "onADClicked")
+        }
+
+        /**
+         * 倒计时的回调
+         * @param p0 Long
+         */
+        override fun onADTick(p0: Long) {}
+
+        /**
+         * 广告曝光时调用
+         */
+        override fun onADExposure() {
+            Log.d("AD_DEMO", "onADExposure")
+        }
+
+        /**
+         * 广告加载成功的回调，在fetchAdOnly的情况下，表示广告拉取成功可以显示了。广告需要在SystemClock.elapsedRealtime <expireTimestamp前展示，
+         * 否则在showAd时会返回广告超时错误。
+         * @param expireTimestamp Long
+         */
+        override fun onADLoaded(expireTimestamp: Long) {
+            Log.d("AD_DEMO", "onADLoaded")
         }
     }
 
@@ -193,63 +192,67 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
             .setImageAcceptedSize(width, height)
             .build()
         //加载开屏广告
-        mTTAdNative.loadSplashAd(adSlot, object : TTAdNative.SplashAdListener {
-            override fun onError(code: Int, msg: String?) {
-                Log.d("ttAd", "开屏广告请求失败：$code${msg}codeId=${adSlot.codeId}")
-                start()
-            }
+        mTTAdNative.loadSplashAd(adSlot, ttSplashAdListener, timeOut)
+    }
 
-            override fun onTimeout() {
-                Log.d("ttAd", "开屏广告请求超时")
-                start()
-            }
+    /**
+     * 穿山甲广告请求listener
+     */
+    private val ttSplashAdListener = object : TTAdNative.SplashAdListener {
+        override fun onError(code: Int, msg: String?) {
+            Log.d("ttAd", "开屏广告请求失败：$code${msg}")
+            start()
+        }
 
-            override fun onSplashAdLoad(ad: TTSplashAd?) {
-                ad?.let {
-                    //获取SplashView
-                    val splashView = it.splashView
-                    if (!this@SplashActivity.isFinishing) {
-                        Log.d("ttAd", "开屏广告请求成功")
-                        mBind.adContainer.removeAllViews()
-                        mBind.adContainer.addView(splashView)
-                        it.setSplashInteractionListener(object : TTSplashAd.AdInteractionListener {
-                            /**
-                             * Splash广告的点击回调
-                             *
-                             * @param view Splash广告
-                             * @param type Splash广告的交互类型
-                             */
-                            override fun onAdClicked(view: View?, type: Int) {}
+        override fun onTimeout() {
+            Log.d("ttAd", "开屏广告请求超时")
+            start()
+        }
 
-                            /**
-                             * Splash广告的展示回调
-                             *
-                             * @param view Splash广告
-                             * @param type Splash广告的交互类型
-                             */
-                            override fun onAdShow(view: View?, type: Int) {}
+        override fun onSplashAdLoad(ad: TTSplashAd?) {
+            ad?.let {
+                //获取SplashView
+                val splashView = it.splashView
+                if (!this@SplashActivity.isFinishing) {
+                    Log.d("ttAd", "开屏广告请求成功")
+                    mBind.adContainer.removeAllViews()
+                    mBind.adContainer.addView(splashView)
+                    it.setSplashInteractionListener(object : TTSplashAd.AdInteractionListener {
+                        /**
+                         * Splash广告的点击回调
+                         *
+                         * @param view Splash广告
+                         * @param type Splash广告的交互类型
+                         */
+                        override fun onAdClicked(view: View?, type: Int) {}
 
-                            /**
-                             * 点击跳过时回调
-                             */
-                            override fun onAdSkip() {
-                                start()
-                            }
+                        /**
+                         * Splash广告的展示回调
+                         *
+                         * @param view Splash广告
+                         * @param type Splash广告的交互类型
+                         */
+                        override fun onAdShow(view: View?, type: Int) {}
 
-                            /**
-                             * 广告播放时间结束
-                             */
-                            override fun onAdTimeOver() {
-                                start()
-                            }
-                        })
-                    } else {
-                        start()
-                    }
+                        /**
+                         * 点击跳过时回调
+                         */
+                        override fun onAdSkip() {
+                            start()
+                        }
+
+                        /**
+                         * 广告播放时间结束
+                         */
+                        override fun onAdTimeOver() {
+                            start()
+                        }
+                    })
+                } else {
+                    start()
                 }
             }
-
-        }, timeOut)
+        }
     }
 
     /**
