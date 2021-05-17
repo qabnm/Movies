@@ -7,7 +7,7 @@
         </shape>
     </item>
 
-    <item android:bottom="@dimen/dp_45">
+    <item android:bottom="33dp">
         <bitmap
             android:gravity="bottom"
             android:filter="true"
@@ -17,7 +17,7 @@
 
     </item>
 
-    <item android:top="@dimen/dp_180">
+    <item android:top="180dp">
         <bitmap
             android:gravity="top"
             android:filter="true"

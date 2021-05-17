@@ -37,6 +37,17 @@ open class BridgeContext {
         const val CITY = "city"
         const val AREA = "area"
 
+        //以下是广告相关的
+        /**
+         * 穿山甲开屏广告媒体ID
+         */
+        const val TT_AD_SPLASH_ID = "887474167"
+
+        /**
+         * 广点通开屏广告ID
+         */
+        const val GDT_AD_SPLASH_ID = "9031281782757191"
+
 
         const val BASE_URL = "https://www.duoduovv.cn/"
 

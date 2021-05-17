@@ -16,9 +16,10 @@ import com.qq.e.comm.managers.setting.GlobalSetting
 class AdvertBridge {
     companion object {
         //穿山甲的appId
-        private const val ttAdAppId = ""
+        private const val ttAdAppId = "5169708"
+
         //腾讯广点通的appId
-        private const val gdtAppId = ""
+        private const val gdtAppId = "1111833726"
         private const val appName = "多多影视大全"
 
         /**
@@ -30,6 +31,7 @@ class AdvertBridge {
          * @param context Context
          */
         fun ttAdSdkInit(context: Context, isDebug: Boolean) {
+            Log.d("ttAd","穿山甲初始化方法执行了")
             //强烈建议在应用对应的Application#onCreate()方法中调用，避免出现content为null的异常
             TTAdSdk.init(
                 context, TTAdConfig.Builder().appId(ttAdAppId).
@@ -42,13 +44,13 @@ class AdvertBridge {
                     //允许直接下载的网络状态集合,没有设置的网络下点击下载apk会有二次确认弹窗，弹窗中会披露应用信息
                 directDownloadNetworkType(TTAdConstant.NETWORK_STATE_WIFI).
                     //是否支持多进程
-                supportMultiProcess(true).build(),object :TTAdSdk.InitCallback{
+                supportMultiProcess(true).build(), object : TTAdSdk.InitCallback {
                     /**
                      * 初始化成功回调
                      * 注意：开发者需要在success回调之后再去请求广告
                      */
                     override fun success() {
-                        Log.d("ttAd","穿山甲SDK初始化成功")
+                        Log.d("ttAd", "穿山甲SDK初始化成功")
                     }
 
                     /**
@@ -57,7 +59,7 @@ class AdvertBridge {
                      * @param message String   初始化失败回调信息
                      */
                     override fun fail(code: Int, message: String?) {
-                        Log.d("ttAd","穿山甲SDK初始化失败$code$message")
+                        Log.d("ttAd", "穿山甲SDK初始化失败$code$message")
                     }
                 }
             )
@@ -67,7 +69,7 @@ class AdvertBridge {
          * 初始化腾讯广点通SDK
          * @param context Context
          */
-        fun gdtInit(context: Context){
+        fun gdtInit(context: Context) {
             GDTADManager.getInstance().initWith(context, gdtAppId)
         }
     }
