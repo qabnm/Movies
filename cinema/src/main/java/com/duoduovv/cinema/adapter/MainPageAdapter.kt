@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
+import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.bean.FilmRecommendBean
 import com.duoduovv.cinema.bean.MainBean
 import com.duoduovv.cinema.databinding.*
@@ -38,6 +39,7 @@ class MainPageAdapter(
         CinemaContext.TYPE_BANNER -> {
             val itemView =
                 LayoutInflater.from(context).inflate(R.layout.item_main_banner, parent, false)
+            bean.mainPageBean.banners?.add(0, Banner("","","",""))
             bannerBind = ItemMainBannerBinding.bind(itemView)
             BannerViewHolder(itemView)
         }
@@ -138,7 +140,7 @@ class MainPageAdapter(
             bannerBind.layoutBanner.addBannerLifecycleObserver(context as AppCompatActivity)
                 .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
             bannerBind.layoutBanner.setOnBannerListener { data, _ ->
-                val jumpType = (data as com.duoduovv.cinema.bean.Banner).jumpType
+                val jumpType = (data as Banner).jumpType
                 val movieId = data.movieId
                 if (jumpType == "1") listener?.onMovieClick(movieId, "-1")
             }

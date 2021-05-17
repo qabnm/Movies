@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * @des:
  */
 data class MainPageBean(
-    val banners: List<Banner>?,
+    val banners: ArrayList<Banner>?,
     val category: List<Category>?,
     val playRecommends: List<FilmRecommendBean>?,//大家都在看
     val selectRecommends: List<FilmRecommendBean>?//今日推荐
