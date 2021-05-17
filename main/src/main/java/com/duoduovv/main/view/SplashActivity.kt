@@ -102,7 +102,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                      * 广告关闭时调用，可能是用户关闭或者展示时间到
                      */
                     override fun onADDismissed() {
-                        Log.i("AD_DEMO", "onADDismissed")
+                        Log.d("AD_DEMO", "onADDismissed")
                         next()
                     }
 
@@ -118,14 +118,14 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                      * 广告展示成功
                      */
                     override fun onADPresent() {
-                        Log.i("AD_DEMO", "onADPresent")
+                        Log.d("AD_DEMO", "onADPresent")
                     }
 
                     /**
                      * 广告被点击时调用，不代表满足计费条件（如点击时网络异常）
                      */
                     override fun onADClicked() {
-                        Log.i("AD_DEMO", "onADClicked")
+                        Log.d("AD_DEMO", "onADClicked")
                     }
 
                     /**
@@ -138,7 +138,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                      * 广告曝光时调用
                      */
                     override fun onADExposure() {
-                        Log.i("AD_DEMO", "onADExposure")
+                        Log.d("AD_DEMO", "onADExposure")
                     }
 
                     /**
@@ -147,7 +147,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                      * @param expireTimestamp Long
                      */
                     override fun onADLoaded(expireTimestamp: Long) {
-                        Log.i("AD_DEMO", "onADLoaded")
+                        Log.d("AD_DEMO", "onADLoaded")
                     }
                 },
                 0
