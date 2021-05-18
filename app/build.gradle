@@ -79,7 +79,7 @@ android {
             //是否zip对齐
             zipAlignEnabled true
             // 缩减resource文件
-            shrinkResources true
+            shrinkResources false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //签名

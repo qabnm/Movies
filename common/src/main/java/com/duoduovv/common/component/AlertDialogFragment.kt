@@ -100,4 +100,5 @@ class AlertDialogFragment(
             it.setBackgroundDrawableResource(R.drawable.shape_radius3_solid_ffffff)
         }
     }
+
 }

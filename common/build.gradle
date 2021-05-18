@@ -109,4 +109,6 @@ dependencies {
     implementation "com.airbnb.android:lottie:$ext.lottie_version"
     compileOnly 'org.checkerframework:checker-qual:3.3.0'
     implementation "com.google.android.gms:play-services-cronet:17.0.0"
+
+    api("io.coil-kt:coil:1.2.1")
 }

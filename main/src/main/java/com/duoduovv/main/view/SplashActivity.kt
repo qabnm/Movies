@@ -45,7 +45,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
     private val timeOut = 4000
     private var canJump = false
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
-        super.setLayout(false, ContextCompat.getColor(this, R.color.colorTrans))
+        super.setLayout(false, ContextCompat.getColor(this, android.R.color.transparent))
     }
 
     private var privacyDialogFragment: PrivacyDialogFragment? = null
@@ -71,9 +71,9 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
      */
     private fun initSplashAd() {
         //穿山甲开屏广告
-        initTTSplashAd()
+//        initTTSplashAd()
         //广点通的广告
-//        initGDTSplash()
+        initGDTSplash()
     }
 
     /**

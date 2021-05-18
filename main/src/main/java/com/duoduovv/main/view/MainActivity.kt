@@ -12,6 +12,7 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_CINEMA
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE
 import com.duoduovv.common.util.RouterPath.Companion.PATH_PERSONAL
 import com.duoduovv.main.R
+import com.duoduovv.main.component.LogoutDialogFragment
 import com.duoduovv.main.databinding.ActivityMainBinding
 import com.duoduovv.weichat.WeiChatTool
 import com.tencent.connect.common.UIListenerManager
@@ -180,25 +181,26 @@ class MainActivity : BridgeActivity() {
         showAlertDialog()
     }
 
-    private var dialogFragment: AlertDialogFragment? = null
+    private var dialogFragment: LogoutDialogFragment? = null
     private fun showAlertDialog() {
-        dialogFragment = AlertDialogFragment("确定要退出吗？", 250f, listener)
+        dialogFragment = LogoutDialogFragment(listener)
         dialogFragment?.let {
-            it.showNow(supportFragmentManager, "alert")
-            it.setTitleVisibility(View.GONE)
-            it.setCancelText("退出")
-            it.setSureText("再看看")
-            it.setCanceledOnTouchOut(false)
-            it.setCancel(false)
+            it.showNow(supportFragmentManager, "logout")
         }
+
+//        dialogFragment = AlertDialogFragment("确定要退出吗？", 250f, listener)
+//        dialogFragment?.let {
+//            it.showNow(supportFragmentManager, "alert")
+//            it.setTitleVisibility(View.GONE)
+//            it.setCancelText("退出")
+//            it.setSureText("再看看")
+//            it.setCanceledOnTouchOut(false)
+//            it.setCancel(false)
+//        }
     }
 
-    private val listener = object : AlertDialogFragment.OnDialogSureClickListener {
-        override fun onSureClick() {
-            dialogFragment?.dismiss()
-        }
-
-        override fun onCancelClick() {
+    private val listener = object : LogoutDialogFragment.OnLogoutSureClickListener {
+        override fun onLogSureClick() {
             dialogFragment?.dismiss()
             finish()
             exitProcess(0)

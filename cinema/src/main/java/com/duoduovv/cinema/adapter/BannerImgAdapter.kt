@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
 import com.bytedance.sdk.openadsdk.AdSlot
 import com.bytedance.sdk.openadsdk.TTAdNative
 import com.bytedance.sdk.openadsdk.TTAdSdk
@@ -47,7 +48,8 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
 //            getBanner()?.loadAD()
             ttBanner()
         }else {
-            GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = mBind.imgBanner)
+//            GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = mBind.imgBanner)
+            mBind.imgBanner.load(data?.img)
             mBind.tvTitle.text = data?.title
         }
     }
