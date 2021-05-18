@@ -59,4 +59,5 @@ dependencies {
     implementation "androidx.core:core-ktx:$ext.core_ktx_version"
     api 'com.pangle.cn:ads-sdk:3.5.0.8'
     api files('libs/GDTSDK.tbsNormal.4.351.1221.aar')
+    implementation project(path: ':tools')
 }
