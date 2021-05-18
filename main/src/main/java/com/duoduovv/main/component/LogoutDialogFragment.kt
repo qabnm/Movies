@@ -1,6 +1,7 @@
 package com.duoduovv.main.component
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -31,11 +32,14 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
     }
 
     private fun initViews() {
-        mBind.tvCancel.setOnClickListener {
+        mBind.tvSure.setOnClickListener {
             gdtInfoAd?.destroyInfoAd()
             dismiss()
         }
-        mBind.tvSure.setOnClickListener { listener?.onLogSureClick() }
+        mBind.tvCancel.setOnClickListener {
+            gdtInfoAd?.destroyInfoAd()
+            listener?.onLogSureClick()
+        }
         initGDTAd()
     }
 
@@ -48,7 +52,7 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
             requireActivity(),
             "7021380766691974",
             mBind.layoutContainer,
-            234,
+            265,
             105
         )
     }
@@ -58,10 +62,12 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
         initWindow()
     }
 
+    private var dialogWidth = 0
     private fun initWindow() {
         val window = dialog?.window
         window?.let {
-            it.attributes.width = OsUtils.dip2px(requireContext(), 246f)
+            dialogWidth = OsUtils.dip2px(requireContext(), 246f)
+            it.attributes.width = dialogWidth
             it.attributes.gravity = Gravity.CENTER
             it.setBackgroundDrawableResource(R.drawable.shape_radius3_solid_ffffff)
         }

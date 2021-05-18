@@ -2,11 +2,9 @@ package com.duoduovv.main.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CINEMA
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE
@@ -31,7 +29,6 @@ import kotlin.system.exitProcess
 class MainActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_main
     private lateinit var mBind:ActivityMainBinding
-    private var exitTime = 0L
     private var currentPosition = 0
     private val position = "position"
     private var typeId: String? = null
@@ -184,19 +181,7 @@ class MainActivity : BridgeActivity() {
     private var dialogFragment: LogoutDialogFragment? = null
     private fun showAlertDialog() {
         dialogFragment = LogoutDialogFragment(listener)
-        dialogFragment?.let {
-            it.showNow(supportFragmentManager, "logout")
-        }
-
-//        dialogFragment = AlertDialogFragment("确定要退出吗？", 250f, listener)
-//        dialogFragment?.let {
-//            it.showNow(supportFragmentManager, "alert")
-//            it.setTitleVisibility(View.GONE)
-//            it.setCancelText("退出")
-//            it.setSureText("再看看")
-//            it.setCanceledOnTouchOut(false)
-//            it.setCancel(false)
-//        }
+        dialogFragment?.showNow(supportFragmentManager, "logout")
     }
 
     private val listener = object : LogoutDialogFragment.OnLogoutSureClickListener {
