@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import com.duoduovv.advert.gdtad.GDTInfoAdByImg
+import com.duoduovv.advert.ttad.TTInfoAdByFlow
 import com.duoduovv.common.R
 import com.duoduovv.main.databinding.DialogLogoutBinding
 import dc.android.bridge.util.OsUtils
@@ -20,6 +21,7 @@ import dc.android.bridge.util.OsUtils
 class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : DialogFragment() {
     private lateinit var mBind: DialogLogoutBinding
     private var gdtInfoAd: GDTInfoAdByImg? = null
+    private var ttInfoAd:TTInfoAdByFlow?= null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,13 +36,24 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
     private fun initViews() {
         mBind.tvSure.setOnClickListener {
             gdtInfoAd?.destroyInfoAd()
+            ttInfoAd?.destroyInfoAd()
             dismiss()
         }
         mBind.tvCancel.setOnClickListener {
             gdtInfoAd?.destroyInfoAd()
+            ttInfoAd?.destroyInfoAd()
             listener?.onLogSureClick()
         }
-        initGDTAd()
+//        initGDTAd()
+        initTTAd()
+    }
+
+    /**
+     * 请求穿山甲广告
+     */
+    private fun initTTAd(){
+        ttInfoAd = TTInfoAdByFlow()
+        ttInfoAd?.initTTInfoAd(requireActivity(),"946107576",265f,105f,mBind.layoutContainer)
     }
 
     /**
