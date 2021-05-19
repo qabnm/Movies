@@ -8,13 +8,14 @@ import com.qq.e.ads.nativ.express2.AdEventListener
 import com.qq.e.ads.nativ.express2.NativeExpressAD2
 import com.qq.e.ads.nativ.express2.NativeExpressADData2
 import com.qq.e.comm.util.AdError
+import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu
  * @date: 2021/5/18 14:59
  * @des:广点通纯图片形式的信息流
  */
-class GDTInfoAdByImg {
+class GDTInfoAd {
     private var mNativeExpressAD: NativeExpressAD2? = null
     private var nativeExpressADData: NativeExpressADData2? = null
     private val TAG = "AD_DEMO"
@@ -53,7 +54,8 @@ class GDTInfoAdByImg {
                                 container.visibility = View.VISIBLE
                                 container.removeAllViews()
                                 nativeExpressADData?.adView?.let {
-                                    container.addView(nativeExpressADData?.adView)
+                                    LiveDataBus.get().with("render").value = "render"
+                                    container.addView(it)
                                 }
                             }
 

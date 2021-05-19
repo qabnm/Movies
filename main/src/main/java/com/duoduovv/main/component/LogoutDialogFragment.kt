@@ -1,14 +1,13 @@
 package com.duoduovv.main.component
 
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.duoduovv.advert.gdtad.GDTInfoAdByImg
-import com.duoduovv.advert.ttad.TTInfoAdByFlow
+import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.R
 import com.duoduovv.main.databinding.DialogLogoutBinding
 import dc.android.bridge.util.OsUtils
@@ -20,8 +19,8 @@ import dc.android.bridge.util.OsUtils
  */
 class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : DialogFragment() {
     private lateinit var mBind: DialogLogoutBinding
-    private var gdtInfoAd: GDTInfoAdByImg? = null
-    private var ttInfoAd:TTInfoAdByFlow?= null
+    private var gdtInfoAd: GDTInfoAd? = null
+    private var ttInfoAd:TTInfoAd?= null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,7 +51,7 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
      * 请求穿山甲广告
      */
     private fun initTTAd(){
-        ttInfoAd = TTInfoAdByFlow()
+        ttInfoAd = TTInfoAd()
         ttInfoAd?.initTTInfoAd(requireActivity(),"946107576",265f,105f,mBind.layoutContainer)
     }
 
@@ -60,7 +59,7 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
      * 请求广点通的信息流广告
      */
     private fun initGDTAd() {
-        gdtInfoAd = GDTInfoAdByImg()
+        gdtInfoAd = GDTInfoAd()
         gdtInfoAd?.initInfoAd(
             requireActivity(),
             "7021380766691974",

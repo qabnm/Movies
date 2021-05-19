@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
-import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.databinding.ActivitySearchBinding
@@ -17,6 +19,7 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
+import dc.android.tools.LiveDataBus
 
 
 /**
@@ -31,7 +34,9 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     private var searchResultFragment: SearchResultFragment? = null
     private var isSearchClick = false
     private var hotList: ArrayList<String>? = null
-    private lateinit var mBind:ActivitySearchBinding
+    private lateinit var mBind: ActivitySearchBinding
+    private var gdtInfoAd: GDTInfoAd? = null
+    private var ttInfoAd: TTInfoAd? = null
 
     override fun initView() {
         mBind = ActivitySearchBinding.bind(layoutView)
@@ -52,6 +57,43 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
             }
             false
         }
+    }
+
+    override fun initData() {
+        LiveDataBus.get().with("render", String::class.java).observe(
+            this,
+            { if (it == "render") mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF) })
+        //请求广告
+        initGDTAd()
+//        initTTAd()
+    }
+
+    /**
+     * 请求穿山甲广告
+     */
+    private fun initTTAd() {
+        ttInfoAd = TTInfoAd()
+        ttInfoAd?.initTTInfoAd(this, "946107576", 0f, 170f, mBind.container)
+    }
+
+    /**
+     * 请求广点通的信息流广告
+     */
+    private fun initGDTAd() {
+        gdtInfoAd = GDTInfoAd()
+        gdtInfoAd?.initInfoAd(
+            this,
+            "5051684812707537",
+            mBind.container,
+            390,
+            170
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ttInfoAd?.destroyInfoAd()
+        gdtInfoAd?.destroyInfoAd()
     }
 
     /**

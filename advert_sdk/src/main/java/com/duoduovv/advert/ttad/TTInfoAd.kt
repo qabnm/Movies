@@ -8,13 +8,14 @@ import com.bytedance.sdk.openadsdk.AdSlot
 import com.bytedance.sdk.openadsdk.TTAdNative
 import com.bytedance.sdk.openadsdk.TTAdSdk
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd
+import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu
  * @date: 2021/5/18 18:22
  * @des:穿山甲信息流 浮层广告
  */
-class TTInfoAdByFlow {
+class TTInfoAd {
     private val TAG = "AD_DEMO"
     private var mttAd: TTNativeExpressAd? = null
 
@@ -63,6 +64,7 @@ class TTInfoAdByFlow {
                         override fun onRenderFail(p0: View?, p1: String?, p2: Int) {}
 
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
+                            LiveDataBus.get().with("render").value = "render"
                             view?.let { container.addView(it) }
                         }
                     })
