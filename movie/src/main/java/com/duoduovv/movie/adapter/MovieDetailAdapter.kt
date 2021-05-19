@@ -1,5 +1,6 @@
 package com.duoduovv.movie.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.duoduovv.advert.gdtad.GDTBannerAd
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
@@ -161,6 +163,10 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
         } else {
             detailBind.layoutZhuanJi.visibility = View.GONE
         }
+
+        //加载广告
+        val gdtBannerAd = GDTBannerAd()
+        gdtBannerAd.initBanner(context as Activity, "5011588732659291",detailBind.adContainer)
     }
 
     /**

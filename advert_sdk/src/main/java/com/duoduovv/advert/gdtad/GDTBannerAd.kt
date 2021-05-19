@@ -1,0 +1,56 @@
+package com.duoduovv.advert.gdtad
+
+import android.app.Activity
+import android.view.ViewGroup
+import com.qq.e.ads.banner2.UnifiedBannerADListener
+import com.qq.e.ads.banner2.UnifiedBannerView
+import com.qq.e.comm.util.AdError
+
+/**
+ * @author: jun.liu
+ * @date: 2021/5/19 14:48
+ * @des:广点通banner广告
+ */
+class GDTBannerAd {
+    private val TAG = "AD_DEMO"
+    private var bannerView:UnifiedBannerView?= null
+
+    fun initBanner(activity: Activity, posId: String, container: ViewGroup) {
+        bannerView?.let {
+            container.removeView(it)
+            it.destroy()
+        }
+        bannerView = UnifiedBannerView(activity, posId,object :UnifiedBannerADListener{
+            override fun onNoAD(p0: AdError?) {
+            }
+
+            override fun onADReceive() {
+            }
+
+            override fun onADExposure() {
+            }
+
+            override fun onADClosed() {
+            }
+
+            override fun onADClicked() {
+            }
+
+            override fun onADLeftApplication() {
+            }
+
+            override fun onADOpenOverlay() {
+            }
+
+            override fun onADCloseOverlay() {
+            }
+        })
+        container.addView(bannerView)
+        bannerView?.loadAD()
+        bannerView?.setRefresh(5)
+    }
+
+    fun onDestroy(){
+        bannerView?.destroy()
+    }
+}

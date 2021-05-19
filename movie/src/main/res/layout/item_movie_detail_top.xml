@@ -168,28 +168,29 @@
 
             <com.duoduovv.common.view.MediumBoldTextView
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/dp_13"
                 android:layout_marginBottom="@dimen/dp_4"
+                android:layout_weight="1"
                 android:includeFontPadding="false"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
                 android:text="专辑列表"
                 android:textColor="#141414"
                 android:textSize="@dimen/sp_15" />
+
             <com.duoduovv.common.view.MediumBoldTextView
                 android:id="@+id/tvZWhere"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="@dimen/dp_5"
                 android:drawableEnd="@drawable/more_icon"
                 android:includeFontPadding="false"
-                android:layout_marginTop="@dimen/dp_5"
                 android:paddingTop="@dimen/dp_10"
                 android:paddingBottom="@dimen/dp_10"
                 android:textColor="@color/color666666"
                 android:textSize="@dimen/sp_12"
-                android:layout_gravity="center_vertical"
                 tools:text="更新至28集" />
         </LinearLayout>
 
@@ -199,6 +200,16 @@
             android:layout_height="@dimen/dp_64"
             android:scrollbars="none" />
     </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/adContainer"
+        android:layout_width="match_parent"
+        android:layout_height="0px"
+        android:layout_marginStart="@dimen/dp_10"
+        android:layout_marginTop="@dimen/dp_15"
+        android:layout_marginEnd="@dimen/dp_10"
+        app:layout_constraintDimensionRatio="6.4:1"
+        app:layout_constraintTop_toBottomOf="@+id/layoutZhuanJi" />
 
     <com.duoduovv.common.view.MediumBoldTextView
         android:layout_width="wrap_content"
@@ -210,5 +221,5 @@
         android:textColor="@color/color000000"
         android:textSize="@dimen/sp_15"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/layoutZhuanJi" />
+        app:layout_constraintTop_toBottomOf="@+id/adContainer" />
 </androidx.constraintlayout.widget.ConstraintLayout>
