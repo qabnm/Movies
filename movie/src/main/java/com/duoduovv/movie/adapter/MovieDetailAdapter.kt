@@ -55,7 +55,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        if (holder is DetailViewHolder) bindDetail(holder)
+        if (holder is DetailViewHolder) bindDetail()
         if (holder is ListViewHolder && position > 0) bindList(position - 1)
     }
 
@@ -80,7 +80,7 @@ class MovieDetailAdapter(private val context: Context, private var detailBean: M
      * 顶部详情数据绑定
      * @param holder DetailViewHolder
      */
-    private fun bindDetail(holder: DetailViewHolder) {
+    private fun bindDetail() {
         detailBind.imgShare.setOnClickListener { listener?.onShareClick() }
         detailBind.imgDownload.setOnClickListener { listener?.onDownLoadClick() }
         detailBind.imgCollect.setOnClickListener {
