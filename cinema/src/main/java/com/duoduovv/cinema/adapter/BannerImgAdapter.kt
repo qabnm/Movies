@@ -13,6 +13,7 @@ import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
 import com.qq.e.ads.banner2.UnifiedBannerView
 import com.youth.banner.adapter.BannerAdapter
+import dc.android.bridge.util.GlideUtils
 
 /**
  * @author: jun.liu
@@ -38,8 +39,8 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
             //加载广告
             initTTAd()
         } else {
-//            GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = mBind.imgBanner)
-            mBind.imgBanner.load(data?.img)
+            GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = mBind.imgBanner)
+//            mBind.imgBanner.load(data?.img)
             mBind.tvTitle.text = data?.title
         }
     }
