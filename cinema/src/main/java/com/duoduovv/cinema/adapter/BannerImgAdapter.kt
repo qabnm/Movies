@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
+import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Banner
@@ -24,6 +25,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     BannerAdapter<Banner, BannerImgAdapter.BannerViewHolder>(data) {
     private lateinit var mBind: ItemBannerViewBinding
     private var ttInfoAd: TTInfoAd? = null
+    private var gdtInfoAd: GDTInfoAd? = null
 
     class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
@@ -37,7 +39,8 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     override fun onBindView(holder: BannerViewHolder, data: Banner?, position: Int, size: Int) {
         if (position == 0) {
             //加载广告
-            initTTAd()
+//            initTTAd()
+            initGDTAd()
         } else {
             GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = mBind.imgBanner)
 //            mBind.imgBanner.load(data?.img)
@@ -51,5 +54,18 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     private fun initTTAd() {
         ttInfoAd = TTInfoAd()
         ttInfoAd?.initTTInfoAd(context as Activity, "946107576", 0f, 0f, mBind.layoutContainer)
+    }
+
+    /**
+     * 初始化广点通广告
+     */
+    private fun initGDTAd() {
+        gdtInfoAd = GDTInfoAd()
+        gdtInfoAd?.initInfoAd(context as Activity, "5051684812707537",mBind.layoutContainer,375,0)
+    }
+
+    fun onDestroy(){
+        ttInfoAd?.destroyInfoAd()
+        gdtInfoAd?.destroyInfoAd()
     }
 }

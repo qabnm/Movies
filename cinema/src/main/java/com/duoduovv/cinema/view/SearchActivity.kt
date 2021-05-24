@@ -60,9 +60,11 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     }
 
     override fun initData() {
-        LiveDataBus.get().with("render", String::class.java).observe(
-            this,
-            { if (it == "render") mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF) })
+        LiveDataBus.get().with("render", String::class.java).observe(this, {
+            if (it == "render") {
+                mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
+            }
+        })
         //请求广告
         initGDTAd()
 //        initTTAd()
@@ -73,7 +75,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      */
     private fun initTTAd() {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(this, "946107576", 0f, 170f, mBind.container)
+        ttInfoAd?.initTTInfoAd(this, "946107576", 0f, 0f, mBind.container)
     }
 
     /**
@@ -86,13 +88,13 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
             "5051684812707537",
             mBind.container,
             390,
-            170
+            0
         )
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        ttInfoAd?.destroyInfoAd()
+        gdtInfoAd?.destroyInfoAd()
         gdtInfoAd?.destroyInfoAd()
     }
 
@@ -105,6 +107,10 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         } else {
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        onBackClick()
     }
 
     /**

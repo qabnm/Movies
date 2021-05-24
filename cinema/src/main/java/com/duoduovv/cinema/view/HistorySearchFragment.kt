@@ -5,6 +5,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
+import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.HotSearchAdapter
@@ -31,6 +33,8 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
     private var cb: IHistoryClickCallback? = null
     private var hotSearchAdapter: HotSearchAdapter? = null
     private var hotList: List<String>? = null
+    private var gdtInfoAd: GDTInfoAd? = null
+    private var ttInfoAd: TTInfoAd? = null
 
     fun setCallback(cb: IHistoryClickCallback) {
         this.cb = cb
@@ -45,7 +49,6 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
             mBind.layoutHistory.clear()
             setSearchHistory()
         }
-        mBind.rvList.layoutManager = GridLayoutManager(requireActivity(), 2)
         hotSearchAdapter = HotSearchAdapter()
         mBind.rvList.adapter = hotSearchAdapter
         hotSearchAdapter?.setOnItemClickListener { adapter, _, position ->
@@ -57,6 +60,29 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         hotList = arguments?.getStringArrayList(BridgeContext.LIST)
         hotSearchAdapter?.setList(hotList)
         setSearchHistory()
+        initTTAd()
+    }
+
+    /**
+     * 请求穿山甲广告
+     */
+    private fun initTTAd() {
+        ttInfoAd = TTInfoAd()
+        ttInfoAd?.initTTInfoAd(requireActivity(), "946107576", 0f, 0f, mBind.adContainer)
+    }
+
+    /**
+     * 请求广点通的信息流广告
+     */
+    private fun initGDTAdTop() {
+        gdtInfoAd = GDTInfoAd()
+        gdtInfoAd?.initInfoAd(
+            requireActivity(),
+            "5051684812707537",
+            mBind.adContainer,
+            375,
+            0
+        )
     }
 
     /**
@@ -116,5 +142,11 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
 
     override fun onHistoryClick(result: String) {
         cb?.onHistoryClick(result)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ttInfoAd?.destroyInfoAd()
+        gdtInfoAd?.destroyInfoAd()
     }
 }

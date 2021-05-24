@@ -38,7 +38,6 @@ class GDTInfoAd {
                 override fun onLoadSuccess(adDataList: MutableList<NativeExpressADData2>?) {
                     Log.d(TAG, "onLoadSuccess")
                     if (adDataList?.isNotEmpty() == true) {
-                        container.removeAllViews()
                         nativeExpressADData = adDataList[0]
                         nativeExpressADData?.setAdEventListener(object : AdEventListener {
                             override fun onClick() {
