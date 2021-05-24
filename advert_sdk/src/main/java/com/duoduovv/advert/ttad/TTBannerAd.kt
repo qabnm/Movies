@@ -8,6 +8,7 @@ import com.bytedance.sdk.openadsdk.AdSlot
 import com.bytedance.sdk.openadsdk.TTAdNative
 import com.bytedance.sdk.openadsdk.TTAdSdk
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd
+import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu
@@ -44,15 +45,20 @@ class TTBannerAd {
                     ttBannerAd = adList[0]
                     ttBannerAd?.render()
                     ttBannerAd?.setExpressInteractionListener(object :
-                        TTNativeExpressAd.ExpressAdInteractionListener {
+                        TTNativeExpressAd.AdInteractionListener {
                         override fun onAdClicked(p0: View?, p1: Int) {}
 
                         override fun onAdShow(p0: View?, p1: Int) {}
 
-                        override fun onRenderFail(p0: View?, p1: String?, p2: Int) {}
+                        override fun onRenderFail(p0: View?, p1: String?, p2: Int) {
+                            LiveDataBus.get().with("adClose").value = "adClose"
+                        }
 
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
                             view?.let { container.addView(it) }
+                        }
+                        override fun onAdDismiss() {
+                            LiveDataBus.get().with("adClose").value = "adClose"
                         }
                     })
                 }

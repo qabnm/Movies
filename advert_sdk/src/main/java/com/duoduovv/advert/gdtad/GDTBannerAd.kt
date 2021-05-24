@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import com.qq.e.ads.banner2.UnifiedBannerADListener
 import com.qq.e.ads.banner2.UnifiedBannerView
 import com.qq.e.comm.util.AdError
+import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu
@@ -22,6 +23,7 @@ class GDTBannerAd {
         }
         bannerView = UnifiedBannerView(activity, posId,object :UnifiedBannerADListener{
             override fun onNoAD(p0: AdError?) {
+                LiveDataBus.get().with("adClose").value = "adClose"
             }
 
             override fun onADReceive() {
@@ -31,6 +33,7 @@ class GDTBannerAd {
             }
 
             override fun onADClosed() {
+                LiveDataBus.get().with("adClose").value = "adClose"
             }
 
             override fun onADClicked() {

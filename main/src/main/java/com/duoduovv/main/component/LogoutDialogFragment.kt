@@ -43,8 +43,8 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
             ttInfoAd?.destroyInfoAd()
             listener?.onLogSureClick()
         }
-//        initGDTAd()
-        initTTAd()
+        initGDTAd()
+//        initTTAd()
     }
 
     /**
@@ -52,7 +52,7 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
      */
     private fun initTTAd(){
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(requireActivity(),"946107576",265f,105f,mBind.layoutContainer)
+        ttInfoAd?.initTTInfoAd(requireActivity(),"946107576",0f,0f,mBind.layoutContainer)
     }
 
     /**
@@ -64,7 +64,7 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
             requireActivity(),
             "7021380766691974",
             mBind.layoutContainer,
-            265,
+            270,
             105
         )
     }
