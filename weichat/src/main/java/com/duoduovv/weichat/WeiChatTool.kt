@@ -18,7 +18,6 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
 import com.tencent.mm.opensdk.modelmsg.WXWebpageObject
 import com.tencent.mm.opensdk.openapi.IWXAPI
 import com.tencent.mm.opensdk.openapi.WXAPIFactory
-import com.tencent.tauth.IUiListener
 import com.tencent.tauth.Tencent
 import java.io.ByteArrayOutputStream
 

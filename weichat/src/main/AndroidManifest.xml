@@ -27,6 +27,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent101936595" />
             </intent-filter>
         </activity>
@@ -47,4 +48,7 @@
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
     </application>
+    <queries>
+        <package android:name="com.tencent.mm" />
+    </queries>
 </manifest>

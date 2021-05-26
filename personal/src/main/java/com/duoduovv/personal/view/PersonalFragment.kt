@@ -66,12 +66,12 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
             mBind.layoutShare.setOnClickListener { onShareClick() }
-//            layoutContainer.visibility = View.VISIBLE
+            mBind.layoutContainer.visibility = View.VISIBLE
             mBind.vLine.visibility = View.VISIBLE
         } else {
             //审核版
             mBind.layoutIsRes.visibility = View.GONE
-//            layoutContainer.visibility = View.GONE
+            mBind.layoutContainer.visibility = View.GONE
             mBind.vLine.visibility = View.GONE
         }
         mBind.layoutContract.setOnClickListener {
@@ -118,9 +118,9 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
 
     override fun initData() {
         //正式版才请求登录接口
-//        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
-//            viewModel.userInfo()
-//        }
+        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
+            viewModel.userInfo()
+        }
         setFeedbackUi()
     }
 
@@ -214,10 +214,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * 微信登录
      */
     private fun weiChatLogin() {
-        AndroidUtils.toast("开发完善中", requireActivity())
-        return
-//        WeiChatTool.regToWx(BaseApplication.baseCtx)
-//        WeiChatTool.weiChatLogin(requireContext())
+        WeiChatTool.regToWx(BaseApplication.baseCtx)
+        WeiChatTool.weiChatLogin(requireContext())
     }
 
     /**
