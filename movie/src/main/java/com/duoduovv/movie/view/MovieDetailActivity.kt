@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
@@ -21,6 +20,7 @@ import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.*
 import com.duoduovv.movie.component.MovieDetailArtSelectDialog
+import com.duoduovv.movie.component.MovieDetailCallback
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
 import com.duoduovv.movie.databinding.ActivityMovieDetailBinding
@@ -58,9 +58,9 @@ import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
  */
 @Route(path = RouterPath.PATH_MOVIE_DETAIL)
 class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
-    MovieDetailAdapter.OnViewClickListener, SampleCoverVideo.OnStartClickListener,
+    SampleCoverVideo.OnStartClickListener,
     MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener,
-    MovieDetailArtSelectDialog.OnSelectDialogItemClickListener {
+    MovieDetailArtSelectDialog.OnSelectDialogItemClickListener, MovieDetailCallback {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private lateinit var mBind: ActivityMovieDetailBinding
@@ -81,13 +81,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var navHeight = 0
     private var realHeight = 0
     private var vidByQuery = ""
+    private var fragment: MovieDetailFragment? = null
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
 
     override fun initView() {
         mBind = ActivityMovieDetailBinding.bind(layoutView)
-        mBind.rvList.layoutManager = GridLayoutManager(this, 3)
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
         viewModel.getMoviePlayInfo()
             .observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
@@ -104,6 +104,18 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         screenHeight = OsUtils.getRealDisplayHeight(this)
         topBarHeight = OsUtils.getStatusBarHeight(this)
         navHeight = OsUtils.getNavigationBarHeight(this)
+        //添加顶部fragment
+        fragment = MovieDetailFragment()
+        fragment?.let {
+            it.setCallback(this)
+            supportFragmentManager.beginTransaction().add(R.id.layoutTop, it).commit()
+        }
+        detailAdapter = MovieDetailAdapter()
+        mBind.rvList.adapter = detailAdapter
+        detailAdapter?.setOnItemClickListener { adapter, _, position ->
+            val movieId = (adapter as MovieDetailAdapter).data[position].strId
+            onMovieClick(movieId)
+        }
     }
 
     /**
@@ -233,14 +245,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 detailBean!!.movie.coverUrl,
                 ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
             )
-            if (null == detailAdapter) {
-                detailAdapter =
-                    MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
-                detailAdapter?.setOnViewClick(this@MovieDetailActivity)
-                mBind.rvList.adapter = detailAdapter
-            } else {
-                detailAdapter?.notifyDataChange(detailBean!!)
-            }
+            fragment?.bindDetail(detailBean!!)
+            detailAdapter?.setList(detailBean!!.recommends)
             val list = detailBean!!.movieItems
             //默认播放第一集
             if (list.isNotEmpty()) {
@@ -260,7 +266,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     detailBean!!.movieItems[0].isSelect = true
                     vidTitle = detailBean!!.movieItems[0].title
                 }
-                detailAdapter?.notifyItemChanged(0)
+                fragment?.bindDetail(detailBean!!)
                 if (way == WAY_RELEASE) {
                     //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
                     if (!hasClickRecommend) {
@@ -280,7 +286,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
             //更新收藏状态
             val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
-            detailAdapter?.notifyCollectionChange(collectionBean)
+            fragment?.notifyCollectionChange(collectionBean)
         }
     }
 
@@ -361,7 +367,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     viewModel.addCollection(it)
                 }
                 val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
-                detailAdapter?.notifyCollectionChange(bean)
+                fragment?.notifyCollectionChange(bean)
             }
         } ?: also {
             GlobalScope.launch(Dispatchers.Main) {
@@ -380,7 +386,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 )
                 viewModel.addCollection(bean)
                 val beans = viewModel.queryCollectionById(detailBean.id)
-                detailAdapter?.notifyCollectionChange(beans)
+                fragment?.notifyCollectionChange(beans)
             }
         }
     }
@@ -459,7 +465,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 点击了推荐的视频
      * @param movieId String
      */
-    override fun onMovieClick(movieId: String) {
+    private fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
             updateHistoryDB()
