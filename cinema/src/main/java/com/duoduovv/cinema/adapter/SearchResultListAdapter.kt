@@ -27,13 +27,10 @@ class SearchResultListAdapter(
     private val context: Context,
     private val listener: OnItemClickListener? = null
 ) : RecyclerView.Adapter<SearchResultListAdapter.MyViewHolder>() {
-    private lateinit var mBind: ItemSearchResultBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        val itemView =
-            LayoutInflater.from(context).inflate(R.layout.item_search_result, parent, false)
-        mBind = ItemSearchResultBinding.bind(itemView)
-        return MyViewHolder(itemView)
+        val mBind = ItemSearchResultBinding.inflate(LayoutInflater.from(context),parent,false)
+        return MyViewHolder(mBind)
     }
 
     fun notifyDataChanged(dataList: List<SearchResultList>) {
@@ -43,20 +40,20 @@ class SearchResultListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bean = dataList[position]
-        GlideUtils.setMovieImg(context, bean.coverUrl, mBind.imgCover)
-        mBind.tvTitle.text = bean.vodName
-        mBind.tvTime.text = StringUtils.append(
+        GlideUtils.setMovieImg(context, bean.coverUrl, holder.mBind.imgCover)
+        holder.mBind.tvTitle.text = bean.vodName
+        holder.mBind.tvTime.text = StringUtils.append(
             bean.vodYear,
             " ", bean.typeText,
             " ", bean.vodArea,
             " ", bean.vodLang
         )
-        mBind.tvDirector.text = "导演：${bean.vodDirector}"
+        holder.mBind.tvDirector.text = "导演：${bean.vodDirector}"
         when (bean.movieFlag) {
             TYPE_TV, TYPE_TV0 -> {
                 //电视
-                mBind.rvList.visibility = View.VISIBLE
-                mBind.rvList.layoutManager = GridLayoutManager(context, 6)
+                holder.mBind.rvList.visibility = View.VISIBLE
+                holder.mBind.rvList.layoutManager = GridLayoutManager(context, 6)
                 val data = bean.movieItems
                 if (data?.isNotEmpty() == true) {
                     val adapter = if (data.size <= 6) {
@@ -71,7 +68,7 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 1])
                         SearchTvSelectAdapter(tempData)
                     }
-                    mBind.rvList.adapter = adapter
+                    holder.mBind.rvList.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchTvSelectAdapter).data
                         if (data.size <= 6) {
@@ -94,8 +91,8 @@ class SearchResultListAdapter(
             }
             TYPE_ALBUM -> {
                 //综艺
-                mBind.rvList.visibility = View.VISIBLE
-                mBind.rvList.layoutManager =
+                holder.mBind.rvList.visibility = View.VISIBLE
+                holder.mBind.rvList.layoutManager =
                     LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 val data = bean.movieItems
                 if (data?.isNotEmpty() == true) {
@@ -111,7 +108,7 @@ class SearchResultListAdapter(
                         tempData.add(data[data.size - 1])
                         SearchAlbumSelectAdapter(tempData)
                     }
-                    mBind.rvList.adapter = adapter
+                    holder.mBind.rvList.adapter = adapter
                     adapter.setOnItemClickListener { ad, _, pos ->
                         val dataList = (ad as SearchAlbumSelectAdapter).data
                         if (data.size <= 6) {
@@ -133,15 +130,15 @@ class SearchResultListAdapter(
                 }
             }
             else -> {
-                mBind.rvList.visibility = View.GONE
+                holder.mBind.rvList.visibility = View.GONE
             }
         }
-        mBind.layoutContainer.setOnClickListener { listener?.onItemClick(bean.strId, bean.way) }
+        holder.mBind.layoutContainer.setOnClickListener { listener?.onItemClick(bean.strId, bean.way) }
     }
 
     override fun getItemCount() = dataList.size
 
-    class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class MyViewHolder(val mBind:ItemSearchResultBinding) : RecyclerView.ViewHolder(mBind.root)
 
     interface OnItemClickListener {
         fun onItemClick(movieId: String, way: String)

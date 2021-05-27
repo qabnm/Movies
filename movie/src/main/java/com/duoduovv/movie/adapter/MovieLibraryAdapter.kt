@@ -32,21 +32,15 @@ class MovieLibraryAdapter(
     private val TYPE_EMPTY = 3
     private var itemClickListener: OnItemClickListener? = null
     private var isUpdate = false
-    private lateinit var topBind: ItemLibTopLayoutBinding
-    private lateinit var listBind: ItemMovieLibraryBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         TYPE_TOP -> {
-            val itemView =
-                LayoutInflater.from(context).inflate(R.layout.item_lib_top_layout, parent, false)
-            topBind = ItemLibTopLayoutBinding.bind(itemView)
-            TypeViewHolder(itemView)
+            val bind = ItemLibTopLayoutBinding.inflate(LayoutInflater.from(context),parent,false)
+            TypeViewHolder(bind)
         }
         TYPE_LIIST -> {
-            val itemView =
-                LayoutInflater.from(context).inflate(R.layout.item_movie_library, parent, false)
-            listBind = ItemMovieLibraryBinding.bind(itemView)
-            ListViewHolder(itemView)
+            val bind = ItemMovieLibraryBinding.inflate(LayoutInflater.from(context),parent, false)
+            ListViewHolder(bind)
         }
         else -> EmptyViewHolder(
             LayoutInflater.from(context).inflate(R.layout.layout_movie_lib_empty, parent, false)
@@ -77,7 +71,8 @@ class MovieLibraryAdapter(
         when (holder) {
             is TypeViewHolder -> {
                 if (isUpdate) return
-                topBind.layoutContainer.removeAllViews()
+                holder.bind.layoutContainer.removeAllViews()
+//                topBind.layoutContainer.removeAllViews()
                 for (i in typeList.indices) {
                     val layoutType = MovieTopLayout(context)
                     layoutType.setOnTypeClickListener(TypeClickListener())
@@ -85,11 +80,11 @@ class MovieLibraryAdapter(
                         typeList[i].array as ArrayList<TypeListArray>,
                         typeList[i].key
                     )
-                    topBind.layoutContainer.addView(layoutType)
+                    holder.bind.layoutContainer.addView(layoutType)
                 }
             }
             is ListViewHolder -> {
-                if (position > 0) bindList(movieList!![position - 1])
+                if (position > 0) bindList(holder,movieList!![position - 1])
             }
         }
     }
@@ -113,11 +108,11 @@ class MovieLibraryAdapter(
         this.itemClickListener = itemClickListener
     }
 
-    private fun bindList(movieBean: MovieLibList) {
-        GlideUtils.setMovieImg(context, movieBean.coverUrl, listBind.imgCover)
-        listBind.tvName.text = movieBean.vodName
-        listBind.tvScore.text = movieBean.lastRemark
-        listBind.layoutContainer.setOnClickListener {
+    private fun bindList(holder:ListViewHolder,movieBean: MovieLibList) {
+        GlideUtils.setMovieImg(context, movieBean.coverUrl, holder.bind.imgCover)
+        holder.bind.tvName.text = movieBean.vodName
+        holder.bind.tvScore.text = movieBean.lastRemark
+        holder.bind.layoutContainer.setOnClickListener {
             itemClickListener?.onMovieClick(
                 movieBean.strId,
                 movieBean.way
@@ -134,9 +129,9 @@ class MovieLibraryAdapter(
         else -> if (movieList?.isNotEmpty() == true) TYPE_LIIST else TYPE_EMPTY
     }
 
-    private class ListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class ListViewHolder(val bind: ItemMovieLibraryBinding) : RecyclerView.ViewHolder(bind.root)
 
-    private class TypeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class TypeViewHolder(val bind:ItemLibTopLayoutBinding) : RecyclerView.ViewHolder(bind.root)
 
     private class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

@@ -29,40 +29,27 @@ class MainPageAdapter(
     private var bean: MainBean
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var listener: OnItemClickListener? = null
-    private lateinit var bannerBind: ItemMainBannerBinding
-    private lateinit var categoryBind: ItemLayoutCategoryBinding
-    private lateinit var todayBind: ItemTodayReccommendBinding
-    private lateinit var titleBind: ItemMainTitleBinding
-    private lateinit var recommendBind: ItemMainRecommendBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         CinemaContext.TYPE_BANNER -> {
-            val itemView =
-                LayoutInflater.from(context).inflate(R.layout.item_main_banner, parent, false)
             bean.mainPageBean.banners?.add(0, Banner("","","",""))
-            bannerBind = ItemMainBannerBinding.bind(itemView)
-            BannerViewHolder(itemView)
+            val bannerBind = ItemMainBannerBinding.inflate(LayoutInflater.from(context),parent,false)
+            BannerViewHolder(bannerBind)
         }
         CinemaContext.TYPE_CATEGORY -> {
-            val itemView =
-                LayoutInflater.from(context).inflate(R.layout.item_layout_category, parent, false)
-            categoryBind = ItemLayoutCategoryBinding.bind(itemView)
+           val  categoryBind = ItemLayoutCategoryBinding.inflate(LayoutInflater.from(context),parent,false)
             categoryBind.rvList.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            CategoryViewHolder(itemView)
+            CategoryViewHolder(categoryBind)
         }
         CinemaContext.TYPE_TODAY_RECOMMEND -> {
-            val itemView =
-                LayoutInflater.from(context).inflate(R.layout.item_today_reccommend, parent, false)
-            todayBind = ItemTodayReccommendBinding.bind(itemView)
+            val todayBind = ItemTodayReccommendBinding.inflate(LayoutInflater.from(context),parent,false)
             todayBind.rvList.layoutManager = GridLayoutManager(context, 3)
-            TodayRecommendViewHolder(itemView)
+            TodayRecommendViewHolder(todayBind)
         }
         CinemaContext.TYPE_TITLE -> {
-            val itemView =
-                LayoutInflater.from(context).inflate(R.layout.item_main_title, parent, false)
-            titleBind = ItemMainTitleBinding.bind(itemView)
-            TitleViewHolder(itemView)
+            val titleBind = ItemMainTitleBinding.inflate(LayoutInflater.from(context),parent,false)
+            TitleViewHolder(titleBind)
         }
         CinemaContext.TYPE_EMPTY -> EmptyViewHolder(
             LayoutInflater.from(context).inflate(R.layout.layout_main_page_empty, parent, false)
@@ -71,15 +58,10 @@ class MainPageAdapter(
 //            LayoutInflater.from(context).inflate(R.layout.item_main_all_look, parent, false),
 //            context
 //        )
-        CinemaContext.TYPE_RECOMMEND_LIST -> {
-            val itemView =
-                LayoutInflater.from(context).inflate(R.layout.item_main_recommend, parent, false)
-            recommendBind = ItemMainRecommendBinding.bind(itemView)
-            RecommendViewHolder(itemView)
+        else -> {
+            val recommendBind = ItemMainRecommendBinding.inflate(LayoutInflater.from(context),parent,false)
+            RecommendViewHolder(recommendBind)
         }
-        else -> RecommendViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_main_recommend, parent, false)
-        )
     }
 
     fun notifyDataChanged(bean: MainBean) {
@@ -92,15 +74,15 @@ class MainPageAdapter(
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is BannerViewHolder -> bindBanner()
-            is CategoryViewHolder -> bindCategory()
-            is TodayRecommendViewHolder -> bindTodayRecommend()
-            is TitleViewHolder -> bindTitle()
+            is BannerViewHolder -> bindBanner(holder)
+            is CategoryViewHolder -> bindCategory(holder)
+            is TodayRecommendViewHolder -> bindTodayRecommend(holder)
+            is TitleViewHolder -> bindTitle(holder)
             is EmptyViewHolder -> {
             }
 //            is AllLookViewHolder -> bindAllLook(holder)
             is RecommendViewHolder -> {
-                if (position > 3) bindRecommend(position - 4)
+                if (position > 3) bindRecommend(holder,position - 4)
             }
         }
     }
@@ -135,11 +117,11 @@ class MainPageAdapter(
     /**
      * banner显示
      */
-    private fun bindBanner() {
+    private fun bindBanner(holder:BannerViewHolder) {
         bean.mainPageBean.banners?.let {
-            bannerBind.layoutBanner.addBannerLifecycleObserver(context as AppCompatActivity)
+            holder.bannerBind.layoutBanner.addBannerLifecycleObserver(context as AppCompatActivity)
                 .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
-            bannerBind.layoutBanner.setOnBannerListener { data, _ ->
+            holder.bannerBind.layoutBanner.setOnBannerListener { data, _ ->
                 val jumpType = (data as Banner).jumpType
                 val movieId = data.movieId
                 if (jumpType == "1") listener?.onMovieClick(movieId, "-1")
@@ -150,12 +132,12 @@ class MainPageAdapter(
     /**
      * 分类
      */
-    private fun bindCategory() {
+    private fun bindCategory(holder:CategoryViewHolder) {
         val category = bean.mainPageBean.category
         Log.d("mainAdapter", "bindCategory执行了${category?.isNotEmpty()}")
         if (category?.isNotEmpty() == true) {
             val categoryAdapter = MainCategoryAdapter()
-            categoryBind.rvList.adapter = categoryAdapter
+            holder.categoryBind.rvList.adapter = categoryAdapter
             categoryAdapter.setList(category)
             categoryAdapter.setOnItemClickListener { _, _, position ->
                 val typeId = category[position].typeSpeArray.typeId
@@ -169,17 +151,17 @@ class MainPageAdapter(
     /**
      * 今日推荐
      */
-    private fun bindTodayRecommend() {
+    private fun bindTodayRecommend(holder:TodayRecommendViewHolder) {
         if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
             if (null == adapter) adapter = FilmRecommendAdapter(true)
-            todayBind.rvList.adapter = adapter
+            holder.todayBind.rvList.adapter = adapter
             adapter?.setList(bean.mainPageBean.selectRecommends)
             adapter?.setOnItemClickListener { adapter, _, position ->
                 val movieId = (adapter as FilmRecommendAdapter).data[position].strId
                 val way = adapter.data[position].way
                 listener?.onMovieClick(movieId, way)
             }
-            todayBind.tvMore.setOnClickListener { listener?.onTodayMoreClick(bean.mainPageBean.selectRecommends!!) }
+            holder.todayBind.tvMore.setOnClickListener { listener?.onTodayMoreClick(bean.mainPageBean.selectRecommends!!) }
         }
     }
 
@@ -191,12 +173,12 @@ class MainPageAdapter(
         holder.rvList.adapter = FilmAllLookAdapter(bean.mainPageBean.playRecommends)
     }
 
-    private fun bindTitle() {
-        titleBind.tvTitle.text = "热门推荐"
+    private fun bindTitle(holder:TitleViewHolder) {
+        holder.titleBind.tvTitle.text = "热门推荐"
         if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
-            titleBind.vLine.visibility = View.GONE
+            holder.titleBind.vLine.visibility = View.GONE
         } else {
-            titleBind.vLine.visibility = View.VISIBLE
+            holder.titleBind.vLine.visibility = View.VISIBLE
         }
     }
 
@@ -204,14 +186,14 @@ class MainPageAdapter(
      * 首页推荐
      * @param position Int
      */
-    private fun bindRecommend(position: Int) {
+    private fun bindRecommend(holder:RecommendViewHolder,position: Int) {
         val dataList = bean.mainRecommendBean.recommends
         if (dataList != null && dataList.isNotEmpty()) {
             val bean = dataList[position]
-            GlideUtils.setMovieImg(context, bean.coverUrl, recommendBind.imgCover)
-            recommendBind.tvName.text = bean.vodName
-            recommendBind.tvScore.text = StringUtils.getString(bean.remark)
-            recommendBind.layoutContainer.setOnClickListener {
+            GlideUtils.setMovieImg(context, bean.coverUrl, holder.recommendBind.imgCover)
+            holder.recommendBind.tvName.text = bean.vodName
+            holder.recommendBind.tvScore.text = StringUtils.getString(bean.remark)
+            holder.recommendBind.layoutContainer.setOnClickListener {
                 listener?.onMovieClick(
                     bean.strId,
                     bean.way
@@ -220,7 +202,7 @@ class MainPageAdapter(
         }
     }
 
-    private class RecommendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class RecommendViewHolder(val recommendBind:ItemMainRecommendBinding) : RecyclerView.ViewHolder(recommendBind.root)
 
     private class AllLookViewHolder(itemView: View, context: Context) :
         RecyclerView.ViewHolder(itemView) {
@@ -232,13 +214,13 @@ class MainPageAdapter(
         }
     }
 
-    private class TodayRecommendViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class TodayRecommendViewHolder(val todayBind:ItemTodayReccommendBinding) : RecyclerView.ViewHolder(todayBind.root)
 
-    private class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class BannerViewHolder(val bannerBind:ItemMainBannerBinding) : RecyclerView.ViewHolder(bannerBind.root)
 
-    private class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class CategoryViewHolder(val categoryBind:ItemLayoutCategoryBinding) : RecyclerView.ViewHolder(categoryBind.root)
 
-    private class TitleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    private class TitleViewHolder(val titleBind:ItemMainTitleBinding) : RecyclerView.ViewHolder(titleBind.root)
 
     private class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

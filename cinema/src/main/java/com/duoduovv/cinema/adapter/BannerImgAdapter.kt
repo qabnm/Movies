@@ -23,45 +23,42 @@ import dc.android.bridge.util.GlideUtils
  */
 class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     BannerAdapter<Banner, BannerImgAdapter.BannerViewHolder>(data) {
-    private lateinit var mBind: ItemBannerViewBinding
     private var ttInfoAd: TTInfoAd? = null
     private var gdtInfoAd: GDTInfoAd? = null
 
-    class BannerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class BannerViewHolder(val bind:ItemBannerViewBinding) : RecyclerView.ViewHolder(bind.root)
 
     override fun onCreateHolder(parent: ViewGroup?, viewType: Int): BannerViewHolder {
-        val itemView =
-            LayoutInflater.from(context).inflate(R.layout.item_banner_view, parent, false)
-        mBind = ItemBannerViewBinding.bind(itemView)
-        return BannerViewHolder(itemView)
+        val bind = ItemBannerViewBinding.inflate(LayoutInflater.from(context),parent ,false)
+        return BannerViewHolder(bind)
     }
 
     override fun onBindView(holder: BannerViewHolder, data: Banner?, position: Int, size: Int) {
         if (position == 0) {
             //加载广告
-//            initTTAd()
-            initGDTAd()
+//            initTTAd(holder)
+            initGDTAd(holder)
         } else {
-            GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = mBind.imgBanner)
+            GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = holder.bind.imgBanner)
 //            mBind.imgBanner.load(data?.img)
-            mBind.tvTitle.text = data?.title
+            holder.bind.tvTitle.text = data?.title
         }
     }
 
     /**
      * 请求穿山甲广告
      */
-    private fun initTTAd() {
+    private fun initTTAd(holder: BannerViewHolder) {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(context as Activity, "946107576", 0f, 0f, mBind.layoutContainer)
+        ttInfoAd?.initTTInfoAd(context as Activity, "946107576", 0f, 0f, holder.bind.layoutContainer)
     }
 
     /**
      * 初始化广点通广告
      */
-    private fun initGDTAd() {
+    private fun initGDTAd(holder: BannerViewHolder) {
         gdtInfoAd = GDTInfoAd()
-        gdtInfoAd?.initInfoAd(context as Activity, "5051684812707537",mBind.layoutContainer,375,0)
+        gdtInfoAd?.initInfoAd(context as Activity, "5051684812707537",holder.bind.layoutContainer,375,0)
     }
 
     fun onDestroy(){

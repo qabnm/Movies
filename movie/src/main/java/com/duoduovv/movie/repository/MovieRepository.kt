@@ -63,10 +63,11 @@ class MovieRepository : MovieApiRepository() {
      * 获取播放信息
      * @param vid String
      * @param id String
+     * @param line String
      * @return BaseResponseData<MoviePlayInfoBean>
      */
-    suspend fun moviePlayInfo(vid: String, id: String) = request {
-        apiService.moviePlayInfo(vid, id)
+    suspend fun moviePlayInfo(vid: String, id: String, line: String) = request {
+        apiService.moviePlayInfo(vid, id, line)
     }
 
     /**
@@ -77,5 +78,16 @@ class MovieRepository : MovieApiRepository() {
      */
     suspend fun report(content: String, movieId: String) = request {
         apiService.report(content, movieId)
+    }
+
+    /**
+     * 解析播放地址
+     * @param vid String
+     * @param movieId String
+     * @param line String
+     * @return BaseResponseData<PlayUrl>
+     */
+    suspend fun analysisPlayUrl(vid: String, movieId: String, line: String) = request {
+        apiService.analysisPlayUrl(vid = vid, id = movieId, line = line)
     }
 }

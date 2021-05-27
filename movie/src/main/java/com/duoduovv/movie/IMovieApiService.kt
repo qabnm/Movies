@@ -48,7 +48,7 @@ interface IMovieApiService {
     /**
      * 视频详情
      */
-    @GET("api/vod")
+    @GET("api/v2/vod")
     suspend fun movieDetail(
         @Query("id") id: String,
         @Query("vid") vid: String = ""
@@ -68,11 +68,23 @@ interface IMovieApiService {
      * @param id String
      * @return BaseResponseData<MoviePlayInfoBean>
      */
-    @GET("api/vod/get_play")
+    @GET("api/v2/vod/get_play")
     suspend fun moviePlayInfo(
         @Query("vid") vid: String,
-        @Query("id") id: String
+        @Query("id") id: String,
+        @Query("line") line:String
     ): BaseResponseData<MoviePlayInfoBean>
+
+    /**
+     * 解析播放地址
+     * @param vid String
+     * @param id String
+     * @param line String
+     * @return BaseResponseData<PlayUrl>
+     */
+    @FormUrlEncoded
+    @POST("api/v2/vod/jx")
+    suspend fun analysisPlayUrl(@Field("vid") vid: String,@Field("id") id: String,@Field("line") line: String):BaseResponseData<PlayUrl>
 
     /**
      * 举报

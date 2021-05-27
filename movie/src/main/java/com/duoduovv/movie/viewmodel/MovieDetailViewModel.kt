@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MoviePlayInfoBean
+import com.duoduovv.movie.bean.PlayUrl
 import com.duoduovv.movie.repository.MovieRepository
 import com.duoduovv.room.database.CollectionDatabase
 import com.duoduovv.room.database.WatchHistoryDatabase
@@ -32,6 +33,9 @@ class MovieDetailViewModel : BaseViewModel() {
     private var movieClickInfo: MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
     fun getMovieClickInfo() = movieClickInfo
 
+    private var analysisPlayUrl: MutableLiveData<PlayUrl> = MutableLiveData()
+    fun getPlayUrl() = analysisPlayUrl
+
     private val repository = MovieRepository()
 
     /**
@@ -51,8 +55,8 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param id String
      * @return Job
      */
-    fun moviePlayInfo(vid: String, id: String, flag: Int = 0) = request {
-        val result = repository.moviePlayInfo(vid, id)
+    fun moviePlayInfo(vid: String, id: String, line: String, flag: Int = 0) = request {
+        val result = repository.moviePlayInfo(vid, id, line)
         if (result.code == SUCCESS) {
             if (flag == 0) {
                 moviePlayInfo.postValue(result.data)
@@ -98,7 +102,8 @@ class MovieDetailViewModel : BaseViewModel() {
                     } ?: also {
                         //最多保存100条观看记录
                         if (dataList.size == 100) {
-                            WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().delete(dataList[0])
+                            WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
+                                .delete(dataList[0])
                         }
                         insertHistory(detailBean, progress, movieId, vid, vidTitle, duration)
                     }
@@ -114,7 +119,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param movieId String
      * @return VideoWatchHistoryBean
      */
-    suspend fun queryMovieById(movieId: String) = withContext(Dispatchers.IO){
+    suspend fun queryMovieById(movieId: String) = withContext(Dispatchers.IO) {
         WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryById(movieId)
     }
 
@@ -123,7 +128,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param id String
      * @return CollectionBean
      */
-    suspend fun queryCollectionById(id: String) = withContext(Dispatchers.IO){
+    suspend fun queryCollectionById(id: String) = withContext(Dispatchers.IO) {
         CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().queryById(id)
     }
 
@@ -131,7 +136,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * 删除收藏
      * @param collectionBean CollectionBean
      */
-    suspend fun deleteCollection(collectionBean: CollectionBean) = withContext(Dispatchers.IO){
+    suspend fun deleteCollection(collectionBean: CollectionBean) = withContext(Dispatchers.IO) {
         CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().delete(collectionBean)
     }
 
@@ -139,7 +144,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * 添加收藏
      * @param collectionBean CollectionBean
      */
-    suspend fun addCollection(collectionBean: CollectionBean) = withContext(Dispatchers.IO){
+    suspend fun addCollection(collectionBean: CollectionBean) = withContext(Dispatchers.IO) {
         CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().insert(collectionBean)
     }
 
@@ -170,5 +175,18 @@ class MovieDetailViewModel : BaseViewModel() {
             totalLength = duration
         )
         WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().insert(videoBean)
+    }
+
+    /**
+     * 解析播放地址
+     * @param vid String
+     * @param movieId String
+     * @param line String
+     */
+    fun analysisPlayUrl(vid: String, movieId: String, line: String) = request {
+        val result = repository.analysisPlayUrl(vid, movieId, line)
+        if (SUCCESS == result.code) {
+            analysisPlayUrl.postValue(result.data)
+        }
     }
 }

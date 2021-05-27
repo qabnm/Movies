@@ -11,9 +11,9 @@ data class MovieDetailBean(
     val movie: MovieDetail,
     val lineList: List<LineList>,
     val movieItems: List<MovieItem>,
-    val playUrls: List<PlayUrlsBean>?,
     val recommends: List<DetailRecommend>,
     val way: String,
+    val playLine:String
 )
 
 /**
@@ -24,14 +24,6 @@ data class MovieDetailBean(
  */
 data class LineList(val line: String, val name: String)
 
-/**
- * 播放线路信息
- * @property key String
- * @property name String
- * @property url String
- * @constructor
- */
-data class PlayUrlsBean(val key: String, val name: String, val url: String)
 
 /**
  * 选集信息

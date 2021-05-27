@@ -6,9 +6,10 @@ package com.duoduovv.movie.bean
  * @des:播放信息
  */
 data class MoviePlayInfoBean(
-    val playLine: String,
+    val h5Url: String,
     val playUrls: List<PlayUrl>?,
-    val playVid: String
+    val request: Request,
+    val type: String
 )
 
 data class PlayUrl(
@@ -16,4 +17,15 @@ data class PlayUrl(
     val num: String,
     val url: String,
     val vid: String
+)
+
+data class Request(
+    val headers: List<Header>,
+    val method: String,
+    val url: String
+)
+
+data class Header(
+    val name: String,
+    val value: String
 )

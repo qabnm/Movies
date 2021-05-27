@@ -65,7 +65,9 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     }
 
     private fun showLoading() {
-        loadingDialog?.showNow(supportFragmentManager, "loading")
+        if (loadingDialog?.isAdded == false) {
+            loadingDialog?.showNow(supportFragmentManager, "loading")
+        }
     }
 
     private fun dismissLoading() {
