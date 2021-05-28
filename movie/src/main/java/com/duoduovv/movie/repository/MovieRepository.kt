@@ -1,7 +1,5 @@
 package com.duoduovv.movie.repository
 
-import dc.android.bridge.net.BaseResponseData
-import dc.android.bridge.net.RetrofitFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -98,12 +96,25 @@ class MovieRepository : MovieApiRepository() {
         }
 
     /**
-     * 如果是第三方的 就去解析三方地址
+     * 如果是第三方的 就去解析三方地址 get请求
      * @param url String
      * @param headers Map<String, String>
      * @return Any
      */
-    suspend fun jxUrl(url: String, headers: Map<String, String>) = withContext(Dispatchers.IO) {
-        jxApiService.jxUrl(url, headers)
-    }
+    suspend fun jxUrlForGEet(url: String, headers: Map<String, String>) =
+        withContext(Dispatchers.IO) {
+            jxApiService.jxUrlForGEet(url, headers)
+        }
+
+    /**
+     * 解析三方源 post请求
+     * @param url String
+     * @param headers Map<String, String>
+     * @param maps Map<String, String>
+     * @return ResponseBody
+     */
+    suspend fun jxUrlForPost(url: String, headers: Map<String, String>, maps: Map<String, String>) =
+        withContext(Dispatchers.IO) {
+            jxApiService.jxUrlForPost(url, headers, maps)
+        }
 }

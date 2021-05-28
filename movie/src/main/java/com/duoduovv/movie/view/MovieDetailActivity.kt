@@ -184,15 +184,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param bean MoviePlayInfoBean?
      */
     private fun setClickInfo(bean: MoviePlayInfoBean?) {
-        setPlayInfo(bean,1)
+        setPlayInfo(bean, 1)
     }
+
     private var playFlag = 0
+
     /**
      * 视频播放信息  第一次进来的时候，只加载视频信息 但是不播放
      * 只有正常版本的才会走到这里来
      * @param bean MoviePlayInfoBean
      */
-    private fun setPlayInfo(bean: MoviePlayInfoBean?,flag:Int = 0) {
+    private fun setPlayInfo(bean: MoviePlayInfoBean?, flag: Int = 0) {
         bean?.let {
             //根据type判断是否需要调用解析的接口
             this.playFlag = flag
@@ -208,9 +210,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     if (playList?.isNotEmpty() == true) {
                         mBind.videoPlayer.setStartClick(1)
                         mBind.videoPlayer.setUp(playList[0].url, true, "")
-                        if (way == WAY_RELEASE && flag == 1){
+                        if (way == WAY_RELEASE && flag == 1) {
                             mBind.videoPlayer.startPlayLogic()
-                        }else{}
+                        } else {
+                        }
                     } else {
 
                     }
@@ -222,7 +225,19 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     for (i in headers.indices) {
                         map[headers[i].name] = headers[i].value
                     }
-                    viewModel.jxUrl(it.request.url, map)
+                    if ("GET" == it.request.method || "get" == it.request.method) {
+                        viewModel.jxUrlForGEet(it.request.url, map)
+                    } else {
+                        //post请求
+                        val paramsMap = HashMap<String, String>()
+                        val maps = it.request.formParams
+                        maps?.let {
+                            for (i in maps.indices) {
+                                paramsMap[maps[i].name] = maps[i].value
+                            }
+                        }
+                        viewModel.jxUrlForPost(it.request.url, map, paramsMap)
+                    }
                 }
                 else -> {
                 }

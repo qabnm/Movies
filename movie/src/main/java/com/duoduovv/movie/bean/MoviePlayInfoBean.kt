@@ -21,11 +21,17 @@ data class PlayUrl(
 
 data class Request(
     val headers: List<Header>,
+    val formParams: List<FormParams>?,
     val method: String,
     val url: String
 )
 
 data class Header(
+    val name: String,
+    val value: String
+)
+
+data class FormParams(
     val name: String,
     val value: String
 )

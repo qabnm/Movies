@@ -2,7 +2,6 @@ package com.duoduovv.movie
 
 import com.duoduovv.movie.bean.*
 import dc.android.bridge.net.BaseResponseData
-import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**

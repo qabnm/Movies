@@ -6,7 +6,6 @@ import com.duoduovv.common.BaseApplication
 import com.duoduovv.movie.bean.JxPlayUrlBean
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MoviePlayInfoBean
-import com.duoduovv.movie.bean.PlayUrl
 import com.duoduovv.movie.repository.MovieRepository
 import com.duoduovv.room.database.CollectionDatabase
 import com.duoduovv.room.database.WatchHistoryDatabase
@@ -199,8 +198,22 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param headers Map<String, String>
      * @return Job
      */
-    fun jxUrl(url: String, headers: Map<String, String>) = request {
-        val result = repository.jxUrl(url, headers)
+    fun jxUrlForGEet(url: String, headers: Map<String, String>) = request {
+        val result = repository.jxUrlForGEet(url, headers)
         jxUrl.postValue(result.string())
     }
+
+    /**
+     * 解析三方地址  post请求
+     * @param url String
+     * @param headers Map<String, String>
+     * @param map Map<String, String>
+     * @return Job
+     */
+    fun jxUrlForPost(url: String, headers: Map<String, String>, map: Map<String, String>) =
+        request {
+            val result = repository.jxUrlForPost(url, headers, map)
+            jxUrl.postValue(result.string())
+        }
+
 }
