@@ -1,5 +1,10 @@
 package com.duoduovv.movie.repository
 
+import dc.android.bridge.net.BaseResponseData
+import dc.android.bridge.net.RetrofitFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 /**
  * @author: jun.liu
  * @date: 2021/1/21 9:46
@@ -87,7 +92,18 @@ class MovieRepository : MovieApiRepository() {
      * @param line String
      * @return BaseResponseData<PlayUrl>
      */
-    suspend fun analysisPlayUrl(vid: String, movieId: String, line: String) = request {
-        apiService.analysisPlayUrl(vid = vid, id = movieId, line = line)
+    suspend fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) =
+        request {
+            apiService.analysisPlayUrl(vid = vid, id = movieId, line = line, content)
+        }
+
+    /**
+     * 如果是第三方的 就去解析三方地址
+     * @param url String
+     * @param headers Map<String, String>
+     * @return Any
+     */
+    suspend fun jxUrl(url: String, headers: Map<String, String>) = withContext(Dispatchers.IO) {
+        jxApiService.jxUrl(url, headers)
     }
 }

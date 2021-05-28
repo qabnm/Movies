@@ -2,6 +2,7 @@ package com.duoduovv.movie
 
 import com.duoduovv.movie.bean.*
 import dc.android.bridge.net.BaseResponseData
+import okhttp3.ResponseBody
 import retrofit2.http.*
 
 /**
@@ -72,7 +73,7 @@ interface IMovieApiService {
     suspend fun moviePlayInfo(
         @Query("vid") vid: String,
         @Query("id") id: String,
-        @Query("line") line:String
+        @Query("line") line: String
     ): BaseResponseData<MoviePlayInfoBean>
 
     /**
@@ -84,7 +85,12 @@ interface IMovieApiService {
      */
     @FormUrlEncoded
     @POST("api/v2/vod/jx")
-    suspend fun analysisPlayUrl(@Field("vid") vid: String,@Field("id") id: String,@Field("line") line: String):BaseResponseData<PlayUrl>
+    suspend fun analysisPlayUrl(
+        @Field("vid") vid: String,
+        @Field("id") id: String,
+        @Field("line") line: String,
+        @Field("content") content: String
+    ): BaseResponseData<JxPlayUrlBean>
 
     /**
      * 举报
@@ -94,5 +100,8 @@ interface IMovieApiService {
      */
     @FormUrlEncoded
     @POST("api/report")
-    suspend fun report(@Field("content") content:String,@Field("movie_id")movieId: String):BaseResponseData<Any>
+    suspend fun report(
+        @Field("content") content: String,
+        @Field("movie_id") movieId: String
+    ): BaseResponseData<Any>
 }

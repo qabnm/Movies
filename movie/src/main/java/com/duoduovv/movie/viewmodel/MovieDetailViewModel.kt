@@ -3,6 +3,7 @@ package com.duoduovv.movie.viewmodel
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.movie.bean.JxPlayUrlBean
 import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.bean.MoviePlayInfoBean
 import com.duoduovv.movie.bean.PlayUrl
@@ -33,8 +34,10 @@ class MovieDetailViewModel : BaseViewModel() {
     private var movieClickInfo: MutableLiveData<MoviePlayInfoBean> = MutableLiveData()
     fun getMovieClickInfo() = movieClickInfo
 
-    private var analysisPlayUrl: MutableLiveData<PlayUrl> = MutableLiveData()
+    private var analysisPlayUrl: MutableLiveData<JxPlayUrlBean> = MutableLiveData()
     fun getPlayUrl() = analysisPlayUrl
+    private var jxUrl: MutableLiveData<String> = MutableLiveData()
+    fun getJxUrl() = jxUrl
 
     private val repository = MovieRepository()
 
@@ -183,10 +186,21 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param movieId String
      * @param line String
      */
-    fun analysisPlayUrl(vid: String, movieId: String, line: String) = request {
-        val result = repository.analysisPlayUrl(vid, movieId, line)
+    fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) = request {
+        val result = repository.analysisPlayUrl(vid, movieId, line, content)
         if (SUCCESS == result.code) {
             analysisPlayUrl.postValue(result.data)
         }
+    }
+
+    /**
+     * 解析三方的地址
+     * @param url String
+     * @param headers Map<String, String>
+     * @return Job
+     */
+    fun jxUrl(url: String, headers: Map<String, String>) = request {
+        val result = repository.jxUrl(url, headers)
+        jxUrl.postValue(result.string())
     }
 }

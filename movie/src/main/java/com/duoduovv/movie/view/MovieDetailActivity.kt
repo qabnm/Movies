@@ -9,7 +9,6 @@ import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.Observer
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
@@ -36,7 +35,6 @@ import com.shuyu.gsyvideoplayer.cache.CacheFactory
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
@@ -100,7 +98,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         viewModel.getMovieClickInfo()
             .observe(this, { setClickInfo(viewModel.getMovieClickInfo().value) })
         //解析播放地址
-        viewModel.getPlayUrl().observe(this, Observer { analysisPlayUrl(it) })
+        viewModel.getPlayUrl().observe(this, { analysisPlayUrl(viewModel.getPlayUrl().value) })
+        //解析三方的地址
+        viewModel.getJxUrl().observe(this, { jxPlayUrl(viewModel.getJxUrl().value) })
         orientationUtils = OrientationUtils(this, mBind.videoPlayer)
         orientationUtils?.isEnable = false
         setVideoPlayer()
@@ -184,26 +184,18 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param bean MoviePlayInfoBean?
      */
     private fun setClickInfo(bean: MoviePlayInfoBean?) {
-        bean?.let {
-            val playList = it.playUrls
-            if (playList?.isNotEmpty() == true) {
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).apply {
-                    setStartClick(1)
-                    setUp(playList[0].url, true, "")
-                    startPlayLogic()
-                }
-            }
-        }
+        setPlayInfo(bean,1)
     }
-
+    private var playFlag = 0
     /**
      * 视频播放信息  第一次进来的时候，只加载视频信息 但是不播放
      * 只有正常版本的才会走到这里来
      * @param bean MoviePlayInfoBean
      */
-    private fun setPlayInfo(bean: MoviePlayInfoBean?) {
+    private fun setPlayInfo(bean: MoviePlayInfoBean?,flag:Int = 0) {
         bean?.let {
             //根据type判断是否需要调用解析的接口
+            this.playFlag = flag
             when (it.type) {
                 "h5" -> {
                     //跳转H5
@@ -216,17 +208,47 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     if (playList?.isNotEmpty() == true) {
                         mBind.videoPlayer.setStartClick(1)
                         mBind.videoPlayer.setUp(playList[0].url, true, "")
-//                if (way == WAY_RELEASE) videoPlayer.startPlayLogic()
+                        if (way == WAY_RELEASE && flag == 1){
+                            mBind.videoPlayer.startPlayLogic()
+                        }else{}
                     } else {
 
                     }
                 }
                 "jx" -> {
                     //需要再次解析播放地址
-                    viewModel.analysisPlayUrl(vid, movieId, line)
+                    val headers = it.request.headers
+                    val map = HashMap<String, String>()
+                    for (i in headers.indices) {
+                        map[headers[i].name] = headers[i].value
+                    }
+                    viewModel.jxUrl(it.request.url, map)
                 }
                 else -> {
                 }
+            }
+        }
+    }
+
+    private fun jxPlayUrl(content: String?) {
+        content?.let {
+            viewModel.analysisPlayUrl(vid, movieId, line, it)
+        }
+    }
+
+    /**
+     * 解析播放地址
+     * 获取真正的播放地址
+     * @param bean List
+     */
+    private fun analysisPlayUrl(bean: JxPlayUrlBean?) {
+        bean?.let {
+            val playUrls = it.playUrls
+            if (playUrls.isNotEmpty()) {
+                mBind.videoPlayer.setStartClick(1)
+                mBind.videoPlayer.setUp(playUrls[0].url, true, "")
+                if (playFlag == 1) mBind.videoPlayer.startPlayLogic()
+                Log.d("videoPlayer", "****这里执行了：way=$way")
             }
         }
     }
@@ -303,22 +325,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
                 viewModel.moviePlayInfo(vid, movieId, line)
                 if (way == WAY_H5) mBind.videoPlayer.setStartClick(0)
-//                if (way == WAY_RELEASE) {
-//                    //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
-//                    if (!hasClickRecommend) {
-//                        if (StringUtils.isEmpty(vid)) {
-//                            vid = list[0].vid
-//                        }
-//                    } else {
-//                        vid = list[0].vid
-//                    }
-//                    viewModel.moviePlayInfo(vid, movieId, line)
-//                } else if (way == BridgeContext.WAY_H5) {
-//                    //如果是H5版本
-//                    mBind.videoPlayer.setStartClick(0)
-//                    val urlList = detailBean!!.playUrls
-//                    if (urlList?.isNotEmpty() == true) playUrl = urlList[0].url
-//                }
             }
             //更新收藏状态
             val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
@@ -427,17 +433,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
-    /**
-     * 解析播放地址
-     * @param urlBean PlayUrl
-     */
-    private fun analysisPlayUrl(urlBean: PlayUrl) {
-        Log.d("videoPlayer", "****这里执行了：way=$way")
-        mBind.videoPlayer.setStartClick(1)
-        mBind.videoPlayer.setUp(urlBean.url, true, "")
-//                if (way == WAY_RELEASE) videoPlayer.startPlayLogic()
-    }
-
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
         videoHeight = mBind.videoPlayer.measuredHeight
@@ -501,8 +496,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         this.vid = vid
         this.vidTitle = vidTitle
 //        if (way == WAY_RELEASE) {
-            //只有正常班的才会去请求接口
-            viewModel.moviePlayInfo(vid, movieId, line, 1)
+        //只有正常班的才会去请求接口
+        viewModel.moviePlayInfo(vid, movieId, line, 1)
 //        }
     }
 
