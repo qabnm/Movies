@@ -75,7 +75,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      */
     private fun initTTAd() {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(this, "946107576", 0f, 0f, mBind.container)
+        ttInfoAd?.initTTInfoAd(this, "946164817", 0f, 0f, mBind.container)
     }
 
     /**

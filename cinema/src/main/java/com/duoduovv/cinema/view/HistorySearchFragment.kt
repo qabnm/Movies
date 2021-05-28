@@ -68,7 +68,7 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
      */
     private fun initTTAd() {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(requireActivity(), "946107576", 0f, 0f, mBind.adContainer)
+        ttInfoAd?.initTTInfoAd(requireActivity(), "946164817", 0f, 0f, mBind.adContainer)
     }
 
     /**

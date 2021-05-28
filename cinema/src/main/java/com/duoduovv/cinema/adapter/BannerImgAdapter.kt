@@ -50,7 +50,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
      */
     private fun initTTAd(holder: BannerViewHolder) {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(context as Activity, "946107576", 0f, 0f, holder.bind.layoutContainer)
+        ttInfoAd?.initTTInfoAd(context as Activity, "946164816", 0f, 0f, holder.bind.layoutContainer)
     }
 
     /**
@@ -58,7 +58,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
      */
     private fun initGDTAd(holder: BannerViewHolder) {
         gdtInfoAd = GDTInfoAd()
-        gdtInfoAd?.initInfoAd(context as Activity, "5051684812707537",holder.bind.layoutContainer,375,0)
+        gdtInfoAd?.initInfoAd(context as Activity, "1031395106138231",holder.bind.layoutContainer,375,0)
     }
 
     fun onDestroy(){
