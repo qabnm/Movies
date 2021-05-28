@@ -16,11 +16,6 @@ data class MainPageBean(
 
 /**
  * 首页banner
- * @property img String
- * @property jumpType String
- * @property movieId String
- * @property title String
- * @constructor
  */
 data class Banner(
     val img: String,
@@ -33,10 +28,6 @@ data class Banner(
 
 /**
  * 首页分类
- * @property icon String
- * @property name String
- * @property typeSpeArray TypeSpeBean
- * @constructor
  */
 data class Category(
     val icon: String,

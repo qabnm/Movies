@@ -14,16 +14,6 @@ data class MovieDetailForDebugBean(
 
 /**
  * 影视详情信息
- * @property coverUrl String
- * @property vodActor String
- * @property vodArea String
- * @property vodDetail String
- * @property vodDirector String
- * @property vodLang String
- * @property vodName String
- * @property vodYear String
- * @property typeText String
- * @constructor
  */
 data class MovieForDebug(
     @SerializedName("cover_url")
@@ -55,9 +45,6 @@ data class MovieDetailForDebug(
 
 /**
  * 演员表
- * @property imgCover String
- * @property name String
- * @constructor
  */
 data class ActorArray(
     @SerializedName("Img")
@@ -68,8 +55,6 @@ data class ActorArray(
 
 /**
  * 剧照
- * @property imgCover String
- * @constructor
  */
 data class StagePhotoArray(
     @SerializedName("Img")
