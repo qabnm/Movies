@@ -26,14 +26,6 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
             loading.value = false
             Log.d("tag", "请求完成")
         }
-
-//        kotlin.runCatching {
-//            block()
-//            Log.e("tag", "请求成功")
-//        }.onFailure {
-//            error.value = it
-//            Log.e("tag", "请求异常$it")
-//        }
     }
 
     fun getException() = error

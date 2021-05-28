@@ -5,7 +5,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
-import com.duoduovv.cinema.bean.ConfigureBean
+import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.cinema.repository.CinemaRepository
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.FileUtils

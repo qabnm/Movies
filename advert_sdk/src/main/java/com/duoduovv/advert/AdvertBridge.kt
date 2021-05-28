@@ -23,6 +23,37 @@ class AdvertBridge {
         private const val appName = "多多影视大全"
 
         /**
+         * 广告类型 穿山甲 广点通
+         */
+        var AD_TYPE = ""
+
+        /**
+         * 开屏广告位
+         */
+        var SPLASH=""
+
+        /**
+         * 首页banner
+         */
+        var MAIN_PAGE_BANNER = ""
+
+        /**
+         * 退出广告位
+         */
+        var LOGOUT = ""
+
+        /**
+         * 搜索广告位
+         */
+        var SEARCH = ""
+
+        /**
+         * 影视详情banner
+         */
+        var MOVIE_DETAIL_BANNER = ""
+
+
+        /**
          * 初始化穿山甲SDK
          * 调整说明：穿山甲在3450版本对SDK的初始化方法进行了较大的改动，支持了同步初始化和异步初始化两种方式，
          * 并且TTAdConfig.Builder中支持异步初始化API将不再生效。优化后同步初始化和异步初始化两种方式的耗时没有显着差异，

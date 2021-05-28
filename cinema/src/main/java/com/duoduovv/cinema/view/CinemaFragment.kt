@@ -7,12 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
-import androidx.viewbinding.ViewBinding
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
-import com.duoduovv.cinema.bean.Column
-import com.duoduovv.cinema.bean.Version
+import com.duoduovv.common.domain.Column
+import com.duoduovv.common.domain.Version
 import com.duoduovv.cinema.databinding.FragmentCinemaBinding
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication

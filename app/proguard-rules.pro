@@ -85,6 +85,7 @@
 -keep class com.duoduovv.hotspot.bean.**{*;}
 -keep class com.duoduovv.movie.bean.**{*;}
 -keep class com.duoduovv.personal.bean.**{*;}
+-keep class com.duoduovv.common.domain.**{*;}
 
 #httpdns
 -keep class com.taobao.** {*;}
