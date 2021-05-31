@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTBannerAd
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieAlbumAdapter
@@ -15,6 +16,7 @@ import com.duoduovv.movie.component.MovieDetailCallback
 import com.duoduovv.movie.databinding.FragmentMovieDetailBinding
 import com.duoduovv.room.domain.CollectionBean
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseFragment
 
 /**
@@ -126,8 +128,22 @@ class MovieDetailFragment : BaseFragment() {
             mBind.layoutZhuanJi.visibility = View.GONE
         }
         //加载广告
+        if (!StringUtils.isEmpty(AdvertBridge.MOVIE_DETAIL_BANNER)){
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE){
+                initTTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
+            }else{
+                initGDTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
+            }
+        }
+    }
+
+    private fun initGDTAd(posId:String){
         val gdtBannerAd = GDTBannerAd()
-        gdtBannerAd.initBanner(context as Activity, "5011588732659291", mBind.adContainer)
+        gdtBannerAd.initBanner(context as Activity, posId, mBind.adContainer)
+    }
+
+    private fun initTTAd(posId: String){
+
     }
 
     /**

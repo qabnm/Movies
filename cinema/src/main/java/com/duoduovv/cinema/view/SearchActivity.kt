@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.KeyEvent
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.R
@@ -18,6 +19,7 @@ import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BridgeActivity
 import dc.android.tools.LiveDataBus
 
@@ -65,27 +67,31 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
                 mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
             }
         })
-        //请求广告
-        initGDTAd()
-//        initTTAd()
+        if (!StringUtils.isEmpty(AdvertBridge.SEARCH)){
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE){
+                initTTAd(AdvertBridge.SEARCH)
+            }else{
+                initGDTAd(AdvertBridge.SEARCH)
+            }
+        }
     }
 
     /**
      * 请求穿山甲广告
      */
-    private fun initTTAd() {
+    private fun initTTAd(posId:String) {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(this, "946164817", 0f, 0f, mBind.container)
+        ttInfoAd?.initTTInfoAd(this, posId, 0f, 0f, mBind.container)
     }
 
     /**
      * 请求广点通的信息流广告
      */
-    private fun initGDTAd() {
+    private fun initGDTAd(posId: String) {
         gdtInfoAd = GDTInfoAd()
         gdtInfoAd?.initInfoAd(
             this,
-            "5051684812707537",
+            posId,
             mBind.container,
             390,
             0

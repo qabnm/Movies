@@ -32,7 +32,6 @@ class MainPageAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         CinemaContext.TYPE_BANNER -> {
-            bean.mainPageBean.banners?.add(0, Banner("","","",""))
             val bannerBind = ItemMainBannerBinding.inflate(LayoutInflater.from(context),parent,false)
             BannerViewHolder(bannerBind)
         }

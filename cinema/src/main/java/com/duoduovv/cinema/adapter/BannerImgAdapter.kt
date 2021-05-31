@@ -34,15 +34,15 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     }
 
     override fun onBindView(holder: BannerViewHolder, data: Banner?, position: Int, size: Int) {
-        if (position == 0) {
-            //加载广告
-//            initTTAd(holder)
-            initGDTAd(holder)
-        } else {
+//        if (position == 0) {
+//            //加载广告
+////            initTTAd(holder)
+//            initGDTAd(holder)
+//        } else {
             GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = holder.bind.imgBanner)
 //            mBind.imgBanner.load(data?.img)
             holder.bind.tvTitle.text = data?.title
-        }
+//        }
     }
 
     /**

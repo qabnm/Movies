@@ -6,6 +6,10 @@ import androidx.fragment.app.DialogFragment
 import com.duoduovv.common.R
 import com.duoduovv.common.databinding.DialogShareBinding
 import com.duoduovv.weichat.WeiChatBridgeContext
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.shareToQQ
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.shareToQQZone
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatCircle
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatFriend
 
 /**
  * @author: jun.liu
@@ -28,9 +32,11 @@ class ShareDialogFragment(private val listener: OnShareClickListener?) :
 
     private fun initViews() {
         mBind.tvCancel.setOnClickListener { dismiss() }
-        mBind.layoutQQ.setOnClickListener { listener?.onQQShareClick(WeiChatBridgeContext.shareToQQ) }
-        mBind.layoutZone.setOnClickListener { listener?.onQQShareClick(WeiChatBridgeContext.shareToQQZone) }
+        mBind.layoutQQ.setOnClickListener { listener?.onQQShareClick(shareToQQ) }
+        mBind.layoutZone.setOnClickListener { listener?.onQQShareClick(shareToQQZone) }
         mBind.layoutCopy.setOnClickListener { listener?.onCopyClick() }
+        mBind.layoutWeiChat.setOnClickListener { listener?.onWeiChatClick(weiChatFriend) }
+        mBind.layoutWeiChatCircle.setOnClickListener { listener?.onWeiChatClick(weiChatCircle) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -56,5 +62,6 @@ class ShareDialogFragment(private val listener: OnShareClickListener?) :
     interface OnShareClickListener {
         fun onQQShareClick(flag: Int)
         fun onCopyClick()
+        fun onWeiChatClick(flag: Int)
     }
 }

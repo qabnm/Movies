@@ -5,6 +5,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.BitmapFactory
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -403,6 +404,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val clipData = ClipData.newPlainText(null, SHARE_LINK)
             clipboard.setPrimaryClip(clipData)
             AndroidUtils.toast("复制成功，快去打开看看吧！", this@MovieDetailActivity)
+        }
+
+        override fun onWeiChatClick(flag: Int) {
+            WeiChatTool.regToWx(BaseApplication.baseCtx)
+            WeiChatTool.weiChatShareAsWeb(
+                SHARE_LINK,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                BitmapFactory.decodeResource(resources, R.drawable.share_icon),
+                flag
+            )
         }
     }
 

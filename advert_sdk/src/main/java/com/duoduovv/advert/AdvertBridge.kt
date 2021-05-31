@@ -21,6 +21,7 @@ class AdvertBridge {
         //腾讯广点通的appId
         private const val gdtAppId = "1111833726"
         private const val appName = "多多影视大全"
+        const val TT_AD = "ttAd"
 
         /**
          * 广告类型 穿山甲 广点通

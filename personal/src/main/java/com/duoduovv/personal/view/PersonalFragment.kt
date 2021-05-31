@@ -3,6 +3,7 @@ package com.duoduovv.personal.view
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -294,6 +295,17 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             val clipData = ClipData.newPlainText(null, SHARE_LINK)
             clipboard.setPrimaryClip(clipData)
             AndroidUtils.toast("复制成功，快去打开看看吧！", requireActivity())
+        }
+
+        override fun onWeiChatClick(flag: Int) {
+            WeiChatTool.regToWx(BaseApplication.baseCtx)
+            WeiChatTool.weiChatShareAsWeb(
+                SHARE_LINK,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                BitmapFactory.decodeResource(resources, R.drawable.share_icon),
+                flag
+            )
         }
     }
 }

@@ -12,6 +12,7 @@
         android:layout_marginStart="@dimen/dp_10"
         android:layout_marginTop="@dimen/dp_10"
         android:includeFontPadding="false"
+        android:paddingBottom="@dimen/dp_20"
         android:text="分享到"
         android:textColor="@color/color000000"
         android:textSize="@dimen/sp_11"
@@ -19,16 +20,69 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/layoutQQ"
-        android:layout_width="wrap_content"
+        android:id="@+id/layoutWeiChat"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
-        android:layout_marginTop="@dimen/dp_20"
+        android:layout_marginStart="@dimen/dp_10"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="@dimen/dp_10"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/layoutWeiChatCircle"
         app:layout_constraintTop_toBottomOf="@+id/tvShare">
+
+        <ImageView
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:src="@drawable/share_weichat" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:includeFontPadding="false"
+            android:text="朋友圈"
+            android:textColor="@color/color000000"
+            android:textSize="@dimen/sp_10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutWeiChatCircle"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_10"
+        app:layout_constraintLeft_toRightOf="@+id/layoutWeiChat"
+        app:layout_constraintRight_toLeftOf="@+id/layoutQQ"
+        app:layout_constraintTop_toTopOf="@+id/layoutWeiChat">
+
+        <ImageView
+            android:layout_width="@dimen/dp_50"
+            android:layout_height="@dimen/dp_50"
+            android:src="@drawable/share_weichat_circle" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_10"
+            android:includeFontPadding="false"
+            android:text="朋友圈"
+            android:textColor="@color/color000000"
+            android:textSize="@dimen/sp_10" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutQQ"
+        android:layout_width="0px"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/dp_10"
+        app:layout_constraintLeft_toRightOf="@+id/layoutWeiChatCircle"
+        app:layout_constraintRight_toLeftOf="@+id/layoutZone"
+        app:layout_constraintTop_toTopOf="@+id/layoutWeiChat">
 
         <ImageView
             android:layout_width="@dimen/dp_50"
@@ -47,13 +101,13 @@
 
     <LinearLayout
         android:id="@+id/layoutZone"
-        android:layout_width="wrap_content"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="@dimen/dp_10"
         app:layout_constraintLeft_toRightOf="@+id/layoutQQ"
+        app:layout_constraintRight_toLeftOf="@+id/layoutCopy"
         app:layout_constraintTop_toTopOf="@id/layoutQQ">
 
         <ImageView
@@ -73,13 +127,14 @@
 
     <LinearLayout
         android:id="@+id/layoutCopy"
-        android:layout_width="wrap_content"
+        android:layout_width="0px"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dp_20"
+        android:layout_marginEnd="@dimen/dp_10"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingBottom="@dimen/dp_10"
         app:layout_constraintLeft_toRightOf="@+id/layoutZone"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/layoutQQ">
 
         <ImageView

@@ -6,11 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.R
 import com.duoduovv.main.databinding.DialogLogoutBinding
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
+import dc.android.bridge.util.StringUtils
 
 /**
  * @author: jun.liu
@@ -43,26 +46,31 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
             ttInfoAd?.destroyInfoAd()
             listener?.onLogSureClick()
         }
-        initGDTAd()
-//        initTTAd()
+        if (!StringUtils.isEmpty(AdvertBridge.LOGOUT)){
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE){
+                initTTAd(AdvertBridge.LOGOUT)
+            }else{
+                initGDTAd(AdvertBridge.LOGOUT)
+            }
+        }
     }
 
     /**
      * 请求穿山甲广告
      */
-    private fun initTTAd(){
+    private fun initTTAd(posId:String){
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(requireActivity(),"946107576",0f,0f,mBind.layoutContainer)
+        ttInfoAd?.initTTInfoAd(requireActivity(),posId,0f,0f,mBind.layoutContainer)
     }
 
     /**
      * 请求广点通的信息流广告
      */
-    private fun initGDTAd() {
+    private fun initGDTAd(posId: String) {
         gdtInfoAd = GDTInfoAd()
         gdtInfoAd?.initInfoAd(
             requireActivity(),
-            "7021380766691974",
+            posId,
             mBind.layoutContainer,
             270,
             105

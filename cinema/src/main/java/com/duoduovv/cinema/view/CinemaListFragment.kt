@@ -57,7 +57,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         }
         viewModel.getMain().observe(this, { setData(viewModel.getMain().value) })
         viewModel.getMainRecommend().observe(this, {
-//            dismissLoading()
             val value = viewModel.getMainRecommend().value
             mainBean?.mainRecommendBean?.recommends = value
             mainBean?.let { adapter?.notifyDataChanged(it) }
@@ -67,7 +66,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     }
 
     private fun setData(value: MainBean?) {
-//        dismissLoading()
         mainBean = value
         if (null != value) {
             mBind.rvList.visibility = View.VISIBLE
@@ -97,7 +95,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     }
 
     override fun initData() {
-//        showLoading()
         column = arguments?.getString(ID) ?: ""
         viewModel.main(1, column)
     }
@@ -150,7 +147,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * 今日推荐查看更多
      */
     override fun onTodayMoreClick(dataList: List<FilmRecommendBean>) {
-//        (rvList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(3, 0)
         ARouter.getInstance().build(RouterPath.PATH_RECOMMEND)
             .withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
     }
