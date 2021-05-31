@@ -613,8 +613,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 跳转H5页面
      */
     override fun onStartClick() {
-        ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
-            .withString(TITLE, title).navigation()
+        if (!StringUtils.isEmpty(playUrl)) {
+            ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
+                .withString(TITLE, title).navigation()
+        }
     }
 
     /**
@@ -630,7 +632,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (vid == it.movieItems[i].vid) pos = i
             }
             it.movieItems[pos].isSelect = true
-            detailAdapter?.notifyItemChanged(0)
+            fragment?.updateSelect(it.movieItems,pos)
+//            detailAdapter?.notifyItemChanged(0)
             onSelectClick(vid, movieId, vidTitle)
         }
     }

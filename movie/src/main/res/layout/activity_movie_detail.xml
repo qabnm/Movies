@@ -1,23 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
-    <com.duoduovv.common.util.SampleCoverVideo
-        android:id="@+id/videoPlayer"
+    <FrameLayout
+        android:id="@+id/layoutVideo"
         android:layout_width="match_parent"
         android:layout_height="0px"
         app:layout_constraintDimensionRatio="75:42"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.duoduovv.common.util.SampleCoverVideo
+            android:id="@+id/videoPlayer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <!--<androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color000000">
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>-->
+    </FrameLayout>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0px"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/videoPlayer">
+        app:layout_constraintTop_toBottomOf="@+id/layoutVideo">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -33,13 +46,13 @@
                 android:id="@+id/rvList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_movie_recommend"
-                app:spanCount="3"
-                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
                 android:paddingStart="@dimen/dp_10"
                 android:paddingEnd="@dimen/dp_5"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+                app:spanCount="3"
+                tools:itemCount="3"
+                tools:listitem="@layout/item_movie_recommend" />
         </LinearLayout>
 
     </androidx.core.widget.NestedScrollView>

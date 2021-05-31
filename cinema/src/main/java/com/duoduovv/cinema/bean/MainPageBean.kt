@@ -23,7 +23,8 @@ data class Banner(
     val jumpType: String,
     @SerializedName("movie_id")
     val movieId: String,
-    val title: String
+    val title: String,
+    val type: String? = null
 )
 
 /**

@@ -1,6 +1,5 @@
 package com.duoduovv.movie.view
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -34,6 +33,10 @@ class MovieDetailFragment : BaseFragment() {
 
     private var callback: MovieDetailCallback? = null
     private var collectionBean: CollectionBean? = null
+    private var gdtBannerAd: GDTBannerAd? = null
+    private var ttBanner: TTBannerAd? = null
+    private var tvAdapter:MovieEpisodesTvAdapter?=null
+    private var albumAdapter: MovieAlbumAdapter?=null
 
     fun setCallback(callback: MovieDetailCallback) {
         this.callback = callback
@@ -41,7 +44,7 @@ class MovieDetailFragment : BaseFragment() {
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieDetailBinding
-        LiveDataBus.get().with("adClose",String::class.java).observe(this, {
+        LiveDataBus.get().with("adClose", String::class.java).observe(this, {
             if ("adClose" == it) mBind.adContainer.visibility = View.GONE
         })
     }
@@ -75,8 +78,8 @@ class MovieDetailFragment : BaseFragment() {
             } else {
                 mBind.tvWhere.visibility = View.INVISIBLE
             }
-            val adapter = MovieEpisodesTvAdapter(detailBean.movieItems as MutableList<MovieItem>)
-            mBind.rvList.adapter = adapter
+            tvAdapter = MovieEpisodesTvAdapter(detailBean.movieItems as MutableList<MovieItem>)
+            mBind.rvList.adapter = tvAdapter
             for (i in detailBean.movieItems.indices) {
                 if (detailBean.movieItems[i].isSelect) {
                     if (i != 0) (mBind.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
@@ -85,7 +88,7 @@ class MovieDetailFragment : BaseFragment() {
                     )
                 }
             }
-            adapter.setOnItemClickListener { ad, _, position ->
+            tvAdapter?.setOnItemClickListener { ad, _, position ->
                 val data = (ad as MovieEpisodesTvAdapter).data
                 for (i in data.indices) {
                     data[i].isSelect = false
@@ -102,8 +105,8 @@ class MovieDetailFragment : BaseFragment() {
         if (BridgeContext.TYPE_ALBUM == detailBean.movie.movieFlag) {
             //综艺节目
             mBind.layoutZhuanJi.visibility = View.VISIBLE
-            val adapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
-            mBind.rvAlbum.adapter = adapter
+            albumAdapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
+            mBind.rvAlbum.adapter = albumAdapter
             for (i in detailBean.movieItems.indices) {
                 if (detailBean.movieItems[i].isSelect) {
                     if (i != 0) (mBind.rvAlbum.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
@@ -112,7 +115,7 @@ class MovieDetailFragment : BaseFragment() {
                     )
                 }
             }
-            adapter.setOnItemClickListener { ad, _, position ->
+            albumAdapter?.setOnItemClickListener { ad, _, position ->
                 val data = (ad as MovieAlbumAdapter).data
                 for (i in data.indices) {
                     data[i].isSelect = false
@@ -142,13 +145,35 @@ class MovieDetailFragment : BaseFragment() {
         }
     }
 
-    private var gdtBannerAd: GDTBannerAd? = null
-    private var ttBanner: TTBannerAd? = null
+    /**
+     * 更新选集的adapter选中的位置
+     * @param movieItem List<MovieItem>
+     * @param pos Int
+     */
+    fun updateSelect(movieItem: List<MovieItem>,pos:Int){
+        tvAdapter?.let {
+            it.setList(movieItem)
+            mBind.rvList.layoutManager?.scrollToPosition(pos)
+        }
+        albumAdapter?.let {
+            it.setList(movieItem)
+            mBind.rvAlbum.layoutManager?.scrollToPosition(pos)
+        }
+    }
+
+    /**
+     * 广点通广告
+     * @param posId String
+     */
     private fun initGDTAd(posId: String) {
         gdtBannerAd = GDTBannerAd()
         gdtBannerAd?.initBanner(requireActivity(), posId, mBind.adContainer)
     }
 
+    /**
+     * 穿山甲广告
+     * @param posId String
+     */
     private fun initTTAd(posId: String) {
         ttBanner = TTBannerAd()
         ttBanner?.initBanner(requireActivity(), posId, 0f, 0f, mBind.adContainer)

@@ -3,16 +3,13 @@ package com.duoduovv.cinema.adapter
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
-import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
-import com.qq.e.ads.banner2.UnifiedBannerView
 import com.youth.banner.adapter.BannerAdapter
 import dc.android.bridge.util.GlideUtils
 
@@ -26,42 +23,49 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     private var ttInfoAd: TTInfoAd? = null
     private var gdtInfoAd: GDTInfoAd? = null
 
-    class BannerViewHolder(val bind:ItemBannerViewBinding) : RecyclerView.ViewHolder(bind.root)
+    class BannerViewHolder(val bind: ItemBannerViewBinding) : RecyclerView.ViewHolder(bind.root)
 
     override fun onCreateHolder(parent: ViewGroup?, viewType: Int): BannerViewHolder {
-        val bind = ItemBannerViewBinding.inflate(LayoutInflater.from(context),parent ,false)
+        val bind = ItemBannerViewBinding.inflate(LayoutInflater.from(context), parent, false)
         return BannerViewHolder(bind)
     }
 
     override fun onBindView(holder: BannerViewHolder, data: Banner?, position: Int, size: Int) {
-//        if (position == 0) {
-//            //加载广告
-////            initTTAd(holder)
-//            initGDTAd(holder)
-//        } else {
-            GlideUtils.setImg(context = context, url = data?.img ?: "", imageView = holder.bind.imgBanner)
+        if (data?.type == "ad") {
+            //加载广告
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
+                initTTAd(holder.bind.layoutContainer, AdvertBridge.MAIN_PAGE_BANNER)
+            } else {
+                initGDTAd(holder.bind.layoutContainer, AdvertBridge.MAIN_PAGE_BANNER)
+            }
+        } else {
+            GlideUtils.setImg(
+                context = context,
+                url = data?.img ?: "",
+                imageView = holder.bind.imgBanner
+            )
 //            mBind.imgBanner.load(data?.img)
             holder.bind.tvTitle.text = data?.title
-//        }
+        }
     }
 
     /**
      * 请求穿山甲广告
      */
-    private fun initTTAd(holder: BannerViewHolder) {
+    private fun initTTAd(container: ViewGroup, posId: String) {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(context as Activity, "946164816", 0f, 0f, holder.bind.layoutContainer)
+        ttInfoAd?.initTTInfoAd(context as Activity, posId, 0f, 0f, container)
     }
 
     /**
      * 初始化广点通广告
      */
-    private fun initGDTAd(holder: BannerViewHolder) {
+    private fun initGDTAd(container: ViewGroup, posId: String) {
         gdtInfoAd = GDTInfoAd()
-        gdtInfoAd?.initInfoAd(context as Activity, "1031395106138231",holder.bind.layoutContainer,375,0)
+        gdtInfoAd?.initInfoAd(context as Activity, posId, container, 380, 0)
     }
 
-    fun onDestroy(){
+    fun onDestroy() {
         ttInfoAd?.destroyInfoAd()
         gdtInfoAd?.destroyInfoAd()
     }
