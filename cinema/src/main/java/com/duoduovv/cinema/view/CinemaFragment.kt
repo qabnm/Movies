@@ -10,18 +10,20 @@ import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
-import com.duoduovv.common.domain.Column
-import com.duoduovv.common.domain.Version
 import com.duoduovv.cinema.databinding.FragmentCinemaBinding
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.component.UpgradeDialogFragment
+import com.duoduovv.common.domain.Column
+import com.duoduovv.common.domain.ConfigureBean
+import com.duoduovv.common.domain.Version
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
+import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.OsUtils
@@ -42,6 +44,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
     private var bean: Version? = null
     private lateinit var mBind: FragmentCinemaBinding
+    private var configureBean: ConfigureBean? = null
 
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCinemaBinding.inflate(inflater, container, false)
@@ -56,15 +59,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         }
         viewModel.getConfigure().observe(this, {
             val result = viewModel.getConfigure().value?.data
-            val columns = result?.columns
-            initFragment(columns)
-            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, result?.way ?: "")
-            mBind.imgHistory.visibility =
-                if (result?.way == WAY_VERIFY) View.INVISIBLE else View.VISIBLE
-            hotList = result?.hotSearch
-            BaseApplication.hotList = hotList
-            this.bean = result?.version
-            checkUpdate(result?.version)
+            initConfig(result)
         })
         viewModel.getProgress().observe(this, {
             val progress = viewModel.getProgress().value
@@ -77,6 +72,25 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         })
         mBind.imgHistory.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
+        }
+        configureBean = arguments?.getParcelable(DATA)
+    }
+
+    /**
+     *
+     * @param configureBean ConfigureBean?
+     */
+    private fun initConfig(configureBean: ConfigureBean?) {
+        configureBean?.let {
+            val columns = it.columns
+            initFragment(columns)
+            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, it.way)
+            mBind.imgHistory.visibility =
+                if (it.way == WAY_VERIFY) View.INVISIBLE else View.VISIBLE
+            hotList = it.hotSearch
+            BaseApplication.hotList = hotList
+            this.bean = it.version
+            checkUpdate(it.version)
         }
     }
 
@@ -132,6 +146,8 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
 
     override fun initData() {
         Log.i("address", "${SharedPreferencesHelper.helper.getValue(ADDRESS, "")}")
-        viewModel.configure()
+        configureBean?.let {
+            initConfig(it)
+        } ?: run { viewModel.configure() }
     }
 }

@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentTransaction
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_CINEMA
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE
@@ -15,6 +16,7 @@ import com.duoduovv.main.databinding.ActivityMainBinding
 import com.duoduovv.weichat.WeiChatTool
 import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.view.BaseFragment
@@ -38,6 +40,7 @@ class MainActivity : BridgeActivity() {
     //    private var hotSpotFragment: BaseFragment? = null
     private var movieFragment: BaseFragment? = null
     private var mineFragment: BaseFragment? = null
+    private var data:ConfigureBean?=null
 
     override fun showStatusBarView() = false
 
@@ -52,6 +55,7 @@ class MainActivity : BridgeActivity() {
     }
 
     override fun initData(savedInstanceState: Bundle?) {
+        data = intent.getParcelableExtra(DATA)
         mBind.navigation.itemIconTintList = null
         if (savedInstanceState != null) {
             currentPosition = savedInstanceState.getInt(position)
@@ -120,10 +124,18 @@ class MainActivity : BridgeActivity() {
     ) {
         currentPosition = position
         fragment.takeIf { null != fragment }?.also { transaction.show(it) } ?: run {
-            (ARouter.getInstance().build(path).withString(BridgeContext.TYPE_ID, typeId)
-                .navigation() as? BaseFragment)?.let {
-                getFragment(path, it)
-                transaction.add(R.id.layoutContainer, it, path)
+            if (position == 0){
+                (ARouter.getInstance().build(path).withString(TYPE_ID, typeId).withParcelable(DATA,data)
+                    .navigation() as? BaseFragment)?.let {
+                    getFragment(path, it)
+                    transaction.add(R.id.layoutContainer, it, path)
+                }
+            }else{
+                (ARouter.getInstance().build(path).withString(TYPE_ID, typeId)
+                    .navigation() as? BaseFragment)?.let {
+                    getFragment(path, it)
+                    transaction.add(R.id.layoutContainer, it, path)
+                }
             }
         }
     }

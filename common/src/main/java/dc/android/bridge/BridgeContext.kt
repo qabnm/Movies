@@ -12,6 +12,7 @@ open class BridgeContext {
         const val RUNTIME_ERROR="运行异常"
         const val TOKEN_ERROR = "登录超时"
         const val NOTIFICATION = "notification"
+        const val DATA = "data"
 
         const val ADDRESS = "address"
         const val ID = "id"

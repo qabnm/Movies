@@ -16,8 +16,8 @@ data class ConfigureBean(
     val hotSearch: List<String>,
     val way: String,
     val adType: String,
-    val ttAd: AdvertBean,
-    val gdtAd: AdvertBean
+    val ttAd: AdvertBean?,
+    val gdtAd: AdvertBean?
 ) : Parcelable
 
 @Parcelize

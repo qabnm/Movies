@@ -9,6 +9,7 @@ import com.duoduovv.advert.gdtad.GDTSplashAd
 import com.duoduovv.advert.ttad.TTSplashAds
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.AlertDialogFragment
+import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.location.LocationHelper
@@ -16,15 +17,18 @@ import com.duoduovv.main.R
 import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.duoduovv.main.databinding.ActivitySplashBinding
+import com.duoduovv.main.viewmodle.MainViewModel
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
+import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.GDT_AD_SPLASH_ID
 import dc.android.bridge.BridgeContext.Companion.TT_AD_SPLASH_ID
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
+import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.bridge.view.BridgeActivity
 import dc.android.tools.LiveDataBus
 
@@ -32,10 +36,11 @@ import dc.android.tools.LiveDataBus
 /**
  * @author: jun.liu
  * @date: 2021/1/22 11:48
- * @des:启动页
+ * @des:启动页 获取配置接口相关信息
  */
-class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickListener {
+class SplashActivity : BaseViewModelActivity<MainViewModel>(), PrivacyDialogFragment.OnDialogBtnClickListener {
     override fun getLayoutId() = R.layout.activity_splash
+    override fun providerVMClass() = MainViewModel::class.java
     private lateinit var mBind: ActivitySplashBinding
     override fun showStatusBarView() = false
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
@@ -46,18 +51,38 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
     private var alertDialogFragment: AlertDialogFragment? = null
     private var locationHelper: LocationHelper? = null
     private var gdtSplashAd: GDTSplashAd? = null
+    private var configureBean: ConfigureBean? = null
 
     override fun initView() {
         mBind = ActivitySplashBinding.bind(layoutView)
+        viewModel.getConfigure().observe(this, { initConfig(viewModel.getConfigure().value?.data) })
+        viewModel.configure()
     }
 
-    override fun initData() {
+    private fun initDataS() {
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
             false -> {
                 privacyDialogFragment = PrivacyDialogFragment(this)
                 privacyDialogFragment?.showNow(supportFragmentManager, "privacy")
             }
             else -> location()
+        }
+    }
+
+    override fun showLoading() {}
+
+    override fun dismissLoading() {
+        initDataS()
+    }
+
+    /**
+     * 初始化配置接口
+     * @param configureBean ConfigureBean?
+     */
+    private fun initConfig(configureBean: ConfigureBean?) {
+        configureBean?.let {
+            SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, it.way)
+            this.configureBean = it
         }
     }
 
@@ -68,16 +93,28 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         LiveDataBus.get().with("start", String::class.java).observe(this, {
             if ("start" == it) start()
         })
-        //穿山甲开屏广告
-//        TTSplashAds().initTTSplashAd(this, TT_AD_SPLASH_ID, 4000, mBind.adContainer)
-        //广点通的广告
-        initGDTSplash()
+        configureBean?.let {
+            if ("ttAd" == it.adType){
+                if (!StringUtils.isEmpty(it.ttAd?.splash)){
+                    //穿山甲开屏广告
+                    TTSplashAds().initTTSplashAd(this, it.ttAd!!.splash, 4000, mBind.adContainer)
+                }
+            }else{
+                if (!StringUtils.isEmpty(it.gdtAd?.splash)){
+                    //广点通的广告
+                    initGDTSplash(it.gdtAd!!.splash)
+                }
+            }
+        }?:run {
+            //默认用广点通的开屏广告
+            initGDTSplash("9031281782757191")
+        }
     }
 
     /**
      * 广点通开屏广告
      */
-    private fun initGDTSplash() {
+    private fun initGDTSplash(posId:String) {
         //SDK不强制校验下列权限（即:无下面权限sdk也可正常工作），但建议开发者申请下面权限，尤其是READ_PHONE_STATE权限
         //READ_PHONE_STATE权限用于允许SDK获取用户标识
         //针对单媒体的用户，允许获取权限的，投放定向广告；不允许获取权限的用户，投放通投广告，媒体可以选择是否把用户标识数据提供给优量汇，并承担相应广告填充和eCPM单价下降损失的结果
@@ -92,7 +129,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
         }.request { _, _, _ ->
             //不管有没有获取到想要的权限都请求广点通的广告
             gdtSplashAd = GDTSplashAd()
-            gdtSplashAd?.initGDTSplash(this, mBind.adContainer, GDT_AD_SPLASH_ID)
+            gdtSplashAd?.initGDTSplash(this, mBind.adContainer, posId)
         }
     }
 
@@ -189,10 +226,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
                 SharedPreferencesHelper.helper.getValue(BridgeContext.PROVINCE, "") as String
             val dfCity = SharedPreferencesHelper.helper.getValue(BridgeContext.CITY, "") as String
             val dfArea = SharedPreferencesHelper.helper.getValue(BridgeContext.AREA, "") as String
-            if (StringUtils.isEmpty(dfProvince) || StringUtils.isEmpty(dfCity) || StringUtils.isEmpty(
-                    dfArea
-                )
-            ) {
+            if (StringUtils.isEmpty(dfProvince) || StringUtils.isEmpty(dfCity) || StringUtils.isEmpty(dfArea)) {
                 //没有默认地址
                 SharedPreferencesHelper.helper.setValue(
                     ADDRESS,
@@ -227,7 +261,7 @@ class SplashActivity : BridgeActivity(), PrivacyDialogFragment.OnDialogBtnClickL
      */
     private fun start() {
         locationHelper?.destroyLocation()
-        ARouter.getInstance().build(RouterPath.PATH_MAIN).navigation()
+        ARouter.getInstance().build(RouterPath.PATH_MAIN).withParcelable(DATA, configureBean).navigation()
         this.finish()
     }
 
