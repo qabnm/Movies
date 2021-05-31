@@ -10,6 +10,8 @@ import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
+import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.util.RouterPath
@@ -53,6 +55,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun getLayoutId() = R.layout.fragment_personal
     override fun providerVMClass() = WeiChatViewModel::class.java
     private lateinit var mBind: FragmentPersonalBinding
+    private var ttAd: TTInfoAd? = null
+    private var gdtAd: GDTInfoAd? = null
 
     override fun initView() {
         mBind = baseBinding as FragmentPersonalBinding
@@ -123,6 +127,28 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             viewModel.userInfo()
         }
         setFeedbackUi()
+        initTTAd()
+//        initGDTAd()
+    }
+
+    /**
+     * 初始化穿山甲广告
+     * @param posId String
+     */
+    private fun initTTAd(posId: String = "946168468") {
+        ttAd = TTInfoAd()
+        ttAd?.initTTInfoAd(requireActivity(), posId, 0f, 0f, mBind.vTop)
+    }
+
+    private fun initGDTAd(posId: String = "8001491178061443") {
+        gdtAd = GDTInfoAd()
+        gdtAd?.initInfoAd(requireActivity(), posId, mBind.vTop, 390, 0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ttAd?.destroyInfoAd()
+        gdtAd?.destroyInfoAd()
     }
 
     /**

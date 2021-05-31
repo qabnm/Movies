@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTBannerAd
+import com.duoduovv.advert.ttad.TTBannerAd
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieAlbumAdapter
 import com.duoduovv.movie.adapter.MovieEpisodesTvAdapter
@@ -18,6 +19,7 @@ import com.duoduovv.room.domain.CollectionBean
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseFragment
+import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu
@@ -39,6 +41,9 @@ class MovieDetailFragment : BaseFragment() {
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieDetailBinding
+        LiveDataBus.get().with("adClose",String::class.java).observe(this, {
+            if ("adClose" == it) mBind.adContainer.visibility = View.GONE
+        })
     }
 
     /**
@@ -128,22 +133,31 @@ class MovieDetailFragment : BaseFragment() {
             mBind.layoutZhuanJi.visibility = View.GONE
         }
         //加载广告
-        if (!StringUtils.isEmpty(AdvertBridge.MOVIE_DETAIL_BANNER)){
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE){
+        if (!StringUtils.isEmpty(AdvertBridge.MOVIE_DETAIL_BANNER)) {
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
                 initTTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
-            }else{
+            } else {
                 initGDTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
             }
         }
     }
 
-    private fun initGDTAd(posId:String){
-        val gdtBannerAd = GDTBannerAd()
-        gdtBannerAd.initBanner(context as Activity, posId, mBind.adContainer)
+    private var gdtBannerAd: GDTBannerAd? = null
+    private var ttBanner: TTBannerAd? = null
+    private fun initGDTAd(posId: String) {
+        gdtBannerAd = GDTBannerAd()
+        gdtBannerAd?.initBanner(requireActivity(), posId, mBind.adContainer)
     }
 
-    private fun initTTAd(posId: String){
+    private fun initTTAd(posId: String) {
+        ttBanner = TTBannerAd()
+        ttBanner?.initBanner(requireActivity(), posId, 0f, 0f, mBind.adContainer)
+    }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        ttBanner?.onDestroy()
+        gdtBannerAd?.onDestroy()
     }
 
     /**
