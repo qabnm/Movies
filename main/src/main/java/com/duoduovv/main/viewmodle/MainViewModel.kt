@@ -30,20 +30,22 @@ class MainViewModel : BaseViewModel() {
             AdvertBridge.AD_TYPE = bean.adType
             val ttBean = bean.ttAd
             val gdtBean = bean.gdtAd
-            if ("ttAd" == bean.adType){
+            if ("ttAd" == bean.adType) {
                 //这是穿山甲的广告
-                AdvertBridge.SPLASH = ttBean?.splash?:""
-                AdvertBridge.LOGOUT = ttBean?.logout?:""
-                AdvertBridge.MAIN_PAGE_BANNER = ttBean?.mainPageBanner?:""
-                AdvertBridge.SEARCH = ttBean?.search?:""
-                AdvertBridge.MOVIE_DETAIL_BANNER = ttBean?.movieDetailBanner?:""
-            }else{
+                AdvertBridge.SPLASH = ttBean?.splash ?: ""
+                AdvertBridge.LOGOUT = ttBean?.logout ?: ""
+                AdvertBridge.MAIN_PAGE_BANNER = ttBean?.mainPageBanner ?: ""
+                AdvertBridge.SEARCH = ttBean?.search ?: ""
+                AdvertBridge.MOVIE_DETAIL_BANNER = ttBean?.movieDetailBanner ?: ""
+                AdvertBridge.CENTER_TOP = ttBean?.centerTop ?: ""
+            } else {
                 //这是广点通的广告
-                AdvertBridge.SPLASH = gdtBean?.splash?:""
-                AdvertBridge.LOGOUT = gdtBean?.logout?:""
-                AdvertBridge.MAIN_PAGE_BANNER = gdtBean?.mainPageBanner?:""
-                AdvertBridge.SEARCH = gdtBean?.search?:""
-                AdvertBridge.MOVIE_DETAIL_BANNER = gdtBean?.movieDetailBanner?:""
+                AdvertBridge.SPLASH = gdtBean?.splash ?: ""
+                AdvertBridge.LOGOUT = gdtBean?.logout ?: ""
+                AdvertBridge.MAIN_PAGE_BANNER = gdtBean?.mainPageBanner ?: ""
+                AdvertBridge.SEARCH = gdtBean?.search ?: ""
+                AdvertBridge.MOVIE_DETAIL_BANNER = gdtBean?.movieDetailBanner ?: ""
+                AdvertBridge.CENTER_TOP = gdtBean?.centerTop ?: ""
             }
             configure.postValue(result)
         }

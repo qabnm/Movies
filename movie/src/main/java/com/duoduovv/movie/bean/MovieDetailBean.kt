@@ -13,13 +13,13 @@ data class MovieDetailBean(
     val movieItems: List<MovieItem>,
     val recommends: List<DetailRecommend>,
     val way: String,
-    val playLine:String
+    val playLine: String
 )
 
 /**
  * 线路信息
  */
-data class LineList(val line: String, val name: String)
+data class LineList(val line: String, val name: String, var isDefault: Boolean = false)
 
 /**
  * 选集信息

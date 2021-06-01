@@ -1,5 +1,6 @@
 package dc.android.bridge.view
 
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
 import com.duoduovv.common.component.LoadingDialogFragment
@@ -31,7 +32,7 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
             viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
-        loadingDialog = LoadingDialogFragment()
+//        loadingDialog = LoadingDialogFragment()
     }
 
     override fun startObserve() {
@@ -48,8 +49,8 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
      * 异常处理
      */
     open fun requestError(throwable: Throwable?) {
+        dismissLoading()
         throwable?.let {
-            dismissLoading()
             when (it) {
                 is UnknownHostException -> showError(NETWORK_ERROR)
                 is SocketTimeoutException -> showError(NETWORK_ERROR)
@@ -59,19 +60,28 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
                 is RuntimeException -> showError(RUNTIME_ERROR)
                 is BaseRepository.TokenException -> showError(TOKEN_ERROR)
                 is BaseRepository.ParameterException -> parameterError(it.message.toString())
+                is BaseRepository.JXException -> onJxError()
                 else -> showError(it.message)
             }
         }
     }
+    open fun onJxError(){}
 
     open fun showLoading() {
+        loadingDialog = LoadingDialogFragment()
+        Log.d("dialog","走到showLoading方法了")
         if (loadingDialog?.isAdded == false) {
             loadingDialog?.showNow(supportFragmentManager, "loading")
+            Log.d("dialog","showLoading")
         }
     }
 
     open fun dismissLoading() {
-        if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
+        if (loadingDialog?.isAdded == true){
+            loadingDialog?.dismiss()
+            loadingDialog?.onDestroy()
+            Log.d("dialog","dismissLoading")
+        }
     }
 
     open fun showError(errMsg: String?) {

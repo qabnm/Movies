@@ -53,6 +53,8 @@ class AdvertBridge {
          */
         var MOVIE_DETAIL_BANNER = ""
 
+        var CENTER_TOP = ""
+
 
         /**
          * 初始化穿山甲SDK

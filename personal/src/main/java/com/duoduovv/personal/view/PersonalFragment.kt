@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
@@ -127,20 +128,25 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             viewModel.userInfo()
         }
         setFeedbackUi()
-        initTTAd()
-//        initGDTAd()
+        if (!StringUtils.isEmpty(AdvertBridge.CENTER_TOP)) {
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
+                initTTAd(AdvertBridge.CENTER_TOP)
+            } else {
+                initGDTAd(AdvertBridge.CENTER_TOP)
+            }
+        }
     }
 
     /**
      * 初始化穿山甲广告
      * @param posId String
      */
-    private fun initTTAd(posId: String = "946168468") {
+    private fun initTTAd(posId: String) {
         ttAd = TTInfoAd()
         ttAd?.initTTInfoAd(requireActivity(), posId, 0f, 0f, mBind.vTop)
     }
 
-    private fun initGDTAd(posId: String = "8001491178061443") {
+    private fun initGDTAd(posId: String) {
         gdtAd = GDTInfoAd()
         gdtAd?.initInfoAd(requireActivity(), posId, mBind.vTop, 390, 0)
     }

@@ -18,6 +18,7 @@ import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SampleCoverVideo
 import com.duoduovv.movie.R
+import com.duoduovv.movie.adapter.ChangePlayLineAdapter
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.*
 import com.duoduovv.movie.component.MovieDetailArtSelectDialog
@@ -125,6 +126,39 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val movieId = (adapter as MovieDetailAdapter).data[position].strId
             onMovieClick(movieId)
         }
+        mBind.imgError.setOnClickListener { finish() }
+    }
+
+    /**
+     * 播放出现错误的时候切换线路
+     */
+    private fun onPlayError(){
+        detailBean?.let {
+            mBind.layoutStateError.visibility = View.VISIBLE
+            val lineAdapter = ChangePlayLineAdapter()
+            mBind.rvLine.adapter = lineAdapter
+            val lineList = it.lineList
+            for (i in lineList.indices){
+                lineList[i].isDefault = false
+            }
+            for (i in lineList.indices){
+                if (lineList[i].line == line) lineList[i].isDefault = true
+            }
+            lineAdapter.setList(lineList)
+            lineAdapter.setOnItemClickListener { _, _, position ->
+                this.line = lineList[position].line
+                viewModel.moviePlayInfo(vid,movieId,line,1)
+                mBind.layoutStateError.visibility = View.GONE
+                for (i in it.lineList.indices){
+                    it.lineList[i].isDefault = false
+                }
+                it.lineList[position].isDefault = true
+            }
+        }
+    }
+
+    override fun onJxError() {
+        onPlayError()
     }
 
     /**
@@ -133,6 +167,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private val videoCallback = object : VideoPlayCallback() {
         override fun onPlayError(url: String?, vararg objects: Any?) {
             super.onPlayError(url, *objects)
+            onPlayError()
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
         }
 
@@ -173,7 +208,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                             movieItems[i].isSelect = false
                         }
                         movieItems[currentPlayPosition].isSelect = true
-                        detailAdapter?.notifyItemChanged(0)
+                        fragment?.updateSelect(it.movieItems,currentPlayPosition)
                     }
                 }
             }
@@ -525,6 +560,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 //        if (way == WAY_RELEASE) {
         //只有正常班的才会去请求接口
         viewModel.moviePlayInfo(vid, movieId, line, 1)
+        //清理掉当前正在播放的视频
+        mBind.videoPlayer.currentPlayer.release()
 //        }
     }
 
@@ -537,6 +574,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
+            mBind.videoPlayer.currentPlayer.release()
             updateHistoryDB()
 //            GSYVideoManager.releaseAllVideos()
             hasClickRecommend = true

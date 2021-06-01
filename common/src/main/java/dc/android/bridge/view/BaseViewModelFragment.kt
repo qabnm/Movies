@@ -29,7 +29,7 @@ abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
             viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
-        loadingDialog = LoadingDialogFragment()
+//        loadingDialog = LoadingDialogFragment()
     }
 
     override fun startObserve() {
@@ -66,13 +66,17 @@ abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     open fun tokenValid() {}
 
     private fun showLoading() {
+        loadingDialog = LoadingDialogFragment()
         if (loadingDialog?.isAdded == false) {
             loadingDialog?.showNow(childFragmentManager, "loading")
         }
     }
 
     private fun dismissLoading() {
-        if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
+        if (loadingDialog?.isAdded == true){
+            loadingDialog?.dismiss()
+            loadingDialog?.onDestroy()
+        }
     }
 
     open fun showError(errMsg: String?) {
