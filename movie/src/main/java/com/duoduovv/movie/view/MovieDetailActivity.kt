@@ -174,6 +174,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
         override fun onPrepared(url: String?, vararg objects: Any?) {
             super.onPrepared(url, *objects)
+            mBind.layoutStateError.visibility = View.GONE
             orientationUtils?.isEnable = mBind.videoPlayer.isRotateWithSystem
             if (currentLength > 0 && vidByQuery == vid) {
                 mBind.videoPlayer.seekTo(currentLength)
@@ -558,6 +559,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onSelectClick(vid: String, movieId: String, vidTitle: String) {
         this.vid = vid
         this.vidTitle = vidTitle
+        mBind.layoutStateError.visibility = View.GONE
 //        if (way == WAY_RELEASE) {
         //只有正常班的才会去请求接口
         viewModel.moviePlayInfo(vid, movieId, line, 1)
@@ -576,6 +578,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
             mBind.videoPlayer.currentPlayer.release()
+            mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()
 //            GSYVideoManager.releaseAllVideos()
             hasClickRecommend = true
@@ -652,7 +655,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 跳转H5页面
      */
     override fun onStartClick() {
-        if (!StringUtils.isEmpty(playUrl) && playUrl.startsWith("http") || playUrl.startsWith("https")) {
+        if (!StringUtils.isEmpty(playUrl) && (playUrl.startsWith("http") || playUrl.startsWith("https"))) {
 //            ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
 //                .withString(TITLE, title).navigation()
             //跳转系统浏览器
