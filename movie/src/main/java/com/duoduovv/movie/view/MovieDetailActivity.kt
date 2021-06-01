@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -132,24 +133,24 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     /**
      * 播放出现错误的时候切换线路
      */
-    private fun onPlayError(){
+    private fun onPlayError() {
         detailBean?.let {
             mBind.layoutStateError.visibility = View.VISIBLE
             val lineAdapter = ChangePlayLineAdapter()
             mBind.rvLine.adapter = lineAdapter
             val lineList = it.lineList
-            for (i in lineList.indices){
+            for (i in lineList.indices) {
                 lineList[i].isDefault = false
             }
-            for (i in lineList.indices){
+            for (i in lineList.indices) {
                 if (lineList[i].line == line) lineList[i].isDefault = true
             }
             lineAdapter.setList(lineList)
             lineAdapter.setOnItemClickListener { _, _, position ->
                 this.line = lineList[position].line
-                viewModel.moviePlayInfo(vid,movieId,line,1)
+                viewModel.moviePlayInfo(vid, movieId, line, 1)
                 mBind.layoutStateError.visibility = View.GONE
-                for (i in it.lineList.indices){
+                for (i in it.lineList.indices) {
                     it.lineList[i].isDefault = false
                 }
                 it.lineList[position].isDefault = true
@@ -208,7 +209,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                             movieItems[i].isSelect = false
                         }
                         movieItems[currentPlayPosition].isSelect = true
-                        fragment?.updateSelect(it.movieItems,currentPlayPosition)
+                        fragment?.updateSelect(it.movieItems, currentPlayPosition)
                     }
                 }
             }
@@ -651,9 +652,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 跳转H5页面
      */
     override fun onStartClick() {
-        if (!StringUtils.isEmpty(playUrl)) {
-            ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
-                .withString(TITLE, title).navigation()
+        if (!StringUtils.isEmpty(playUrl) && playUrl.startsWith("http") || playUrl.startsWith("https")) {
+//            ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
+//                .withString(TITLE, title).navigation()
+            //跳转系统浏览器
+            val uri = Uri.parse(playUrl)
+            val intent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(intent)
         }
     }
 
@@ -670,7 +675,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (vid == it.movieItems[i].vid) pos = i
             }
             it.movieItems[pos].isSelect = true
-            fragment?.updateSelect(it.movieItems,pos)
+            fragment?.updateSelect(it.movieItems, pos)
 //            detailAdapter?.notifyItemChanged(0)
             onSelectClick(vid, movieId, vidTitle)
         }
