@@ -101,7 +101,7 @@
         android:layout_marginEnd="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_5"
         android:includeFontPadding="false"
-        android:textColor="#FF5E17"
+        android:textColor="@color/colorFFFFFF"
         android:textSize="@dimen/sp_11"
         app:layout_constraintBottom_toBottomOf="@+id/imgCover"
         app:layout_constraintRight_toRightOf="@+id/imgCover"

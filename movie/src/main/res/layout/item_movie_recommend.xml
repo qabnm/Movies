@@ -59,7 +59,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/dp_5"
         android:layout_marginBottom="@dimen/dp_5"
-        android:textColor="#FF5E17"
+        android:textColor="@color/colorFFFFFF"
         android:textSize="@dimen/sp_11"
         android:includeFontPadding="false"
         app:layout_constraintBottom_toBottomOf="@id/imgCover"
