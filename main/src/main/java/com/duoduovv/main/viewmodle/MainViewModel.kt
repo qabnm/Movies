@@ -30,7 +30,7 @@ class MainViewModel : BaseViewModel() {
             AdvertBridge.AD_TYPE = bean.adType
             val ttBean = bean.ttAd
             val gdtBean = bean.gdtAd
-            if ("ttAd" == bean.adType) {
+            if (AdvertBridge.TT_AD == bean.adType) {
                 //这是穿山甲的广告
                 AdvertBridge.SPLASH = ttBean?.splash ?: ""
                 AdvertBridge.LOGOUT = ttBean?.logout ?: ""
