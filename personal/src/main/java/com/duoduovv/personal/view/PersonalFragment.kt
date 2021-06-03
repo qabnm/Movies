@@ -42,6 +42,7 @@ import dc.android.bridge.BridgeContext.Companion.WAY
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
@@ -143,7 +144,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun initTTAd(posId: String) {
         ttAd = TTInfoAd()
-        ttAd?.initTTInfoAd(requireActivity(), posId, 0f, 0f, mBind.vTop)
+        val width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat()
+        ttAd?.initTTInfoAd(requireActivity(), posId, width, 0f, mBind.vTop)
     }
 
     private fun initGDTAd(posId: String) {

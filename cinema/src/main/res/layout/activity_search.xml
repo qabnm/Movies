@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFF"
@@ -8,8 +9,10 @@
     <RelativeLayout
         android:id="@+id/rlTop"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_170"
-        android:background="@drawable/center_top_background">
+        android:layout_height="0px"
+        app:layout_constraintDimensionRatio="375:211"
+        android:background="@drawable/center_top_background"
+        app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
             android:id="@+id/container"
@@ -68,7 +71,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:text="取消"
-                android:textColor="@color/color0083FF"
+                android:textColor="#ff5800"
                 android:textSize="@dimen/sp_14" />
         </LinearLayout>
     </RelativeLayout>
@@ -76,6 +79,8 @@
     <FrameLayout
         android:id="@+id/layoutContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0px"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rlTop" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

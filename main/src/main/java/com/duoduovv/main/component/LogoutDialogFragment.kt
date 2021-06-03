@@ -60,7 +60,7 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
      */
     private fun initTTAd(posId:String){
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(requireActivity(),posId,0f,0f,mBind.layoutContainer)
+        ttInfoAd?.initTTInfoAd(requireActivity(),posId,226f,0f,mBind.layoutContainer)
     }
 
     /**

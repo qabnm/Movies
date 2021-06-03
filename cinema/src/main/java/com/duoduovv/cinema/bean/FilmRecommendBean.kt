@@ -15,7 +15,7 @@ data class FilmRecommendBean(
     val coverUrl: String,
     @SerializedName("vod_name")
     val vodName: String,
-    @SerializedName("last_remark")
+    @SerializedName("remark")
     val remark:String,
     @SerializedName("str_id")
     val strId:String,

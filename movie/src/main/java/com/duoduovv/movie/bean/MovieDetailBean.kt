@@ -32,7 +32,7 @@ data class MovieItem(val vid: String, val title: String, var isSelect: Boolean =
 data class MovieDetail(
     @SerializedName("cover_url")
     val coverUrl: String,
-    @SerializedName("last_remark")
+    @SerializedName("remark")
     val lastRemark: String,
     @SerializedName("str_id")
     val strId: String,
@@ -61,7 +61,7 @@ data class MovieDetail(
 data class DetailRecommend(
     @SerializedName("cover_url")
     val coverUrl: String,
-    @SerializedName("last_remark")
+    @SerializedName("remark")
     val lastRemark: String,
     @SerializedName("str_id")
     val strId: String,

@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.duoduovv.advert.AdvertBridge
+import com.duoduovv.advert.gdtad.GDTBannerAd
 import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.ttad.TTBannerAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
@@ -35,8 +37,8 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
     private var cb: IHistoryClickCallback? = null
     private var hotSearchAdapter: HotSearchAdapter? = null
     private var hotList: List<String>? = null
-    private var gdtInfoAd: GDTInfoAd? = null
-    private var ttInfoAd: TTInfoAd? = null
+    private var gdtInfoAd: GDTBannerAd? = null
+    private var ttInfoAd: TTBannerAd? = null
 
     fun setCallback(cb: IHistoryClickCallback) {
         this.cb = cb
@@ -62,11 +64,11 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         hotList = arguments?.getStringArrayList(BridgeContext.LIST)
         hotSearchAdapter?.setList(hotList)
         setSearchHistory()
-        if (!StringUtils.isEmpty(AdvertBridge.SEARCH)) {
+        if (!StringUtils.isEmpty(AdvertBridge.MOVIE_DETAIL_BANNER)) {
             if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
-                initTTAd(AdvertBridge.SEARCH)
+                initTTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
             } else {
-                initGDTAd(AdvertBridge.SEARCH)
+                initGDTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
             }
         }
     }
@@ -75,21 +77,20 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
      * 请求穿山甲广告
      */
     private fun initTTAd(posId:String) {
-        ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(requireActivity(), posId, 0f, 0f, mBind.adContainer)
+        ttInfoAd = TTBannerAd()
+        val width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat() -20
+        ttInfoAd?.initBanner(requireActivity(), posId, width, 0f, mBind.adContainer)
     }
 
     /**
      * 请求广点通的信息流广告
      */
     private fun initGDTAd(posId: String) {
-        gdtInfoAd = GDTInfoAd()
-        gdtInfoAd?.initInfoAd(
+        gdtInfoAd = GDTBannerAd()
+        gdtInfoAd?.initBanner(
             requireActivity(),
             posId,
-            mBind.adContainer,
-            375,
-            0
+            mBind.adContainer
         )
     }
 
@@ -154,7 +155,7 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
 
     override fun onDestroy() {
         super.onDestroy()
-        ttInfoAd?.destroyInfoAd()
-        gdtInfoAd?.destroyInfoAd()
+        ttInfoAd?.onDestroy()
+        gdtInfoAd?.onDestroy()
     }
 }

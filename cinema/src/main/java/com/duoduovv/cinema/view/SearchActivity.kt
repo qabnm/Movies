@@ -62,11 +62,11 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
 
     override fun initData() {
         if (!StringUtils.isEmpty(AdvertBridge.SEARCH)) {
-            LiveDataBus.get().with("render", String::class.java).observe(this, {
-                if (it == "render") {
-                    mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
-                }
-            })
+//            LiveDataBus.get().with("render", String::class.java).observe(this, {
+//                if (it == "render") {
+//                    mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
+//                }
+//            })
             if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
                 initTTAd(AdvertBridge.SEARCH)
             } else {
@@ -80,7 +80,8 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      */
     private fun initTTAd(posId: String) {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(this, posId, 0f, 0f, mBind.container)
+        val width = OsUtils.px2dip(this,OsUtils.getScreenWidth(this).toFloat())
+        ttInfoAd?.initTTInfoAd(this, posId, width.toFloat(), 0f, mBind.container)
     }
 
     /**

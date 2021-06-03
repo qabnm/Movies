@@ -29,8 +29,9 @@
     <FrameLayout
         android:id="@+id/layoutContainer"
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="0px"
         android:visibility="gone"
+        app:layout_constraintDimensionRatio="375:211"
         android:layout_marginLeft="@dimen/dp_10"
         android:layout_marginRight="@dimen/dp_10"
         app:layout_constraintTop_toBottomOf="@+id/vLine" />

@@ -17,6 +17,7 @@ import com.duoduovv.movie.databinding.FragmentMovieDetailBinding
 import com.duoduovv.room.domain.CollectionBean
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.AndroidUtils
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseFragment
 import dc.android.tools.LiveDataBus
@@ -174,12 +175,13 @@ class MovieDetailFragment : BaseFragment() {
     }
 
     /**
-     * 穿山甲广告
+     * 穿山甲广告s
      * @param posId String
      */
     private fun initTTAd(posId: String) {
         ttBanner = TTBannerAd()
-        ttBanner?.initBanner(requireActivity(), posId, 0f, 0f, mBind.adContainer)
+        val width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat() -20
+        ttBanner?.initBanner(requireActivity(), posId, width, 0f, mBind.adContainer)
     }
 
     override fun onDestroy() {

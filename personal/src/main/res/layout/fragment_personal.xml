@@ -9,9 +9,9 @@
     <FrameLayout
         android:id="@+id/vTop"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="0px"
         android:background="@drawable/center_top_background"
-        app:layout_constraintDimensionRatio="75:34"
+        app:layout_constraintDimensionRatio="375:211"
         app:layout_constraintTop_toTopOf="parent" />
 
     <FrameLayout

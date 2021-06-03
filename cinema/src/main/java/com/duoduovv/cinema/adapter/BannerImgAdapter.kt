@@ -63,6 +63,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
         if (null == ttInfoAd) {
             ttInfoAd = TTInfoAd()
             val width = (OsUtils.px2dip(context,OsUtils.getScreenWidth(context).toFloat())- 20).toFloat()
+            Log.d("adView","$width")
             ttInfoAd?.initTTInfoAd(context as Activity, posId, width, 0f, container)
         }
     }
