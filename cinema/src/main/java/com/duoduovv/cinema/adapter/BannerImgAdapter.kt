@@ -2,6 +2,7 @@ package com.duoduovv.cinema.adapter
 
 import android.app.Activity
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
 
     override fun onBindView(holder: BannerViewHolder, data: Banner?, position: Int, size: Int) {
         if (data?.type == "ad") {
+            Log.d("adad","onBindView方法执行了")
             //加载广告
             if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
                 initTTAd(holder.bind.layoutContainer, AdvertBridge.MAIN_PAGE_BANNER)
@@ -39,6 +41,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
                 initGDTAd(holder.bind.layoutContainer, AdvertBridge.MAIN_PAGE_BANNER)
             }
         } else {
+            Log.d("adad","onBindView方法执行了99999999999999999")
             GlideUtils.setImg(
                 context = context,
                 url = data?.img ?: "",
@@ -53,16 +56,20 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
      * 请求穿山甲广告
      */
     private fun initTTAd(container: ViewGroup, posId: String) {
-        ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(context as Activity, posId, 0f, 0f, container)
+        if (null == ttInfoAd) {
+            ttInfoAd = TTInfoAd()
+            ttInfoAd?.initTTInfoAd(context as Activity, posId, 0f, 0f, container)
+        }
     }
 
     /**
      * 初始化广点通广告
      */
     private fun initGDTAd(container: ViewGroup, posId: String) {
-        gdtInfoAd = GDTInfoAd()
-        gdtInfoAd?.initInfoAd(context as Activity, posId, container, 380, 0)
+        if (null == gdtInfoAd) {
+            gdtInfoAd = GDTInfoAd()
+            gdtInfoAd?.initInfoAd(context as Activity, posId, container, 380, 0)
+        }
     }
 
     fun onDestroy() {

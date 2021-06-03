@@ -143,6 +143,8 @@ class MovieDetailFragment : BaseFragment() {
             } else {
                 initGDTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
             }
+        }else{
+            mBind.adContainer.visibility = View.GONE
         }
     }
 

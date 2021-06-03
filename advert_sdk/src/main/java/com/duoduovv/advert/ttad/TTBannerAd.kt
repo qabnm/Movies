@@ -38,6 +38,7 @@ class TTBannerAd {
         mTTAdNative.loadBannerExpressAd(adSlot, object : TTAdNative.NativeExpressAdListener {
             override fun onError(code: Int, msg: String?) {
                 Log.d(TAG, "获取banner广告错误$code$msg")
+                LiveDataBus.get().with("adClose").value = "adClose"
             }
 
             override fun onNativeExpressAdLoad(adList: MutableList<TTNativeExpressAd>?) {
@@ -55,7 +56,10 @@ class TTBannerAd {
                         }
 
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
-                            view?.let { container.addView(it) }
+                            view?.let {
+                                container.visibility = View.VISIBLE
+                                container.addView(it)
+                            }
                         }
                         override fun onAdDismiss() {
                             LiveDataBus.get().with("adClose").value = "adClose"

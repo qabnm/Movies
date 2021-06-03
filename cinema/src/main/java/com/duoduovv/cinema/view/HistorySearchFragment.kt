@@ -5,6 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.GridLayoutManager
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.CinemaContext
@@ -17,6 +18,7 @@ import com.duoduovv.common.util.FlowLayout
 import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseFragment
 
 /**
@@ -60,25 +62,31 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         hotList = arguments?.getStringArrayList(BridgeContext.LIST)
         hotSearchAdapter?.setList(hotList)
         setSearchHistory()
-        initTTAd()
+        if (!StringUtils.isEmpty(AdvertBridge.SEARCH)) {
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
+                initTTAd(AdvertBridge.SEARCH)
+            } else {
+                initGDTAd(AdvertBridge.SEARCH)
+            }
+        }
     }
 
     /**
      * 请求穿山甲广告
      */
-    private fun initTTAd() {
+    private fun initTTAd(posId:String) {
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(requireActivity(), "946164817", 0f, 0f, mBind.adContainer)
+        ttInfoAd?.initTTInfoAd(requireActivity(), posId, 0f, 0f, mBind.adContainer)
     }
 
     /**
      * 请求广点通的信息流广告
      */
-    private fun initGDTAdTop() {
+    private fun initGDTAd(posId: String) {
         gdtInfoAd = GDTInfoAd()
         gdtInfoAd?.initInfoAd(
             requireActivity(),
-            "5051684812707537",
+            posId,
             mBind.adContainer,
             375,
             0

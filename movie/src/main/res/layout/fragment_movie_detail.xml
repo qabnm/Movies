@@ -198,6 +198,7 @@
         android:layout_width="match_parent"
         android:layout_height="0px"
         android:layout_marginTop="@dimen/dp_15"
+        android:visibility="gone"
         app:layout_constraintDimensionRatio="6.4:1"
         app:layout_constraintTop_toBottomOf="@+id/layoutZhuanJi" />
 

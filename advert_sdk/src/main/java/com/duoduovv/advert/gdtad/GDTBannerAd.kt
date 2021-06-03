@@ -1,6 +1,7 @@
 package com.duoduovv.advert.gdtad
 
 import android.app.Activity
+import android.view.View
 import android.view.ViewGroup
 import com.qq.e.ads.banner2.UnifiedBannerADListener
 import com.qq.e.ads.banner2.UnifiedBannerView
@@ -48,6 +49,7 @@ class GDTBannerAd {
             override fun onADCloseOverlay() {
             }
         })
+        container.visibility = View.VISIBLE
         container.addView(bannerView)
         bannerView?.loadAD()
         bannerView?.setRefresh(5)

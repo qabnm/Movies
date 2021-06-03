@@ -61,12 +61,12 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     }
 
     override fun initData() {
-        LiveDataBus.get().with("render", String::class.java).observe(this, {
-            if (it == "render") {
-                mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
-            }
-        })
         if (!StringUtils.isEmpty(AdvertBridge.SEARCH)) {
+            LiveDataBus.get().with("render", String::class.java).observe(this, {
+                if (it == "render") {
+                    mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
+                }
+            })
             if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
                 initTTAd(AdvertBridge.SEARCH)
             } else {
