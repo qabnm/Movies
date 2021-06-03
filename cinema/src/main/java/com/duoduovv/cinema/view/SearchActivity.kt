@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
@@ -44,7 +43,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         mBind = ActivitySearchBinding.bind(layoutView)
         ARouter.getInstance().inject(this)
         hotList = intent.getStringArrayListExtra(BridgeContext.LIST)
-        mBind.imgBack.setOnClickListener { onBackClick() }
+        mBind.layoutBack.setOnClickListener { onBackClick() }
         mBind.tvCancel.setOnClickListener { onCancelClick() }
         //添加显示搜索记录的fragment
         showSearchFragment()
@@ -67,10 +66,10 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
                 mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
             }
         })
-        if (!StringUtils.isEmpty(AdvertBridge.SEARCH)){
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE){
+        if (!StringUtils.isEmpty(AdvertBridge.SEARCH)) {
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
                 initTTAd(AdvertBridge.SEARCH)
-            }else{
+            } else {
                 initGDTAd(AdvertBridge.SEARCH)
             }
         }
@@ -79,7 +78,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     /**
      * 请求穿山甲广告
      */
-    private fun initTTAd(posId:String) {
+    private fun initTTAd(posId: String) {
         ttInfoAd = TTInfoAd()
         ttInfoAd?.initTTInfoAd(this, posId, 0f, 0f, mBind.container)
     }
@@ -124,8 +123,12 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      */
     private fun onCancelClick() {
         if (!TextUtils.isEmpty(mBind.etSearch.text)) {
-            if (searchResultFragment?.isVisible == true) return
-            toResultFragment(mBind.etSearch.text.toString())
+            if (searchResultFragment?.isVisible == true){
+                searchResultFragment?.setKeyWord(mBind.etSearch.text.toString())
+                searchResultFragment?.initData()
+            }else{
+                toResultFragment(mBind.etSearch.text.toString())
+            }
         } else {
             finish()
         }

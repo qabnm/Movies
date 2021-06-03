@@ -71,7 +71,7 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$ext.interceptor_version"
     api 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
-//    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ext.coroutines_core_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ext.coroutines_core_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ext.coroutines_android_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$ext.viewmodel_version"
     api project(path: ':weichat')
@@ -110,6 +110,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:$ext.lottie_version"
     compileOnly 'org.checkerframework:checker-qual:3.3.0'
     implementation "com.google.android.gms:play-services-cronet:17.0.0"
+//    implementation 'com.tencent.tbs.tbssdk:sdk:43939'
 
-    api("io.coil-kt:coil:1.2.1")
+//    api("io.coil-kt:coil:1.2.1")
 }

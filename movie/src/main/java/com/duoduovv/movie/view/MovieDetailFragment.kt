@@ -16,6 +16,7 @@ import com.duoduovv.movie.component.MovieDetailCallback
 import com.duoduovv.movie.databinding.FragmentMovieDetailBinding
 import com.duoduovv.room.domain.CollectionBean
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseFragment
 import dc.android.tools.LiveDataBus
@@ -67,7 +68,7 @@ class MovieDetailFragment : BaseFragment() {
         mBind.tvDetail.setOnClickListener { callback?.onDetailClick(bean = detailBean.movie) }
         mBind.tvScore.text = detailBean.movie.lastRemark
         mBind.tvType.text =
-            " /  ${detailBean.movie.vodArea}  /  ${detailBean.movie.vodLang}"
+            " / ${detailBean.movie.vodArea} / ${detailBean.movie.vodLang}"
         if (BridgeContext.TYPE_TV == detailBean.movie.movieFlag || BridgeContext.TYPE_TV0 == detailBean.movie.movieFlag) {
             //是电视类型
             mBind.layoutContainer.visibility = View.VISIBLE

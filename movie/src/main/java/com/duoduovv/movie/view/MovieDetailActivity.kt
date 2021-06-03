@@ -297,7 +297,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun analysisPlayUrl(bean: JxPlayUrlBean?) {
         bean?.let {
             val playUrls = it.playUrls
-            if (playUrls.isNotEmpty()) {
+            if (playUrls?.isNotEmpty() == true) {
                 mBind.videoPlayer.setStartClick(1)
                 mBind.videoPlayer.setUp(playUrls[0].url, true, "")
                 if (playFlag == 1) mBind.videoPlayer.startPlayLogic()
@@ -469,8 +469,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             GlobalScope.launch(Dispatchers.Main) {
                 if (it.isCollect) {
                     viewModel.deleteCollection(it)
+                    AndroidUtils.toast("取消收藏成功",this@MovieDetailActivity)
                 } else {
                     viewModel.addCollection(it)
+                    AndroidUtils.toast("收藏成功",this@MovieDetailActivity)
                 }
                 val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
                 fragment?.notifyCollectionChange(bean)
@@ -491,6 +493,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     collectionTime = System.currentTimeMillis()
                 )
                 viewModel.addCollection(bean)
+                AndroidUtils.toast("收藏成功",this@MovieDetailActivity)
                 val beans = viewModel.queryCollectionById(detailBean.id)
                 fragment?.notifyCollectionChange(beans)
             }
@@ -656,12 +659,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onStartClick() {
         if (!StringUtils.isEmpty(playUrl) && (playUrl.startsWith("http") || playUrl.startsWith("https"))) {
-//            ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
-//                .withString(TITLE, title).navigation()
+            ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
+                .withString(TITLE, title).navigation()
             //跳转系统浏览器
-            val uri = Uri.parse(playUrl)
-            val intent = Intent(Intent.ACTION_VIEW, uri)
-            startActivity(intent)
+//            val uri = Uri.parse(playUrl)
+//            val intent = Intent(Intent.ACTION_VIEW, uri)
+//            startActivity(intent)
         }
     }
 
