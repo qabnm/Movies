@@ -1,6 +1,7 @@
 package com.duoduovv.common.domain
 
 import android.os.Parcelable
+import androidx.annotation.Keep
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -9,10 +10,11 @@ import kotlinx.parcelize.Parcelize
  * @date: 2021/1/15 13:52
  * @des:首页配置信息
  */
+@Keep
 @Parcelize
 data class ConfigureBean(
     val columns: List<Column>?,
-    val version: Version,
+    val version: Version?,
     val hotSearch: List<String>,
     val way: String,
     val adType: String,
@@ -20,6 +22,7 @@ data class ConfigureBean(
     val gdtAd: AdvertBean?
 ) : Parcelable
 
+@Keep
 @Parcelize
 data class AdvertBean(
     val splash: String,
@@ -33,6 +36,7 @@ data class AdvertBean(
 /**
  * 首页顶部栏目分类
  */
+@Keep
 @Parcelize
 data class Column(
     val id: String,
@@ -42,6 +46,7 @@ data class Column(
 /**
  * 版本更新
  */
+@Keep
 @Parcelize
 data class Version(
     val content: String,
