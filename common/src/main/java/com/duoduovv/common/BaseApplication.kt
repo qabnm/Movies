@@ -44,7 +44,7 @@ open class BaseApplication : Application() {
         UMConfigure.init(applicationContext, "605c45146ee47d382b961c13", AndroidUtils.getAppMetaData(), UMConfigure.DEVICE_TYPE_PHONE, null)
         //统计SDK基础统计指标自动采集
         MobclickAgent.setPageCollectionMode(MobclickAgent.PageMode.AUTO)
-        if (OsUtils.isAppDebug()) UMConfigure.setLogEnabled(true)  //参数: boolean 默认为false，如需查看LOG设置为true
+        UMConfigure.setLogEnabled(OsUtils.isAppDebug())  //参数: boolean 默认为false，如需查看LOG设置为true
         //初始化穿山甲SDK
         AdvertBridge.ttAdSdkInit(applicationContext, OsUtils.isAppDebug())
         //初始化腾讯广点通SDK
