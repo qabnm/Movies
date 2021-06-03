@@ -40,6 +40,7 @@ class TTInfoAd {
         val adSlot = AdSlot.Builder()
             .setCodeId(posId)
             .setSupportDeepLink(true)
+            .setNativeAdType(AdSlot.TYPE_STREAM)
             .setAdCount(1)
             .setExpressViewAcceptedSize(width, height)
             .build()

@@ -12,7 +12,10 @@ import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
 import com.youth.banner.adapter.BannerAdapter
+import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
+import dc.android.bridge.util.OsUtils
+import kotlinx.coroutines.flow.combine
 
 /**
  * @author: jun.liu
@@ -49,6 +52,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
             )
 //            mBind.imgBanner.load(data?.img)
             holder.bind.tvTitle.text = data?.title
+            Log.d("hhhh", "${holder.bind.imgBanner.width},${holder.bind.imgBanner.height}")
         }
     }
 
@@ -58,7 +62,8 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     private fun initTTAd(container: ViewGroup, posId: String) {
         if (null == ttInfoAd) {
             ttInfoAd = TTInfoAd()
-            ttInfoAd?.initTTInfoAd(context as Activity, posId, 0f, 0f, container)
+            val width = (OsUtils.px2dip(context,OsUtils.getScreenWidth(context).toFloat())- 20).toFloat()
+            ttInfoAd?.initTTInfoAd(context as Activity, posId, width, 0f, container)
         }
     }
 
