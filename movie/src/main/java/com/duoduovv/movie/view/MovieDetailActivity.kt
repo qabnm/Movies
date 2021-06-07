@@ -248,13 +248,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     if (playList?.isNotEmpty() == true) {
                         mBind.videoPlayer.setStartClick(1)
                         mBind.videoPlayer.setUp(playList[0].url, true, "")
-                        if (way == WAY_RELEASE && flag == 1) {
-                            mBind.videoPlayer.startPlayLogic()
-                        } else {
-                        }
-                    } else {
-
-                    }
+                        mBind.videoPlayer.startPlayLogic()
+                    } else { }
                 }
                 "jx" -> {
                     //需要再次解析播放地址
@@ -300,7 +295,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             if (playUrls?.isNotEmpty() == true) {
                 mBind.videoPlayer.setStartClick(1)
                 mBind.videoPlayer.setUp(playUrls[0].url, true, "")
-                if (playFlag == 1) mBind.videoPlayer.startPlayLogic()
+                mBind.videoPlayer.startPlayLogic()
                 Log.d("videoPlayer", "****这里执行了：way=$way")
             }
         }
@@ -469,10 +464,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             GlobalScope.launch(Dispatchers.Main) {
                 if (it.isCollect) {
                     viewModel.deleteCollection(it)
-                    AndroidUtils.toast("取消收藏成功",this@MovieDetailActivity)
+                    AndroidUtils.toast("取消收藏成功", this@MovieDetailActivity)
                 } else {
                     viewModel.addCollection(it)
-                    AndroidUtils.toast("收藏成功",this@MovieDetailActivity)
+                    AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
                 }
                 val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
                 fragment?.notifyCollectionChange(bean)
@@ -493,7 +488,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     collectionTime = System.currentTimeMillis()
                 )
                 viewModel.addCollection(bean)
-                AndroidUtils.toast("收藏成功",this@MovieDetailActivity)
+                AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
                 val beans = viewModel.queryCollectionById(detailBean.id)
                 fragment?.notifyCollectionChange(beans)
             }

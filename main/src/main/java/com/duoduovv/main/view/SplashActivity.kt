@@ -55,23 +55,24 @@ class SplashActivity : BaseViewModelActivity<MainViewModel>(),
     override fun initView() {
         mBind = ActivitySplashBinding.bind(layoutView)
         viewModel.getConfigure().observe(this, { initConfig(viewModel.getConfigure().value?.data) })
-        viewModel.configure()
     }
 
-    private fun initDataS() {
+    override fun initData() {
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
             false -> {
                 privacyDialogFragment = PrivacyDialogFragment(this)
                 privacyDialogFragment?.showNow(supportFragmentManager, "privacy")
             }
-            else -> location()
+            else -> {
+                viewModel.configure()
+            }
         }
     }
 
     override fun showLoading() {}
 
     override fun dismissLoading() {
-        initDataS()
+        location()
     }
 
     /**
