@@ -1,4 +1,3 @@
-include ':bugly'
 include ':advert_sdk'
 include ':location'
 include ':room'

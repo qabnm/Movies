@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.advert.AdvertBridge
-import com.duoduovv.bugly.BuglyBridge
+import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
 import com.umeng.analytics.MobclickAgent
@@ -22,7 +22,10 @@ open class BaseApplication : Application() {
         super.onCreate()
         baseCtx = this.applicationContext
         initOthers()
-        BuglyBridge.initBugly(applicationContext, OsUtils.isAppDebug())
+        if (!OsUtils.isAppDebug()){
+            //正式环境开启异常上报
+            CrashReport.initCrashReport(applicationContext,"857247490b",false)
+        }
     }
 
     /**
