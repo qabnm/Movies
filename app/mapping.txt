@@ -1,11 +1,11 @@
 # compiler: R8
 # compiler_version: 2.1.75
 # min_api: 21
-# pg_map_id: 1d79b1d
+# pg_map_id: cd0b0af
 # common_typos_disable
 $$ServiceLoaderMethods -> a:
-    java.util.Iterator $load$70458() -> a
-    java.util.Iterator $load$74090() -> b
+    java.util.Iterator $load$70459() -> a
+    java.util.Iterator $load$74098() -> b
 $r8$backportedMethods$utility$Long$1$hashCode -> b:
     int hashCode(long) -> a
 android.support.v4.app.INotificationSideChannel$Stub$Proxy -> android.support.v4.app.INotificationSideChannel$Stub$Proxy:
@@ -20346,12 +20346,12 @@ com.duoduovv.main.view.SplashActivity -> com.duoduovv.main.view.SplashActivity:
     void access$setLocationHelper$p(com.duoduovv.main.view.SplashActivity,com.duoduovv.location.LocationHelper) -> f0
     void access$start(com.duoduovv.main.view.SplashActivity) -> g0
     void initConfig(com.duoduovv.common.domain.ConfigureBean) -> h0
-    void initDataS() -> i0
-    void initGDTSplash(java.lang.String) -> j0
+    void initGDTSplash(java.lang.String) -> i0
+    void initSplashAd() -> j0
     void onDialogCancelClick() -> k
-    void initSplashAd() -> k0
-    void location() -> l0
-    void start() -> m0
+    void location() -> k0
+    void start() -> l0
+    void initData() -> y
 com.duoduovv.main.view.SplashActivity$alertListener$1 -> com.duoduovv.main.view.SplashActivity$a:
     com.duoduovv.main.view.SplashActivity this$0 -> a
     void onSureClick() -> a
@@ -20854,30 +20854,29 @@ com.duoduovv.movie.repository.MovieRepository$report$2 -> c.e.g.m.b$k:
     int label -> e
     com.duoduovv.movie.repository.MovieRepository this$0 -> f
 com.duoduovv.movie.view.MovieDetailActivity -> com.duoduovv.movie.view.MovieDetailActivity:
+    com.duoduovv.movie.bean.MovieDetailBean detailBean -> D
     java.lang.String playUrl -> G
+    int videoHeight -> N
     com.duoduovv.movie.adapter.MovieDetailAdapter detailAdapter -> C
+    java.lang.String way -> F
     int navHeight -> O
+    int screenHeight -> L
+    java.lang.String title -> H
+    long currentLength -> K
     int topBarHeight -> M
+    com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 shareClickListener -> U
+    java.lang.String vidTitle -> J
     com.duoduovv.movie.databinding.ActivityMovieDetailBinding mBind -> z
     int currentPlayPosition -> I
     com.duoduovv.movie.view.MovieDetailFragment fragment -> R
     java.lang.String vidByQuery -> Q
-    boolean hasClickRecommend -> X
+    boolean hasClickRecommend -> W
     java.lang.String line -> S
+    java.lang.String movieId -> A
     com.shuyu.gsyvideoplayer.utils.OrientationUtils orientationUtils -> E
     java.lang.String vid -> B
+    com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 reportListener -> V
     int realHeight -> P
-    com.duoduovv.movie.bean.MovieDetailBean detailBean -> D
-    int videoHeight -> N
-    java.lang.String way -> F
-    int screenHeight -> L
-    java.lang.String title -> H
-    long currentLength -> K
-    java.lang.String vidTitle -> J
-    com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 shareClickListener -> V
-    java.lang.String movieId -> A
-    int playFlag -> U
-    com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 reportListener -> W
     com.duoduovv.movie.view.MovieDetailActivity$videoCallback$1 videoCallback -> T
     void onMovieClick(java.lang.String) -> A0
     void onPlayError() -> B0

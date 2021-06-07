@@ -24,8 +24,8 @@ android {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
-
     }
+
 
     buildTypes {
         release {
@@ -79,6 +79,7 @@ dependencies {
     api project(path: ':tools')
     api project(path: ':location')
     api project(path : ':advert_sdk')
+    implementation project(path: ':bugly')
     //友盟统计
     api  "com.umeng.umsdk:common:$ext.umsdk_common" // 版本号(必选)
     api  "com.umeng.umsdk:asms:$ext.umsdk_asms" // asms包依赖(必选)
@@ -105,7 +106,7 @@ dependencies {
     api "com.github.bumptech.glide:glide:$ext.glide_version"
     kapt "com.github.bumptech.glide:compiler:$ext.glide_version"
     api "com.contrarywind:Android-PickerView:$ext.picker_view"
-    api "com.tencent.bugly:crashreport:$ext.bugly_crash"
+//    api "com.tencent.bugly:crashreport:$ext.bugly_crash"
 
     implementation "com.airbnb.android:lottie:$ext.lottie_version"
     compileOnly 'org.checkerframework:checker-qual:3.3.0'
