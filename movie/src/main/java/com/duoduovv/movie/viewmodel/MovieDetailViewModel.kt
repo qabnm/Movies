@@ -57,8 +57,8 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param id String
      * @return Job
      */
-    fun moviePlayInfo(vid: String, id: String, line: String, flag: Int = 0) = request {
-        val result = repository.moviePlayInfo(vid, id, line)
+    fun moviePlayInfo(vid: String, id: String, line: String, js: String, flag: Int = 0) = request {
+        val result = repository.moviePlayInfo(vid, id, line, js)
         if (result.code == SUCCESS) {
             if (flag == 0) {
                 moviePlayInfo.postValue(result.data)

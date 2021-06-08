@@ -9,7 +9,8 @@ data class MoviePlayInfoBean(
     val h5Url: String,
     val playUrls: List<PlayUrl>?,
     val request: Request,
-    val type: String
+    val type: String,
+    val js:String
 )
 
 data class PlayUrl(

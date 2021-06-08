@@ -93,6 +93,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var vidByQuery = ""
     private var fragment: MovieDetailFragment? = null
     private var line = ""//播放线路
+    private var js = ""
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
@@ -155,7 +156,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             lineAdapter.setList(lineList)
             lineAdapter.setOnItemClickListener { _, _, position ->
                 this.line = lineList[position].line
-                viewModel.moviePlayInfo(vid, movieId, line, 1)
+                viewModel.moviePlayInfo(vid, movieId, line, js,1)
                 mBind.layoutStateError.visibility = View.GONE
                 for (i in it.lineList.indices) {
                     it.lineList[i].isDefault = false
@@ -212,7 +213,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         currentPlayPosition++
                         vid = movieItems[currentPlayPosition].vid
                         vidTitle = movieItems[currentPlayPosition].title
-                        viewModel.moviePlayInfo(vid, movieId, line, 1)
+                        viewModel.moviePlayInfo(vid, movieId, line, "",1)
                         //更新选集显示
                         for (i in movieItems.indices) {
                             movieItems[i].isSelect = false
@@ -244,6 +245,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             //根据type判断是否需要调用解析的接口
             this.playFlag = flag
+            js = it.js
             when (it.type) {
                 "h5" -> {
                     //跳转H5
@@ -379,7 +381,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 } else {
                     vid = list[0].vid
                 }
-                viewModel.moviePlayInfo(vid, movieId, line)
+                viewModel.moviePlayInfo(vid, movieId, line,"")
                 if (way == WAY_H5) mBind.videoPlayer.setStartClick(0)
             }
             //更新收藏状态
@@ -568,7 +570,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         mBind.layoutStateError.visibility = View.GONE
 //        if (way == WAY_RELEASE) {
         //只有正常班的才会去请求接口
-        viewModel.moviePlayInfo(vid, movieId, line, 1)
+        viewModel.moviePlayInfo(vid, movieId, line, "",1)
         //清理掉当前正在播放的视频
         mBind.videoPlayer.currentPlayer.release()
 //        }

@@ -69,8 +69,8 @@ class MovieRepository : MovieApiRepository() {
      * @param line String
      * @return BaseResponseData<MoviePlayInfoBean>
      */
-    suspend fun moviePlayInfo(vid: String, id: String, line: String) = request {
-        apiService.moviePlayInfo(vid, id, line)
+    suspend fun moviePlayInfo(vid: String, id: String, line: String,js:String) = request {
+        apiService.moviePlayInfo(vid, id, line,js)
     }
 
     /**

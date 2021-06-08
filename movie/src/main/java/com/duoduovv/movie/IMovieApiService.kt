@@ -72,7 +72,8 @@ interface IMovieApiService {
     suspend fun moviePlayInfo(
         @Query("vid") vid: String,
         @Query("id") id: String,
-        @Query("line") line: String
+        @Query("line") line: String,
+        @Query("js") js:String
     ): BaseResponseData<MoviePlayInfoBean>
 
     /**
