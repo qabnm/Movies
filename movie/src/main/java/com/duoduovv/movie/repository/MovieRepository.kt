@@ -117,4 +117,15 @@ class MovieRepository : MovieApiRepository() {
         withContext(Dispatchers.IO) {
             jxApiService.jxUrlForPost(url, headers, maps)
         }
+
+    /**
+     * 视频播放失败
+     * @param vid String 点播ID
+     * @param url String 当前播放的url
+     * @param message String 错误信息
+     * @return BaseResponseData<Any>
+     */
+    suspend fun playError(vid: String, url: String, message: String) = request {
+        apiService.playError(vid = vid, url = url, message = message)
+    }
 }

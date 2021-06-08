@@ -38,6 +38,7 @@ import com.google.android.exoplayer2.upstream.HttpDataSource
 import com.google.android.exoplayer2.upstream.TransferListener
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
@@ -172,10 +173,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 播放器相关状态和时间监听毁掉
      */
     private val videoCallback = object : VideoPlayCallback() {
-        override fun onPlayError(url: String?, vararg objects: Any?) {
+        override fun onPlayError(url: String, vararg objects: Any) {
             super.onPlayError(url, *objects)
             onPlayError()
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
+            viewModel.playError(vid, url,"onPlayError")
         }
 
         override fun onPrepared(url: String?, vararg objects: Any?) {

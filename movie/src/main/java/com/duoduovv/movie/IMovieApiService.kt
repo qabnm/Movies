@@ -103,4 +103,19 @@ interface IMovieApiService {
         @Field("content") content: String,
         @Field("movie_id") movieId: String
     ): BaseResponseData<Any>
+
+    /**
+     * 视频播放失败的接口
+     * @param vid String
+     * @param url String
+     * @param message String
+     * @return BaseResponseData<Any>
+     */
+    @FormUrlEncoded
+    @POST("api/v2/vod/play_err")
+    suspend fun playError(
+        @Field("vid") vid: String,
+        @Field("url") url: String,
+        @Field("message") message: String
+    ): BaseResponseData<Any>
 }

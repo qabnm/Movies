@@ -216,4 +216,14 @@ class MovieDetailViewModel : BaseViewModel() {
             jxUrl.postValue(result.string())
         }
 
+    /**
+     * 视频播放失败
+     * @param vid String
+     * @param url String
+     * @param message String
+     * @return Job
+     */
+    fun playError(vid: String, url: String, message: String) = request {
+        repository.playError(vid, url, message)
+    }
 }
