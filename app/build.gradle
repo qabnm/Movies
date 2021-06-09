@@ -32,19 +32,19 @@ android {
     }
     flavorDimensions 'default'
     productFlavors {
-//        sd10001 {}
-//        sd10002 {}
-//        sd10003 {}
-//        sd10004 {}
-//        sd10005 {}
-//        sd10006 {}
-//        sd10007 {}
-//        sd10008 {}
-//        sd10009 {}
-//        sd10010 {}
-//        sd10011 {}
-//        df{}
-        _test{}
+        sd10001 {}
+        sd10002 {}
+        sd10003 {}
+        sd10004 {}
+        sd10005 {}
+        sd10006 {}
+        sd10007 {}
+        sd10008 {}
+        sd10009 {}
+        sd10010 {}
+        sd10011 {}
+        df{}
+//        _test{}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

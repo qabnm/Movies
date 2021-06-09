@@ -1,11 +1,11 @@
 # compiler: R8
 # compiler_version: 2.1.75
 # min_api: 21
-# pg_map_id: cd0b0af
+# pg_map_id: 320703b
 # common_typos_disable
 $$ServiceLoaderMethods -> a:
-    java.util.Iterator $load$70459() -> a
-    java.util.Iterator $load$74098() -> b
+    java.util.Iterator $load$70475() -> a
+    java.util.Iterator $load$74114() -> b
 $r8$backportedMethods$utility$Long$1$hashCode -> b:
     int hashCode(long) -> a
 android.support.v4.app.INotificationSideChannel$Stub$Proxy -> android.support.v4.app.INotificationSideChannel$Stub$Proxy:
@@ -20403,11 +20403,12 @@ com.duoduovv.movie.IMovieApiService -> c.e.g.b:
     java.lang.Object movieDetailForDebug(java.lang.String,kotlin.coroutines.Continuation) -> b
     java.lang.Object movieRankList(java.lang.String,kotlin.coroutines.Continuation) -> c
     java.lang.Object movieLibList(java.util.HashMap,int,java.lang.String,kotlin.coroutines.Continuation) -> d
-    java.lang.Object report(java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> e
-    java.lang.Object movieLibCategory(kotlin.coroutines.Continuation) -> f
-    java.lang.Object moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> g
+    java.lang.Object playError(java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> e
+    java.lang.Object report(java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> f
+    java.lang.Object movieLibCategory(kotlin.coroutines.Continuation) -> g
     java.lang.Object movieDetail(java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> h
-    java.lang.Object analysisPlayUrl(java.lang.String,java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> i
+    java.lang.Object moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> i
+    java.lang.Object analysisPlayUrl(java.lang.String,java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> j
 com.duoduovv.movie.R$color -> c.e.g.c:
     int colorFFFFFF -> f
     int color666666 -> d
@@ -20795,10 +20796,11 @@ com.duoduovv.movie.repository.MovieRepository -> c.e.g.m.b:
     java.lang.Object movieDetailForDebug(java.lang.String,kotlin.coroutines.Continuation) -> h
     java.lang.Object movieLibCategory(kotlin.coroutines.Continuation) -> i
     java.lang.Object movieLibList(java.util.HashMap,int,java.lang.String,kotlin.coroutines.Continuation) -> j
-    java.lang.Object moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> k
+    java.lang.Object moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> k
     java.lang.Object movieRankCategory(kotlin.coroutines.Continuation) -> l
     java.lang.Object movieRankList(java.lang.String,kotlin.coroutines.Continuation) -> m
-    java.lang.Object report(java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> n
+    java.lang.Object playError(java.lang.String,java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> n
+    java.lang.Object report(java.lang.String,java.lang.String,kotlin.coroutines.Continuation) -> o
 com.duoduovv.movie.repository.MovieRepository$analysisPlayUrl$2 -> c.e.g.m.b$a:
     java.lang.String $vid -> g
     java.lang.String $line -> i
@@ -20839,6 +20841,7 @@ com.duoduovv.movie.repository.MovieRepository$moviePlayInfo$2 -> c.e.g.m.b$h:
     java.lang.String $vid -> g
     java.lang.String $line -> i
     java.lang.String $id -> h
+    java.lang.String $js -> j
     int label -> e
     com.duoduovv.movie.repository.MovieRepository this$0 -> f
 com.duoduovv.movie.repository.MovieRepository$movieRankCategory$2 -> c.e.g.m.b$i:
@@ -20848,48 +20851,56 @@ com.duoduovv.movie.repository.MovieRepository$movieRankList$2 -> c.e.g.m.b$j:
     java.lang.String $column -> g
     int label -> e
     com.duoduovv.movie.repository.MovieRepository this$0 -> f
-com.duoduovv.movie.repository.MovieRepository$report$2 -> c.e.g.m.b$k:
+com.duoduovv.movie.repository.MovieRepository$playError$2 -> c.e.g.m.b$k:
+    java.lang.String $vid -> g
+    java.lang.String $message -> i
+    java.lang.String $url -> h
+    int label -> e
+    com.duoduovv.movie.repository.MovieRepository this$0 -> f
+com.duoduovv.movie.repository.MovieRepository$report$2 -> c.e.g.m.b$l:
     java.lang.String $content -> g
     java.lang.String $movieId -> h
     int label -> e
     com.duoduovv.movie.repository.MovieRepository this$0 -> f
 com.duoduovv.movie.view.MovieDetailActivity -> com.duoduovv.movie.view.MovieDetailActivity:
-    com.duoduovv.movie.bean.MovieDetailBean detailBean -> D
     java.lang.String playUrl -> G
-    int videoHeight -> N
     com.duoduovv.movie.adapter.MovieDetailAdapter detailAdapter -> C
-    java.lang.String way -> F
     int navHeight -> O
-    int screenHeight -> L
-    java.lang.String title -> H
-    long currentLength -> K
     int topBarHeight -> M
-    com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 shareClickListener -> U
-    java.lang.String vidTitle -> J
     com.duoduovv.movie.databinding.ActivityMovieDetailBinding mBind -> z
     int currentPlayPosition -> I
     com.duoduovv.movie.view.MovieDetailFragment fragment -> R
     java.lang.String vidByQuery -> Q
-    boolean hasClickRecommend -> W
+    boolean hasClickRecommend -> X
     java.lang.String line -> S
-    java.lang.String movieId -> A
     com.shuyu.gsyvideoplayer.utils.OrientationUtils orientationUtils -> E
     java.lang.String vid -> B
-    com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 reportListener -> V
     int realHeight -> P
-    com.duoduovv.movie.view.MovieDetailActivity$videoCallback$1 videoCallback -> T
-    void onMovieClick(java.lang.String) -> A0
-    void onPlayError() -> B0
+    com.duoduovv.movie.view.MovieDetailActivity$videoCallback$1 videoCallback -> U
+    com.duoduovv.movie.bean.MovieDetailBean detailBean -> D
+    int videoHeight -> N
+    java.lang.String way -> F
+    int screenHeight -> L
+    java.lang.String title -> H
+    long currentLength -> K
+    java.lang.String vidTitle -> J
+    com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 shareClickListener -> V
+    java.lang.String js -> T
+    java.lang.String movieId -> A
+    com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 reportListener -> W
+    void jxPlayUrl(java.lang.String) -> A0
+    void onMovieClick(java.lang.String) -> B0
     void initView() -> C
-    void queryMovieById(java.lang.String) -> C0
-    void setClickInfo(com.duoduovv.movie.bean.MoviePlayInfoBean) -> D0
-    void setData(com.duoduovv.movie.bean.MovieDetailBean) -> E0
-    void setPlayInfo(com.duoduovv.movie.bean.MoviePlayInfoBean,int) -> F0
+    void onPlayError() -> C0
+    void queryMovieById(java.lang.String) -> D0
+    void setClickInfo(com.duoduovv.movie.bean.MoviePlayInfoBean) -> E0
+    void setData(com.duoduovv.movie.bean.MovieDetailBean) -> F0
     int getLayoutId() -> G
-    void setPlayInfo$default(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean,int,int,java.lang.Object) -> G0
-    void setVideoPlayer() -> H0
+    void setPlayInfo(com.duoduovv.movie.bean.MoviePlayInfoBean,int) -> G0
+    void setPlayInfo$default(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean,int,int,java.lang.Object) -> H0
     void setLayout(boolean,int) -> I
-    void updateHistoryDB() -> I0
+    void setVideoPlayer() -> I0
+    void updateHistoryDB() -> J0
     void onJxError() -> Q
     java.lang.Class providerVMClass() -> S
     void access$analysisPlayUrl(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.JxPlayUrlBean) -> W
@@ -20902,36 +20913,36 @@ com.duoduovv.movie.view.MovieDetailActivity -> com.duoduovv.movie.view.MovieDeta
     com.duoduovv.movie.view.MovieDetailFragment access$getFragment$p(com.duoduovv.movie.view.MovieDetailActivity) -> b0
     boolean access$getHasClickRecommend$p(com.duoduovv.movie.view.MovieDetailActivity) -> c0
     void onArtSelectClick(java.util.List) -> d
-    java.lang.String access$getLine$p(com.duoduovv.movie.view.MovieDetailActivity) -> d0
+    java.lang.String access$getJs$p(com.duoduovv.movie.view.MovieDetailActivity) -> d0
     void onShareClick() -> e
-    com.duoduovv.movie.databinding.ActivityMovieDetailBinding access$getMBind$p(com.duoduovv.movie.view.MovieDetailActivity) -> e0
-    java.lang.String access$getMovieId$p(com.duoduovv.movie.view.MovieDetailActivity) -> f0
+    java.lang.String access$getLine$p(com.duoduovv.movie.view.MovieDetailActivity) -> e0
+    com.duoduovv.movie.databinding.ActivityMovieDetailBinding access$getMBind$p(com.duoduovv.movie.view.MovieDetailActivity) -> f0
     void onDownLoadClick() -> g
-    com.shuyu.gsyvideoplayer.utils.OrientationUtils access$getOrientationUtils$p(com.duoduovv.movie.view.MovieDetailActivity) -> g0
+    java.lang.String access$getMovieId$p(com.duoduovv.movie.view.MovieDetailActivity) -> g0
     void onSelectClick(java.util.List) -> h
-    java.lang.String access$getVid$p(com.duoduovv.movie.view.MovieDetailActivity) -> h0
+    com.shuyu.gsyvideoplayer.utils.OrientationUtils access$getOrientationUtils$p(com.duoduovv.movie.view.MovieDetailActivity) -> h0
     void onCollectClick(com.duoduovv.room.domain.CollectionBean) -> i
-    java.lang.String access$getVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity) -> i0
+    java.lang.String access$getVid$p(com.duoduovv.movie.view.MovieDetailActivity) -> i0
     void onDetailClick(com.duoduovv.movie.bean.MovieDetail) -> j
-    com.duoduovv.movie.viewmodel.MovieDetailViewModel access$getViewModel$p(com.duoduovv.movie.view.MovieDetailActivity) -> j0
-    java.lang.String access$getWay$p(com.duoduovv.movie.view.MovieDetailActivity) -> k0
+    java.lang.String access$getVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity) -> j0
+    com.duoduovv.movie.viewmodel.MovieDetailViewModel access$getViewModel$p(com.duoduovv.movie.view.MovieDetailActivity) -> k0
     void onStartClick() -> l
-    void access$jxPlayUrl(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> l0
-    void access$onMovieClick(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> m0
-    void access$onPlayError(com.duoduovv.movie.view.MovieDetailActivity) -> n0
-    void access$setClickInfo(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean) -> o0
-    void access$setCurrentLength$p(com.duoduovv.movie.view.MovieDetailActivity,long) -> p0
-    void access$setCurrentPlayPosition$p(com.duoduovv.movie.view.MovieDetailActivity,int) -> q0
-    void access$setData(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MovieDetailBean) -> r0
-    void access$setHasClickRecommend$p(com.duoduovv.movie.view.MovieDetailActivity,boolean) -> s0
-    void access$setLine$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> t0
-    void access$setVid$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> u0
-    void access$setVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> v0
-    void access$setVidTitle$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> w0
-    void access$updateHistoryDB(com.duoduovv.movie.view.MovieDetailActivity) -> x0
+    java.lang.String access$getWay$p(com.duoduovv.movie.view.MovieDetailActivity) -> l0
+    void access$jxPlayUrl(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> m0
+    void access$onMovieClick(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> n0
+    void access$onPlayError(com.duoduovv.movie.view.MovieDetailActivity) -> o0
+    void access$setClickInfo(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean) -> p0
+    void access$setCurrentLength$p(com.duoduovv.movie.view.MovieDetailActivity,long) -> q0
+    void access$setCurrentPlayPosition$p(com.duoduovv.movie.view.MovieDetailActivity,int) -> r0
+    void access$setData(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MovieDetailBean) -> s0
+    void access$setHasClickRecommend$p(com.duoduovv.movie.view.MovieDetailActivity,boolean) -> t0
+    void access$setLine$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> u0
+    void access$setVid$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> v0
+    void access$setVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> w0
+    void access$setVidTitle$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> x0
     void initData() -> y
-    void analysisPlayUrl(com.duoduovv.movie.bean.JxPlayUrlBean) -> y0
-    void jxPlayUrl(java.lang.String) -> z0
+    void access$updateHistoryDB(com.duoduovv.movie.view.MovieDetailActivity) -> y0
+    void analysisPlayUrl(com.duoduovv.movie.bean.JxPlayUrlBean) -> z0
 com.duoduovv.movie.view.MovieDetailActivity$initView$1 -> com.duoduovv.movie.view.MovieDetailActivity$a:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
     void onChanged(com.duoduovv.movie.bean.MovieDetailBean) -> a
@@ -21266,11 +21277,12 @@ com.duoduovv.movie.viewmodel.MovieDetailViewModel -> com.duoduovv.movie.viewmode
     kotlinx.coroutines.Job jxUrlForPost(java.lang.String,java.util.Map,java.util.Map) -> D
     kotlinx.coroutines.Job movieDetail(java.lang.String,java.lang.String) -> E
     kotlinx.coroutines.Job movieDetail$default(com.duoduovv.movie.viewmodel.MovieDetailViewModel,java.lang.String,java.lang.String,int,java.lang.Object) -> F
-    kotlinx.coroutines.Job moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,int) -> G
-    kotlinx.coroutines.Job moviePlayInfo$default(com.duoduovv.movie.viewmodel.MovieDetailViewModel,java.lang.String,java.lang.String,java.lang.String,int,int,java.lang.Object) -> H
-    java.lang.Object queryCollectionById(java.lang.String,kotlin.coroutines.Continuation) -> I
-    java.lang.Object queryMovieById(java.lang.String,kotlin.coroutines.Continuation) -> J
-    void updateHistoryDB(int,com.duoduovv.movie.bean.MovieDetailBean,java.lang.String,java.lang.String,java.lang.String,int) -> K
+    kotlinx.coroutines.Job moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,java.lang.String,int) -> G
+    kotlinx.coroutines.Job moviePlayInfo$default(com.duoduovv.movie.viewmodel.MovieDetailViewModel,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int,java.lang.Object) -> H
+    kotlinx.coroutines.Job playError(java.lang.String,java.lang.String,java.lang.String) -> I
+    java.lang.Object queryCollectionById(java.lang.String,kotlin.coroutines.Continuation) -> J
+    java.lang.Object queryMovieById(java.lang.String,kotlin.coroutines.Continuation) -> K
+    void updateHistoryDB(int,com.duoduovv.movie.bean.MovieDetailBean,java.lang.String,java.lang.String,java.lang.String,int) -> L
     androidx.lifecycle.MutableLiveData access$getAnalysisPlayUrl$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> m
     androidx.lifecycle.MutableLiveData access$getJxUrl$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> n
     androidx.lifecycle.MutableLiveData access$getMovieClickInfo$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> o
@@ -21319,15 +21331,22 @@ com.duoduovv.movie.viewmodel.MovieDetailViewModel$moviePlayInfo$1 -> com.duoduov
     java.lang.String $vid -> g
     java.lang.String $line -> i
     java.lang.String $id -> h
-    int $flag -> j
+    java.lang.String $js -> j
+    int $flag -> k
     int label -> e
-com.duoduovv.movie.viewmodel.MovieDetailViewModel$queryCollectionById$2 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$h:
+com.duoduovv.movie.viewmodel.MovieDetailViewModel$playError$1 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$h:
+    com.duoduovv.movie.viewmodel.MovieDetailViewModel this$0 -> f
+    java.lang.String $vid -> g
+    java.lang.String $message -> i
+    java.lang.String $url -> h
+    int label -> e
+com.duoduovv.movie.viewmodel.MovieDetailViewModel$queryCollectionById$2 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$i:
     java.lang.String $id -> f
     int label -> e
-com.duoduovv.movie.viewmodel.MovieDetailViewModel$queryMovieById$2 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$i:
+com.duoduovv.movie.viewmodel.MovieDetailViewModel$queryMovieById$2 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$j:
     java.lang.String $movieId -> f
     int label -> e
-com.duoduovv.movie.viewmodel.MovieDetailViewModel$updateHistoryDB$1 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$j:
+com.duoduovv.movie.viewmodel.MovieDetailViewModel$updateHistoryDB$1 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$k:
     java.lang.String $movieId -> i
     com.duoduovv.movie.viewmodel.MovieDetailViewModel this$0 -> g
     int $duration -> m
@@ -46687,7 +46706,6 @@ com.shuyu.gsyvideoplayer.builder.GSYVideoOptionBuilder -> c.k.a.k.a:
 com.shuyu.gsyvideoplayer.cache.CacheFactory -> c.k.a.l.a:
     java.lang.Class sICacheManager -> a
     com.shuyu.gsyvideoplayer.cache.ICacheManager getCacheManager() -> a
-    void setCacheManager(java.lang.Class) -> b
 com.shuyu.gsyvideoplayer.cache.ICacheManager -> c.k.a.l.b:
 com.shuyu.gsyvideoplayer.cache.ICacheManager$ICacheAvailableListener -> c.k.a.l.b$a:
     void onCacheAvailable(java.io.File,java.lang.String,int) -> a
@@ -46792,7 +46810,6 @@ com.shuyu.gsyvideoplayer.player.IjkPlayerManager$1 -> c.k.a.o.d$a:
 com.shuyu.gsyvideoplayer.player.PlayerFactory -> c.k.a.o.e:
     java.lang.Class sPlayerManager -> a
     com.shuyu.gsyvideoplayer.player.IPlayerManager getPlayManager() -> a
-    void setPlayManager(java.lang.Class) -> b
 com.shuyu.gsyvideoplayer.render.GSYRenderView -> c.k.a.p.a:
     com.shuyu.gsyvideoplayer.render.view.IGSYRenderView mShowView -> a
     void addToParent(android.view.ViewGroup,android.view.View) -> a
