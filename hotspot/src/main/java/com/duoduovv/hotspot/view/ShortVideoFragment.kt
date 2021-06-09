@@ -1,11 +1,13 @@
 package com.duoduovv.hotspot.view
 
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.duoduovv.hotspot.R
 import com.duoduovv.hotspot.adapter.ShortVideoAdapter
 import com.duoduovv.hotspot.bean.ShortVideoBean
+import com.duoduovv.hotspot.databinding.FragmentShortVideoBinding
 import dc.android.bridge.view.BaseFragment
-import kotlinx.android.synthetic.main.fragment_short_video.*
 
 /**
  * @author: jun.liu
@@ -14,12 +16,16 @@ import kotlinx.android.synthetic.main.fragment_short_video.*
  */
 class ShortVideoFragment : BaseFragment() {
     private var videoAdapter: ShortVideoAdapter? = null
+    private lateinit var mBind:FragmentShortVideoBinding
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) = FragmentShortVideoBinding.inflate(inflater,container,false)
+
     override fun getLayoutId() = R.layout.fragment_short_video
 
     override fun initView() {
-        rvList.layoutManager = LinearLayoutManager(requireActivity())
+        mBind = baseBinding as FragmentShortVideoBinding
+        mBind.rvList.layoutManager = LinearLayoutManager(requireActivity())
         videoAdapter = ShortVideoAdapter()
-        rvList.adapter = videoAdapter
+        mBind.rvList.adapter = videoAdapter
     }
 
     override fun initData() {

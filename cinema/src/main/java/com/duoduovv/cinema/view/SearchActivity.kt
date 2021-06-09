@@ -7,15 +7,20 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.AdvertBridge
+import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.component.HistoryUtil
+import com.duoduovv.cinema.databinding.ActivitySearchBinding
 import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BridgeActivity
-import kotlinx.android.synthetic.main.activity_search.*
+import dc.android.tools.LiveDataBus
 
 
 /**
@@ -30,18 +35,22 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     private var searchResultFragment: SearchResultFragment? = null
     private var isSearchClick = false
     private var hotList: ArrayList<String>? = null
+    private lateinit var mBind: ActivitySearchBinding
+    private var gdtInfoAd: GDTInfoAd? = null
+    private var ttInfoAd: TTInfoAd? = null
 
     override fun initView() {
+        mBind = ActivitySearchBinding.bind(layoutView)
         ARouter.getInstance().inject(this)
         hotList = intent.getStringArrayListExtra(BridgeContext.LIST)
-        imgBack.setOnClickListener { onBackClick() }
-        tvCancel.setOnClickListener { onCancelClick() }
+        mBind.layoutBack.setOnClickListener { onBackClick() }
+        mBind.tvCancel.setOnClickListener { onCancelClick() }
         //添加显示搜索记录的fragment
         showSearchFragment()
-        etSearch.addTextChangedListener(textChangeWatcher)
-        etSearch.setOnKeyListener { _, keyCode, event ->
+        mBind.etSearch.addTextChangedListener(textChangeWatcher)
+        mBind.etSearch.setOnKeyListener { _, keyCode, event ->
             if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
-                if (TextUtils.isEmpty(etSearch.text)) {
+                if (TextUtils.isEmpty(mBind.etSearch.text)) {
                     AndroidUtils.toast("请输入搜索内容", this)
                 } else {
                     onCancelClick()
@@ -51,24 +60,76 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
         }
     }
 
+    override fun initData() {
+        if (!StringUtils.isEmpty(AdvertBridge.SEARCH)) {
+//            LiveDataBus.get().with("render", String::class.java).observe(this, {
+//                if (it == "render") {
+//                    mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
+//                }
+//            })
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
+                initTTAd(AdvertBridge.SEARCH)
+            } else {
+                initGDTAd(AdvertBridge.SEARCH)
+            }
+        }
+    }
+
+    /**
+     * 请求穿山甲广告
+     */
+    private fun initTTAd(posId: String) {
+        ttInfoAd = TTInfoAd()
+        val width = OsUtils.px2dip(this,OsUtils.getScreenWidth(this).toFloat())
+        ttInfoAd?.initTTInfoAd(this, posId, width.toFloat(), 0f, mBind.container)
+    }
+
+    /**
+     * 请求广点通的信息流广告
+     */
+    private fun initGDTAd(posId: String) {
+        gdtInfoAd = GDTInfoAd()
+        gdtInfoAd?.initInfoAd(
+            this,
+            posId,
+            mBind.container,
+            390,
+            0
+        )
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        gdtInfoAd?.destroyInfoAd()
+        gdtInfoAd?.destroyInfoAd()
+    }
+
     /**
      * 返回键监听
      */
     private fun onBackClick() {
-        if (!TextUtils.isEmpty(etSearch.text)) {
-            etSearch.setText("")
+        if (!TextUtils.isEmpty(mBind.etSearch.text)) {
+            mBind.etSearch.setText("")
         } else {
             finish()
         }
+    }
+
+    override fun onBackPressed() {
+        onBackClick()
     }
 
     /**
      * 取消或者搜索键的点击
      */
     private fun onCancelClick() {
-        if (!TextUtils.isEmpty(etSearch.text)) {
-            if (searchResultFragment?.isVisible == true) return
-            toResultFragment(etSearch.text.toString())
+        if (!TextUtils.isEmpty(mBind.etSearch.text)) {
+            if (searchResultFragment?.isVisible == true){
+                searchResultFragment?.setKeyWord(mBind.etSearch.text.toString())
+                searchResultFragment?.initData()
+            }else{
+                toResultFragment(mBind.etSearch.text.toString())
+            }
         } else {
             finish()
         }
@@ -79,7 +140,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      * @param result String
      */
     private fun toResultFragment(result: String) {
-        etSearch.clearFocus()
+        mBind.etSearch.clearFocus()
         OsUtils.hideKeyboard(this)
         isSearchClick = true
         if (historySearchFragment?.isVisible == true) historySearchFragment?.let {
@@ -121,11 +182,11 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     private val textChangeWatcher: TextWatcher = object : TextWatcher {
         override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-            tvCancel.text = if (TextUtils.isEmpty(etSearch.text)) "取消" else "搜索"
+            mBind.tvCancel.text = if (TextUtils.isEmpty(mBind.etSearch.text)) "取消" else "搜索"
         }
 
         override fun afterTextChanged(s: Editable?) {
-            if (TextUtils.isEmpty(etSearch.text) && isSearchClick) {
+            if (TextUtils.isEmpty(mBind.etSearch.text) && isSearchClick) {
                 if (searchResultFragment?.isVisible == true) searchResultFragment?.let {
                     supportFragmentManager.beginTransaction().remove(it).commit()
                 }
@@ -142,7 +203,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      * @param result String
      */
     override fun onHistoryClick(result: String) {
-        etSearch.setText(result)
+        mBind.etSearch.setText(result)
         toResultFragment(result = result)
     }
 }

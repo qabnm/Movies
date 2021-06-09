@@ -5,12 +5,12 @@
     android:orientation="vertical">
 
     <View
-        android:id="@+id/v_bar_source"
+        android:id="@+id/vBarSource"
         android:layout_width="match_parent"
         android:layout_height="25dp"/>
 
     <FrameLayout
-        android:id="@+id/layout_content_source"
+        android:id="@+id/layoutContentSource"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 </LinearLayout>

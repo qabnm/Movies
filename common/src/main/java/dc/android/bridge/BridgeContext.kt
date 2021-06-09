@@ -12,6 +12,7 @@ open class BridgeContext {
         const val RUNTIME_ERROR="运行异常"
         const val TOKEN_ERROR = "登录超时"
         const val NOTIFICATION = "notification"
+        const val DATA = "data"
 
         const val ADDRESS = "address"
         const val ID = "id"
@@ -36,6 +37,17 @@ open class BridgeContext {
         const val PROVINCE = "province"
         const val CITY = "city"
         const val AREA = "area"
+
+        //以下是广告相关的
+        /**
+         * 穿山甲开屏广告媒体ID
+         */
+        const val TT_AD_SPLASH_ID = "887474167"
+
+        /**
+         * 广点通开屏广告ID
+         */
+        const val GDT_AD_SPLASH_ID = "9031281782757191"
 
 
         const val BASE_URL = "https://www.duoduovv.cn/"

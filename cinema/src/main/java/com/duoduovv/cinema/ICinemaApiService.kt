@@ -1,6 +1,7 @@
 package com.duoduovv.cinema
 
 import com.duoduovv.cinema.bean.*
+import com.duoduovv.common.domain.ConfigureBean
 import dc.android.bridge.net.BaseResponseData
 import okhttp3.ResponseBody
 import retrofit2.http.GET

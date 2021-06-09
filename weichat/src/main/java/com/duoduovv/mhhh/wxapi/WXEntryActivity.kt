@@ -2,6 +2,7 @@ package com.duoduovv.mhhh.wxapi
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.duoduovv.weichat.WeiChatTool
@@ -36,6 +37,7 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
      * @param resp BaseResp
      */
     override fun onResp(resp: BaseResp) {
+        Log.d("weiChat","${resp.errCode}")
         var result = ""
         when (resp.errCode) {
             BaseResp.ErrCode.ERR_OK -> {
@@ -44,9 +46,6 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
                     val code = (resp as SendAuth.Resp).code
                     //通过此code换取access_token参数
                     LiveDataBus.get().with("wxCode").value = code
-//                    LiveDataBus.get().with("wxCode", String.javaClass).observe(this, {
-//                     注册观察者
-//                    })
                 } else if (resp.type == ConstantsAPI.COMMAND_SENDMESSAGE_TO_WX) {
                     result = "分享成功"
                 }

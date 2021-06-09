@@ -5,8 +5,8 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import com.duoduovv.main.R
+import com.duoduovv.main.databinding.DialogPermissionBinding
 import com.permissionx.guolindev.dialog.RationaleDialogFragment
 import dc.android.bridge.util.OsUtils
 
@@ -19,23 +19,19 @@ class PermissionDialogFragment(
     private val deniedList: MutableList<String>,
     private val message: String
 ) : RationaleDialogFragment() {
-    private lateinit var tvCancel:TextView
-    private lateinit var tvSure:TextView
+    private lateinit var mBind: DialogPermissionBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val layoutView = inflater.inflate(R.layout.dialog_permission, container, false)
-        initViews(layoutView)
-        return layoutView
+    ): View {
+        mBind = DialogPermissionBinding.inflate(inflater, container, false)
+        initViews()
+        return mBind.root
     }
 
-    private fun initViews(layoutView: View) {
-        val tvContent:TextView = layoutView.findViewById(R.id.tvContent)
-        tvCancel = layoutView.findViewById(R.id.tvCancel)
-        tvSure = layoutView.findViewById(R.id.tvSure)
-        tvContent.text = message
+    private fun initViews() {
+        mBind.tvContent.text = message
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -52,9 +48,9 @@ class PermissionDialogFragment(
         }
     }
 
-    override fun getPositiveButton() = tvSure
+    override fun getPositiveButton() = mBind.tvSure
 
-    override fun getNegativeButton() = tvCancel
+    override fun getNegativeButton() = mBind.tvCancel
 
     override fun getPermissionsToRequest() = deniedList
 }

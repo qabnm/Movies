@@ -1,5 +1,8 @@
 package com.duoduovv.movie.repository
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+
 /**
  * @author: jun.liu
  * @date: 2021/1/21 9:46
@@ -63,10 +66,11 @@ class MovieRepository : MovieApiRepository() {
      * 获取播放信息
      * @param vid String
      * @param id String
+     * @param line String
      * @return BaseResponseData<MoviePlayInfoBean>
      */
-    suspend fun moviePlayInfo(vid: String, id: String) = request {
-        apiService.moviePlayInfo(vid, id)
+    suspend fun moviePlayInfo(vid: String, id: String, line: String,js:String) = request {
+        apiService.moviePlayInfo(vid, id, line,js)
     }
 
     /**
@@ -77,5 +81,51 @@ class MovieRepository : MovieApiRepository() {
      */
     suspend fun report(content: String, movieId: String) = request {
         apiService.report(content, movieId)
+    }
+
+    /**
+     * 解析播放地址
+     * @param vid String
+     * @param movieId String
+     * @param line String
+     * @return BaseResponseData<PlayUrl>
+     */
+    suspend fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) =
+        request {
+            apiService.analysisPlayUrl(vid = vid, id = movieId, line = line, content)
+        }
+
+    /**
+     * 如果是第三方的 就去解析三方地址 get请求
+     * @param url String
+     * @param headers Map<String, String>
+     * @return Any
+     */
+    suspend fun jxUrlForGEet(url: String, headers: Map<String, String>) =
+        withContext(Dispatchers.IO) {
+            jxApiService.jxUrlForGEet(url, headers)
+        }
+
+    /**
+     * 解析三方源 post请求
+     * @param url String
+     * @param headers Map<String, String>
+     * @param maps Map<String, String>
+     * @return ResponseBody
+     */
+    suspend fun jxUrlForPost(url: String, headers: Map<String, String>, maps: Map<String, String>) =
+        withContext(Dispatchers.IO) {
+            jxApiService.jxUrlForPost(url, headers, maps)
+        }
+
+    /**
+     * 视频播放失败
+     * @param vid String 点播ID
+     * @param url String 当前播放的url
+     * @param message String 错误信息
+     * @return BaseResponseData<Any>
+     */
+    suspend fun playError(vid: String, url: String, message: String) = request {
+        apiService.playError(vid = vid, url = url, message = message)
     }
 }

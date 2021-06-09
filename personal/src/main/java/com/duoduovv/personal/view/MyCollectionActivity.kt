@@ -12,11 +12,11 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.adapter.MyCollectionAdapter
+import com.duoduovv.personal.databinding.ActivityMyCollcetionBinding
 import com.duoduovv.room.database.CollectionDatabase
 import com.duoduovv.room.domain.CollectionBean
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BridgeActivity
-import kotlinx.android.synthetic.main.activity_my_collcetion.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,6 +31,7 @@ import java.util.*
 @Route(path = RouterPath.PATH_MY_COLLECTION)
 class MyCollectionActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_my_collcetion
+    private lateinit var mBind: ActivityMyCollcetionBinding
 
     private var collectionAdapter: MyCollectionAdapter? = null
     private var isFirst = true
@@ -38,9 +39,10 @@ class MyCollectionActivity : BridgeActivity() {
     private var isAllSelect = false
 
     override fun initView() {
-        rvList.layoutManager = LinearLayoutManager(this)
+        mBind = ActivityMyCollcetionBinding.bind(layoutView)
+        mBind.rvList.layoutManager = LinearLayoutManager(this)
         collectionAdapter = MyCollectionAdapter()
-        rvList.adapter = collectionAdapter
+        mBind.rvList.adapter = collectionAdapter
         collectionAdapter?.addChildClickViewIds(R.id.imgSelect)
         collectionAdapter?.setOnItemClickListener { adapter, _, position ->
             val movieId = (adapter as MyCollectionAdapter).data[position].strId
@@ -56,9 +58,9 @@ class MyCollectionActivity : BridgeActivity() {
         collectionAdapter?.setOnItemChildClickListener { adapter, view, position ->
             onClick(adapter, view, position)
         }
-        layoutTopBar.setRightClick { onEditClick() }
-        tvAllSelect.setOnClickListener { allSelect() }
-        tvDelete.setOnClickListener { deleteCollect() }
+        mBind.layoutTopBar.setRightClick { onEditClick() }
+        mBind.tvAllSelect.setOnClickListener { allSelect() }
+        mBind.tvDelete.setOnClickListener { deleteCollect() }
 //        viewModel.deleteState().observe(this,
 //            { onDeleteSuccess(viewModel.deleteState().value?.movie_id) })
 //        viewModel.getCollection()
@@ -74,8 +76,8 @@ class MyCollectionActivity : BridgeActivity() {
         initData()
         selectCount = 0
         isFirst = true
-        layoutSelect.visibility = View.GONE
-        layoutTopBar.setRightText("编辑")
+        mBind.layoutSelect.visibility = View.GONE
+        mBind.layoutTopBar.setRightText("编辑")
     }
 
     /**
@@ -90,7 +92,7 @@ class MyCollectionActivity : BridgeActivity() {
                 }
                 selectCount = it.data.size
             }
-            tvAllSelect.text = "取消全选"
+            mBind.tvAllSelect.text = "取消全选"
         } else {
             isAllSelect = false //非全选状态
             collectionAdapter?.let {
@@ -99,7 +101,7 @@ class MyCollectionActivity : BridgeActivity() {
                 }
                 selectCount = 0
             }
-            tvAllSelect.text = "全选"
+            mBind.tvAllSelect.text = "全选"
         }
         collectionAdapter?.notifyDataSetChanged()
         setDeleteState()
@@ -128,13 +130,13 @@ class MyCollectionActivity : BridgeActivity() {
      */
     private fun setDeleteState() {
         if (selectCount > 0) {
-            tvDelete.text = "删除$selectCount"
-            tvDelete.setTextColor(Color.parseColor("#F1303C"))
-            tvDelete.isEnabled = true
+            mBind.tvDelete.text = "删除$selectCount"
+            mBind.tvDelete.setTextColor(Color.parseColor("#F1303C"))
+            mBind.tvDelete.isEnabled = true
         } else {
-            tvDelete.text = "删除"
-            tvDelete.setTextColor(Color.parseColor("#99F1303C"))
-            tvDelete.isEnabled = false
+            mBind.tvDelete.text = "删除"
+            mBind.tvDelete.setTextColor(Color.parseColor("#99F1303C"))
+            mBind.tvDelete.isEnabled = false
         }
     }
 
@@ -164,19 +166,19 @@ class MyCollectionActivity : BridgeActivity() {
         }
         if (isFirst) {
             isFirst = false
-            layoutTopBar.setRightText("取消")
+            mBind.layoutTopBar.setRightText("取消")
             collectionAdapter?.isEdit(true)
-            layoutSelect.visibility = View.VISIBLE
+            mBind.layoutSelect.visibility = View.VISIBLE
         } else {
             isFirst = true
             selectCount = 0
-            layoutTopBar.setRightText("编辑")
+            mBind.layoutTopBar.setRightText("编辑")
             collectionAdapter?.isEdit(false)
-            layoutSelect.visibility = View.GONE
+            mBind.layoutSelect.visibility = View.GONE
         }
-        tvDelete.text = "删除"
-        tvDelete.setTextColor(Color.parseColor("#99F1303C"))
-        tvDelete.isEnabled = false
+        mBind.tvDelete.text = "删除"
+        mBind.tvDelete.setTextColor(Color.parseColor("#99F1303C"))
+        mBind.tvDelete.isEnabled = false
         collectionAdapter?.notifyDataSetChanged()
     }
 
@@ -207,14 +209,14 @@ class MyCollectionActivity : BridgeActivity() {
     private fun getCollection(dataList: List<CollectionBean>?) {
         if (dataList?.isEmpty() == true) {
             //收藏为空
-            layoutEmpty.setEmptyVisibility(1)
-            layoutSelect.visibility = View.GONE
-            layoutTopBar.setRightVisibility(View.GONE)
+            mBind.layoutEmpty.setEmptyVisibility(1)
+            mBind.layoutSelect.visibility = View.GONE
+            mBind.layoutTopBar.setRightVisibility(View.GONE)
             isFirst = true
         } else {
-            layoutEmpty.setEmptyVisibility(0)
-            layoutTopBar.setRightVisibility(View.VISIBLE)
-            layoutTopBar.setRightText("编辑")
+            mBind.layoutEmpty.setEmptyVisibility(0)
+            mBind.layoutTopBar.setRightVisibility(View.VISIBLE)
+            mBind.layoutTopBar.setRightText("编辑")
             Collections.sort(dataList!!) { o1, o2 -> (o2.collectionTime - o1.collectionTime).toInt() }
         }
         collectionAdapter?.setList(dataList)

@@ -2,11 +2,14 @@ package com.duoduovv.common.component
 
 import android.os.Bundle
 import android.view.*
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.duoduovv.common.R
+import com.duoduovv.common.databinding.DialogShareBinding
 import com.duoduovv.weichat.WeiChatBridgeContext
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.shareToQQ
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.shareToQQZone
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatCircle
+import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatFriend
 
 /**
  * @author: jun.liu
@@ -15,27 +18,25 @@ import com.duoduovv.weichat.WeiChatBridgeContext
  */
 class ShareDialogFragment(private val listener: OnShareClickListener?) :
     DialogFragment() {
-
+    private lateinit var mBind: DialogShareBinding
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         dialog?.window?.requestFeature(Window.FEATURE_NO_TITLE)
-        val layoutView = inflater.inflate(R.layout.dialog_share, container, false)
-        initViews(layoutView)
-        return layoutView
+        mBind = DialogShareBinding.inflate(inflater, container, false)
+        initViews()
+        return mBind.root
     }
 
-    private fun initViews(layoutView: View) {
-        val layoutQQ:LinearLayout = layoutView.findViewById(R.id.layoutQQ)
-        val layoutZone:LinearLayout = layoutView.findViewById(R.id.layoutZone)
-        val layoutCopy:LinearLayout = layoutView.findViewById(R.id.layoutCopy)
-        val tvCancel:TextView = layoutView.findViewById(R.id.tvCancel)
-        tvCancel.setOnClickListener { dismiss() }
-        layoutQQ.setOnClickListener { listener?.onQQShareClick(WeiChatBridgeContext.shareToQQ) }
-        layoutZone.setOnClickListener { listener?.onQQShareClick(WeiChatBridgeContext.shareToQQZone) }
-        layoutCopy.setOnClickListener { listener?.onCopyClick() }
+    private fun initViews() {
+        mBind.tvCancel.setOnClickListener { dismiss() }
+        mBind.layoutQQ.setOnClickListener { listener?.onQQShareClick(shareToQQ) }
+        mBind.layoutZone.setOnClickListener { listener?.onQQShareClick(shareToQQZone) }
+        mBind.layoutCopy.setOnClickListener { listener?.onCopyClick() }
+        mBind.layoutWeiChat.setOnClickListener { listener?.onWeiChatClick(weiChatFriend) }
+        mBind.layoutWeiChatCircle.setOnClickListener { listener?.onWeiChatClick(weiChatCircle) }
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -59,7 +60,8 @@ class ShareDialogFragment(private val listener: OnShareClickListener?) :
     }
 
     interface OnShareClickListener {
-        fun onQQShareClick(flag:Int)
+        fun onQQShareClick(flag: Int)
         fun onCopyClick()
+        fun onWeiChatClick(flag: Int)
     }
 }

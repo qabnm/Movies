@@ -5,12 +5,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
-import com.duoduovv.cinema.bean.ConfigureBean
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.cinema.repository.CinemaRepository
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.InstallFileProvider
-import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseRepository
 import dc.android.bridge.net.BaseResponseData
 import dc.android.bridge.net.BaseViewModel
@@ -38,7 +39,30 @@ class CinemaViewModel : BaseViewModel() {
      */
     fun configure() = request {
         val result = repository.configure()
-        if (result.code == BridgeContext.SUCCESS) configure.postValue(result)
+        if (result.code == SUCCESS) {
+            val bean = result.data
+            AdvertBridge.AD_TYPE = bean.adType
+            val ttBean = bean.ttAd
+            val gdtBean = bean.gdtAd
+            if (AdvertBridge.TT_AD == bean.adType) {
+                //这是穿山甲的广告
+                AdvertBridge.SPLASH = ttBean?.splash ?: ""
+                AdvertBridge.LOGOUT = ttBean?.logout ?: ""
+                AdvertBridge.MAIN_PAGE_BANNER = ttBean?.mainPageBanner ?: ""
+                AdvertBridge.SEARCH = ttBean?.search ?: ""
+                AdvertBridge.MOVIE_DETAIL_BANNER = ttBean?.movieDetailBanner ?: ""
+                AdvertBridge.CENTER_TOP = ttBean?.centerTop ?: ""
+            } else {
+                //这是广点通的广告
+                AdvertBridge.SPLASH = gdtBean?.splash ?: ""
+                AdvertBridge.LOGOUT = gdtBean?.logout ?: ""
+                AdvertBridge.MAIN_PAGE_BANNER = gdtBean?.mainPageBanner ?: ""
+                AdvertBridge.SEARCH = gdtBean?.search ?: ""
+                AdvertBridge.MOVIE_DETAIL_BANNER = gdtBean?.movieDetailBanner ?: ""
+                AdvertBridge.CENTER_TOP = gdtBean?.centerTop ?: ""
+            }
+            configure.postValue(result)
+        }
     }
 
     /**
@@ -90,7 +114,7 @@ class CinemaViewModel : BaseViewModel() {
         }
 
         override fun err(str: String) {
-            error.postValue(BaseRepository.ParameterException("下载错误"))
+            getException().postValue(BaseRepository.ParameterException("下载错误"))
         }
     }
 }

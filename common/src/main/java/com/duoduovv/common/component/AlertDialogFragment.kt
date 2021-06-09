@@ -5,9 +5,9 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import com.duoduovv.common.R
+import com.duoduovv.common.databinding.DialogAlertBinding
 import dc.android.bridge.util.OsUtils
 
 /**
@@ -17,33 +17,25 @@ import dc.android.bridge.util.OsUtils
  */
 class AlertDialogFragment(
     private val content: String,
-    private val width:Float = 300f,
-    private var listener: OnDialogSureClickListener?=null
+    private val width: Float = 300f,
+    private var listener: OnDialogSureClickListener? = null
 ) : DialogFragment() {
-    private lateinit var tvCancel: TextView
-    private lateinit var tvSure: TextView
-    private lateinit var tvTitle: TextView
+    private lateinit var mBind: DialogAlertBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val layoutView = inflater.inflate(R.layout.dialog_alert, container, false)
-        initViews(layoutView)
-        return layoutView
+    ): View {
+        mBind = DialogAlertBinding.inflate(inflater, container, false)
+        initViews()
+        return mBind.root
     }
 
-    private fun initViews(layoutView: View) {
-        val tvContent: TextView = layoutView.findViewById(R.id.tvContent)
-        tvCancel = layoutView.findViewById(R.id.tvCancel)
-        tvSure = layoutView.findViewById(R.id.tvSure)
-        tvTitle = layoutView.findViewById(R.id.tvTitle)
-        tvContent.text = content
-        tvCancel.setOnClickListener { listener?.onCancelClick() }
-        tvSure.setOnClickListener {
-            listener?.onSureClick()
-        }
+    private fun initViews() {
+        mBind.tvContent.text = content
+        mBind.tvCancel.setOnClickListener { listener?.onCancelClick() }
+        mBind.tvSure.setOnClickListener { listener?.onSureClick() }
     }
 
     /**
@@ -51,7 +43,7 @@ class AlertDialogFragment(
      * @param text String
      */
     fun setCancelText(text: String) {
-        tvCancel.text = text
+        mBind.tvCancel.text = text
     }
 
     /**
@@ -59,7 +51,7 @@ class AlertDialogFragment(
      * @param text String
      */
     fun setSureText(text: String) {
-        tvSure.text = text
+        mBind.tvSure.text = text
     }
 
     /**
@@ -67,7 +59,7 @@ class AlertDialogFragment(
      * @param visibility Int
      */
     fun setTitleVisibility(visibility: Int) {
-        tvTitle.visibility = visibility
+        mBind.tvTitle.visibility = visibility
     }
 
     /**
@@ -91,7 +83,7 @@ class AlertDialogFragment(
         fun onCancelClick()
     }
 
-    fun setDialogClickListener(listener: OnDialogSureClickListener?){
+    fun setDialogClickListener(listener: OnDialogSureClickListener?) {
         this.listener = listener
     }
 
@@ -108,4 +100,5 @@ class AlertDialogFragment(
             it.setBackgroundDrawableResource(R.drawable.shape_radius3_solid_ffffff)
         }
     }
+
 }

@@ -1,13 +1,19 @@
+apply plugin: 'bugly'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-parcelize'
+bugly{
+    appId = '857247490b' // 注册时分配的App ID
+    appKey = '7d6a5edd-bb08-4847-b9bd-8c714a2dc743' // 注册时分配的App Key
+}
 
 def ext = rootProject.ext
 def cfg = ext.android
 
 android {
     compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
         minSdkVersion cfg.minSdkVersion
@@ -23,8 +29,8 @@ android {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
-
     }
+
 
     buildTypes {
         release {
@@ -45,6 +51,9 @@ android {
     }
     kotlinOptions{
         jvmTarget = JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding = true
     }
 }
 
@@ -67,13 +76,14 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$ext.interceptor_version"
     api 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
 
-//    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ext.coroutines_core_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ext.coroutines_core_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ext.coroutines_android_version"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$ext.viewmodel_version"
     api project(path: ':weichat')
     api project(path: ':room')
     api project(path: ':tools')
     api project(path: ':location')
+    api project(path : ':advert_sdk')
     //友盟统计
     api  "com.umeng.umsdk:common:$ext.umsdk_common" // 版本号(必选)
     api  "com.umeng.umsdk:asms:$ext.umsdk_asms" // asms包依赖(必选)
@@ -105,4 +115,7 @@ dependencies {
     implementation "com.airbnb.android:lottie:$ext.lottie_version"
     compileOnly 'org.checkerframework:checker-qual:3.3.0'
     implementation "com.google.android.gms:play-services-cronet:17.0.0"
+//    implementation 'com.tencent.tbs.tbssdk:sdk:43939'
+
+//    api("io.coil-kt:coil:1.2.1")
 }

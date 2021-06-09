@@ -19,7 +19,7 @@ import java.net.UnknownHostException
  *
  * 如果不需要用到liveData可以直接继承BaseFragment
  */
-open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
+abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     protected lateinit var viewModel: VM
     open fun providerVMClass(): Class<VM>? = null
     private var loadingDialog: LoadingDialogFragment? = null
@@ -29,12 +29,14 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
             viewModel = ViewModelProvider(this).get(it)
             lifecycle.addObserver(viewModel)
         }
-        loadingDialog = LoadingDialogFragment()
+//        loadingDialog = LoadingDialogFragment()
     }
 
     override fun startObserve() {
         viewModel.run {
             getException().observe(this@BaseViewModelFragment, { requestError(it) })
+            getLoadingState().observe(this@BaseViewModelFragment,
+                { if (it) showLoading() else dismissLoading() })
         }
     }
 
@@ -63,12 +65,18 @@ open class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
      */
     open fun tokenValid() {}
 
-    open fun showLoading() {
-        loadingDialog?.showNow(childFragmentManager, "loading")
+    private fun showLoading() {
+        loadingDialog = LoadingDialogFragment()
+        if (loadingDialog?.isAdded == false) {
+            loadingDialog?.showNow(childFragmentManager, "loading")
+        }
     }
 
-    open fun dismissLoading() {
-        if (loadingDialog?.isAdded == true) loadingDialog?.dismiss()
+    private fun dismissLoading() {
+        if (loadingDialog?.isAdded == true){
+            loadingDialog?.dismiss()
+            loadingDialog?.onDestroy()
+        }
     }
 
     open fun showError(errMsg: String?) {

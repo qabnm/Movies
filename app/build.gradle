@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.aliyun.ams.emas-services'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 def ext = rootProject.ext
 def cfg = ext.android
 
@@ -11,6 +10,7 @@ static def buildTime() {
 
 android {
     compileSdkVersion cfg.compileSdkVersion
+    buildToolsVersion cfg.buildToolsVersion
 
     defaultConfig {
         minSdkVersion cfg.minSdkVersion
@@ -79,7 +79,7 @@ android {
             //是否zip对齐
             zipAlignEnabled true
             // 缩减resource文件
-            shrinkResources true
+            shrinkResources false
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //签名

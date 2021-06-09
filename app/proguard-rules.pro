@@ -85,6 +85,7 @@
 -keep class com.duoduovv.hotspot.bean.**{*;}
 -keep class com.duoduovv.movie.bean.**{*;}
 -keep class com.duoduovv.personal.bean.**{*;}
+-keep class com.duoduovv.common.domain.**{*;}
 
 #httpdns
 -keep class com.taobao.** {*;}
@@ -150,3 +151,10 @@ native <methods>;
 -dontwarn com.alibaba.**
 -dontwarn com.ta.**
 -dontwarn com.ut.**
+
+#穿山甲
+-keep class com.bytedance.sdk.openadsdk.** { *; }
+-keep public interface com.bytedance.sdk.openadsdk.downloadnew.** {*;}
+-keep class com.pgl.sys.ces.** {*;}
+-keep class com.bytedance.embed_dr.** {*;}
+-keep class com.bytedance.embedapplog.** {*;}

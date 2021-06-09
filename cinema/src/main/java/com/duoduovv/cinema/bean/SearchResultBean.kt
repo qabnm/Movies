@@ -2,7 +2,7 @@ package com.duoduovv.cinema.bean
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 /**
  * @author: jun.liu
@@ -15,18 +15,6 @@ data class SearchResultBean(
 
 /**
  * 搜索结果
- * @property coverUrl String
- * @property movieItems List<MovieItem>?
- * @property strId String
- * @property vodArea String
- * @property vodDirector String
- * @property vodLang String
- * @property vodName String
- * @property vodYear String
- * @property typeText String
- * @property movieFlag String
- * @property way String
- * @constructor
  */
 data class SearchResultList(
     @SerializedName("cover_url")
@@ -54,10 +42,6 @@ data class SearchResultList(
 
 /**
  * 影视选集信息
- * @property vid String
- * @property title String
- * @property isSelect Boolean
- * @constructor
  */
 @Parcelize
 data class MovieItem(

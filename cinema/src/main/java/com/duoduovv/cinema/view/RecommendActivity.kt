@@ -6,10 +6,10 @@ import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.FilmRecommendAdapter
 import com.duoduovv.cinema.bean.FilmRecommendBean
+import com.duoduovv.cinema.databinding.ActivityRecommendBinding
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BridgeActivity
-import kotlinx.android.synthetic.main.activity_recommend.*
 
 /**
  * @author: jun.liu
@@ -20,11 +20,13 @@ import kotlinx.android.synthetic.main.activity_recommend.*
 class RecommendActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_recommend
     private var adapter: FilmRecommendAdapter? = null
+    private lateinit var mBind:ActivityRecommendBinding
 
     override fun initView() {
-        rvList.layoutManager = GridLayoutManager(this, 3)
+        mBind = ActivityRecommendBinding.bind(layoutView)
+        mBind.rvList.layoutManager = GridLayoutManager(this, 3)
         adapter = FilmRecommendAdapter(false)
-        rvList.adapter = adapter
+        mBind.rvList.adapter = adapter
         adapter?.setOnItemClickListener { adapter, _, position ->
             val movieId = (adapter as FilmRecommendAdapter).data[position].strId
             val way = adapter.data[position].way

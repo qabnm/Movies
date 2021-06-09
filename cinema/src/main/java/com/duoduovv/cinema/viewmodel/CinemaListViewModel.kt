@@ -38,7 +38,7 @@ class CinemaListViewModel : BaseViewModel() {
             try {
                 repository.mainPage(column)
             } catch (e: Exception) {
-                error.value = e
+                getException().value = e
                 null
             }
         }
@@ -46,7 +46,7 @@ class CinemaListViewModel : BaseViewModel() {
             try {
                 repository.mainRecommend(page, column)
             } catch (e: Exception) {
-                error.value = e
+                getException().value = e
                 null
             }
         }

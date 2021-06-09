@@ -1,13 +1,16 @@
 package com.duoduovv.cinema.view
 
 import android.os.Parcelable
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
 import com.duoduovv.cinema.bean.FilmRecommendBean
 import com.duoduovv.cinema.bean.MainBean
+import com.duoduovv.cinema.databinding.FragmentCinemaListBinding
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE_DETAIL
@@ -23,8 +26,7 @@ import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
-import kotlinx.android.synthetic.main.fragment_cinema_list.*
-import java.util.ArrayList
+import java.util.*
 
 /**
  * @author: jun.liu
@@ -39,11 +41,15 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     private var adapter: MainPageAdapter? = null
     private var column = ""
     private var mainBean: MainBean? = null
+    private lateinit var mBind: FragmentCinemaListBinding
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentCinemaListBinding.inflate(inflater, container, false)
 
     override fun initView() {
         adapter = null
-        rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
-        refreshLayout.apply {
+        mBind = baseBinding as FragmentCinemaListBinding
+        mBind.rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
+        mBind.refreshLayout.apply {
             setRefreshHeader(ClassicsHeader(requireActivity()))
             setRefreshFooter(ClassicsFooter(requireActivity()))
             setOnRefreshListener(this@CinemaListFragment)
@@ -51,30 +57,28 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         }
         viewModel.getMain().observe(this, { setData(viewModel.getMain().value) })
         viewModel.getMainRecommend().observe(this, {
-            dismissLoading()
             val value = viewModel.getMainRecommend().value
             mainBean?.mainRecommendBean?.recommends = value
             mainBean?.let { adapter?.notifyDataChanged(it) }
-            if (refreshLayout.isLoading) refreshLayout.finishLoadMore()
+            if (mBind.refreshLayout.isLoading) mBind.refreshLayout.finishLoadMore()
         })
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
     }
 
     private fun setData(value: MainBean?) {
-        dismissLoading()
         mainBean = value
         if (null != value) {
-            rvList.visibility = View.VISIBLE
+            mBind.rvList.visibility = View.VISIBLE
             if (null == adapter) {
                 adapter = MainPageAdapter(requireActivity(), bean = value)
-                rvList.adapter = adapter
+                mBind.rvList.adapter = adapter
                 adapter?.setOnItemClickListener(this)
             } else {
                 adapter?.notifyDataChanged(value)
             }
-            if (refreshLayout.isRefreshing) refreshLayout.finishRefresh()
+            if (mBind.refreshLayout.isRefreshing) mBind.refreshLayout.finishRefresh()
         } else {
-            rvList.visibility = View.GONE
+            mBind.rvList.visibility = View.GONE
         }
     }
 
@@ -85,13 +89,12 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     private fun noMoreData(flag: String?) {
         if (flag == NO_MORE_DATA) {
             //没有更多的数据了
-            refreshLayout.finishLoadMoreWithNoMoreData()
-            refreshLayout.setNoMoreData(true)
+            mBind.refreshLayout.finishLoadMoreWithNoMoreData()
+            mBind.refreshLayout.setNoMoreData(true)
         }
     }
 
     override fun initData() {
-        showLoading()
         column = arguments?.getString(ID) ?: ""
         viewModel.main(1, column)
     }
@@ -127,11 +130,11 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * 跳转影视详情
      * @param movieId String
      */
-    override fun onMovieClick(movieId: String, way:String) {
-        val ways = if (way == "-1"){
+    override fun onMovieClick(movieId: String, way: String) {
+        val ways = if (way == "-1") {
             //这是从banner过来的 接口没有添加这个字段
-            SharedPreferencesHelper.helper.getValue(BridgeContext.WAY,"") as String
-        }else way
+            SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, "") as String
+        } else way
         val path = if (ways == BridgeContext.WAY_VERIFY) {
             RouterPath.PATH_MOVIE_DETAIL_FOR_DEBUG
         } else {
@@ -143,8 +146,8 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     /**
      * 今日推荐查看更多
      */
-    override fun onTodayMoreClick(dataList:List<FilmRecommendBean>) {
-//        (rvList.layoutManager as GridLayoutManager).scrollToPositionWithOffset(3, 0)
-        ARouter.getInstance().build(RouterPath.PATH_RECOMMEND).withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
+    override fun onTodayMoreClick(dataList: List<FilmRecommendBean>) {
+        ARouter.getInstance().build(RouterPath.PATH_RECOMMEND)
+            .withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
     }
 }

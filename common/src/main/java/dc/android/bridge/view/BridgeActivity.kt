@@ -1,7 +1,9 @@
 package dc.android.bridge.view
 
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import androidx.annotation.ColorInt
 import dc.android.bridge.util.StatusBarWrapper
 
@@ -11,7 +13,9 @@ import dc.android.bridge.util.StatusBarWrapper
  */
 open class BridgeActivity : BaseActivity() {
     private lateinit var barWrapper: StatusBarWrapper
-
+    protected lateinit var layoutView: View
+    private var onResumeTime = 0L
+    private var onStopTime = 0L
     override fun initAttach() {
         super.initAttach()
         barWrapper = StatusBarWrapper(this)
@@ -30,8 +34,8 @@ open class BridgeActivity : BaseActivity() {
         isStatusColorDark: Boolean = true,
         @ColorInt statusBarColor: Int = Color.WHITE
     ) {
-        val contentView = LayoutInflater.from(this).inflate(getLayoutId(), null)
-        barWrapper.onCreate(contentView)
+        layoutView = LayoutInflater.from(this).inflate(getLayoutId(), null)
+        barWrapper.onCreate(layoutView, this)
         barWrapper.setStatusBarColor(isStatusColorDark, statusBarColor)
     }
 
@@ -56,10 +60,22 @@ open class BridgeActivity : BaseActivity() {
         barWrapper.showStatusBarView(showStatusBarView())
     }
 
-    open fun showStatusBarView():Boolean = true
+    open fun showStatusBarView(): Boolean = true
 
-    fun setStatusBarVisible(visible:Int){
+    fun setStatusBarVisible(visible: Int) {
         barWrapper.setStatusBarVisible(visible)
     }
 
+    override fun onResume() {
+        super.onResume()
+        onResumeTime = System.currentTimeMillis()
+        if (onStopTime > 0) {
+            Log.d("AD_DEMO", "${onResumeTime - onStopTime}")
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        onStopTime = System.currentTimeMillis()
+    }
 }

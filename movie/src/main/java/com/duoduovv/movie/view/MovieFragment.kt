@@ -2,6 +2,8 @@ package com.duoduovv.movie.view
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -11,11 +13,11 @@ import com.duoduovv.common.adapter.NoLineIndicatorAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
+import com.duoduovv.movie.databinding.FragmentMovieBinding
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseFragment
 import dc.android.tools.LiveDataBus
-import kotlinx.android.synthetic.main.fragment_movie.*
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
 
@@ -26,22 +28,28 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  */
 @Route(path = RouterPath.PATH_MOVIE)
 class MovieFragment : BaseFragment() {
+    private lateinit var mBind: FragmentMovieBinding
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentMovieBinding.inflate(inflater, container, false)
+
     override fun getLayoutId() = R.layout.fragment_movie
-    private var typeId:String? = null
-    private var libFragment:MovieLibraryNavFragment?=null
+    private var typeId: String? = null
+    private var libFragment: MovieLibraryNavFragment? = null
 
     override fun initView() {
-        val layoutParams = vStatusBar.layoutParams as ConstraintLayout.LayoutParams
+        mBind = baseBinding as FragmentMovieBinding
+        val layoutParams = mBind.vStatusBar.layoutParams as ConstraintLayout.LayoutParams
         layoutParams.height = OsUtils.getStatusBarHeight(requireActivity())
-        imgSearch.setOnClickListener {
+        mBind.imgSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
-                .withStringArrayList(BridgeContext.LIST, BaseApplication.hotList as? ArrayList).navigation()
+                .withStringArrayList(BridgeContext.LIST, BaseApplication.hotList as? ArrayList)
+                .navigation()
         }
-        LiveDataBus.get().with(BridgeContext.ID,String::class.java).observe(this, {
+        LiveDataBus.get().with(BridgeContext.ID, String::class.java).observe(this, {
             typeId = it
-            Log.i("typeId","我已经接受到typeId了，$typeId")
-            if (null != vpContainer.adapter) {
-                vpContainer.currentItem = 0
+            Log.i("typeId", "我已经接受到typeId了，$typeId")
+            if (null != mBind.vpContainer.adapter) {
+                mBind.vpContainer.currentItem = 0
                 libFragment?.setTypeId(it)
             }
         })
@@ -53,17 +61,17 @@ class MovieFragment : BaseFragment() {
         val fragmentList = ArrayList<Fragment>()
         libFragment = MovieLibraryNavFragment()
         val bundle = Bundle()
-        bundle.putString(BridgeContext.TYPE_ID,typeId)
+        bundle.putString(BridgeContext.TYPE_ID, typeId)
         libFragment!!.arguments = bundle
         fragmentList.add(libFragment!!)
-        Log.i("typeId","初始化先执行了，$typeId")
+        Log.i("typeId", "初始化先执行了，$typeId")
 
         val rankNavFragment = MovieRankNavFragment()
         fragmentList.add(rankNavFragment)
-        vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
+        mBind.vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
         CommonNavigator(requireActivity()).apply {
             adapter = NoLineIndicatorAdapter(
-                viewPager = vpContainer,
+                viewPager = mBind.vpContainer,
                 data = data,
                 unSelectColor = R.color.color666666,
                 selectColor = R.color.color000000,
@@ -71,8 +79,8 @@ class MovieFragment : BaseFragment() {
                 selectSize = R.dimen.sp_20
             )
             isAdjustMode = false
-            indicator.navigator = this
+            mBind.indicator.navigator = this
         }
-        ViewPagerHelper.bind(indicator, vpContainer)
+        ViewPagerHelper.bind(mBind.indicator, mBind.vpContainer)
     }
 }

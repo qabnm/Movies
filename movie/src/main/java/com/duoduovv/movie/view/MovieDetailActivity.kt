@@ -5,11 +5,12 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
@@ -18,39 +19,47 @@ import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SampleCoverVideo
 import com.duoduovv.movie.R
+import com.duoduovv.movie.adapter.ChangePlayLineAdapter
 import com.duoduovv.movie.adapter.MovieDetailAdapter
 import com.duoduovv.movie.bean.*
 import com.duoduovv.movie.component.MovieDetailArtSelectDialog
+import com.duoduovv.movie.component.MovieDetailCallback
 import com.duoduovv.movie.component.MovieDetailDialogFragment
 import com.duoduovv.movie.component.MovieDetailSelectDialogFragment
+import com.duoduovv.movie.databinding.ActivityMovieDetailBinding
 import com.duoduovv.movie.viewmodel.MovieDetailViewModel
 import com.duoduovv.room.domain.CollectionBean
-import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.upstream.HttpDataSource
+import com.google.android.exoplayer2.upstream.TransferListener
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.BridgeContext.Companion.URL
+import dc.android.bridge.BridgeContext.Companion.WAY_H5
 import dc.android.bridge.BridgeContext.Companion.WAY_RELEASE
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
-import kotlinx.android.synthetic.main.activity_movie_detail.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
+import tv.danmaku.ijk.media.exo2.ExoMediaSourceInterceptListener
 import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
+import tv.danmaku.ijk.media.exo2.ExoSourceManager
+import java.io.File
 
 /**
  * @author: jun.liu
@@ -59,11 +68,12 @@ import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
  */
 @Route(path = RouterPath.PATH_MOVIE_DETAIL)
 class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
-    MovieDetailAdapter.OnViewClickListener, SampleCoverVideo.OnStartClickListener,
+    SampleCoverVideo.OnStartClickListener,
     MovieDetailSelectDialogFragment.OnSelectDialogItemClickListener,
-    MovieDetailArtSelectDialog.OnSelectDialogItemClickListener {
+    MovieDetailArtSelectDialog.OnSelectDialogItemClickListener, MovieDetailCallback {
     override fun getLayoutId() = R.layout.activity_movie_detail
     override fun providerVMClass() = MovieDetailViewModel::class.java
+    private lateinit var mBind: ActivityMovieDetailBinding
     private var movieId = ""
     private var vid = ""
     private var detailAdapter: MovieDetailAdapter? = null
@@ -81,44 +91,102 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var navHeight = 0
     private var realHeight = 0
     private var vidByQuery = ""
+    private var fragment: MovieDetailFragment? = null
+    private var line = ""//播放线路
+    private var js = ""
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
 
     override fun initView() {
-        rvList.layoutManager = GridLayoutManager(this, 3)
+        mBind = ActivityMovieDetailBinding.bind(layoutView)
+        //播放详情
         viewModel.getMovieDetail().observe(this, { setData(viewModel.getMovieDetail().value) })
+        //获取播放地址
         viewModel.getMoviePlayInfo()
             .observe(this, { setPlayInfo(viewModel.getMoviePlayInfo().value) })
+        //点击了推荐视频
         viewModel.getMovieClickInfo()
             .observe(this, { setClickInfo(viewModel.getMovieClickInfo().value) })
-        orientationUtils = OrientationUtils(this, videoPlayer)
+        //解析播放地址
+        viewModel.getPlayUrl().observe(this, { analysisPlayUrl(viewModel.getPlayUrl().value) })
+        //解析三方的地址
+        viewModel.getJxUrl().observe(this, { jxPlayUrl(viewModel.getJxUrl().value) })
+        orientationUtils = OrientationUtils(this, mBind.videoPlayer)
         orientationUtils?.isEnable = false
         setVideoPlayer()
-        videoPlayer.setVideoAllCallBack(videoCallback)
-        videoPlayer.fullscreenButton.setOnClickListener {
+        mBind.videoPlayer.setVideoAllCallBack(videoCallback)
+        mBind.videoPlayer.fullscreenButton.setOnClickListener {
             orientationUtils?.resolveByClick()
-            videoPlayer.startWindowFullscreen(this, true, true)
+            mBind.videoPlayer.startWindowFullscreen(this, true, true)
         }
         screenHeight = OsUtils.getRealDisplayHeight(this)
         topBarHeight = OsUtils.getStatusBarHeight(this)
         navHeight = OsUtils.getNavigationBarHeight(this)
+        //添加顶部fragment
+        fragment = MovieDetailFragment()
+        fragment?.let {
+            it.setCallback(this)
+            supportFragmentManager.beginTransaction().add(R.id.layoutTop, it).commit()
+        }
+        detailAdapter = MovieDetailAdapter()
+        mBind.rvList.adapter = detailAdapter
+        detailAdapter?.setOnItemClickListener { adapter, _, position ->
+            val movieId = (adapter as MovieDetailAdapter).data[position].strId
+            onMovieClick(movieId)
+        }
+        mBind.imgError.setOnClickListener { finish() }
+    }
+
+    /**
+     * 播放出现错误的时候切换线路
+     */
+    private fun onPlayError() {
+        detailBean?.let {
+            mBind.layoutStateError.visibility = View.VISIBLE
+            val lineAdapter = ChangePlayLineAdapter()
+            mBind.rvLine.adapter = lineAdapter
+            val lineList = it.lineList
+            for (i in lineList.indices) {
+                lineList[i].isDefault = false
+            }
+            for (i in lineList.indices) {
+                if (lineList[i].line == line) lineList[i].isDefault = true
+            }
+            lineAdapter.setList(lineList)
+            lineAdapter.setOnItemClickListener { _, _, position ->
+                this.line = lineList[position].line
+                viewModel.moviePlayInfo(vid, movieId, line, js,1)
+                mBind.layoutStateError.visibility = View.GONE
+                for (i in it.lineList.indices) {
+                    it.lineList[i].isDefault = false
+                }
+                it.lineList[position].isDefault = true
+            }
+        }
+    }
+
+    override fun onJxError() {
+        onPlayError()
     }
 
     /**
      * 播放器相关状态和时间监听毁掉
      */
     private val videoCallback = object : VideoPlayCallback() {
-        override fun onPlayError(url: String?, vararg objects: Any?) {
+        override fun onPlayError(url: String, vararg objects: Any) {
             super.onPlayError(url, *objects)
+            onPlayError()
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
+            viewModel.playError(vid, url,"onPlayError")
         }
 
         override fun onPrepared(url: String?, vararg objects: Any?) {
             super.onPrepared(url, *objects)
-            orientationUtils?.isEnable = videoPlayer.isRotateWithSystem
+            mBind.layoutStateError.visibility = View.GONE
+            orientationUtils?.isEnable = mBind.videoPlayer.isRotateWithSystem
             if (currentLength > 0 && vidByQuery == vid) {
-                videoPlayer.seekTo(currentLength)
+                mBind.videoPlayer.seekTo(currentLength)
             }
             currentLength = 0
         }
@@ -145,13 +213,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         currentPlayPosition++
                         vid = movieItems[currentPlayPosition].vid
                         vidTitle = movieItems[currentPlayPosition].title
-                        viewModel.moviePlayInfo(vid, movieId, 1)
+                        viewModel.moviePlayInfo(vid, movieId, line, "",1)
                         //更新选集显示
                         for (i in movieItems.indices) {
                             movieItems[i].isSelect = false
                         }
                         movieItems[currentPlayPosition].isSelect = true
-                        detailAdapter?.notifyItemChanged(0)
+                        fragment?.updateSelect(it.movieItems, currentPlayPosition)
                     }
                 }
             }
@@ -163,38 +231,87 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param bean MoviePlayInfoBean?
      */
     private fun setClickInfo(bean: MoviePlayInfoBean?) {
-        bean?.let {
-            val playList = it.playUrls
-            if (playList?.isNotEmpty() == true) {
-                (videoPlayer.currentPlayer as SampleCoverVideo).apply {
-                    setStartClick(1)
-                    setUp(playList[0].url, true, "")
-                    startPlayLogic()
-                }
-            }
-        }
+        setPlayInfo(bean, 1)
     }
+
+    private var playFlag = 0
 
     /**
      * 视频播放信息  第一次进来的时候，只加载视频信息 但是不播放
      * 只有正常版本的才会走到这里来
      * @param bean MoviePlayInfoBean
      */
-    private fun setPlayInfo(bean: MoviePlayInfoBean?) {
+    private fun setPlayInfo(bean: MoviePlayInfoBean?, flag: Int = 0) {
         bean?.let {
-            val playList = it.playUrls
-            Log.d("videoPlayer", "****这里执行了：way=$way")
-            if (playList?.isNotEmpty() == true) {
-                videoPlayer.setStartClick(1)
-                videoPlayer.setUp(playList[0].url, true, "")
-                //如果是可播放的直接播放
-//                if (way == WAY_RELEASE) videoPlayer.startPlayLogic()
+            //根据type判断是否需要调用解析的接口
+            this.playFlag = flag
+            js = it.js
+            when (it.type) {
+                "h5" -> {
+                    //跳转H5
+                    playUrl = it.h5Url
+                }
+                "stream" -> {
+                    //直接播放的 不用再次解析
+                    val playList = it.playUrls
+                    Log.d("videoPlayer", "****这里执行了：way=$way")
+                    if (playList?.isNotEmpty() == true) {
+                        mBind.videoPlayer.setStartClick(1)
+                        mBind.videoPlayer.setUp(playList[0].url, true, "")
+                        mBind.videoPlayer.startPlayLogic()
+                    } else { }
+                }
+                "jx" -> {
+                    //需要再次解析播放地址
+                    val headers = it.request.headers
+                    val map = HashMap<String, String>()
+                    for (i in headers.indices) {
+                        map[headers[i].name] = headers[i].value
+                    }
+                    if ("GET" == it.request.method || "get" == it.request.method) {
+                        viewModel.jxUrlForGEet(it.request.url, map)
+                    } else {
+                        //post请求
+                        val paramsMap = HashMap<String, String>()
+                        val maps = it.request.formParams
+                        maps?.let {
+                            for (i in maps.indices) {
+                                paramsMap[maps[i].name] = maps[i].value
+                            }
+                        }
+                        viewModel.jxUrlForPost(it.request.url, map, paramsMap)
+                    }
+                }
+                else -> {
+                }
+            }
+        }
+    }
+
+    private fun jxPlayUrl(content: String?) {
+        content?.let {
+            viewModel.analysisPlayUrl(vid, movieId, line, it)
+        }
+    }
+
+    /**
+     * 解析播放地址
+     * 获取真正的播放地址
+     * @param bean List
+     */
+    private fun analysisPlayUrl(bean: JxPlayUrlBean?) {
+        bean?.let {
+            val playUrls = it.playUrls
+            if (playUrls?.isNotEmpty() == true) {
+                mBind.videoPlayer.setStartClick(1)
+                mBind.videoPlayer.setUp(playUrls[0].url, true, "")
+                mBind.videoPlayer.startPlayLogic()
+                Log.d("videoPlayer", "****这里执行了：way=$way")
             }
         }
     }
 
     override fun initData() {
-        showLoading()
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
@@ -202,12 +319,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     private fun setData(detailBean: MovieDetailBean?) {
         //查询视频详情
-        dismissLoading()
         this.detailBean = detailBean
         if (detailBean == null) return
         movieId = detailBean.movie.strId
         way = detailBean.way
         title = detailBean.movie.vodName
+        line = detailBean.playLine
         queryMovieById(movieId)
     }
 
@@ -229,19 +346,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
             }
             //视频信息
-            videoPlayer.loadCoverImage(
+            mBind.videoPlayer.loadCoverImage(
                 this@MovieDetailActivity,
                 detailBean!!.movie.coverUrl,
                 ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
             )
-            if (null == detailAdapter) {
-                detailAdapter =
-                    MovieDetailAdapter(this@MovieDetailActivity, detailBean = detailBean!!)
-                detailAdapter?.setOnViewClick(this@MovieDetailActivity)
-                rvList.adapter = detailAdapter
-            } else {
-                detailAdapter?.notifyDataChange(detailBean!!)
-            }
+            fragment?.bindDetail(detailBean!!)
+            detailAdapter?.setList(detailBean!!.recommends)
             val list = detailBean!!.movieItems
             //默认播放第一集
             if (list.isNotEmpty()) {
@@ -261,27 +372,21 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     detailBean!!.movieItems[0].isSelect = true
                     vidTitle = detailBean!!.movieItems[0].title
                 }
-                detailAdapter?.notifyItemChanged(0)
-                if (way == WAY_RELEASE) {
-                    //如果是正常版本 就请求播放信息 如果没有剧集信息 就默认播放第一集
-                    if (!hasClickRecommend) {
-                        if (StringUtils.isEmpty(vid)) {
-                            vid = list[0].vid
-                        }
-                    } else {
+                fragment?.bindDetail(detailBean!!)
+                //去请求播放地址信息 播放地址也 可能是H5的跳转链接
+                if (!hasClickRecommend) {
+                    if (StringUtils.isEmpty(vid)) {
                         vid = list[0].vid
                     }
-                    viewModel.moviePlayInfo(vid, movieId)
-                } else if (way == BridgeContext.WAY_H5) {
-                    //如果是H5版本
-                    videoPlayer.setStartClick(0)
-                    val urlList = detailBean!!.playUrls
-                    if (urlList?.isNotEmpty() == true) playUrl = urlList[0].url
+                } else {
+                    vid = list[0].vid
                 }
+                viewModel.moviePlayInfo(vid, movieId, line,"")
+                if (way == WAY_H5) mBind.videoPlayer.setStartClick(0)
             }
             //更新收藏状态
             val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
-            detailAdapter?.notifyCollectionChange(collectionBean)
+            fragment?.notifyCollectionChange(collectionBean)
         }
     }
 
@@ -290,10 +395,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     private fun setVideoPlayer() {
         //EXOPlayer内核，支持格式更多
-        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
+//        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
         //exo缓存模式，支持m3u8，只支持exo
-        CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
-        videoPlayer.apply {
+//        CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
+        mBind.videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
             fullscreenButton.setOnClickListener {
@@ -342,6 +447,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             clipboard.setPrimaryClip(clipData)
             AndroidUtils.toast("复制成功，快去打开看看吧！", this@MovieDetailActivity)
         }
+
+        override fun onWeiChatClick(flag: Int) {
+            WeiChatTool.regToWx(BaseApplication.baseCtx)
+            WeiChatTool.weiChatShareAsWeb(
+                SHARE_LINK,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                BitmapFactory.decodeResource(resources, R.drawable.share_icon),
+                flag
+            )
+        }
     }
 
     /**
@@ -358,11 +474,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             GlobalScope.launch(Dispatchers.Main) {
                 if (it.isCollect) {
                     viewModel.deleteCollection(it)
+                    AndroidUtils.toast("取消收藏成功", this@MovieDetailActivity)
                 } else {
                     viewModel.addCollection(it)
+                    AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
                 }
                 val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
-                detailAdapter?.notifyCollectionChange(bean)
+                fragment?.notifyCollectionChange(bean)
             }
         } ?: also {
             GlobalScope.launch(Dispatchers.Main) {
@@ -380,15 +498,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     collectionTime = System.currentTimeMillis()
                 )
                 viewModel.addCollection(bean)
+                AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
                 val beans = viewModel.queryCollectionById(detailBean.id)
-                detailAdapter?.notifyCollectionChange(beans)
+                fragment?.notifyCollectionChange(beans)
             }
         }
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
         super.onWindowFocusChanged(hasFocus)
-        videoHeight = videoPlayer.measuredHeight
+        videoHeight = mBind.videoPlayer.measuredHeight
         realHeight = screenHeight - topBarHeight - videoHeight - navHeight
     }
 
@@ -448,10 +567,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onSelectClick(vid: String, movieId: String, vidTitle: String) {
         this.vid = vid
         this.vidTitle = vidTitle
-        if (way == WAY_RELEASE) {
-            //只有正常班的才会去请求接口
-            viewModel.moviePlayInfo(vid, movieId, 1)
-        }
+        mBind.layoutStateError.visibility = View.GONE
+//        if (way == WAY_RELEASE) {
+        //只有正常班的才会去请求接口
+        viewModel.moviePlayInfo(vid, movieId, line, "",1)
+        //清理掉当前正在播放的视频
+        mBind.videoPlayer.currentPlayer.release()
+//        }
     }
 
     private var hasClickRecommend = false
@@ -460,9 +582,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 点击了推荐的视频
      * @param movieId String
      */
-    override fun onMovieClick(movieId: String) {
+    private fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
+            mBind.videoPlayer.currentPlayer.release()
+            mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()
 //            GSYVideoManager.releaseAllVideos()
             hasClickRecommend = true
@@ -475,12 +599,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         orientationUtils?.backToProtVideo()
         if (GSYVideoManager.backFromWindowFull(this)) return
         //释放所有
-        videoPlayer.setVideoAllCallBack(null)
+        mBind.videoPlayer.setVideoAllCallBack(null)
         super.onBackPressed()
     }
 
     override fun onResume() {
-        videoPlayer.currentPlayer.onVideoResume(false)
+        mBind.videoPlayer.currentPlayer.onVideoResume(false)
         super.onResume()
     }
 
@@ -495,12 +619,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun updateHistoryDB() {
         detailBean?.let {
             viewModel.updateHistoryDB(
-                progress = videoPlayer.currentPlayer.currentPositionWhenPlaying,
+                progress = mBind.videoPlayer.currentPlayer.currentPositionWhenPlaying,
                 detailBean = it,
                 movieId = movieId,
                 vid = vid,
                 vidTitle = vidTitle,
-                duration = videoPlayer.currentPlayer.duration
+                duration = mBind.videoPlayer.currentPlayer.duration
             )
         }
     }
@@ -513,13 +637,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onPause() {
-        videoPlayer.currentPlayer.onVideoPause()
+        mBind.videoPlayer.currentPlayer.onVideoPause()
         super.onPause()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        (videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(if (way == WAY_RELEASE) 1 else 0)
+        (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(if (way == WAY_RELEASE) 1 else 0)
         Log.d("movieDetail", "当前播放路径是：$way")
         when (newConfig.orientation) {
             Configuration.ORIENTATION_LANDSCAPE -> {
@@ -539,8 +663,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 跳转H5页面
      */
     override fun onStartClick() {
-        ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
-            .withString(TITLE, title).navigation()
+        if (!StringUtils.isEmpty(playUrl) && (playUrl.startsWith("http") || playUrl.startsWith("https"))) {
+            ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
+                .withString(TITLE, title).navigation()
+            //跳转系统浏览器
+//            val uri = Uri.parse(playUrl)
+//            val intent = Intent(Intent.ACTION_VIEW, uri)
+//            startActivity(intent)
+        }
     }
 
     /**
@@ -556,7 +686,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (vid == it.movieItems[i].vid) pos = i
             }
             it.movieItems[pos].isSelect = true
-            detailAdapter?.notifyItemChanged(0)
+            fragment?.updateSelect(it.movieItems, pos)
+//            detailAdapter?.notifyItemChanged(0)
             onSelectClick(vid, movieId, vidTitle)
         }
     }

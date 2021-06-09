@@ -14,7 +14,7 @@ data class MovieRankBean(
 data class RankList(
     @SerializedName("cover_url")
     val coverUrl: String,
-    @SerializedName("last_remark")
+    @SerializedName("remark")
     val lastRemark: String,
     @SerializedName("str_id")
     val strId: String,

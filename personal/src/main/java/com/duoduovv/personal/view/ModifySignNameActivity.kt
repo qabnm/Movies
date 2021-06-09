@@ -5,8 +5,8 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.view.MyTextWatcher
 import com.duoduovv.personal.R
+import com.duoduovv.personal.databinding.ActivityModifySignNameBinding
 import dc.android.bridge.view.BridgeActivity
-import kotlinx.android.synthetic.main.activity_modify_sign_name.*
 
 /**
  * @author: jun.liu
@@ -16,16 +16,19 @@ import kotlinx.android.synthetic.main.activity_modify_sign_name.*
 @Route(path = RouterPath.PATH_MODIFY_SIGN_NAME)
 class ModifySignNameActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_modify_sign_name
+    private lateinit var mBind: ActivityModifySignNameBinding
 
     override fun initView() {
-        etSignName.addTextChangedListener(object :MyTextWatcher(){
+        mBind = ActivityModifySignNameBinding.bind(layoutView)
+        mBind.etSignName.addTextChangedListener(object : MyTextWatcher() {
             override fun afterTextChanged(s: Editable?) {
-                tvCount.text = "${224 - etSignName.text.length}"
+                mBind.tvCount.text = "${224 - mBind.etSignName.text.length}"
             }
         })
-        layoutTopBar.setRightClick {  }
+        mBind.layoutTopBar.setRightClick { }
     }
+
     override fun initData() {
-        tvCount.text = "${224 - etSignName.text.length}"
+        mBind.tvCount.text = "${224 - mBind.etSignName.text.length}"
     }
 }

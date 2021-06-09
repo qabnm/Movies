@@ -10,6 +10,7 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.VersionBean
+import com.duoduovv.personal.databinding.ActivityAboutUsBinding
 import com.duoduovv.personal.viewmodel.SettingViewModel
 import com.duoduovv.weichat.WeiChatTool
 import dc.android.bridge.BridgeContext
@@ -19,7 +20,6 @@ import dc.android.bridge.BridgeContext.Companion.URL_USER_AGREEMENT
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelActivity
-import kotlinx.android.synthetic.main.activity_about_us.*
 import kotlin.system.exitProcess
 
 /**
@@ -31,13 +31,15 @@ import kotlin.system.exitProcess
 class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
     override fun getLayoutId() = R.layout.activity_about_us
     override fun providerVMClass() = SettingViewModel::class.java
+    private lateinit var mBind: ActivityAboutUsBinding
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
     private var bean: VersionBean? = null
     private var lastClickTime: Long = 0
     private var clickTime = 0
 
     override fun initView() {
-        layoutCheck.setOnClickListener { checkUpgrade() }
+        mBind = ActivityAboutUsBinding.bind(layoutView)
+        mBind.layoutCheck.setOnClickListener { checkUpgrade() }
         viewModel.getUpgrade().observe(this, { onCheckSuccess(viewModel.getUpgrade().value) })
         viewModel.getProgress().observe(this, {
             val progress = viewModel.getProgress().value
@@ -48,49 +50,49 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             intent?.let { startActivity(it) }
             exitProcess(1)
         })
-        layoutUserAgreement.setOnClickListener {
+        mBind.layoutUserAgreement.setOnClickListener {
             //用户协议
             toWebActivity("用户协议", URL_USER_AGREEMENT)
         }
-        layoutPrivacy.setOnClickListener {
+        mBind.layoutPrivacy.setOnClickListener {
             //隐私政策
             toWebActivity("隐私政策", URL_PRIVACY)
         }
-        imgIcon.setOnClickListener { onIconClick(0) }
-        tvLogoName.setOnClickListener { onIconClick(1) }
+        mBind.imgIcon.setOnClickListener { onIconClick(0) }
+        mBind.tvLogoName.setOnClickListener { onIconClick(1) }
         if (OsUtils.isAppDebug()) {
-            imgIcon.setOnLongClickListener {
-                layoutDebug.visibility = View.VISIBLE
-                tvSure.setOnClickListener {
-                    if (!TextUtils.isEmpty(etInput.text)) {
+            mBind.imgIcon.setOnLongClickListener {
+                mBind.layoutDebug.visibility = View.VISIBLE
+                mBind.tvSure.setOnClickListener {
+                    if (!TextUtils.isEmpty(mBind.etInput.text)) {
                         SharedPreferencesHelper.helper.setValue(
                             BridgeContext.DEBUG_WAY,
-                            etInput.text.toString()
+                            mBind.etInput.text.toString()
                         )
                         SharedPreferencesHelper.helper.remove(TOKEN)
                         WeiChatTool.mTenCent?.logout(this)
                         AndroidUtils.toast("切换完成,请重新进入再试！", this)
-                        layoutDebug.visibility = View.GONE
+                        mBind.layoutDebug.visibility = View.GONE
                     }
                 }
                 true
             }
-            tvClear.setOnClickListener {
+            mBind.tvClear.setOnClickListener {
                 SharedPreferencesHelper.helper.remove(BridgeContext.DEBUG_WAY)
-                AndroidUtils.toast("清除成功",this)
+                AndroidUtils.toast("清除成功", this)
             }
         }
     }
 
-    private fun onIconClick(flag:Int) {
+    private fun onIconClick(flag: Int) {
         fastClick()
         if (clickTime > 5) {
             if (flag == 0) {
                 //显示渠道名称
-                vLine.visibility = View.VISIBLE
-                layoutWhere.visibility = View.VISIBLE
-                tvWhere.text = AndroidUtils.getAppMetaData()
-            }else{
+                mBind.vLine.visibility = View.VISIBLE
+                mBind.layoutWhere.visibility = View.VISIBLE
+                mBind.tvWhere.text = AndroidUtils.getAppMetaData()
+            } else {
                 //显示位置切换功能
                 ARouter.getInstance().build(RouterPath.PATH_CITY_SELECT).navigation()
             }
@@ -136,9 +138,9 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             val versionCode = OsUtils.getVerCode(this)
             if (versionCode != -1 && it.versionNum > versionCode) {
                 //显示升级小红点
-                vDot.visibility = View.VISIBLE
+                mBind.vDot.visibility = View.VISIBLE
             } else {
-                vDot.visibility = View.GONE
+                mBind.vDot.visibility = View.GONE
             }
         }
     }
@@ -154,7 +156,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
 
     override fun initData() {
         viewModel.upgrade()
-        tvVersion.text = "v${OsUtils.getVerName(BaseApplication.baseCtx)}"
+        mBind.tvVersion.text = "v${OsUtils.getVerName(BaseApplication.baseCtx)}"
     }
 
     private fun fastClick() {

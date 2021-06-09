@@ -48,7 +48,7 @@ interface IMovieApiService {
     /**
      * 视频详情
      */
-    @GET("api/vod")
+    @GET("api/v2/vod")
     suspend fun movieDetail(
         @Query("id") id: String,
         @Query("vid") vid: String = ""
@@ -68,11 +68,29 @@ interface IMovieApiService {
      * @param id String
      * @return BaseResponseData<MoviePlayInfoBean>
      */
-    @GET("api/vod/get_play")
+    @GET("api/v2/vod/get_play")
     suspend fun moviePlayInfo(
         @Query("vid") vid: String,
-        @Query("id") id: String
+        @Query("id") id: String,
+        @Query("line") line: String,
+        @Query("js") js:String
     ): BaseResponseData<MoviePlayInfoBean>
+
+    /**
+     * 解析播放地址
+     * @param vid String
+     * @param id String
+     * @param line String
+     * @return BaseResponseData<PlayUrl>
+     */
+    @FormUrlEncoded
+    @POST("api/v2/vod/jx")
+    suspend fun analysisPlayUrl(
+        @Field("vid") vid: String,
+        @Field("id") id: String,
+        @Field("line") line: String,
+        @Field("content") content: String
+    ): BaseResponseData<JxPlayUrlBean>
 
     /**
      * 举报
@@ -82,5 +100,23 @@ interface IMovieApiService {
      */
     @FormUrlEncoded
     @POST("api/report")
-    suspend fun report(@Field("content") content:String,@Field("movie_id")movieId: String):BaseResponseData<Any>
+    suspend fun report(
+        @Field("content") content: String,
+        @Field("movie_id") movieId: String
+    ): BaseResponseData<Any>
+
+    /**
+     * 视频播放失败的接口
+     * @param vid String
+     * @param url String
+     * @param message String
+     * @return BaseResponseData<Any>
+     */
+    @FormUrlEncoded
+    @POST("api/v2/vod/play_err")
+    suspend fun playError(
+        @Field("vid") vid: String,
+        @Field("url") url: String,
+        @Field("message") message: String
+    ): BaseResponseData<Any>
 }

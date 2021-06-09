@@ -10,9 +10,9 @@ import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 class WeiChatBridgeContext {
     companion object{
         //微信appId
-        const val weiChatAppId = "000000"
+        const val weiChatAppId = "wxdecfb656601fb36a"
         //微信秘钥
-        const val weiChatSecret = ""
+        const val weiChatSecret = "fc4f418e223786e246a2652c48fa1a21"
         //分享到微信好友
         const val weiChatFriend = SendMessageToWX.Req.WXSceneSession
         //分享到微信朋友圈

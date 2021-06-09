@@ -3,10 +3,16 @@ package com.duoduovv.personal.view
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.graphics.BitmapFactory
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
+import com.duoduovv.advert.AdvertBridge
+import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.util.RouterPath
@@ -16,10 +22,10 @@ import com.duoduovv.common.util.RouterPath.Companion.PATH_SETTING_ACTIVITY
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
 import com.duoduovv.personal.bean.*
+import com.duoduovv.personal.databinding.FragmentPersonalBinding
 import com.duoduovv.personal.viewmodel.WeiChatViewModel
 import com.duoduovv.tent.TentLoginListener
 import com.duoduovv.tent.TentUserInfo
-import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
@@ -36,10 +42,10 @@ import dc.android.bridge.BridgeContext.Companion.WAY
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
-import kotlinx.android.synthetic.main.fragment_personal.*
 
 /**
  * @author: jun.liu
@@ -50,42 +56,46 @@ import kotlinx.android.synthetic.main.fragment_personal.*
 class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun getLayoutId() = R.layout.fragment_personal
     override fun providerVMClass() = WeiChatViewModel::class.java
+    private lateinit var mBind: FragmentPersonalBinding
+    private var ttAd: TTInfoAd? = null
+    private var gdtAd: GDTInfoAd? = null
 
     override fun initView() {
+        mBind = baseBinding as FragmentPersonalBinding
         if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
             //正式版
-            layoutIsRes.visibility = View.VISIBLE
-            layoutHistory.setOnClickListener {
+            mBind.layoutIsRes.visibility = View.VISIBLE
+            mBind.layoutHistory.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
             }
-            layoutDownload.setOnClickListener { }
-            layoutCollection.setOnClickListener {
+            mBind.layoutDownload.setOnClickListener { }
+            mBind.layoutCollection.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
             }
-            layoutShare.setOnClickListener { onShareClick() }
-//            layoutContainer.visibility = View.VISIBLE
-            vLine.visibility = View.VISIBLE
+            mBind.layoutShare.setOnClickListener { onShareClick() }
+            mBind.layoutContainer.visibility = View.VISIBLE
+            mBind.vLine.visibility = View.VISIBLE
         } else {
             //审核版
-            layoutIsRes.visibility = View.GONE
-//            layoutContainer.visibility = View.GONE
-            vLine.visibility = View.GONE
+            mBind.layoutIsRes.visibility = View.GONE
+            mBind.layoutContainer.visibility = View.GONE
+            mBind.vLine.visibility = View.GONE
         }
-        layoutContract.setOnClickListener {
+        mBind.layoutContract.setOnClickListener {
             //问题反馈
             FeedbackAPI.openFeedbackActivity()
         }
-        layoutSetting.setOnClickListener {
+        mBind.layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
         }
-        layoutAbout.setOnClickListener {
+        mBind.layoutAbout.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_ABOUT_US).navigation()
         }
-        layoutTop.setOnClickListener {
+        mBind.layoutTop.setOnClickListener {
             ARouter.getInstance().build(PATH_EDIT_MATERIALS).navigation()
         }
-        imgWeiChat.setOnClickListener { weiChatLogin() }
-        imgQQ.setOnClickListener { qqLogin() }
+        mBind.imgWeiChat.setOnClickListener { weiChatLogin() }
+        mBind.imgQQ.setOnClickListener { qqLogin() }
         viewModel.getUserInfo().observe(this, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
         LiveDataBus.get().with("logout", Int::class.java).observe(this, {
             if (it == SUCCESS) {
@@ -106,19 +116,47 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      */
     private fun onGetUserInfoSuc(value: User?) {
         value?.let {
-            layoutLogin.visibility = View.GONE
-            layoutTop.visibility = View.VISIBLE
-            GlideUtils.setImg(requireActivity(), it.imgUrl, imageIcon)
-            tvUser.text = it.nickName
+            mBind.layoutLogin.visibility = View.GONE
+            mBind.layoutTop.visibility = View.VISIBLE
+            GlideUtils.setImg(requireActivity(), it.imgUrl, mBind.imageIcon)
+            mBind.tvUser.text = it.nickName
         }
     }
 
     override fun initData() {
         //正式版才请求登录接口
-//        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
-//            viewModel.userInfo()
-//        }
+        if (SharedPreferencesHelper.helper.getValue(WAY, "") != WAY_VERIFY) {
+            viewModel.userInfo()
+        }
         setFeedbackUi()
+        if (!StringUtils.isEmpty(AdvertBridge.CENTER_TOP)) {
+            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
+                initTTAd(AdvertBridge.CENTER_TOP)
+            } else {
+                initGDTAd(AdvertBridge.CENTER_TOP)
+            }
+        }
+    }
+
+    /**
+     * 初始化穿山甲广告
+     * @param posId String
+     */
+    private fun initTTAd(posId: String) {
+        ttAd = TTInfoAd()
+        val width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat()
+        ttAd?.initTTInfoAd(requireActivity(), posId, width, 0f, mBind.vTop)
+    }
+
+    private fun initGDTAd(posId: String) {
+        gdtAd = GDTInfoAd()
+        gdtAd?.initInfoAd(requireActivity(), posId, mBind.vTop, 390, 0)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        ttAd?.destroyInfoAd()
+        gdtAd?.destroyInfoAd()
     }
 
     /**
@@ -140,10 +178,10 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             if (!StringUtils.isEmpty(it.token)) {
                 //登录成功了
                 SharedPreferencesHelper.helper.setValue(TOKEN, it.token)
-                layoutLogin.visibility = View.GONE
-                layoutTop.visibility = View.VISIBLE
-                GlideUtils.setImg(requireActivity(), it.img, imageIcon)
-                tvUser.text = it.nickName
+                mBind.layoutLogin.visibility = View.GONE
+                mBind.layoutTop.visibility = View.VISIBLE
+                GlideUtils.setImg(requireActivity(), it.img, mBind.imageIcon)
+                mBind.tvUser.text = it.nickName
             } else {
                 //登录失败
             }
@@ -211,10 +249,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * 微信登录
      */
     private fun weiChatLogin() {
-        AndroidUtils.toast("开发完善中", requireActivity())
-        return
-//        WeiChatTool.regToWx(BaseApplication.baseCtx)
-//        WeiChatTool.weiChatLogin(requireContext())
+        WeiChatTool.regToWx(BaseApplication.baseCtx)
+        WeiChatTool.weiChatLogin(requireContext())
     }
 
     /**
@@ -232,8 +268,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * token过期
      */
     override fun tokenValid() {
-        layoutLogin.visibility = View.VISIBLE
-        layoutTop.visibility = View.GONE
+        mBind.layoutLogin.visibility = View.VISIBLE
+        mBind.layoutTop.visibility = View.GONE
 
         if (!hasObserve) {
             hasObserve = true
@@ -263,6 +299,9 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         }
     }
 
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentPersonalBinding.inflate(inflater, container, false)
+
     /**
      * 分享
      */
@@ -290,6 +329,17 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             val clipData = ClipData.newPlainText(null, SHARE_LINK)
             clipboard.setPrimaryClip(clipData)
             AndroidUtils.toast("复制成功，快去打开看看吧！", requireActivity())
+        }
+
+        override fun onWeiChatClick(flag: Int) {
+            WeiChatTool.regToWx(BaseApplication.baseCtx)
+            WeiChatTool.weiChatShareAsWeb(
+                SHARE_LINK,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                BitmapFactory.decodeResource(resources, R.drawable.share_icon),
+                flag
+            )
         }
     }
 }

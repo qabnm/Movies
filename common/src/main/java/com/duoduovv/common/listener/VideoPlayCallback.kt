@@ -86,7 +86,7 @@ open class VideoPlayCallback : VideoAllCallBack {
         Log.d(TAG, "onTouchScreenSeekLight")
     }
 
-    override fun onPlayError(url: String?, vararg objects: Any?) {
+    override fun onPlayError(url: String, vararg objects: Any) {
         Log.d(TAG, "onPlayError${url}****${objects[0]}")
     }
 

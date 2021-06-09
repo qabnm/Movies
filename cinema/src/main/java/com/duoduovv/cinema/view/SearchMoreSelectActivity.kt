@@ -7,12 +7,12 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.SearchAlbumEpisodesAdapter
 import com.duoduovv.cinema.adapter.SearchTvEpisodesAdapter
 import com.duoduovv.cinema.bean.MovieItem
+import com.duoduovv.cinema.databinding.ActivitySearchMoreSelectBinding
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
 import dc.android.bridge.view.BridgeActivity
-import kotlinx.android.synthetic.main.activity_search_more_select.*
 
 /**
  * @author: jun.liu
@@ -27,10 +27,12 @@ class SearchMoreSelectActivity : BridgeActivity() {
     private var dataList: List<MovieItem>? = null
     private var way = ""
     private var movieFlag = ""
+    private lateinit var mBind:ActivitySearchMoreSelectBinding
 
     override fun initView() {
+        mBind = ActivitySearchMoreSelectBinding.bind(layoutView)
         movieFlag = intent.getStringExtra(BridgeContext.FLAG) ?: ""
-        rvList.layoutManager = GridLayoutManager(this, if (movieFlag == TYPE_TV|| movieFlag == TYPE_TV0) 5 else 2)
+        mBind.rvList.layoutManager = GridLayoutManager(this, if (movieFlag == TYPE_TV|| movieFlag == TYPE_TV0) 5 else 2)
     }
 
     override fun initData() {
@@ -38,13 +40,13 @@ class SearchMoreSelectActivity : BridgeActivity() {
         title = intent.getStringExtra(BridgeContext.TITLE) ?: ""
         dataList = intent.getParcelableArrayListExtra(BridgeContext.LIST)
         movieId = intent.getStringExtra(BridgeContext.ID) ?: ""
-        layoutTopBar.setTopTitle(title)
+        mBind.layoutTopBar.setTopTitle(title)
         val rvAdapter = if (movieFlag == TYPE_TV|| movieFlag == TYPE_TV0) {
             SearchTvEpisodesAdapter(dataList as MutableList<MovieItem>)
         } else {
             SearchAlbumEpisodesAdapter(dataList as MutableList<MovieItem>)
         }
-        rvList.adapter = rvAdapter
+        mBind.rvList.adapter = rvAdapter
         rvAdapter.setOnItemClickListener { adapter, _, position ->
             val data = (adapter.data[position] as MovieItem)
             onItemClick(data.vid)

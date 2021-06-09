@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * @des:
  */
 data class MainPageBean(
-    val banners: List<Banner>?,
+    val banners: ArrayList<Banner>?,
     val category: List<Category>?,
     val playRecommends: List<FilmRecommendBean>?,//大家都在看
     val selectRecommends: List<FilmRecommendBean>?//今日推荐
@@ -16,11 +16,6 @@ data class MainPageBean(
 
 /**
  * 首页banner
- * @property img String
- * @property jumpType String
- * @property movieId String
- * @property title String
- * @constructor
  */
 data class Banner(
     val img: String,
@@ -28,15 +23,12 @@ data class Banner(
     val jumpType: String,
     @SerializedName("movie_id")
     val movieId: String,
-    val title: String
+    val title: String,
+    val type: String? = null
 )
 
 /**
  * 首页分类
- * @property icon String
- * @property name String
- * @property typeSpeArray TypeSpeBean
- * @constructor
  */
 data class Category(
     val icon: String,
