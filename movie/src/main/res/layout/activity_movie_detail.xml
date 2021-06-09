@@ -18,6 +18,15 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/videoPrepare"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color000000"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="ad_prepare.json"
+            app:lottie_loop="true" />
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutStateError"
             android:layout_width="match_parent"

@@ -55,6 +55,11 @@ class MovieDetailFragment : BaseFragment() {
      * 顶部详情数据绑定
      */
     fun bindDetail(detailBean: MovieDetailBean) {
+        if (detailBean.recommends?.isNotEmpty() == true){
+            mBind.tvCommend.visibility = View.VISIBLE
+        }else{
+            mBind.tvCommend.visibility = View.INVISIBLE
+        }
         mBind.imgShare.setOnClickListener { callback?.onShareClick() }
         mBind.imgDownload.setOnClickListener { callback?.onDownLoadClick() }
         mBind.imgCollect.setOnClickListener {

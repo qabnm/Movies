@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.BitmapFactory
-import android.net.Uri
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
@@ -33,13 +32,7 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.upstream.HttpDataSource
-import com.google.android.exoplayer2.upstream.TransferListener
 import com.shuyu.gsyvideoplayer.GSYVideoManager
-import com.shuyu.gsyvideoplayer.cache.CacheFactory
-import com.shuyu.gsyvideoplayer.player.IjkPlayerManager
-import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext.Companion.ID
@@ -48,18 +41,12 @@ import dc.android.bridge.BridgeContext.Companion.TYPE_ID
 import dc.android.bridge.BridgeContext.Companion.URL
 import dc.android.bridge.BridgeContext.Companion.WAY_H5
 import dc.android.bridge.BridgeContext.Companion.WAY_RELEASE
+import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
-import tv.danmaku.ijk.media.exo2.ExoMediaSourceInterceptListener
-import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
-import tv.danmaku.ijk.media.exo2.ExoSourceManager
-import java.io.File
+import kotlinx.coroutines.*
 
 /**
  * @author: jun.liu
@@ -143,6 +130,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     private fun onPlayError() {
         detailBean?.let {
+            pauseAdLoading()
             mBind.layoutStateError.visibility = View.VISIBLE
             val lineAdapter = ChangePlayLineAdapter()
             mBind.rvLine.adapter = lineAdapter
@@ -156,7 +144,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             lineAdapter.setList(lineList)
             lineAdapter.setOnItemClickListener { _, _, position ->
                 this.line = lineList[position].line
-                viewModel.moviePlayInfo(vid, movieId, line, js,1)
+                viewModel.moviePlayInfo(vid, movieId, line, js, 1)
                 mBind.layoutStateError.visibility = View.GONE
                 for (i in it.lineList.indices) {
                     it.lineList[i].isDefault = false
@@ -170,6 +158,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         onPlayError()
     }
 
+    private fun pauseAdLoading() {
+        mBind.videoPrepare.apply {
+            cancelAnimation()
+            visibility = View.GONE
+        }
+    }
+
+    private fun playAdLoading() {
+        mBind.videoPrepare.apply {
+            playAnimation()
+            visibility = View.VISIBLE
+        }
+    }
+
     /**
      * 播放器相关状态和时间监听毁掉
      */
@@ -178,7 +180,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.onPlayError(url, *objects)
             onPlayError()
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
-            viewModel.playError(vid, url,"onPlayError")
+            viewModel.playError(vid, url, "onPlayError")
         }
 
         override fun onPrepared(url: String?, vararg objects: Any?) {
@@ -189,6 +191,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 mBind.videoPlayer.seekTo(currentLength)
             }
             currentLength = 0
+            pauseAdLoading()
         }
 
         override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
@@ -213,7 +216,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         currentPlayPosition++
                         vid = movieItems[currentPlayPosition].vid
                         vidTitle = movieItems[currentPlayPosition].title
-                        viewModel.moviePlayInfo(vid, movieId, line, "",1)
+                        viewModel.moviePlayInfo(vid, movieId, line, "", 1)
                         //更新选集显示
                         for (i in movieItems.indices) {
                             movieItems[i].isSelect = false
@@ -259,7 +262,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         mBind.videoPlayer.setStartClick(1)
                         mBind.videoPlayer.setUp(playList[0].url, true, "")
                         mBind.videoPlayer.startPlayLogic()
-                    } else { }
+                    } else {
+                    }
                 }
                 "jx" -> {
                     //需要再次解析播放地址
@@ -323,6 +327,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (detailBean == null) return
         movieId = detailBean.movie.strId
         way = detailBean.way
+        if (way == WAY_H5 || way == WAY_VERIFY) pauseAdLoading()
         title = detailBean.movie.vodName
         line = detailBean.playLine
         queryMovieById(movieId)
@@ -381,7 +386,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 } else {
                     vid = list[0].vid
                 }
-                viewModel.moviePlayInfo(vid, movieId, line,"")
+                viewModel.moviePlayInfo(vid, movieId, line, "")
                 if (way == WAY_H5) mBind.videoPlayer.setStartClick(0)
             }
             //更新收藏状态
@@ -568,12 +573,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         this.vid = vid
         this.vidTitle = vidTitle
         mBind.layoutStateError.visibility = View.GONE
-//        if (way == WAY_RELEASE) {
+        if (way == WAY_RELEASE) playAdLoading()
         //只有正常班的才会去请求接口
-        viewModel.moviePlayInfo(vid, movieId, line, "",1)
+        viewModel.moviePlayInfo(vid, movieId, line, "", 1)
         //清理掉当前正在播放的视频
         mBind.videoPlayer.currentPlayer.release()
-//        }
     }
 
     private var hasClickRecommend = false
@@ -585,6 +589,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
+            if (way == WAY_RELEASE) playAdLoading()
             mBind.videoPlayer.currentPlayer.release()
             mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()

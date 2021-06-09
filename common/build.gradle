@@ -112,7 +112,7 @@ dependencies {
     api "com.contrarywind:Android-PickerView:$ext.picker_view"
     api "com.tencent.bugly:crashreport:$ext.bugly_crash"
 
-    implementation "com.airbnb.android:lottie:$ext.lottie_version"
+    api "com.airbnb.android:lottie:$ext.lottie_version"
     compileOnly 'org.checkerframework:checker-qual:3.3.0'
     implementation "com.google.android.gms:play-services-cronet:17.0.0"
 //    implementation 'com.tencent.tbs.tbssdk:sdk:43939'
