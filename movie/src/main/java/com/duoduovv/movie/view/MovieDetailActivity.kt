@@ -287,9 +287,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     val playList = it.playUrls
                     Log.d("videoPlayer", "****这里执行了：way=$way")
                     if (playList?.isNotEmpty() == true) {
-                        mBind.videoPlayer.setStartClick(1)
-                        mBind.videoPlayer.setUp(playList[0].url, true, "")
-                        mBind.videoPlayer.startPlayLogic()
+                        (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(1)
+                        mBind.videoPlayer.currentPlayer.setUp(playList[0].url, true, "")
+                        mBind.videoPlayer.currentPlayer.startPlayLogic()
                     } else {
                     }
                 }
@@ -335,9 +335,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             val playUrls = it.playUrls
             if (playUrls?.isNotEmpty() == true) {
-                mBind.videoPlayer.setStartClick(1)
-                mBind.videoPlayer.setUp(playUrls[0].url, true, "")
-                mBind.videoPlayer.startPlayLogic()
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(1)
+                mBind.videoPlayer.currentPlayer.setUp(playUrls[0].url, true, "")
+                mBind.videoPlayer.currentPlayer.startPlayLogic()
                 Log.d("videoPlayer", "****这里执行了：way=$way")
             }
         }
@@ -351,7 +351,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
         if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
-            initGDTVideoAd()
             //视频时长的监听
             LiveDataBus.get().with("videoLength", Int::class.java).observe(this, {
                 //渲染成功了
@@ -402,6 +401,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             } else {
                 handler.sendEmptyMessage(2)
                 timerTask.cancel()
+                skipLength = 6
             }
         }
     }
@@ -436,6 +436,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (way == WAY_H5 || way == WAY_VERIFY) pauseAdLoading()
         title = detailBean.movie.vodName
         line = detailBean.playLine
+        if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)){
+            initGDTVideoAd()
+        }
         queryMovieById(movieId)
     }
 
@@ -465,6 +468,26 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             fragment?.bindDetail(detailBean!!)
             detailAdapter?.setList(detailBean!!.recommends)
             if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) loadPlayUrl()
+            val list = detailBean!!.movieItems
+            if (list.isNotEmpty()) {
+                if (!hasClickRecommend) {
+                    if (StringUtils.isEmpty(vid)) {
+                        detailBean!!.movieItems[0].isSelect = true
+                        vidTitle = detailBean!!.movieItems[0].title
+                    } else {
+                        for (i in list.indices) {
+                            if (vid == list[i].vid) {
+                                detailBean!!.movieItems[i].isSelect = true
+                                vidTitle = detailBean!!.movieItems[i].title
+                            }
+                        }
+                    }
+                } else {
+                    detailBean!!.movieItems[0].isSelect = true
+                    vidTitle = detailBean!!.movieItems[0].title
+                }
+                fragment?.bindDetail(detailBean!!)
+            }
             //更新收藏状态
             val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
             fragment?.notifyCollectionChange(collectionBean)
@@ -475,23 +498,23 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         //默认播放第一集
         val list = detailBean!!.movieItems
         if (list.isNotEmpty()) {
-            if (!hasClickRecommend) {
-                if (StringUtils.isEmpty(vid)) {
-                    detailBean!!.movieItems[0].isSelect = true
-                    vidTitle = detailBean!!.movieItems[0].title
-                } else {
-                    for (i in list.indices) {
-                        if (vid == list[i].vid) {
-                            detailBean!!.movieItems[i].isSelect = true
-                            vidTitle = detailBean!!.movieItems[i].title
-                        }
-                    }
-                }
-            } else {
-                detailBean!!.movieItems[0].isSelect = true
-                vidTitle = detailBean!!.movieItems[0].title
-            }
-            fragment?.bindDetail(detailBean!!)
+//            if (!hasClickRecommend) {
+//                if (StringUtils.isEmpty(vid)) {
+//                    detailBean!!.movieItems[0].isSelect = true
+//                    vidTitle = detailBean!!.movieItems[0].title
+//                } else {
+//                    for (i in list.indices) {
+//                        if (vid == list[i].vid) {
+//                            detailBean!!.movieItems[i].isSelect = true
+//                            vidTitle = detailBean!!.movieItems[i].title
+//                        }
+//                    }
+//                }
+//            } else {
+//                detailBean!!.movieItems[0].isSelect = true
+//                vidTitle = detailBean!!.movieItems[0].title
+//            }
+//            fragment?.bindDetail(detailBean!!)
             //去请求播放地址信息 播放地址也 可能是H5的跳转链接
             if (!hasClickRecommend) {
                 if (StringUtils.isEmpty(vid)) {
@@ -501,7 +524,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 vid = list[0].vid
             }
             viewModel.moviePlayInfo(vid, movieId, line, "")
-            if (way == WAY_H5) mBind.videoPlayer.setStartClick(0)
+            if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(0)
         }
     }
 
@@ -677,14 +700,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         this.vidTitle = vidTitle
         this.movieId = movieId
         mBind.layoutStateError.visibility = View.GONE
+        //清理掉当前正在播放的视频
+        mBind.videoPlayer.currentPlayer.release()
         if (way == WAY_RELEASE) playAdLoading()
         if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
         //只有正常班的才会去请求接口
         if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
             viewModel.moviePlayInfo(vid, movieId, line, "", 1)
         }
-        //清理掉当前正在播放的视频
-        mBind.videoPlayer.currentPlayer.release()
     }
 
     private var hasClickRecommend = false
@@ -702,7 +725,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             updateHistoryDB()
             hasClickRecommend = true
             viewModel.movieDetail(movieId)
-            if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
         }
     }
 
@@ -711,7 +733,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         orientationUtils?.backToProtVideo()
         if (GSYVideoManager.backFromWindowFull(this)) return
         //释放所有
-        mBind.videoPlayer.setVideoAllCallBack(null)
+        mBind.videoPlayer.currentPlayer.setVideoAllCallBack(null)
         super.onBackPressed()
     }
 

@@ -18,12 +18,21 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/videoPrepare"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color000000"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="ad_prepare.json"
+            app:lottie_loop="true" />
+
         <RelativeLayout
             android:id="@+id/layoutAd"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@color/color000000"
-            android:visibility="gone"
-            android:layout_height="match_parent">
+            android:visibility="gone">
 
             <FrameLayout
                 android:id="@+id/videoAdContainer"
@@ -37,19 +46,10 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="@dimen/dp_15"
                 android:layout_marginEnd="@dimen/dp_15"
-                android:textSize="@dimen/sp_12"
+                android:padding="@dimen/dp_5"
                 android:textColor="@color/colorFFFFFF"
-                android:padding="@dimen/dp_5" />
+                android:textSize="@dimen/sp_12" />
         </RelativeLayout>
-
-        <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/videoPrepare"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/color000000"
-            app:lottie_autoPlay="true"
-            app:lottie_fileName="ad_prepare.json"
-            app:lottie_loop="true" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutStateError"
