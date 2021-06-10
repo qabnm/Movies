@@ -6,11 +6,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
-import com.duoduovv.cinema.bean.SearchResultCategoryBean
 import com.duoduovv.cinema.databinding.FragmentSearchResultBinding
 import com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.NoLineIndicatorAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
+import com.duoduovv.common.domain.Column
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -23,9 +24,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  */
 class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel>() {
     override fun getLayoutId() = R.layout.fragment_search_result
-    private lateinit var mBind:FragmentSearchResultBinding
+    private lateinit var mBind: FragmentSearchResultBinding
     override fun providerVMClass() = SearchResultCategoryViewModel::class.java
-    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) = FragmentSearchResultBinding.inflate(inflater,container,false)
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentSearchResultBinding.inflate(inflater, container, false)
 
     private var keyWord = ""
 
@@ -33,7 +35,7 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
         mBind = baseBinding as FragmentSearchResultBinding
         viewModel.getCategory().observe(this, {
             val result = viewModel.getCategory().value
-            initFragment(result)
+            initFragment(result?.columns)
         })
     }
 
@@ -41,8 +43,7 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
         this.keyWord = keyWord
     }
 
-    private fun initFragment(categoryBean: SearchResultCategoryBean?) {
-        val dataList = categoryBean?.columns
+    private fun initFragment(dataList: List<Column>?) {
         if (dataList?.isNotEmpty() == true) {
             val titleList = ArrayList<String>()
             val fragmentList = ArrayList<Fragment>()
@@ -67,7 +68,10 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
     }
 
     override fun initData() {
-        viewModel.searchResultCategory()
+        BaseApplication.configBean?.let {
+            initFragment(it.columns)
+        } ?: also {
+            viewModel.searchResultCategory()
+        }
     }
-
 }

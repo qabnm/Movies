@@ -12,6 +12,7 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.gdtad.GDTVideoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.listener.VideoPlayCallback
@@ -32,6 +33,7 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
+import com.qq.e.ads.nativ.ADSize
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
@@ -153,6 +155,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
         }
     }
+//    private var videoAd:GDTVideoAd?=null
+//    private fun initGDTVideoAd(){
+//        videoAd = GDTVideoAd()
+//        val width = OsUtils.px2dip(this,OsUtils.getScreenWidth(this).toFloat())
+//        videoAd?.initVideoAd(this,"9081994535080164",mBind.videoAdContainer,width,0)
+//    }
 
     override fun onJxError() {
         onPlayError()
@@ -319,6 +327,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
+//        initGDTVideoAd()
     }
 
     private fun setData(detailBean: MovieDetailBean?) {
@@ -399,10 +408,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 设置播放器的基本功能
      */
     private fun setVideoPlayer() {
-        //EXOPlayer内核，支持格式更多
-//        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
-        //exo缓存模式，支持m3u8，只支持exo
-//        CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
         mBind.videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
@@ -468,8 +473,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     /**
      * 下载
      */
-    override fun onDownLoadClick() {
-    }
+    override fun onDownLoadClick() {}
 
     /**
      * 收藏
@@ -522,10 +526,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onDetailClick(bean: MovieDetail) {
         if (OsUtils.isFastClick()) return
-        Log.d(
-            "height",
-            "screenHeight:${screenHeight}**topBarHeight:${topBarHeight}**videoHeight${videoHeight}**navHeight${navHeight}"
-        )
         val dialogFragment =
             MovieDetailDialogFragment(height = realHeight, bean = bean, reportListener)
         dialogFragment.showNow(supportFragmentManager, "detail")
@@ -671,10 +671,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (!StringUtils.isEmpty(playUrl) && (playUrl.startsWith("http") || playUrl.startsWith("https"))) {
             ARouter.getInstance().build(RouterPath.PATH_WEB_VIEW).withString(URL, playUrl)
                 .withString(TITLE, title).navigation()
-            //跳转系统浏览器
-//            val uri = Uri.parse(playUrl)
-//            val intent = Intent(Intent.ACTION_VIEW, uri)
-//            startActivity(intent)
         }
     }
 
@@ -692,7 +688,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
             it.movieItems[pos].isSelect = true
             fragment?.updateSelect(it.movieItems, pos)
-//            detailAdapter?.notifyItemChanged(0)
             onSelectClick(vid, movieId, vidTitle)
         }
     }

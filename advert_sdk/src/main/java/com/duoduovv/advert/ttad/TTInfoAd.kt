@@ -66,7 +66,6 @@ class TTInfoAd {
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
                             LiveDataBus.get().with("render").value = "render"
                             view?.let {
-                                Log.d("adView","${it.width},${it.height}")
                                 container.addView(it)
                             }
                         }

@@ -1,8 +1,8 @@
 package com.duoduovv.cinema.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.duoduovv.cinema.bean.SearchResultCategoryBean
 import com.duoduovv.cinema.repository.CinemaRepository
+import com.duoduovv.common.domain.ConfigureBean
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
@@ -12,7 +12,7 @@ import dc.android.bridge.net.BaseViewModel
  * @des:搜索结果顶部分类信息
  */
 class SearchResultCategoryViewModel : BaseViewModel() {
-    private var searchResultCategory: MutableLiveData<SearchResultCategoryBean> = MutableLiveData()
+    private var searchResultCategory: MutableLiveData<ConfigureBean> = MutableLiveData()
     fun getCategory() = searchResultCategory
     private val repository = CinemaRepository()
 

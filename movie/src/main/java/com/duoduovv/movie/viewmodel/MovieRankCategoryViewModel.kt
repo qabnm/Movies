@@ -1,7 +1,7 @@
 package com.duoduovv.movie.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.duoduovv.movie.bean.MovieRankCategoryBean
+import com.duoduovv.common.domain.Column
 import com.duoduovv.movie.repository.MovieRepository
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
@@ -13,7 +13,7 @@ import dc.android.bridge.net.BaseViewModel
  */
 class MovieRankCategoryViewModel : BaseViewModel() {
 
-    private var movieRankCategory: MutableLiveData<MovieRankCategoryBean> = MutableLiveData()
+    private var movieRankCategory: MutableLiveData<List<Column>> = MutableLiveData()
     fun getMovieRankCategory() = movieRankCategory
     private val repository = MovieRepository()
 
@@ -23,6 +23,6 @@ class MovieRankCategoryViewModel : BaseViewModel() {
      */
     fun movieRankCategory() = request {
         val result = repository.movieRankCategory()
-        if (result.code == SUCCESS) movieRankCategory.postValue(result.data)
+        if (result.code == SUCCESS) movieRankCategory.postValue(result.data.columns)
     }
 }

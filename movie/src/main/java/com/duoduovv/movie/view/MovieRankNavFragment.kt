@@ -4,10 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
+import com.duoduovv.common.domain.Column
 import com.duoduovv.movie.R
-import com.duoduovv.movie.bean.MovieRankCategoryBean
 import com.duoduovv.movie.databinding.FragmentMovieRankNavBinding
 import com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel
 import dc.android.bridge.BridgeContext
@@ -37,11 +38,10 @@ class MovieRankNavFragment : BaseViewModelFragment<MovieRankCategoryViewModel>()
 
     /**
      * 分类fragment初始化
-     * @param categoryBean MovieRankCategoryBean?
+     * @param data MovieRankCategoryBean?
      */
-    private fun initFragment(categoryBean: MovieRankCategoryBean?) {
-        if (null == categoryBean) return
-        val data = categoryBean.columns
+    private fun initFragment(data: List<Column>?) {
+        if (null == data) return
         val titleList = ArrayList<String>()
         val fragmentList = ArrayList<Fragment>()
         for (i in data.indices) {
@@ -70,6 +70,10 @@ class MovieRankNavFragment : BaseViewModelFragment<MovieRankCategoryViewModel>()
     }
 
     override fun initData() {
-        viewModel.movieRankCategory()
+        BaseApplication.configBean?.let {
+            initFragment(it.columns)
+        } ?: also {
+            viewModel.movieRankCategory()
+        }
     }
 }

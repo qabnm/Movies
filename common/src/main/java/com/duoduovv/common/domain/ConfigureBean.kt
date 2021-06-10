@@ -40,7 +40,7 @@ data class AdvertBean(
 @Parcelize
 data class Column(
     val id: String,
-    val name: String
+    var name: String
 ) : Parcelable
 
 /**
