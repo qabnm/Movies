@@ -1,5 +1,6 @@
 package com.duoduovv.personal
 
+import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.personal.bean.*
 import dc.android.bridge.net.BaseResponseData
 import okhttp3.ResponseBody
@@ -98,7 +99,7 @@ interface IPersonApiService {
      * 檢查升級功能
      */
     @GET("api/config")
-    suspend fun upgrade(): BaseResponseData<UpgradeBean>
+    suspend fun upgrade(): BaseResponseData<ConfigureBean>
 
     /**
      * 下载更新

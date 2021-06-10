@@ -17,6 +17,7 @@ class GDTVideoAd {
     private var mNativeExpressAD: NativeExpressAD2? = null
     private var nativeExpressADData: NativeExpressADData2? = null
     private val TAG = "AD_DEMO"
+    private lateinit var container: ViewGroup
 
     /**
      * 穿山甲贴片广告
@@ -31,12 +32,16 @@ class GDTVideoAd {
         posId: String,
         container: ViewGroup,
         width: Int,
-        height: Int
+        height: Int,
+        outContainer:ViewGroup
     ) {
+        this.container = container
         mNativeExpressAD =
             NativeExpressAD2(activity, posId, object : NativeExpressAD2.AdLoadListener {
                 override fun onNoAD(error: AdError?) {
                     Log.d(TAG, "onAdError${error?.errorCode}${error?.errorMsg}")
+                    onVideoPrepare()
+                    onAdComplete()
                 }
 
                 override fun onLoadSuccess(adDataList: MutableList<NativeExpressADData2>?) {
@@ -54,22 +59,30 @@ class GDTVideoAd {
 
                             override fun onRenderSuccess() {
                                 Log.d(TAG, "onRenderSuccess")
-                                container.visibility = View.VISIBLE
+                                outContainer.visibility = View.VISIBLE
                                 container.removeAllViews()
+                                if (nativeExpressADData?.isVideoAd == true){
+                                    val length = nativeExpressADData?.videoDuration
+                                    LiveDataBus.get().with("videoLength").value = length
+                                }else{
+                                    //返回的是图片素材
+                                    LiveDataBus.get().with("videoLength").value = 0
+                                }
                                 nativeExpressADData?.adView?.let {
                                     container.addView(it)
-                                    Log.d("adDemo","${it.measuredWidth},${it.measuredHeight}")
                                 }
                             }
 
                             override fun onRenderFail() {
                                 Log.d(TAG, "onRenderFail")
+                                onVideoPrepare()
+                                onAdComplete()
                             }
 
                             override fun onAdClosed() {
                                 Log.d(TAG, "onAdClosed")
-                                container.removeAllViews()
-                                destroyAd()
+                                onVideoPrepare()
+                                onAdComplete()
                             }
                         })
                         nativeExpressADData?.setMediaListener(object :MediaEventListener{
@@ -86,13 +99,13 @@ class GDTVideoAd {
                             }
 
                             override fun onVideoComplete() {
-                                container.removeAllViews()
-                                destroyAd()
+                                onVideoPrepare()
+                                onAdComplete()
                             }
 
                             override fun onVideoError() {
-                                container.removeAllViews()
-                                destroyAd()
+                                onVideoPrepare()
+                                onAdComplete()
                             }
                         })
                         nativeExpressADData?.render()
@@ -107,10 +120,15 @@ class GDTVideoAd {
 //            )
             it.loadAd(1)
         }
-        destroyAd()
+        nativeExpressADData?.destroy()
     }
 
-    fun destroyAd() {
+    private fun onVideoPrepare(){
+        LiveDataBus.get().with("onAdComplete").value = "onAdComplete"
+    }
+
+    fun onAdComplete(){
+        container.removeAllViews()
         nativeExpressADData?.destroy()
     }
 }

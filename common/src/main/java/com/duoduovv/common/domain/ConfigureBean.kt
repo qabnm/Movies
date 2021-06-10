@@ -30,7 +30,8 @@ data class AdvertBean(
     val logout: String,
     val search: String,
     val movieDetailBanner: String,
-    val centerTop:String
+    val centerTop:String,
+    val videoAd:String
 ) : Parcelable
 
 /**

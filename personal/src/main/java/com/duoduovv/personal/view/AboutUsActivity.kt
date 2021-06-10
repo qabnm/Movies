@@ -6,10 +6,10 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.UpgradeDialogFragment
+import com.duoduovv.common.domain.Version
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import com.duoduovv.personal.R
-import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.databinding.ActivityAboutUsBinding
 import com.duoduovv.personal.viewmodel.SettingViewModel
 import com.duoduovv.weichat.WeiChatTool
@@ -33,7 +33,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
     override fun providerVMClass() = SettingViewModel::class.java
     private lateinit var mBind: ActivityAboutUsBinding
     private var upgradeDialogFragment: UpgradeDialogFragment? = null
-    private var bean: VersionBean? = null
+    private var bean: Version? = null
     private var lastClickTime: Long = 0
     private var clickTime = 0
 
@@ -132,7 +132,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
      * 检查升级接口请求成功
      * @param bean VersionBean?
      */
-    private fun onCheckSuccess(bean: VersionBean?) {
+    private fun onCheckSuccess(bean: Version?) {
         this.bean = bean
         bean?.let {
             val versionCode = OsUtils.getVerCode(this)
@@ -155,7 +155,11 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
     }
 
     override fun initData() {
-        viewModel.upgrade()
+        BaseApplication.configBean?.let {
+            onCheckSuccess(it.version)
+        } ?: also {
+            viewModel.upgrade()
+        }
         mBind.tvVersion.text = "v${OsUtils.getVerName(BaseApplication.baseCtx)}"
     }
 

@@ -1,17 +1,22 @@
 package com.duoduovv.movie.view
 
+import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
 import android.graphics.BitmapFactory
+import android.os.Handler
+import android.os.Looper
+import android.os.Message
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTVideoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
@@ -35,6 +40,8 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
 import com.qq.e.ads.nativ.ADSize
 import com.shuyu.gsyvideoplayer.GSYVideoManager
+import com.shuyu.gsyvideoplayer.cache.CacheFactory
+import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext.Companion.ID
@@ -48,7 +55,12 @@ import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
+import dc.android.tools.LiveDataBus
 import kotlinx.coroutines.*
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
+import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  * @author: jun.liu
@@ -155,12 +167,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
         }
     }
-//    private var videoAd:GDTVideoAd?=null
-//    private fun initGDTVideoAd(){
-//        videoAd = GDTVideoAd()
-//        val width = OsUtils.px2dip(this,OsUtils.getScreenWidth(this).toFloat())
-//        videoAd?.initVideoAd(this,"9081994535080164",mBind.videoAdContainer,width,0)
-//    }
+
+    private var videoAd: GDTVideoAd? = null
+    private fun initGDTVideoAd() {
+        if (null == videoAd) videoAd = GDTVideoAd()
+        val width = OsUtils.px2dip(this, OsUtils.getScreenWidth(this).toFloat())
+        videoAd?.initVideoAd(
+            this,
+            AdvertBridge.VIDEO_AD,
+            mBind.videoAdContainer,
+            width,
+            ADSize.AUTO_HEIGHT,
+            mBind.layoutAd
+        )
+    }
 
     override fun onJxError() {
         onPlayError()
@@ -323,11 +343,88 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    private var skipLength = 6
+    private var totalLength = 0
+    private lateinit var timerTask: MyTimer
     override fun initData() {
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
-//        initGDTVideoAd()
+        if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
+            initGDTVideoAd()
+            //视频时长的监听
+            LiveDataBus.get().with("videoLength", Int::class.java).observe(this, {
+                //渲染成功了
+                pauseAdLoading()
+                if (it > 0) {
+                    //当前是视频类型
+                    totalLength = it / 1000
+                    handler = MyHandler(it)
+                    timerTask = MyTimer()
+                    Timer().schedule(timerTask, 0, 1000)
+                } else {
+                    //图片广告 不显示
+                    handler = MyHandler(-1)
+                    timerTask = MyTimer()
+                    Timer().schedule(timerTask, 0, 1000)
+                }
+            })
+            LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
+                if ("onAdComplete" == it) {
+                    videoAd?.onAdComplete()
+                    mBind.layoutAd.visibility = View.GONE
+                    playAdLoading()
+                    loadPlayUrl()
+                }
+            })
+            mBind.tvSkip.setOnClickListener {
+                if (skipLength == 0) {
+                    timerTask.cancel()
+                    videoAd?.onAdComplete()
+                    mBind.layoutAd.visibility = View.GONE
+                    playAdLoading()
+                    loadPlayUrl()
+                }
+            }
+        }
+    }
+
+    private lateinit var handler: MyHandler
+
+    private inner class MyTimer : TimerTask() {
+        override fun run() {
+            if (skipLength > 0) skipLength--
+            if (totalLength > 0) totalLength--
+            if (skipLength > 0) {
+                handler.sendEmptyMessage(0)
+            } else if (totalLength > 0) {
+                handler.sendEmptyMessage(1)
+            } else {
+                handler.sendEmptyMessage(2)
+                timerTask.cancel()
+            }
+        }
+    }
+
+    @SuppressLint("HandlerLeak")
+    private inner class MyHandler(val length: Int) : Handler(Looper.getMainLooper()) {
+        override fun handleMessage(msg: Message) {
+            super.handleMessage(msg)
+            if (msg.what == 0) {
+                if (length == -1) {
+                    mBind.tvSkip.text = "${skipLength}秒可关闭"
+                } else {
+                    mBind.tvSkip.text = "$totalLength | ${skipLength}秒可关闭"
+                }
+            } else if (msg.what == 1) {
+                mBind.tvSkip.text = "$totalLength | 关闭"
+            } else {
+                videoAd?.onAdComplete()
+                mBind.layoutAd.visibility = View.GONE
+                playAdLoading()
+                loadPlayUrl()
+            }
+        }
     }
 
     private fun setData(detailBean: MovieDetailBean?) {
@@ -367,40 +464,44 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             )
             fragment?.bindDetail(detailBean!!)
             detailAdapter?.setList(detailBean!!.recommends)
-            val list = detailBean!!.movieItems
-            //默认播放第一集
-            if (list.isNotEmpty()) {
-                if (!hasClickRecommend) {
-                    if (StringUtils.isEmpty(vid)) {
-                        detailBean!!.movieItems[0].isSelect = true
-                        vidTitle = detailBean!!.movieItems[0].title
-                    } else {
-                        for (i in list.indices) {
-                            if (vid == list[i].vid) {
-                                detailBean!!.movieItems[i].isSelect = true
-                                vidTitle = detailBean!!.movieItems[i].title
-                            }
-                        }
-                    }
-                } else {
-                    detailBean!!.movieItems[0].isSelect = true
-                    vidTitle = detailBean!!.movieItems[0].title
-                }
-                fragment?.bindDetail(detailBean!!)
-                //去请求播放地址信息 播放地址也 可能是H5的跳转链接
-                if (!hasClickRecommend) {
-                    if (StringUtils.isEmpty(vid)) {
-                        vid = list[0].vid
-                    }
-                } else {
-                    vid = list[0].vid
-                }
-                viewModel.moviePlayInfo(vid, movieId, line, "")
-                if (way == WAY_H5) mBind.videoPlayer.setStartClick(0)
-            }
+            if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) loadPlayUrl()
             //更新收藏状态
             val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
             fragment?.notifyCollectionChange(collectionBean)
+        }
+    }
+
+    private fun loadPlayUrl() {
+        //默认播放第一集
+        val list = detailBean!!.movieItems
+        if (list.isNotEmpty()) {
+            if (!hasClickRecommend) {
+                if (StringUtils.isEmpty(vid)) {
+                    detailBean!!.movieItems[0].isSelect = true
+                    vidTitle = detailBean!!.movieItems[0].title
+                } else {
+                    for (i in list.indices) {
+                        if (vid == list[i].vid) {
+                            detailBean!!.movieItems[i].isSelect = true
+                            vidTitle = detailBean!!.movieItems[i].title
+                        }
+                    }
+                }
+            } else {
+                detailBean!!.movieItems[0].isSelect = true
+                vidTitle = detailBean!!.movieItems[0].title
+            }
+            fragment?.bindDetail(detailBean!!)
+            //去请求播放地址信息 播放地址也 可能是H5的跳转链接
+            if (!hasClickRecommend) {
+                if (StringUtils.isEmpty(vid)) {
+                    vid = list[0].vid
+                }
+            } else {
+                vid = list[0].vid
+            }
+            viewModel.moviePlayInfo(vid, movieId, line, "")
+            if (way == WAY_H5) mBind.videoPlayer.setStartClick(0)
         }
     }
 
@@ -408,6 +509,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 设置播放器的基本功能
      */
     private fun setVideoPlayer() {
+//        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
+//        CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
         mBind.videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
@@ -572,10 +675,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onSelectClick(vid: String, movieId: String, vidTitle: String) {
         this.vid = vid
         this.vidTitle = vidTitle
+        this.movieId = movieId
         mBind.layoutStateError.visibility = View.GONE
         if (way == WAY_RELEASE) playAdLoading()
+        if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
         //只有正常班的才会去请求接口
-        viewModel.moviePlayInfo(vid, movieId, line, "", 1)
+        if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
+            viewModel.moviePlayInfo(vid, movieId, line, "", 1)
+        }
         //清理掉当前正在播放的视频
         mBind.videoPlayer.currentPlayer.release()
     }
@@ -593,9 +700,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             mBind.videoPlayer.currentPlayer.release()
             mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()
-//            GSYVideoManager.releaseAllVideos()
             hasClickRecommend = true
             viewModel.movieDetail(movieId)
+            if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
         }
     }
 
