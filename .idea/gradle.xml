@@ -21,6 +21,7 @@
             <option value="$PROJECT_DIR$/movie" />
             <option value="$PROJECT_DIR$/personal" />
             <option value="$PROJECT_DIR$/room" />
+            <option value="$PROJECT_DIR$/superplayerkit" />
             <option value="$PROJECT_DIR$/tools" />
             <option value="$PROJECT_DIR$/weichat" />
           </set>
@@ -29,5 +30,6 @@
         <option name="useQualifiedModuleNames" value="true" />
       </GradleProjectSettings>
     </option>
+    <option name="offlineMode" value="true" />
   </component>
 </project>

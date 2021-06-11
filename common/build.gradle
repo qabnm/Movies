@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
-bugly{
+bugly {
     appId = '857247490b' // 注册时分配的App ID
     appKey = '7d6a5edd-bb08-4847-b9bd-8c714a2dc743' // 注册时分配的App Key
 }
@@ -49,7 +49,7 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    kotlinOptions{
+    kotlinOptions {
         jvmTarget = JavaVersion.VERSION_1_8
     }
     buildFeatures {
@@ -83,10 +83,11 @@ dependencies {
     api project(path: ':room')
     api project(path: ':tools')
     api project(path: ':location')
-    api project(path : ':advert_sdk')
+    api project(path: ':advert_sdk')
+    api project(path: ':superplayerkit')
     //友盟统计
-    api  "com.umeng.umsdk:common:$ext.umsdk_common" // 版本号(必选)
-    api  "com.umeng.umsdk:asms:$ext.umsdk_asms" // asms包依赖(必选)
+    api "com.umeng.umsdk:common:$ext.umsdk_common" // 版本号(必选)
+    api "com.umeng.umsdk:asms:$ext.umsdk_asms" // asms包依赖(必选)
 
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:$ext.adapter_helper"
     api "com.github.hackware1993:MagicIndicator:$ext.pager_indicator"
@@ -97,9 +98,9 @@ dependencies {
     //更多ijk的编码支持
     api "com.shuyu:gsyVideoPlayer-ex_so:$ext.video_version"
     //下拉刷新的
-    api  "com.scwang.smart:refresh-layout-kernel:$ext.refresh_version"      //核心必须依赖
-    api  "com.scwang.smart:refresh-header-classics:$ext.refresh_version"    //经典刷新头
-    api  "com.scwang.smart:refresh-footer-classics:$ext.refresh_version"    //经典加载
+    api "com.scwang.smart:refresh-layout-kernel:$ext.refresh_version"      //核心必须依赖
+    api "com.scwang.smart:refresh-header-classics:$ext.refresh_version"    //经典刷新头
+    api "com.scwang.smart:refresh-footer-classics:$ext.refresh_version"    //经典加载
 
     api "com.permissionx.guolindev:permissionx:$ext.permissionx"
 
