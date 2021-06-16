@@ -1,5 +1,6 @@
 package com.duoduovv.common.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -9,11 +10,13 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 
 import androidx.lifecycle.Observer;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.request.RequestOptions;
@@ -58,6 +61,9 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
 
     private ImageView imgPlayPause;
     private ImageView imgNext;
+    private FrameLayout layoutLoading;
+    private LottieAnimationView videoLoading;
+    private ImageView imgBackLoad;
 
     @Override
     protected void init(Context context) {
@@ -65,12 +71,21 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         mCoverImage = findViewById(R.id.thumbImage);
         imgPlayPause = findViewById(R.id.imgPlayPause);
         imgNext = findViewById(R.id.imgPlayNext);
+        layoutLoading = findViewById(R.id.layoutLoading);
+        videoLoading = findViewById(R.id.videoPrepare);
+        imgBackLoad = findViewById(R.id.imgBackLoad);
 
         if (mThumbImageViewLayout != null &&
                 (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
             mThumbImageViewLayout.setVisibility(VISIBLE);
         }
         imgPlayPause.setOnClickListener(v -> clickStartIcon());
+        imgNext.setOnClickListener(v -> {
+            if (null != onNextClickListener) onNextClickListener.onNextClick();
+        });
+        imgBackLoad.setOnClickListener(v -> {
+            if (context instanceof Activity) ((Activity) context).finish();
+        });
     }
 
     @Override
@@ -340,5 +355,22 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     public void setStartClick(int flag) {
         this.flag = flag;
     }
+    private OnNextClickListener onNextClickListener;
+    public void setOnNextClick(OnNextClickListener onNextClickListener){
+        this.onNextClickListener = onNextClickListener;
+    }
 
+    public interface OnNextClickListener{
+        void onNextClick();
+    }
+
+    public void pauseLoading(){
+        videoLoading.cancelAnimation();
+        layoutLoading.setVisibility(View.GONE);
+    }
+
+    public void playLoading(){
+        layoutLoading.setVisibility(View.VISIBLE);
+        videoLoading.playAnimation();
+    }
 }

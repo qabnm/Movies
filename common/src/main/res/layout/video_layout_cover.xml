@@ -46,17 +46,17 @@
             android:id="@+id/imgPlayPause"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:visibility="gone"
-            android:src="@drawable/player_pause" />
+            android:src="@drawable/player_pause"
+            android:visibility="gone" />
 
         <ImageView
             android:id="@+id/imgPlayNext"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:visibility="gone"
-            android:padding="@dimen/dp_3"
             android:layout_marginLeft="@dimen/dp_6"
-            android:src="@drawable/player_next" />
+            android:padding="@dimen/dp_3"
+            android:src="@drawable/player_next"
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/current"
@@ -179,4 +179,28 @@
         android:src="@drawable/unlock"
         android:visibility="gone" />
 
+    <FrameLayout
+        android:id="@+id/layoutLoading"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/videoPrepare"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/color000000"
+            app:lottie_autoPlay="true"
+            app:lottie_fileName="ad_prepare.json"
+            app:lottie_loop="true" />
+
+        <ImageView
+            android:id="@+id/imgBackLoad"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_37"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/back_white" />
+    </FrameLayout>
 </RelativeLayout>
