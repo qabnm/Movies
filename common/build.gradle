@@ -84,7 +84,7 @@ dependencies {
     api project(path: ':tools')
     api project(path: ':location')
     api project(path: ':advert_sdk')
-    api project(path: ':superplayerkit')
+//    api project(path: ':superplayerkit')
     //友盟统计
     api "com.umeng.umsdk:common:$ext.umsdk_common" // 版本号(必选)
     api "com.umeng.umsdk:asms:$ext.umsdk_asms" // asms包依赖(必选)

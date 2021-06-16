@@ -20,7 +20,6 @@ import com.duoduovv.main.component.PrivacyDialogFragment
 import com.duoduovv.main.databinding.ActivitySplashBinding
 import com.duoduovv.main.viewmodle.MainViewModel
 import com.permissionx.guolindev.PermissionX
-import com.tencent.rtmp.TXLiveBase
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT

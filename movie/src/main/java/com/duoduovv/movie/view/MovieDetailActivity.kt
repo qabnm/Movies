@@ -615,7 +615,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 下载
      */
     override fun onDownLoadClick() {
-        startActivity(Intent(this, TentMovieDetailActivity::class.java))
     }
 
     /**
