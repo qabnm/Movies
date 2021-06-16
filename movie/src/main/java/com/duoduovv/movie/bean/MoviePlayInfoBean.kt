@@ -10,7 +10,8 @@ data class MoviePlayInfoBean(
     val playUrls: List<PlayUrl>?,
     val request: Request,
     val type: String,
-    val js:String
+    val js:String,
+    val headers: List<Header>?
 )
 
 data class PlayUrl(

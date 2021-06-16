@@ -1,7 +1,12 @@
 package com.duoduovv.movie.view
 
+import android.content.res.Configuration
 import android.os.Environment
 import android.util.Log
+import android.view.View
+import android.view.WindowManager
+import androidx.core.content.ContextCompat
+import com.duoduovv.common.util.SampleCoverVideo
 import com.duoduovv.movie.R
 import com.duoduovv.movie.databinding.ActivityTentMovieDetailBinding
 import com.tencent.liteav.demo.superplayer.SuperPlayerCode
@@ -12,6 +17,7 @@ import com.tencent.rtmp.TXLiveConstants
 import com.tencent.rtmp.downloader.ITXVodDownloadListener
 import com.tencent.rtmp.downloader.TXVodDownloadManager
 import com.tencent.rtmp.downloader.TXVodDownloadMediaInfo
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BridgeActivity
 
 /**
@@ -29,40 +35,26 @@ class TentMovieDetailActivity :BridgeActivity() {
 
     override fun initData() {
         initPlayer()
+    }
 
-        val downloader = TXVodDownloadManager.getInstance()
-        downloader.setDownloadPath(getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS)?.absolutePath)
-        downloader.startDownloadUrl("https://jh.nainiuyx.xyz/yun/jiemi.php?key=86fd0c346e44388adc195f5eb05215e4923c0cff3a0d167053c5ea037db25ea5f0b911259f77c67e6645f60e5a060b4fed12a5730679674ca4175908d76b0e0ab0649651dae15e2b92547e51d826526768df1132530ec274fc93b11c7f4bedfd6c497e3f8777065db02479a7&sign=38814224ba40ff5b20de3dc616025434&t=1623402565&name=jianghu.m3u8")
-        downloader.setListener(object :ITXVodDownloadListener{
-            override fun onDownloadStart(p0: TXVodDownloadMediaInfo?) {
-                Log.d("tentPlayer","onDownloadStart")
-            }
+    override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
+        super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
+    }
 
-            override fun onDownloadProgress(p0: TXVodDownloadMediaInfo?) {
-                Log.d("tentPlayer","onDownloadProgress${p0?.progress}")
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when (newConfig.orientation) {
+            Configuration.ORIENTATION_LANDSCAPE -> {
+                //横屏
+                window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                setStatusBarVisible(View.GONE)
             }
-
-            override fun onDownloadStop(p0: TXVodDownloadMediaInfo?) {
-                Log.d("tentPlayer","onDownloadStop${p0?.downloadSize}")
+            else -> {
+                //竖屏
+                window.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+                setStatusBarVisible(View.VISIBLE)
             }
-
-            override fun onDownloadFinish(p0: TXVodDownloadMediaInfo?) {
-                Log.d("tentPlayer","onDownloadFinish")
-            }
-
-            override fun onDownloadError(p0: TXVodDownloadMediaInfo?, p1: Int, p2: String?) {
-                Log.d("tentPlayer","onDownloadError${p2}$p1")
-            }
-
-            override fun hlsKeyVerify(
-                p0: TXVodDownloadMediaInfo?,
-                p1: String?,
-                p2: ByteArray?
-            ): Int {
-                Log.d("tentPlayer","hlsKeyVerify$")
-                return 0
-            }
-        })
+        }
     }
 
     override fun onPause() {

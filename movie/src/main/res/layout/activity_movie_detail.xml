@@ -27,6 +27,15 @@
             app:lottie_fileName="ad_prepare.json"
             app:lottie_loop="true" />
 
+        <ImageView
+            android:id="@+id/imgBackLoad"
+            android:layout_width="@dimen/dp_30"
+            android:layout_height="@dimen/dp_37"
+            android:layout_marginLeft="@dimen/dp_5"
+            android:layout_marginTop="@dimen/dp_5"
+            android:padding="@dimen/dp_10"
+            android:src="@drawable/back_white" />
+
         <RelativeLayout
             android:id="@+id/layoutAd"
             android:layout_width="match_parent"
@@ -60,10 +69,11 @@
 
             <ImageView
                 android:id="@+id/errorBack"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/video_back"
+                android:layout_width="30dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="@dimen/dp_5"
+                android:padding="@dimen/dp_10"
+                android:src="@drawable/back_white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

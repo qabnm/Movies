@@ -6,5 +6,6 @@ package com.duoduovv.movie.bean
  * @des:
  */
 data class JxPlayUrlBean(
-    val playUrls: List<PlayUrl>?
+    val playUrls: List<PlayUrl>?,
+    val headers:List<Header>?
 )
