@@ -19,6 +19,7 @@ class GDTVideoAd {
     private val TAG = "AD_DEMO"
     private lateinit var container: ViewGroup
 
+
     /**
      * 穿山甲贴片广告
      * @param activity Activity

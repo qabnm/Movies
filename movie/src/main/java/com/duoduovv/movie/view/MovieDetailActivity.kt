@@ -176,10 +176,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         videoAd?.initVideoAd(
             this,
             AdvertBridge.VIDEO_AD,
-            mBind.videoAdContainer,
+            mBind.videoPlayer.adContainer,
             width,
             ADSize.AUTO_HEIGHT,
-            mBind.layoutAd
+            mBind.videoPlayer.layoutAd
         )
     }
 
@@ -379,16 +379,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     videoAd?.onAdComplete()
-                    mBind.layoutAd.visibility = View.GONE
+                    mBind.videoPlayer.layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
             })
-            mBind.tvSkip.setOnClickListener {
+            mBind.videoPlayer.tvSkip.setOnClickListener {
                 if (skipLength == 0) {
                     timerTask.cancel()
                     videoAd?.onAdComplete()
-                    mBind.layoutAd.visibility = View.GONE
+                    mBind.videoPlayer.layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -420,15 +420,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.handleMessage(msg)
             if (msg.what == 0) {
                 if (length == -1) {
-                    mBind.tvSkip.text = "${skipLength}秒可关闭"
+                    mBind.videoPlayer.tvSkip.text = "${skipLength}秒可关闭"
                 } else {
-                    mBind.tvSkip.text = "$totalLength | ${skipLength}秒可关闭"
+                    mBind.videoPlayer.tvSkip.text = "$totalLength | ${skipLength}秒可关闭"
                 }
             } else if (msg.what == 1) {
-                mBind.tvSkip.text = "$totalLength | 关闭"
+                mBind.videoPlayer.tvSkip.text = "$totalLength | 关闭"
             } else {
                 videoAd?.onAdComplete()
-                mBind.layoutAd.visibility = View.GONE
+                mBind.videoPlayer.layoutAd.visibility = View.GONE
                 playAdLoading()
                 loadPlayUrl()
             }
@@ -568,6 +568,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             setStartClickListener(this@MovieDetailActivity)
             isNeedLockFull = true
             isShowPauseCover = false
+            backLoad.setOnClickListener { onBackPressed() }
         }
     }
 

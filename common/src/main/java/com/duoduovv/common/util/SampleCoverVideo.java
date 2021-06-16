@@ -1,6 +1,5 @@
 package com.duoduovv.common.util;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Point;
 import android.util.AttributeSet;
@@ -12,13 +11,12 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
-
-import androidx.lifecycle.Observer;
+import android.widget.TextView;
 
 import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.request.RequestOptions;
 import com.duoduovv.common.R;
 import com.shuyu.gsyvideoplayer.utils.CommonUtil;
@@ -27,10 +25,6 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import dc.android.tools.LiveDataBus;
 import moe.codeest.enviews.ENPlayView;
 
 /**
@@ -64,6 +58,9 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     private FrameLayout layoutLoading;
     private LottieAnimationView videoLoading;
     private ImageView imgBackLoad;
+    private RelativeLayout layoutAd;
+    private FrameLayout videoAdContainer;
+    private TextView tvSkip;
 
     @Override
     protected void init(Context context) {
@@ -74,6 +71,9 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         layoutLoading = findViewById(R.id.layoutLoading);
         videoLoading = findViewById(R.id.videoPrepare);
         imgBackLoad = findViewById(R.id.imgBackLoad);
+        layoutAd = findViewById(R.id.layoutAd);
+        videoAdContainer = findViewById(R.id.videoAdContainer);
+        tvSkip = findViewById(R.id.tvSkip);
 
         if (mThumbImageViewLayout != null &&
                 (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
@@ -83,9 +83,9 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         imgNext.setOnClickListener(v -> {
             if (null != onNextClickListener) onNextClickListener.onNextClick();
         });
-        imgBackLoad.setOnClickListener(v -> {
-            if (context instanceof Activity) ((Activity) context).finish();
-        });
+//        imgBackLoad.setOnClickListener(v -> {
+//            if (context instanceof Activity) ((Activity) context).finish();
+//        });
     }
 
     @Override
@@ -372,5 +372,21 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     public void playLoading(){
         layoutLoading.setVisibility(View.VISIBLE);
         videoLoading.playAnimation();
+    }
+
+    public ImageView getBackLoad(){
+        return imgBackLoad;
+    }
+
+    public RelativeLayout getLayoutAd(){
+        return layoutAd;
+    }
+
+    public FrameLayout getAdContainer(){
+        return videoAdContainer;
+    }
+
+    public TextView getTvSkip(){
+        return tvSkip;
     }
 }

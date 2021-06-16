@@ -38,7 +38,7 @@ class MainViewModel : BaseViewModel() {
                 AdvertBridge.SEARCH = ttBean?.search ?: ""
                 AdvertBridge.MOVIE_DETAIL_BANNER = ttBean?.movieDetailBanner ?: ""
                 AdvertBridge.CENTER_TOP = ttBean?.centerTop ?: ""
-                AdvertBridge.VIDEO_AD = ttBean?.videoAd ?:""
+                AdvertBridge.VIDEO_AD = ttBean?.videoAd ?:"9081994535080164"
                 //9081994535080164
             } else {
                 //这是广点通的广告
