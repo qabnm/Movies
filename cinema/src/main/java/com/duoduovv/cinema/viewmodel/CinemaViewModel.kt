@@ -52,6 +52,7 @@ class CinemaViewModel : BaseViewModel() {
                 AdvertBridge.SEARCH = ttBean?.search ?: ""
                 AdvertBridge.MOVIE_DETAIL_BANNER = ttBean?.movieDetailBanner ?: ""
                 AdvertBridge.CENTER_TOP = ttBean?.centerTop ?: ""
+                AdvertBridge.VIDEO_AD = ttBean?.videoAd ?:""
             } else {
                 //这是广点通的广告
                 AdvertBridge.SPLASH = gdtBean?.splash ?: ""
