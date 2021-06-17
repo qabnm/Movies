@@ -75,6 +75,8 @@ class GDTVideoAdForSelfRender {
         when {
             imageViews.isNotEmpty() -> {
                 layoutAd.visibility = View.VISIBLE
+                mImagePoster.visibility = View.VISIBLE
+                mMediaView.visibility = View.GONE
                 ad.bindImageViews(imageViews, 0)
                 LiveDataBus.get().with("videoLength").value = 0
             }
@@ -179,7 +181,7 @@ class GDTVideoAdForSelfRender {
             if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 layoutParams.height = height
             } else if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+                layoutParams.height = (height*9/16f).toInt()
             }
             container.layoutParams = layoutParams
         }

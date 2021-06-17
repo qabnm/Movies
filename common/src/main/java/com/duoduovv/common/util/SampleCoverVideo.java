@@ -61,7 +61,6 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     private LottieAnimationView videoLoading;
     private ImageView imgBackLoad;
     private NativeAdContainer layoutAd;
-//    private FrameLayout videoAdContainer;
     private TextView tvSkip;
     private MediaView mediaView;
     private ImageView adImgCover;
@@ -76,7 +75,6 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         videoLoading = findViewById(R.id.videoPrepare);
         imgBackLoad = findViewById(R.id.imgBackLoad);
         layoutAd = findViewById(R.id.layoutAd);
-//        videoAdContainer = findViewById(R.id.videoAdContainer);
         tvSkip = findViewById(R.id.tvSkip);
         mediaView = findViewById(R.id.mediaView);
         adImgCover = findViewById(R.id.adImgCover);
@@ -89,9 +87,6 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         imgNext.setOnClickListener(v -> {
             if (null != onNextClickListener) onNextClickListener.onNextClick();
         });
-//        imgBackLoad.setOnClickListener(v -> {
-//            if (context instanceof Activity) ((Activity) context).finish();
-//        });
     }
 
     @Override
@@ -387,10 +382,6 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     public NativeAdContainer getLayoutAd(){
         return layoutAd;
     }
-
-//    public FrameLayout getAdContainer(){
-//        return videoAdContainer;
-//    }
 
     public TextView getTvSkip(){
         return tvSkip;
