@@ -1,8 +1,12 @@
 package com.duoduovv.advert.gdtad
 
 import android.content.Context
+import android.content.res.Configuration
+import android.content.res.Resources
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.ImageView
 import com.qq.e.ads.cfg.VideoOption
 import com.qq.e.ads.nativ.*
@@ -165,6 +169,20 @@ class GDTVideoAdForSelfRender {
             setEnableUserControl(false)
         }
         return builder.build()
+    }
+
+    fun onConfigurationChanged(container: FrameLayout,context: Context){
+        val height = Resources.getSystem().displayMetrics.widthPixels.coerceAtMost(Resources.getSystem().displayMetrics.heightPixels)
+        container.post {
+            val configuration = context.resources.configuration
+            val layoutParams: ViewGroup.LayoutParams = container.layoutParams
+            if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                layoutParams.height = height
+            } else if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                layoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT
+            }
+            container.layoutParams = layoutParams
+        }
     }
 
     fun onDestroy() {

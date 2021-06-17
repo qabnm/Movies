@@ -6,18 +6,20 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.advert.AdvertBridge
-import com.duoduovv.advert.gdtad.GDTVideoAd
 import com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
@@ -39,7 +41,6 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
-import com.qq.e.ads.nativ.ADSize
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
@@ -172,16 +173,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     private var videoAd: GDTVideoAdForSelfRender? = null
     private fun initGDTVideoAd() {
-        if (null == videoAd) videoAd = GDTVideoAdForSelfRender()
-//        val width = OsUtils.px2dip(this, OsUtils.getScreenWidth(this).toFloat())
-//        videoAd?.initVideoAd(
-//            this,
-//            AdvertBridge.VIDEO_AD,
-//            mBind.videoPlayer.adContainer,
-//            width,
-//            ADSize.AUTO_HEIGHT,
-//            mBind.videoPlayer.layoutAd
-//        )
+        if (null == videoAd)videoAd = GDTVideoAdForSelfRender()
         videoAd?.initVideoAd(
             this,
             AdvertBridge.VIDEO_AD,
@@ -256,7 +248,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             //根据type判断是否需要调用解析的接口
             this.playFlag = flag
-            js = it.js
+            js = it.js?:""
             when (it.type) {
                 "h5" -> {
                     //跳转H5
@@ -817,12 +809,18 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     }
                 }
                 if (currentPlayPosition < movieItems.size - 1) {
+                    //清除当前正在播放的
+                    mBind.videoPlayer.currentPlayer.release()
                     playAdLoading()
                     //还有下一集 播放下一集
                     currentPlayPosition++
                     vid = movieItems[currentPlayPosition].vid
                     vidTitle = movieItems[currentPlayPosition].title
-                    viewModel.moviePlayInfo(vid, movieId, line, "", 1)
+                    //播放广告
+                    if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
+                    if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
+                        viewModel.moviePlayInfo(vid, movieId, line, "", 1)
+                    }
                     //更新选集显示
                     for (i in movieItems.indices) {
                         movieItems[i].isSelect = false
@@ -853,6 +851,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 setStatusBarVisible(View.VISIBLE)
             }
         }
+        videoAd?.onConfigurationChanged(mBind.videoPlayer.layoutAd, this)
     }
 
     private val onNextClickListener = SampleCoverVideo.OnNextClickListener { onNextClick() }
