@@ -19,6 +19,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.duoduovv.common.R;
+import com.qq.e.ads.nativ.MediaView;
+import com.qq.e.ads.nativ.widget.NativeAdContainer;
 import com.shuyu.gsyvideoplayer.utils.CommonUtil;
 import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
@@ -58,9 +60,11 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     private FrameLayout layoutLoading;
     private LottieAnimationView videoLoading;
     private ImageView imgBackLoad;
-    private RelativeLayout layoutAd;
-    private FrameLayout videoAdContainer;
+    private NativeAdContainer layoutAd;
+//    private FrameLayout videoAdContainer;
     private TextView tvSkip;
+    private MediaView mediaView;
+    private ImageView adImgCover;
 
     @Override
     protected void init(Context context) {
@@ -72,8 +76,10 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         videoLoading = findViewById(R.id.videoPrepare);
         imgBackLoad = findViewById(R.id.imgBackLoad);
         layoutAd = findViewById(R.id.layoutAd);
-        videoAdContainer = findViewById(R.id.videoAdContainer);
+//        videoAdContainer = findViewById(R.id.videoAdContainer);
         tvSkip = findViewById(R.id.tvSkip);
+        mediaView = findViewById(R.id.mediaView);
+        adImgCover = findViewById(R.id.adImgCover);
 
         if (mThumbImageViewLayout != null &&
                 (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
@@ -378,15 +384,23 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         return imgBackLoad;
     }
 
-    public RelativeLayout getLayoutAd(){
+    public NativeAdContainer getLayoutAd(){
         return layoutAd;
     }
 
-    public FrameLayout getAdContainer(){
-        return videoAdContainer;
-    }
+//    public FrameLayout getAdContainer(){
+//        return videoAdContainer;
+//    }
 
     public TextView getTvSkip(){
         return tvSkip;
+    }
+
+    public MediaView getMediaView(){
+        return  mediaView;
+    }
+
+    public ImageView getAdImgCover(){
+        return adImgCover;
     }
 }

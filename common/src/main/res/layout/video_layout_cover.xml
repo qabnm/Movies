@@ -204,32 +204,31 @@
             android:src="@drawable/back_white" />
     </FrameLayout>
 
-    <RelativeLayout
+    <com.qq.e.ads.nativ.widget.NativeAdContainer
         android:id="@+id/layoutAd"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/color000000"
-        android:visibility="visible">
+        android:visibility="gone">
         <com.qq.e.ads.nativ.MediaView
+            android:id="@+id/mediaView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
         <ImageView
+            android:id="@+id/adImgCover"
+            android:scaleType="fitXY"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
-        <FrameLayout
-            android:id="@+id/videoAdContainer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <TextView
             android:id="@+id/tvSkip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
+            android:layout_gravity="end"
             android:layout_marginTop="@dimen/dp_15"
             android:layout_marginEnd="@dimen/dp_15"
             android:padding="@dimen/dp_5"
             android:textColor="@color/colorFFFFFF"
             android:textSize="@dimen/sp_12" />
-    </RelativeLayout>
+    </com.qq.e.ads.nativ.widget.NativeAdContainer>
 </RelativeLayout>

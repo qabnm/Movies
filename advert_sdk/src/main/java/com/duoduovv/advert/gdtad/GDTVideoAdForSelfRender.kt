@@ -10,9 +10,6 @@ import com.qq.e.ads.nativ.widget.NativeAdContainer
 import com.qq.e.comm.constants.AdPatternType
 import com.qq.e.comm.util.AdError
 import dc.android.tools.LiveDataBus
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 /**
  * @author: jun.liu
@@ -22,14 +19,14 @@ import kotlinx.coroutines.launch
 class GDTVideoAdForSelfRender {
     private var mAdData: NativeUnifiedADData? = null
     private lateinit var mAdManager: NativeUnifiedAD
-    private var mContainer: NativeAdContainer? = null
     private val TAG = "adLoad"
 
     fun initVideoAd(
         context: Context,
         posId: String,
         mImagePoster: ImageView,
-        mMediaView: MediaView
+        mMediaView: MediaView,
+        layoutAd: NativeAdContainer
     ) {
         mAdManager = NativeUnifiedAD(context, posId, object : NativeADUnifiedListener {
             override fun onNoAD(error: AdError?) {
@@ -39,81 +36,124 @@ class GDTVideoAdForSelfRender {
 
             override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
                 if (ads?.isNotEmpty() == true) {
+                    Log.d(TAG, "onADLoaded")
                     mAdData = ads[0]
-                    mAdData?.let { initAd(it,mImagePoster, mMediaView) }
+                    mAdData?.let {
+                        initAd(context, it, mImagePoster, mMediaView, layoutAd)
+                    }
                 }
             }
         })
+        mAdManager.setMinVideoDuration(8)
+        mAdManager.setMaxVideoDuration(61)
         mAdManager.loadData(1)
     }
 
-    private fun onVideoPrepare(){
+    private fun onVideoPrepare() {
         LiveDataBus.get().with("onAdComplete").value = "onAdComplete"
     }
 
-   private fun initAd(ad: NativeUnifiedADData,mImagePoster: ImageView, mMediaView: MediaView) {
-        if (ad.adPatternType == AdPatternType.NATIVE_VIDEO){
-            GlobalScope.launch(Dispatchers.Main) {
-                if (ad.adPatternType == AdPatternType.NATIVE_VIDEO){
-                    //视频广告
-                    mImagePoster.visibility = View.GONE
-                    mMediaView.visibility = View.VISIBLE
-                    ad.bindMediaView(mMediaView,getVideoOption(),object : NativeADMediaListener{
-                        override fun onVideoInit() {
-                            Log.d(TAG, "onVideoInit")
-                        }
+    private fun initAd(
+        context: Context,
+        ad: NativeUnifiedADData,
+        mImagePoster: ImageView,
+        mMediaView: MediaView,
+        layoutAd: NativeAdContainer
+    ) {
+        Log.d(TAG, "${ad.adPatternType}")
+        val imageViews = ArrayList<ImageView>()
+        val clickableViews = ArrayList<View>()
+        if (ad.adPatternType == AdPatternType.NATIVE_2IMAGE_2TEXT || ad.adPatternType == AdPatternType.NATIVE_1IMAGE_2TEXT) {
+            clickableViews.add(mImagePoster)
+            imageViews.add(mImagePoster)
+        }
+        ad.bindAdToView(context, layoutAd, null, clickableViews)
+        when {
+            imageViews.isNotEmpty() -> {
+                layoutAd.visibility = View.VISIBLE
+                ad.bindImageViews(imageViews, 0)
+                LiveDataBus.get().with("videoLength").value = 0
+            }
+            ad.adPatternType == AdPatternType.NATIVE_VIDEO -> {
+                layoutAd.visibility = View.VISIBLE
+                //视频广告
+                mImagePoster.visibility = View.GONE
+                mMediaView.visibility = View.VISIBLE
+                ad.bindMediaView(mMediaView, getVideoOption(), object : NativeADMediaListener {
+                    override fun onVideoInit() {
+                        Log.d(TAG, "onVideoInit")
+                    }
 
-                        override fun onVideoLoading() {
-                            Log.d(TAG, "onVideoLoading")
-                        }
+                    override fun onVideoLoading() {
+                        Log.d(TAG, "onVideoLoading")
+                    }
 
-                        override fun onVideoReady() {
-                            Log.d(TAG, "onVideoReady")
-                        }
+                    override fun onVideoReady() {
+                        Log.d(TAG, "onVideoReady")
+                        LiveDataBus.get().with("videoLength").value = ad.videoDuration
+                    }
 
-                        override fun onVideoLoaded(videoDuration: Int) {
-                            Log.d(TAG, "onVideoReady,广告时长$videoDuration")
-                            LiveDataBus.get().with("videoLength").value = videoDuration
-                        }
+                    override fun onVideoLoaded(videoDuration: Int) {
+                        Log.d(TAG, "onVideoReady,广告时长${ad.videoDuration}")
+                    }
 
-                        override fun onVideoStart() {
-                            Log.d(TAG, "onVideoStart")
-                        }
+                    override fun onVideoStart() {
+                        Log.d(TAG, "onVideoStart")
+                    }
 
-                        override fun onVideoPause() {
-                            Log.d(TAG, "onVideoPause")
-                        }
+                    override fun onVideoPause() {
+                        Log.d(TAG, "onVideoPause")
+                    }
 
-                        override fun onVideoResume() {
-                            Log.d(TAG, "onVideoResume")
-                        }
+                    override fun onVideoResume() {
+                        Log.d(TAG, "onVideoResume")
+                    }
 
-                        override fun onVideoCompleted() {
-                            Log.d(TAG, "onVideoCompleted")
-                            onVideoPrepare()
-                            onDestroy()
-                        }
+                    override fun onVideoCompleted() {
+                        Log.d(TAG, "onVideoCompleted")
+                        onVideoPrepare()
+                        onDestroy()
+                    }
 
-                        override fun onVideoError(error: AdError?) {
-                            Log.d(TAG, "onVideoError${error?.errorCode}${error?.errorMsg}")
-                            onVideoPrepare()
-                            onDestroy()
-                        }
+                    override fun onVideoError(error: AdError?) {
+                        Log.d(TAG, "onVideoError${error?.errorCode}${error?.errorMsg}")
+                        onVideoPrepare()
+                        onDestroy()
+                    }
 
-                        override fun onVideoStop() {
-                            Log.d(TAG, "onVideoStop")
-                        }
+                    override fun onVideoStop() {
+                        Log.d(TAG, "onVideoStop")
+                    }
 
-                        override fun onVideoClicked() {
-                            Log.d(TAG, "onVideoClicked")
-                        }
-                    })
-                }
+                    override fun onVideoClicked() {
+                        Log.d(TAG, "onVideoClicked")
+                    }
+                })
+                ad.setNativeAdEventListener(object : NativeADEventListener {
+                    override fun onADExposed() {
+                        Log.d(TAG, "onADExposed")
+                    }
+
+                    override fun onADClicked() {
+                        Log.d(TAG, "onADClicked")
+                    }
+
+                    override fun onADError(error: AdError?) {
+                        Log.d(TAG, "onADError${error?.errorCode}${error?.errorMsg}")
+                    }
+
+                    override fun onADStatusChanged() {
+                        Log.d(TAG, "onADStatusChanged")
+                    }
+                })
+            }
+            else -> {
+                onVideoPrepare()
             }
         }
     }
 
-    private fun getVideoOption():VideoOption{
+    private fun getVideoOption(): VideoOption {
         val builder = VideoOption.Builder()
         builder.apply {
             setAutoPlayPolicy(VideoOption.AutoPlayPolicy.ALWAYS)
@@ -127,11 +167,11 @@ class GDTVideoAdForSelfRender {
         return builder.build()
     }
 
-    fun onDestroy(){
+    fun onDestroy() {
         mAdData?.destroy()
     }
 
-    fun onResume(){
+    fun onResume() {
         mAdData?.resume()
     }
 }

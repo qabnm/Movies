@@ -18,6 +18,7 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTVideoAd
+import com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.listener.VideoPlayCallback
@@ -169,16 +170,23 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
-    private var videoAd: GDTVideoAd? = null
+    private var videoAd: GDTVideoAdForSelfRender? = null
     private fun initGDTVideoAd() {
-        if (null == videoAd) videoAd = GDTVideoAd()
-        val width = OsUtils.px2dip(this, OsUtils.getScreenWidth(this).toFloat())
+        if (null == videoAd) videoAd = GDTVideoAdForSelfRender()
+//        val width = OsUtils.px2dip(this, OsUtils.getScreenWidth(this).toFloat())
+//        videoAd?.initVideoAd(
+//            this,
+//            AdvertBridge.VIDEO_AD,
+//            mBind.videoPlayer.adContainer,
+//            width,
+//            ADSize.AUTO_HEIGHT,
+//            mBind.videoPlayer.layoutAd
+//        )
         videoAd?.initVideoAd(
             this,
             AdvertBridge.VIDEO_AD,
-            mBind.videoPlayer.adContainer,
-            width,
-            ADSize.AUTO_HEIGHT,
+            mBind.videoPlayer.adImgCover,
+            mBind.videoPlayer.mediaView,
             mBind.videoPlayer.layoutAd
         )
     }
@@ -378,7 +386,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             })
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
-                    videoAd?.onAdComplete()
+                    videoAd?.onDestroy()
                     mBind.videoPlayer.layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
@@ -387,7 +395,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             mBind.videoPlayer.tvSkip.setOnClickListener {
                 if (skipLength == 0) {
                     timerTask.cancel()
-                    videoAd?.onAdComplete()
+                    videoAd?.onDestroy()
                     mBind.videoPlayer.layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
@@ -427,7 +435,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             } else if (msg.what == 1) {
                 mBind.videoPlayer.tvSkip.text = "$totalLength | 关闭"
             } else {
-                videoAd?.onAdComplete()
+                videoAd?.onDestroy()
                 mBind.videoPlayer.layoutAd.visibility = View.GONE
                 playAdLoading()
                 loadPlayUrl()
@@ -756,6 +764,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     override fun onResume() {
         mBind.videoPlayer.currentPlayer.onVideoResume(false)
+        videoAd?.onResume()
         super.onResume()
     }
 
@@ -786,6 +795,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         pauseAdLoading()
         GSYVideoManager.releaseAllVideos()
         orientationUtils?.releaseListener()
+        videoAd?.onDestroy()
     }
 
     override fun onPause() {
@@ -833,7 +843,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 //横屏
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 setStatusBarVisible(View.GONE)
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setOnNextClick(onNextClickListener)
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setOnNextClick(
+                    onNextClickListener
+                )
             }
             else -> {
                 //竖屏
