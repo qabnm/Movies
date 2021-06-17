@@ -146,6 +146,10 @@ class MovieDetailFragment : BaseFragment() {
         } else {
             mBind.layoutZhuanJi.visibility = View.GONE
         }
+        updateAd()
+    }
+
+    fun updateAd(){
         //加载广告
         if (!StringUtils.isEmpty(AdvertBridge.MOVIE_DETAIL_BANNER)) {
             if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {

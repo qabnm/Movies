@@ -18,8 +18,8 @@ class RetrofitFactory private constructor() {
     init {
         val builder = OkHttpClient.Builder()
         builder.apply {
-            connectTimeout(15, TimeUnit.SECONDS)
-            readTimeout(15,TimeUnit.SECONDS)
+            connectTimeout(30, TimeUnit.SECONDS)
+            readTimeout(30,TimeUnit.SECONDS)
             if (!OsUtils.isAppDebug())proxy(Proxy.NO_PROXY)
             addInterceptor(HeaderInterceptor())
         }

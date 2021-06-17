@@ -187,10 +187,11 @@
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/videoPrepare"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@color/color000000"
             app:lottie_autoPlay="true"
+            android:layout_gravity="center"
             app:lottie_fileName="ad_prepare.json"
             app:lottie_loop="true" />
 

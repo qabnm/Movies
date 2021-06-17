@@ -713,6 +713,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         videoAd?.onDestroy()
         //清理掉当前正在播放的视频
         mBind.videoPlayer.currentPlayer.release()
+        fragment?.updateAd()
         if (way == WAY_RELEASE) playAdLoading()
         if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
         //只有正常班的才会去请求接口
@@ -731,6 +732,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
             if (way == WAY_RELEASE) playAdLoading()
+            videoAd?.onDestroy()
             mBind.videoPlayer.currentPlayer.release()
             mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()
