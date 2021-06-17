@@ -75,6 +75,9 @@ dependencies {
     implementation "com.squareup.okhttp3:okhttp:$ext.okhttp_version"
     implementation "com.squareup.okhttp3:logging-interceptor:$ext.interceptor_version"
 
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$ext.coroutines_core_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$ext.coroutines_android_version"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$ext.viewmodel_version"
     api project(path: ':weichat')
     api project(path: ':room')
     api project(path: ':tools')

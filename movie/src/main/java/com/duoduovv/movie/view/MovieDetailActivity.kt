@@ -145,8 +145,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 播放出现错误的时候切换线路
      */
     private fun onPlayError() {
+        pauseAdLoading()
         detailBean?.let {
-            pauseAdLoading()
             mBind.layoutStateError.visibility = View.VISIBLE
             val lineAdapter = ChangePlayLineAdapter()
             mBind.rvLine.adapter = lineAdapter
@@ -253,6 +253,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 "h5" -> {
                     //跳转H5
                     playUrl = it.h5Url
+                    pauseAdLoading()
                 }
                 "stream" -> {
                     //直接播放的 不用再次解析
@@ -381,8 +382,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
