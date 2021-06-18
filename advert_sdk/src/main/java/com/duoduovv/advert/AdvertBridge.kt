@@ -55,6 +55,8 @@ class AdvertBridge {
 
         var CENTER_TOP = ""
 
+        var VIDEO_AD = ""
+
 
         /**
          * 初始化穿山甲SDK

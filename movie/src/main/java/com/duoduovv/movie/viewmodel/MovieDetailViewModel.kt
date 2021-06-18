@@ -57,7 +57,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param id String
      * @return Job
      */
-    fun moviePlayInfo(vid: String, id: String, line: String, js: String, flag: Int = 0) = request {
+    fun moviePlayInfo(vid: String, id: String, line: String, js: String, flag: Int = 0) = request(false) {
         val result = repository.moviePlayInfo(vid, id, line, js)
         if (result.code == SUCCESS) {
             if (flag == 0) {
@@ -185,7 +185,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param movieId String
      * @param line String
      */
-    fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) = request {
+    fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) = request(false) {
         val result = repository.analysisPlayUrl(vid, movieId, line, content)
         if (SUCCESS == result.code) {
             analysisPlayUrl.postValue(result.data)
@@ -198,7 +198,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param headers Map<String, String>
      * @return Job
      */
-    fun jxUrlForGEet(url: String, headers: Map<String, String>) = request {
+    fun jxUrlForGEet(url: String, headers: Map<String, String>) = request(false) {
         val result = repository.jxUrlForGEet(url, headers)
         jxUrl.postValue(result.string())
     }
@@ -211,7 +211,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @return Job
      */
     fun jxUrlForPost(url: String, headers: Map<String, String>, map: Map<String, String>) =
-        request {
+        request(false) {
             val result = repository.jxUrlForPost(url, headers, map)
             jxUrl.postValue(result.string())
         }
@@ -223,7 +223,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param message String
      * @return Job
      */
-    fun playError(vid: String, url: String, message: String) = request {
+    fun playError(vid: String, url: String, message: String) = request(false) {
         repository.playError(vid, url, message)
     }
 }

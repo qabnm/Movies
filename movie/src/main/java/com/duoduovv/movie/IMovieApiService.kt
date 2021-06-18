@@ -1,5 +1,6 @@
 package com.duoduovv.movie
 
+import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.movie.bean.*
 import dc.android.bridge.net.BaseResponseData
 import retrofit2.http.*
@@ -35,7 +36,7 @@ interface IMovieApiService {
      * 榜单分类
      */
     @GET("api/config")
-    suspend fun movieRankCategory(): BaseResponseData<MovieRankCategoryBean>
+    suspend fun movieRankCategory(): BaseResponseData<ConfigureBean>
 
     /**
      * 电影榜单页面

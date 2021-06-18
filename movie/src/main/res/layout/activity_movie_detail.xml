@@ -9,7 +9,7 @@
         android:id="@+id/layoutVideo"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        app:layout_constraintDimensionRatio="75:42"
+        app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -27,10 +27,11 @@
 
             <ImageView
                 android:id="@+id/errorBack"
-                android:layout_width="45dp"
-                android:layout_height="45dp"
-                android:scaleType="centerInside"
-                android:src="@drawable/video_back"
+                android:layout_width="30dp"
+                android:layout_height="37dp"
+                android:layout_marginStart="@dimen/dp_5"
+                android:padding="@dimen/dp_10"
+                android:src="@drawable/back_white"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

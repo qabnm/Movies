@@ -6,9 +6,9 @@ import android.os.Build
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.domain.Version
 import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.InstallFileProvider
-import com.duoduovv.personal.bean.VersionBean
 import com.duoduovv.personal.repository.PersonRepository
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseRepository
@@ -21,7 +21,7 @@ import java.io.File
  * @des:設置
  */
 class SettingViewModel :BaseViewModel() {
-    private var upgrade:MutableLiveData<VersionBean> = MutableLiveData()
+    private var upgrade:MutableLiveData<Version> = MutableLiveData()
     fun getUpgrade() = upgrade
     private var totalSize: Long = 0
     private var filePath: String? = null

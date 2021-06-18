@@ -1,11 +1,11 @@
 # compiler: R8
 # compiler_version: 2.1.75
 # min_api: 21
-# pg_map_id: 320703b
+# pg_map_id: 3aacfe7
 # common_typos_disable
 $$ServiceLoaderMethods -> a:
-    java.util.Iterator $load$70475() -> a
-    java.util.Iterator $load$74114() -> b
+    java.util.Iterator $load$70501() -> a
+    java.util.Iterator $load$74106() -> b
 $r8$backportedMethods$utility$Long$1$hashCode -> b:
     int hashCode(long) -> a
 android.support.v4.app.INotificationSideChannel$Stub$Proxy -> android.support.v4.app.INotificationSideChannel$Stub$Proxy:
@@ -18774,7 +18774,8 @@ com.danikula.videocache.sourcestorage.SourceInfoStorageFactory -> c.d.a.v.d:
 com.duoduovv.advert.AdvertBridge -> c.e.a.a:
     java.lang.String CENTER_TOP -> g
     java.lang.String MOVIE_DETAIL_BANNER -> f
-    com.duoduovv.advert.AdvertBridge$Companion Companion -> h
+    com.duoduovv.advert.AdvertBridge$Companion Companion -> i
+    java.lang.String VIDEO_AD -> h
     java.lang.String AD_TYPE -> a
     java.lang.String MAIN_PAGE_BANNER -> c
     java.lang.String SPLASH -> b
@@ -18787,13 +18788,15 @@ com.duoduovv.advert.AdvertBridge -> c.e.a.a:
     java.lang.String access$getMOVIE_DETAIL_BANNER$cp() -> e
     java.lang.String access$getSEARCH$cp() -> f
     java.lang.String access$getSPLASH$cp() -> g
-    void access$setAD_TYPE$cp(java.lang.String) -> h
-    void access$setCENTER_TOP$cp(java.lang.String) -> i
-    void access$setLOGOUT$cp(java.lang.String) -> j
-    void access$setMAIN_PAGE_BANNER$cp(java.lang.String) -> k
-    void access$setMOVIE_DETAIL_BANNER$cp(java.lang.String) -> l
-    void access$setSEARCH$cp(java.lang.String) -> m
-    void access$setSPLASH$cp(java.lang.String) -> n
+    java.lang.String access$getVIDEO_AD$cp() -> h
+    void access$setAD_TYPE$cp(java.lang.String) -> i
+    void access$setCENTER_TOP$cp(java.lang.String) -> j
+    void access$setLOGOUT$cp(java.lang.String) -> k
+    void access$setMAIN_PAGE_BANNER$cp(java.lang.String) -> l
+    void access$setMOVIE_DETAIL_BANNER$cp(java.lang.String) -> m
+    void access$setSEARCH$cp(java.lang.String) -> n
+    void access$setSPLASH$cp(java.lang.String) -> o
+    void access$setVIDEO_AD$cp(java.lang.String) -> p
 com.duoduovv.advert.AdvertBridge$Companion -> c.e.a.a$a:
     void gdtInit(android.content.Context) -> a
     java.lang.String getAD_TYPE() -> b
@@ -18803,14 +18806,16 @@ com.duoduovv.advert.AdvertBridge$Companion -> c.e.a.a$a:
     java.lang.String getMOVIE_DETAIL_BANNER() -> f
     java.lang.String getSEARCH() -> g
     java.lang.String getSPLASH() -> h
-    void setAD_TYPE(java.lang.String) -> i
-    void setCENTER_TOP(java.lang.String) -> j
-    void setLOGOUT(java.lang.String) -> k
-    void setMAIN_PAGE_BANNER(java.lang.String) -> l
-    void setMOVIE_DETAIL_BANNER(java.lang.String) -> m
-    void setSEARCH(java.lang.String) -> n
-    void setSPLASH(java.lang.String) -> o
-    void ttAdSdkInit(android.content.Context,boolean) -> p
+    java.lang.String getVIDEO_AD() -> i
+    void setAD_TYPE(java.lang.String) -> j
+    void setCENTER_TOP(java.lang.String) -> k
+    void setLOGOUT(java.lang.String) -> l
+    void setMAIN_PAGE_BANNER(java.lang.String) -> m
+    void setMOVIE_DETAIL_BANNER(java.lang.String) -> n
+    void setSEARCH(java.lang.String) -> o
+    void setSPLASH(java.lang.String) -> p
+    void setVIDEO_AD(java.lang.String) -> q
+    void ttAdSdkInit(android.content.Context,boolean) -> r
 com.duoduovv.advert.AdvertBridge$Companion$ttAdSdkInit$1 -> c.e.a.a$a$a:
 com.duoduovv.advert.gdtad.GDTBannerAd -> c.e.a.b.a:
     com.qq.e.ads.banner2.UnifiedBannerView bannerView -> a
@@ -18842,6 +18847,37 @@ com.duoduovv.advert.gdtad.GDTSplashAd -> c.e.a.b.c:
     void start() -> f
 com.duoduovv.advert.gdtad.GDTSplashAd$gdtSplashADListener$1 -> c.e.a.b.c$a:
     com.duoduovv.advert.gdtad.GDTSplashAd this$0 -> a
+com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender -> c.e.a.b.d:
+    com.qq.e.ads.nativ.NativeUnifiedAD mAdManager -> b
+    com.qq.e.ads.nativ.NativeUnifiedADData mAdData -> a
+    java.lang.String TAG -> c
+    com.qq.e.ads.nativ.NativeUnifiedADData access$getMAdData$p(com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender) -> a
+    java.lang.String access$getTAG$p(com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender) -> b
+    void access$initAd(com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender,android.content.Context,com.qq.e.ads.nativ.NativeUnifiedADData,android.widget.ImageView,com.qq.e.ads.nativ.MediaView,com.qq.e.ads.nativ.widget.NativeAdContainer) -> c
+    void access$onVideoPrepare(com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender) -> d
+    void access$setMAdData$p(com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender,com.qq.e.ads.nativ.NativeUnifiedADData) -> e
+    com.qq.e.ads.cfg.VideoOption getVideoOption() -> f
+    void initAd(android.content.Context,com.qq.e.ads.nativ.NativeUnifiedADData,android.widget.ImageView,com.qq.e.ads.nativ.MediaView,com.qq.e.ads.nativ.widget.NativeAdContainer) -> g
+    void initVideoAd(android.content.Context,java.lang.String,android.widget.ImageView,com.qq.e.ads.nativ.MediaView,com.qq.e.ads.nativ.widget.NativeAdContainer) -> h
+    void onConfigurationChanged(android.widget.FrameLayout,android.content.Context) -> i
+    void onDestroy() -> j
+    void onResume() -> k
+    void onVideoPrepare() -> l
+com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender$initAd$1 -> c.e.a.b.d$a:
+    com.qq.e.ads.nativ.NativeUnifiedADData $ad -> b
+    com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender this$0 -> a
+com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender$initAd$2 -> c.e.a.b.d$b:
+    com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender this$0 -> a
+com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender$initVideoAd$1 -> c.e.a.b.d$c:
+    com.qq.e.ads.nativ.MediaView $mMediaView -> d
+    android.content.Context $context -> b
+    com.qq.e.ads.nativ.widget.NativeAdContainer $layoutAd -> e
+    com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender this$0 -> a
+    android.widget.ImageView $mImagePoster -> c
+com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender$onConfigurationChanged$1 -> c.e.a.b.d$d:
+    android.content.Context $context -> a
+    int $height -> c
+    android.widget.FrameLayout $container -> b
 com.duoduovv.advert.ttad.TTBannerAd -> c.e.a.c.a:
     com.bytedance.sdk.openadsdk.TTNativeExpressAd ttBannerAd -> b
     java.lang.String TAG -> a
@@ -18931,40 +18967,48 @@ com.duoduovv.cinema.R$id -> c.e.b.c:
     int layoutHistoryContainer -> r
     int layoutFlowLayout -> p
 com.duoduovv.cinema.R$layout -> c.e.b.d:
-    int item_main_recommend -> n
-    int item_main_title -> o
-    int item_layout_category -> l
-    int item_main_banner -> m
-    int item_catagory -> j
-    int item_hot_search -> k
-    int fragment_search_result_list -> h
-    int item_banner_view -> i
-    int fragment_history_search -> f
-    int fragment_search_result -> g
-    int fragment_cinema -> d
-    int fragment_cinema_list -> e
+    int item_main_banner -> n
+    int item_main_recommend -> o
+    int item_hot_search -> l
+    int item_layout_category -> m
+    int item_banner_view -> j
+    int item_catagory -> k
+    int fragment_search_result -> h
+    int fragment_search_result_list -> i
+    int fragment_cinema_list -> f
+    int fragment_history_search -> g
+    int banner_ad_container -> d
+    int fragment_cinema -> e
     int activity_search -> b
     int activity_search_more_select -> c
     int activity_recommend -> a
-    int item_today_reccommend -> v
-    int layout_main_page_empty -> w
-    int item_search_result -> t
-    int item_search_tv_select -> u
-    int item_search_episodes_album -> r
-    int item_search_episodes_tv -> s
-    int item_movie_library -> p
-    int item_search_album_select -> q
+    int layout_main_page_empty -> x
+    int item_search_tv_select -> v
+    int item_today_reccommend -> w
+    int item_search_episodes_tv -> t
+    int item_search_result -> u
+    int item_search_album_select -> r
+    int item_search_episodes_album -> s
+    int item_main_title -> p
+    int item_movie_library -> q
 com.duoduovv.cinema.adapter.BannerImgAdapter -> c.e.b.e.a:
     com.duoduovv.advert.gdtad.GDTInfoAd gdtInfoAd -> b
-    android.content.Context context -> c
     com.duoduovv.advert.ttad.TTInfoAd ttInfoAd -> a
+    java.util.List data -> f
+    float bannerWidth -> c
+    int typeAd -> d
+    int typeBanner -> e
+    android.content.Context context -> g
     void initGDTAd(android.view.ViewGroup,java.lang.String) -> c
     void initTTAd(android.view.ViewGroup,java.lang.String) -> d
-    void onBindView(com.duoduovv.cinema.adapter.BannerImgAdapter$BannerViewHolder,com.duoduovv.cinema.bean.Banner,int,int) -> e
-    com.duoduovv.cinema.adapter.BannerImgAdapter$BannerViewHolder onCreateHolder(android.view.ViewGroup,int) -> f
-com.duoduovv.cinema.adapter.BannerImgAdapter$BannerViewHolder -> c.e.b.e.a$a:
-    com.duoduovv.cinema.databinding.ItemBannerViewBinding bind -> a
-    com.duoduovv.cinema.databinding.ItemBannerViewBinding getBind() -> a
+    void onBindView(androidx.recyclerview.widget.RecyclerView$ViewHolder,com.duoduovv.cinema.bean.Banner,int,int) -> e
+    androidx.recyclerview.widget.RecyclerView$ViewHolder onCreateHolder(android.view.ViewGroup,int) -> f
+com.duoduovv.cinema.adapter.BannerImgAdapter$AdViewHolder -> c.e.b.e.a$a:
+    com.duoduovv.cinema.databinding.BannerAdContainerBinding adBinder -> a
+    com.duoduovv.cinema.databinding.BannerAdContainerBinding getAdBinder() -> a
+com.duoduovv.cinema.adapter.BannerImgAdapter$BannerViewHolder -> c.e.b.e.a$b:
+    com.duoduovv.cinema.databinding.ItemBannerViewBinding bannerBind -> a
+    com.duoduovv.cinema.databinding.ItemBannerViewBinding getBannerBind() -> a
 com.duoduovv.cinema.adapter.FilmRecommendAdapter -> c.e.b.e.b:
     boolean isMainPage -> A
     void convert(com.chad.library.adapter.base.viewholder.BaseViewHolder,com.duoduovv.cinema.bean.FilmRecommendBean) -> P
@@ -19089,7 +19133,13 @@ com.duoduovv.cinema.databinding.ActivitySearchMoreSelectBinding -> c.e.b.g.c:
     androidx.recyclerview.widget.RecyclerView rvList -> c
     com.duoduovv.cinema.databinding.ActivitySearchMoreSelectBinding bind(android.view.View) -> a
     android.widget.LinearLayout getRoot() -> b
-com.duoduovv.cinema.databinding.FragmentCinemaBinding -> c.e.b.g.d:
+com.duoduovv.cinema.databinding.BannerAdContainerBinding -> c.e.b.g.d:
+    android.widget.FrameLayout bannerAdContainer -> b
+    android.widget.FrameLayout rootView -> a
+    com.duoduovv.cinema.databinding.BannerAdContainerBinding bind(android.view.View) -> a
+    android.widget.FrameLayout getRoot() -> b
+    com.duoduovv.cinema.databinding.BannerAdContainerBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
+com.duoduovv.cinema.databinding.FragmentCinemaBinding -> c.e.b.g.e:
     android.widget.LinearLayout rootView -> a
     androidx.viewpager.widget.ViewPager vpContainer -> f
     net.lucode.hackware.magicindicator.MagicIndicator indicator -> c
@@ -19099,14 +19149,14 @@ com.duoduovv.cinema.databinding.FragmentCinemaBinding -> c.e.b.g.d:
     com.duoduovv.cinema.databinding.FragmentCinemaBinding bind(android.view.View) -> a
     android.widget.LinearLayout getRoot() -> b
     com.duoduovv.cinema.databinding.FragmentCinemaBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.FragmentCinemaListBinding -> c.e.b.g.e:
+com.duoduovv.cinema.databinding.FragmentCinemaListBinding -> c.e.b.g.f:
     androidx.recyclerview.widget.RecyclerView rvList -> c
     com.scwang.smart.refresh.layout.SmartRefreshLayout refreshLayout -> b
     com.scwang.smart.refresh.layout.SmartRefreshLayout rootView -> a
     com.duoduovv.cinema.databinding.FragmentCinemaListBinding bind(android.view.View) -> a
     com.scwang.smart.refresh.layout.SmartRefreshLayout getRoot() -> b
     com.duoduovv.cinema.databinding.FragmentCinemaListBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.FragmentHistorySearchBinding -> c.e.b.g.f:
+com.duoduovv.cinema.databinding.FragmentHistorySearchBinding -> c.e.b.g.g:
     androidx.recyclerview.widget.RecyclerView rvList -> h
     androidx.core.widget.NestedScrollView rootView -> a
     com.duoduovv.common.util.FlowLayout layoutHistory -> f
@@ -19118,14 +19168,14 @@ com.duoduovv.cinema.databinding.FragmentHistorySearchBinding -> c.e.b.g.f:
     com.duoduovv.cinema.databinding.FragmentHistorySearchBinding bind(android.view.View) -> a
     androidx.core.widget.NestedScrollView getRoot() -> b
     com.duoduovv.cinema.databinding.FragmentHistorySearchBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.FragmentSearchResultBinding -> c.e.b.g.g:
+com.duoduovv.cinema.databinding.FragmentSearchResultBinding -> c.e.b.g.h:
     android.widget.LinearLayout rootView -> a
     net.lucode.hackware.magicindicator.MagicIndicator indicator -> b
     androidx.viewpager.widget.ViewPager vpContainer -> c
     com.duoduovv.cinema.databinding.FragmentSearchResultBinding bind(android.view.View) -> a
     android.widget.LinearLayout getRoot() -> b
     com.duoduovv.cinema.databinding.FragmentSearchResultBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.FragmentSearchResultListBinding -> c.e.b.g.h:
+com.duoduovv.cinema.databinding.FragmentSearchResultListBinding -> c.e.b.g.i:
     com.scwang.smart.refresh.layout.SmartRefreshLayout refreshLayout -> c
     androidx.recyclerview.widget.RecyclerView rvList -> d
     com.duoduovv.cinema.databinding.LayoutSearchEmptyBinding includeEmpty -> b
@@ -19133,27 +19183,26 @@ com.duoduovv.cinema.databinding.FragmentSearchResultListBinding -> c.e.b.g.h:
     com.duoduovv.cinema.databinding.FragmentSearchResultListBinding bind(android.view.View) -> a
     android.widget.FrameLayout getRoot() -> b
     com.duoduovv.cinema.databinding.FragmentSearchResultListBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.ItemBannerViewBinding -> c.e.b.g.i:
+com.duoduovv.cinema.databinding.ItemBannerViewBinding -> c.e.b.g.j:
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
     com.google.android.material.imageview.ShapeableImageView imgBanner -> b
-    androidx.constraintlayout.widget.ConstraintLayout layoutContainer -> c
-    android.widget.TextView tvTitle -> d
+    android.widget.TextView tvTitle -> c
     com.duoduovv.cinema.databinding.ItemBannerViewBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.cinema.databinding.ItemBannerViewBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.ItemLayoutCategoryBinding -> c.e.b.g.j:
+com.duoduovv.cinema.databinding.ItemLayoutCategoryBinding -> c.e.b.g.k:
     androidx.recyclerview.widget.RecyclerView rvList -> b
     androidx.recyclerview.widget.RecyclerView rootView -> a
     com.duoduovv.cinema.databinding.ItemLayoutCategoryBinding bind(android.view.View) -> a
     androidx.recyclerview.widget.RecyclerView getRoot() -> b
     com.duoduovv.cinema.databinding.ItemLayoutCategoryBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.ItemMainBannerBinding -> c.e.b.g.k:
+com.duoduovv.cinema.databinding.ItemMainBannerBinding -> c.e.b.g.l:
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
     com.youth.banner.Banner layoutBanner -> b
     com.duoduovv.cinema.databinding.ItemMainBannerBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.cinema.databinding.ItemMainBannerBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.ItemMainRecommendBinding -> c.e.b.g.l:
+com.duoduovv.cinema.databinding.ItemMainRecommendBinding -> c.e.b.g.m:
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
     com.google.android.material.imageview.ShapeableImageView imgCover -> b
     androidx.constraintlayout.widget.ConstraintLayout layoutContainer -> c
@@ -19162,32 +19211,33 @@ com.duoduovv.cinema.databinding.ItemMainRecommendBinding -> c.e.b.g.l:
     com.duoduovv.cinema.databinding.ItemMainRecommendBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.cinema.databinding.ItemMainRecommendBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.ItemMainTitleBinding -> c.e.b.g.m:
+com.duoduovv.cinema.databinding.ItemMainTitleBinding -> c.e.b.g.n:
     android.widget.LinearLayout rootView -> a
     com.duoduovv.common.view.MediumBoldTextView tvTitle -> b
     android.view.View vLine -> c
     com.duoduovv.cinema.databinding.ItemMainTitleBinding bind(android.view.View) -> a
     android.widget.LinearLayout getRoot() -> b
     com.duoduovv.cinema.databinding.ItemMainTitleBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.ItemSearchResultBinding -> c.e.b.g.n:
+com.duoduovv.cinema.databinding.ItemSearchResultBinding -> c.e.b.g.o:
+    com.duoduovv.common.view.MediumBoldTextView tvTitle -> h
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
     com.google.android.material.imageview.ShapeableImageView imgCover -> b
-    com.duoduovv.common.view.MediumBoldTextView tvTitle -> g
     androidx.constraintlayout.widget.ConstraintLayout layoutContainer -> c
     android.widget.TextView tvDirector -> e
     androidx.recyclerview.widget.RecyclerView rvList -> d
-    android.widget.TextView tvTime -> f
+    android.widget.TextView tvTime -> g
+    android.widget.TextView tvScore -> f
     com.duoduovv.cinema.databinding.ItemSearchResultBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.cinema.databinding.ItemSearchResultBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.ItemTodayReccommendBinding -> c.e.b.g.o:
+com.duoduovv.cinema.databinding.ItemTodayReccommendBinding -> c.e.b.g.p:
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
     androidx.recyclerview.widget.RecyclerView rvList -> b
     com.duoduovv.common.view.MediumBoldTextView tvMore -> c
     com.duoduovv.cinema.databinding.ItemTodayReccommendBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.cinema.databinding.ItemTodayReccommendBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.cinema.databinding.LayoutSearchEmptyBinding -> c.e.b.g.p:
+com.duoduovv.cinema.databinding.LayoutSearchEmptyBinding -> c.e.b.g.q:
     android.widget.LinearLayout layoutEmpty -> b
     android.widget.LinearLayout rootView -> a
     com.duoduovv.cinema.databinding.LayoutSearchEmptyBinding bind(android.view.View) -> a
@@ -19401,16 +19451,16 @@ com.duoduovv.cinema.view.SearchResultFragment -> com.duoduovv.cinema.view.d:
     com.duoduovv.cinema.databinding.FragmentSearchResultBinding mBind -> e
     java.lang.Class providerVMClass() -> E
     com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel access$getViewModel$p(com.duoduovv.cinema.view.SearchResultFragment) -> J
-    void access$initFragment(com.duoduovv.cinema.view.SearchResultFragment,com.duoduovv.cinema.bean.SearchResultCategoryBean) -> K
+    void access$initFragment(com.duoduovv.cinema.view.SearchResultFragment,java.util.List) -> K
     com.duoduovv.cinema.databinding.FragmentSearchResultBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> L
-    void initFragment(com.duoduovv.cinema.bean.SearchResultCategoryBean) -> M
+    void initFragment(java.util.List) -> M
     void setKeyWord(java.lang.String) -> N
     androidx.viewbinding.ViewBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> t
     void initData() -> u
     void initView() -> w
 com.duoduovv.cinema.view.SearchResultFragment$initView$1 -> com.duoduovv.cinema.view.d$a:
     com.duoduovv.cinema.view.SearchResultFragment this$0 -> a
-    void onChanged(com.duoduovv.cinema.bean.SearchResultCategoryBean) -> a
+    void onChanged(com.duoduovv.common.domain.ConfigureBean) -> a
 com.duoduovv.cinema.view.SearchResultListFragment -> com.duoduovv.cinema.view.e:
     com.duoduovv.cinema.databinding.FragmentSearchResultListBinding mBind -> f
     java.lang.String typeId -> g
@@ -19446,16 +19496,16 @@ com.duoduovv.cinema.viewmodel.CinemaListViewModel -> com.duoduovv.cinema.viewmod
     androidx.lifecycle.MutableLiveData mainBean -> f
     com.duoduovv.cinema.repository.CinemaRepository repository -> h
     androidx.lifecycle.MutableLiveData noMoreData -> g
-    java.util.ArrayList access$getDataList$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getMainBean$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> n
-    androidx.lifecycle.MutableLiveData access$getMainRecommend$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> o
-    androidx.lifecycle.MutableLiveData access$getNoMoreData$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> p
-    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> q
-    androidx.lifecycle.MutableLiveData getMain() -> r
-    androidx.lifecycle.MutableLiveData getMainRecommend() -> s
-    androidx.lifecycle.MutableLiveData getNoMoreData() -> t
-    kotlinx.coroutines.Job main(int,java.lang.String) -> u
-    kotlinx.coroutines.Job mainRecommend(int,java.lang.String) -> v
+    java.util.ArrayList access$getDataList$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getMainBean$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> o
+    androidx.lifecycle.MutableLiveData access$getMainRecommend$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> p
+    androidx.lifecycle.MutableLiveData access$getNoMoreData$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> q
+    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.CinemaListViewModel) -> r
+    androidx.lifecycle.MutableLiveData getMain() -> s
+    androidx.lifecycle.MutableLiveData getMainRecommend() -> t
+    androidx.lifecycle.MutableLiveData getNoMoreData() -> u
+    kotlinx.coroutines.Job main(int,java.lang.String) -> v
+    kotlinx.coroutines.Job mainRecommend(int,java.lang.String) -> w
 com.duoduovv.cinema.viewmodel.CinemaListViewModel$main$1 -> com.duoduovv.cinema.viewmodel.CinemaListViewModel$a:
     java.lang.String $column -> i
     java.lang.Object L$1 -> f
@@ -19482,21 +19532,21 @@ com.duoduovv.cinema.viewmodel.CinemaViewModel -> com.duoduovv.cinema.viewmodel.C
     androidx.lifecycle.MutableLiveData downloadProgress -> i
     androidx.lifecycle.MutableLiveData installState -> j
     androidx.lifecycle.MutableLiveData configure -> e
-    void installFile(java.lang.String) -> A
-    com.duoduovv.cinema.viewmodel.CinemaViewModel$cbFile$1 access$getCbFile$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getConfigure$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> n
-    androidx.lifecycle.MutableLiveData access$getDownloadProgress$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> o
-    java.lang.String access$getFilePath$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> p
-    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> q
-    long access$getTotalSize$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> r
-    void access$installFile(com.duoduovv.cinema.viewmodel.CinemaViewModel,java.lang.String) -> s
-    void access$setFilePath$p(com.duoduovv.cinema.viewmodel.CinemaViewModel,java.lang.String) -> t
-    void access$setTotalSize$p(com.duoduovv.cinema.viewmodel.CinemaViewModel,long) -> u
-    kotlinx.coroutines.Job configure() -> v
-    kotlinx.coroutines.Job downloadApk(java.lang.String) -> w
-    androidx.lifecycle.MutableLiveData getConfigure() -> x
-    androidx.lifecycle.MutableLiveData getInstallState() -> y
-    androidx.lifecycle.MutableLiveData getProgress() -> z
+    androidx.lifecycle.MutableLiveData getProgress() -> A
+    void installFile(java.lang.String) -> B
+    com.duoduovv.cinema.viewmodel.CinemaViewModel$cbFile$1 access$getCbFile$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getConfigure$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> o
+    androidx.lifecycle.MutableLiveData access$getDownloadProgress$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> p
+    java.lang.String access$getFilePath$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> q
+    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> r
+    long access$getTotalSize$p(com.duoduovv.cinema.viewmodel.CinemaViewModel) -> s
+    void access$installFile(com.duoduovv.cinema.viewmodel.CinemaViewModel,java.lang.String) -> t
+    void access$setFilePath$p(com.duoduovv.cinema.viewmodel.CinemaViewModel,java.lang.String) -> u
+    void access$setTotalSize$p(com.duoduovv.cinema.viewmodel.CinemaViewModel,long) -> v
+    kotlinx.coroutines.Job configure() -> w
+    kotlinx.coroutines.Job downloadApk(java.lang.String) -> x
+    androidx.lifecycle.MutableLiveData getConfigure() -> y
+    androidx.lifecycle.MutableLiveData getInstallState() -> z
 com.duoduovv.cinema.viewmodel.CinemaViewModel$cbFile$1 -> com.duoduovv.cinema.viewmodel.CinemaViewModel$a:
     com.duoduovv.cinema.viewmodel.CinemaViewModel this$0 -> a
     void doSuss(java.lang.String) -> a
@@ -19515,10 +19565,10 @@ com.duoduovv.cinema.viewmodel.CinemaViewModel$downloadApk$1$1 -> com.duoduovv.ci
 com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel -> com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel:
     com.duoduovv.cinema.repository.CinemaRepository repository -> f
     androidx.lifecycle.MutableLiveData searchResultCategory -> e
-    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getSearchResultCategory$p(com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel) -> n
-    androidx.lifecycle.MutableLiveData getCategory() -> o
-    kotlinx.coroutines.Job searchResultCategory() -> p
+    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getSearchResultCategory$p(com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel) -> o
+    androidx.lifecycle.MutableLiveData getCategory() -> p
+    kotlinx.coroutines.Job searchResultCategory() -> q
 com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel$searchResultCategory$1 -> com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel$a:
     com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel this$0 -> f
     int label -> e
@@ -19527,13 +19577,13 @@ com.duoduovv.cinema.viewmodel.SearchResultViewModel -> com.duoduovv.cinema.viewm
     com.duoduovv.cinema.repository.CinemaRepository repository -> g
     androidx.lifecycle.MutableLiveData searchResult -> e
     androidx.lifecycle.MutableLiveData noMoreData -> f
-    java.util.ArrayList access$getDataList$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getNoMoreData$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> n
-    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> o
-    androidx.lifecycle.MutableLiveData access$getSearchResult$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> p
-    androidx.lifecycle.MutableLiveData getNoMoreData() -> q
-    androidx.lifecycle.MutableLiveData getSearchResult() -> r
-    kotlinx.coroutines.Job searchResult(java.lang.String,int,java.lang.String) -> s
+    java.util.ArrayList access$getDataList$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getNoMoreData$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> o
+    com.duoduovv.cinema.repository.CinemaRepository access$getRepository$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> p
+    androidx.lifecycle.MutableLiveData access$getSearchResult$p(com.duoduovv.cinema.viewmodel.SearchResultViewModel) -> q
+    androidx.lifecycle.MutableLiveData getNoMoreData() -> r
+    androidx.lifecycle.MutableLiveData getSearchResult() -> s
+    kotlinx.coroutines.Job searchResult(java.lang.String,int,java.lang.String) -> t
 com.duoduovv.cinema.viewmodel.SearchResultViewModel$searchResult$1 -> com.duoduovv.cinema.viewmodel.SearchResultViewModel$a:
     java.lang.String $keyWord -> g
     java.lang.String $column -> i
@@ -19543,15 +19593,20 @@ com.duoduovv.cinema.viewmodel.SearchResultViewModel$searchResult$1 -> com.duoduo
 com.duoduovv.common.BaseApplication -> c.e.c.a:
     android.content.Context baseCtx -> a
     java.util.List hotList -> b
-    com.duoduovv.common.BaseApplication$Companion Companion -> c
+    com.duoduovv.common.domain.ConfigureBean configBean -> c
+    com.duoduovv.common.BaseApplication$Companion Companion -> d
     android.content.Context access$getBaseCtx$cp() -> a
-    java.util.List access$getHotList$cp() -> b
-    void access$setHotList$cp(java.util.List) -> c
-    void initOthers() -> d
+    com.duoduovv.common.domain.ConfigureBean access$getConfigBean$cp() -> b
+    java.util.List access$getHotList$cp() -> c
+    void access$setConfigBean$cp(com.duoduovv.common.domain.ConfigureBean) -> d
+    void access$setHotList$cp(java.util.List) -> e
+    void initOthers() -> f
 com.duoduovv.common.BaseApplication$Companion -> c.e.c.a$a:
     android.content.Context getBaseCtx() -> a
-    java.util.List getHotList() -> b
-    void setHotList(java.util.List) -> c
+    com.duoduovv.common.domain.ConfigureBean getConfigBean() -> b
+    java.util.List getHotList() -> c
+    void setConfigBean(com.duoduovv.common.domain.ConfigureBean) -> d
+    void setHotList(java.util.List) -> e
 com.duoduovv.common.R$color -> c.e.c.b:
     int colorFFFFFF -> d
     int color363636 -> b
@@ -19572,32 +19627,41 @@ com.duoduovv.common.R$drawable -> c.e.c.d:
     int ic_download_done -> c
     int back -> a
 com.duoduovv.common.R$id -> c.e.c.e:
-    int thumbImage -> n
-    int layoutZone -> l
-    int layoutWeiChat -> j
-    int layoutTopBar -> h
-    int layoutCopy -> f
-    int iv_back -> d
-    int imgCover -> b
-    int vBarSource -> y
-    int tv_sure -> w
-    int tvSure -> u
-    int tvScore -> s
-    int tvEmpty -> q
-    int tvCancel -> o
-    int progress -> m
-    int layoutWeiChatCircle -> k
-    int layoutWebView -> i
-    int layoutQQ -> g
-    int layoutContentSource -> e
-    int imgEmpty -> c
-    int btnUpgrade -> a
-    int vLine -> z
-    int tv_title -> x
-    int tvTitle -> v
-    int tvShare -> t
-    int tvName -> r
-    int tvContent -> p
+    int layoutTopBar -> n
+    int layoutLoading -> l
+    int layoutContentSource -> j
+    int iv_back -> h
+    int videoPrepare -> I
+    int imgPlayNext -> f
+    int vBarSource -> G
+    int imgCover -> d
+    int tv_sure -> E
+    int btnUpgrade -> b
+    int tvSure -> C
+    int tvShare -> A
+    int tvName -> y
+    int tvContent -> w
+    int thumbImage -> u
+    int mediaView -> s
+    int layoutWeiChatCircle -> q
+    int layoutWebView -> o
+    int layoutQQ -> m
+    int layoutCopy -> k
+    int vLine -> H
+    int layoutAd -> i
+    int tv_title -> F
+    int imgPlayPause -> g
+    int tvTitle -> D
+    int imgEmpty -> e
+    int tvSkip -> B
+    int imgBackLoad -> c
+    int adImgCover -> a
+    int tvScore -> z
+    int tvEmpty -> x
+    int tvCancel -> v
+    int progress -> t
+    int layoutZone -> r
+    int layoutWeiChat -> p
 com.duoduovv.common.R$layout -> c.e.c.f:
     int layout_top_bar -> j
     int video_layout_cover -> k
@@ -19737,22 +19801,14 @@ com.duoduovv.common.component.UpgradeDialogFragment$initViews$1 -> c.e.c.j.d$b:
     com.duoduovv.common.component.UpgradeDialogFragment this$0 -> a
 com.duoduovv.common.component.UpgradeDialogFragment$initViews$2 -> c.e.c.j.d$c:
     com.duoduovv.common.component.UpgradeDialogFragment this$0 -> a
-com.duoduovv.common.databinding.ActivityContentSourceBinding -> c.e.c.k.a:
-    android.widget.LinearLayout rootView -> a
-    android.view.View vBarSource -> c
-    android.widget.FrameLayout layoutContentSource -> b
-    com.duoduovv.common.databinding.ActivityContentSourceBinding bind(android.view.View) -> a
-    android.widget.LinearLayout getRoot() -> b
-    com.duoduovv.common.databinding.ActivityContentSourceBinding inflate(android.view.LayoutInflater) -> c
-    com.duoduovv.common.databinding.ActivityContentSourceBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> d
-com.duoduovv.common.databinding.ActivityWebViewBinding -> c.e.c.k.b:
+com.duoduovv.common.databinding.ActivityWebViewBinding -> c.e.c.k.a:
     com.duoduovv.common.view.TopBarLayout layoutTopBar -> b
     com.tencent.smtt.sdk.WebView layoutWebView -> c
     android.widget.LinearLayout rootView -> a
     android.widget.ProgressBar progress -> d
     com.duoduovv.common.databinding.ActivityWebViewBinding bind(android.view.View) -> a
     android.widget.LinearLayout getRoot() -> b
-com.duoduovv.common.databinding.DialogAlertBinding -> c.e.c.k.c:
+com.duoduovv.common.databinding.DialogAlertBinding -> c.e.c.k.b:
     android.widget.LinearLayout rootView -> a
     android.widget.TextView tvContent -> c
     android.widget.TextView tvCancel -> b
@@ -19761,7 +19817,7 @@ com.duoduovv.common.databinding.DialogAlertBinding -> c.e.c.k.c:
     com.duoduovv.common.databinding.DialogAlertBinding bind(android.view.View) -> a
     android.widget.LinearLayout getRoot() -> b
     com.duoduovv.common.databinding.DialogAlertBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.common.databinding.DialogShareBinding -> c.e.c.k.d:
+com.duoduovv.common.databinding.DialogShareBinding -> c.e.c.k.c:
     android.widget.LinearLayout layoutCopy -> b
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
     android.widget.TextView tvCancel -> g
@@ -19772,7 +19828,7 @@ com.duoduovv.common.databinding.DialogShareBinding -> c.e.c.k.d:
     com.duoduovv.common.databinding.DialogShareBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.common.databinding.DialogShareBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.common.databinding.DialogUpgradeBinding -> c.e.c.k.e:
+com.duoduovv.common.databinding.DialogUpgradeBinding -> c.e.c.k.d:
     android.widget.LinearLayout rootView -> a
     android.widget.TextView tvContent -> d
     com.duoduovv.common.view.MediumBoldTextView tvCancel -> c
@@ -19780,7 +19836,7 @@ com.duoduovv.common.databinding.DialogUpgradeBinding -> c.e.c.k.e:
     com.duoduovv.common.databinding.DialogUpgradeBinding bind(android.view.View) -> a
     android.widget.LinearLayout getRoot() -> b
     com.duoduovv.common.databinding.DialogUpgradeBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.common.databinding.ItemMovieLibraryBinding -> c.e.c.k.f:
+com.duoduovv.common.databinding.ItemMovieLibraryBinding -> c.e.c.k.e:
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
     com.google.android.material.imageview.ShapeableImageView imgCover -> b
     androidx.constraintlayout.widget.ConstraintLayout layoutContainer -> c
@@ -19789,7 +19845,7 @@ com.duoduovv.common.databinding.ItemMovieLibraryBinding -> c.e.c.k.f:
     com.duoduovv.common.databinding.ItemMovieLibraryBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.common.databinding.ItemMovieLibraryBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
-com.duoduovv.common.databinding.LayoutViewLineBinding -> c.e.c.k.g:
+com.duoduovv.common.databinding.LayoutViewLineBinding -> c.e.c.k.f:
     android.view.View rootView -> a
     com.duoduovv.common.databinding.LayoutViewLineBinding bind(android.view.View) -> a
 com.duoduovv.common.download.ByteArrayUploadDataProvider -> com.duoduovv.common.download.a:
@@ -19933,7 +19989,11 @@ com.duoduovv.common.listener.VideoPlayCallback -> c.e.c.l.a:
     void onTouchScreenSeekVolume(java.lang.String,java.lang.Object[]) -> u
     void onClickBlank(java.lang.String,java.lang.Object[]) -> v
     void onClickStop(java.lang.String,java.lang.Object[]) -> w
-com.duoduovv.common.util.FileUtils -> com.duoduovv.common.util.a:
+com.duoduovv.common.util.-$$Lambda$SampleCoverVideo$hBshNXgjAaf1UDyFLifKe8R1HEs -> com.duoduovv.common.util.a:
+    com.duoduovv.common.util.SampleCoverVideo f$0 -> a
+com.duoduovv.common.util.-$$Lambda$SampleCoverVideo$ksOhGWk7XZPZtJo3AjFFQ0VcPJk -> com.duoduovv.common.util.b:
+    com.duoduovv.common.util.SampleCoverVideo f$0 -> a
+com.duoduovv.common.util.FileUtils -> com.duoduovv.common.util.c:
     void clearAllCache(android.content.Context) -> a
     boolean deleteDir(java.io.File) -> b
     long getFolderSize(java.io.File) -> c
@@ -19941,7 +20001,7 @@ com.duoduovv.common.util.FileUtils -> com.duoduovv.common.util.a:
     java.lang.String getFromAssets(java.lang.String,android.content.Context) -> e
     java.lang.String getTotalCacheSize(android.content.Context) -> f
     void is2File(java.io.InputStream,java.lang.String,com.duoduovv.common.util.FileUtils$Callback) -> g
-com.duoduovv.common.util.FileUtils$Callback -> com.duoduovv.common.util.a$a:
+com.duoduovv.common.util.FileUtils$Callback -> com.duoduovv.common.util.c$a:
     void doSuss(java.lang.String) -> a
     void err(java.lang.String) -> b
     void doSchedule(long) -> c
@@ -19959,21 +20019,39 @@ com.duoduovv.common.util.FlowLayout$OnItemClickListener -> com.duoduovv.common.u
     void isSingLine(boolean) -> b
     void OnItemClick(java.lang.String) -> c
 com.duoduovv.common.util.SampleCoverVideo -> com.duoduovv.common.util.SampleCoverVideo:
-    com.duoduovv.common.util.SampleCoverVideo$OnStartClickListener listener -> f
-    boolean byStartedClick -> e
+    android.widget.FrameLayout layoutLoading -> g
+    boolean byStartedClick -> n
+    com.qq.e.ads.nativ.MediaView mediaView -> l
     android.widget.ImageView mCoverImage -> a
-    int flag -> g
     int mDefaultRes -> d
-    java.lang.String mCoverOriginUrl -> b
+    com.duoduovv.common.util.SampleCoverVideo$OnStartClickListener listener -> o
     int mCoverOriginId -> c
+    android.widget.ImageView imgPlayPause -> e
+    android.widget.ImageView imgBackLoad -> i
+    android.widget.ImageView imgNext -> f
+    com.duoduovv.common.util.SampleCoverVideo$OnNextClickListener onNextClickListener -> q
+    android.widget.ImageView adImgCover -> m
+    com.qq.e.ads.nativ.widget.NativeAdContainer layoutAd -> j
+    com.airbnb.lottie.LottieAnimationView videoLoading -> h
+    android.widget.TextView tvSkip -> k
+    java.lang.String mCoverOriginUrl -> b
+    int flag -> p
     void access$000(com.duoduovv.common.util.SampleCoverVideo) -> a
-    void loadCoverImage(android.content.Context,java.lang.String,int) -> b
-    void loadCoverImageBy(int,int) -> c
+    void lambda$init$0(android.view.View) -> b
+    void lambda$init$0$SampleCoverVideo(android.view.View) -> c
+    void lambda$init$1(android.view.View) -> d
+    void lambda$init$1$SampleCoverVideo(android.view.View) -> e
+    void loadCoverImage(android.content.Context,java.lang.String,int) -> f
+    void loadCoverImageBy(int,int) -> g
+    void pauseLoading() -> h
+    void playLoading() -> i
 com.duoduovv.common.util.SampleCoverVideo$1 -> com.duoduovv.common.util.SampleCoverVideo$a:
     com.duoduovv.common.util.SampleCoverVideo this$0 -> a
-com.duoduovv.common.util.SampleCoverVideo$OnStartClickListener -> com.duoduovv.common.util.SampleCoverVideo$b:
+com.duoduovv.common.util.SampleCoverVideo$OnNextClickListener -> com.duoduovv.common.util.SampleCoverVideo$b:
+    void onNextClick() -> a
+com.duoduovv.common.util.SampleCoverVideo$OnStartClickListener -> com.duoduovv.common.util.SampleCoverVideo$c:
     void onStartClick() -> l
-com.duoduovv.common.util.SharedPreferencesHelper -> com.duoduovv.common.util.b:
+com.duoduovv.common.util.SharedPreferencesHelper -> com.duoduovv.common.util.d:
     kotlin.Lazy helper$delegate -> c
     android.content.SharedPreferences preference -> a
     com.duoduovv.common.util.SharedPreferencesHelper$Companion Companion -> d
@@ -19982,9 +20060,9 @@ com.duoduovv.common.util.SharedPreferencesHelper -> com.duoduovv.common.util.b:
     java.lang.Object getValue(java.lang.String,java.lang.Object) -> b
     void remove(java.lang.String) -> c
     void setValue(java.lang.String,java.lang.Object) -> d
-com.duoduovv.common.util.SharedPreferencesHelper$Companion -> com.duoduovv.common.util.b$b:
+com.duoduovv.common.util.SharedPreferencesHelper$Companion -> com.duoduovv.common.util.d$b:
     com.duoduovv.common.util.SharedPreferencesHelper getHelper() -> a
-com.duoduovv.common.util.SharedPreferencesHelper$Companion$helper$2 -> com.duoduovv.common.util.b$a:
+com.duoduovv.common.util.SharedPreferencesHelper$Companion$helper$2 -> com.duoduovv.common.util.d$a:
     com.duoduovv.common.util.SharedPreferencesHelper$Companion$helper$2 INSTANCE -> b
     com.duoduovv.common.util.SharedPreferencesHelper invoke() -> a
 com.duoduovv.common.view.-$$Lambda$TopBarLayout$JtorwwHesgHKT4NbxjH6WP_CEtk -> com.duoduovv.common.view.a:
@@ -20280,16 +20358,15 @@ com.duoduovv.main.repository.MainRepository$configure$2 -> c.e.f.g.b$a:
     int label -> e
     com.duoduovv.main.repository.MainRepository this$0 -> f
 com.duoduovv.main.view.MainActivity -> com.duoduovv.main.view.MainActivity:
-    com.duoduovv.main.component.LogoutDialogFragment dialogFragment -> F
+    com.duoduovv.main.component.LogoutDialogFragment dialogFragment -> E
     java.lang.String position -> z
     dc.android.bridge.view.BaseFragment mineFragment -> D
-    com.duoduovv.main.view.MainActivity$listener$1 listener -> G
+    com.duoduovv.main.view.MainActivity$listener$1 listener -> F
     int currentPosition -> y
     com.duoduovv.main.databinding.ActivityMainBinding mBind -> x
     java.lang.String typeId -> A
     dc.android.bridge.view.BaseFragment movieFragment -> C
     dc.android.bridge.view.BaseFragment cinemaFragment -> B
-    com.duoduovv.common.domain.ConfigureBean data -> E
     void initView() -> C
     int getLayoutId() -> G
     boolean showStatusBarView() -> M
@@ -20388,10 +20465,10 @@ com.duoduovv.main.view.SplashActivity$locationListener$1 -> com.duoduovv.main.vi
 com.duoduovv.main.viewmodle.MainViewModel -> com.duoduovv.main.viewmodle.MainViewModel:
     com.duoduovv.main.repository.MainRepository repository -> f
     androidx.lifecycle.MutableLiveData configure -> e
-    androidx.lifecycle.MutableLiveData access$getConfigure$p(com.duoduovv.main.viewmodle.MainViewModel) -> m
-    com.duoduovv.main.repository.MainRepository access$getRepository$p(com.duoduovv.main.viewmodle.MainViewModel) -> n
-    kotlinx.coroutines.Job configure() -> o
-    androidx.lifecycle.MutableLiveData getConfigure() -> p
+    androidx.lifecycle.MutableLiveData access$getConfigure$p(com.duoduovv.main.viewmodle.MainViewModel) -> n
+    com.duoduovv.main.repository.MainRepository access$getRepository$p(com.duoduovv.main.viewmodle.MainViewModel) -> o
+    kotlinx.coroutines.Job configure() -> p
+    androidx.lifecycle.MutableLiveData getConfigure() -> q
 com.duoduovv.main.viewmodle.MainViewModel$configure$1 -> com.duoduovv.main.viewmodle.MainViewModel$a:
     int label -> e
     com.duoduovv.main.viewmodle.MainViewModel this$0 -> f
@@ -20433,65 +20510,66 @@ com.duoduovv.movie.R$drawable -> c.e.g.e:
     int movie_collection_unselected -> c
     int movie_collect -> a
 com.duoduovv.movie.R$id -> c.e.g.f:
-    int tvJuZhao -> O
+    int tvJianJie -> O
     int imgDownload -> l
-    int tvDirector -> K
+    int tvDetail -> K
     int etContent -> h
-    int tvContent -> G
+    int tvCommend -> G
     int btnOther -> d
     int rvListActor -> C
-    int tvSelect -> X
+    int tvScore -> X
     int layoutZhuanJi -> y
-    int tvMainActor -> T
+    int tvLine -> T
     int layoutStateError -> u
-    int tvJubao -> P
+    int tvJuZhao -> P
     int indicator -> q
-    int tvZWhere -> d0
-    int tvEpisodes -> L
-    int tvWhere -> b0
+    int tvYearUp -> d0
+    int tvDirector -> L
+    int tvType -> b0
     int imgError -> m
-    int vpContainer -> h0
-    int tvCount -> H
-    int vStatusBar -> f0
+    int videoPlayer -> h0
+    int tvContent -> H
+    int vLine -> f0
     int imgCancel -> i
     int tvActor -> D
     int btnQinQuan -> e
     int adContainer -> a
     int rvAlbum -> z
-    int tvTime -> Y
+    int tvSelect -> Y
     int layoutTop -> v
-    int tvName -> U
+    int tvMainActor -> U
     int layoutContainer -> r
-    int tvLanguage -> Q
+    int tvJubao -> Q
     int imgSearch -> n
-    int tvError -> M
+    int tvEpisodes -> M
     int imgCollect -> j
-    int tvDelete -> I
+    int tvCount -> I
     int btnSeQing -> f
     int tvAllSelect -> E
     int btnBaoLi -> b
     int rvLine -> A
-    int tvTitle -> Z
-    int tvRank -> V
+    int tvTime -> Z
+    int tvName -> V
     int layoutTopBar -> w
-    int tvLastTime -> R
+    int tvLanguage -> R
     int layoutEmpty -> s
-    int tvJianJie -> N
+    int tvError -> N
     int imgSelect -> o
-    int tvYearUp -> c0
-    int tvType -> a0
-    int tvDetail -> J
+    int tvWhere -> c0
+    int tvTitle -> a0
+    int tvDelete -> J
     int imgCover -> k
-    int videoPlayer -> g0
-    int vLine -> e0
+    int vStatusBar -> g0
+    int tvZWhere -> e0
     int tvAmount -> F
     int errorBack -> g
+    int vpContainer -> i0
     int rvList -> B
     int btnCommit -> c
     int layoutVideo -> x
-    int tvScore -> W
+    int tvRank -> W
     int layoutSelect -> t
-    int tvLine -> S
+    int tvLastTime -> S
     int imgShare -> p
 com.duoduovv.movie.R$layout -> c.e.g.g:
     int item_line_change -> n
@@ -20654,7 +20732,7 @@ com.duoduovv.movie.databinding.ActivityMovieDetailBinding -> c.e.g.l.a:
     androidx.recyclerview.widget.RecyclerView rvList -> e
     androidx.recyclerview.widget.RecyclerView rvLine -> d
     com.duoduovv.common.util.SampleCoverVideo videoPlayer -> f
-    android.widget.ImageView imgError -> b
+    android.widget.ImageView errorBack -> b
     com.duoduovv.movie.databinding.ActivityMovieDetailBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
 com.duoduovv.movie.databinding.ActivityMovieDetailForDebugBinding -> c.e.g.l.b:
@@ -20704,21 +20782,22 @@ com.duoduovv.movie.databinding.FragmentMovieBinding -> c.e.g.l.e:
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.movie.databinding.FragmentMovieBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
 com.duoduovv.movie.databinding.FragmentMovieDetailBinding -> c.e.g.l.f:
-    com.duoduovv.common.view.MediumBoldTextView tvDetail -> j
-    com.duoduovv.common.view.MediumBoldTextView tvName -> k
+    com.duoduovv.common.view.MediumBoldTextView tvCommend -> j
+    com.duoduovv.common.view.MediumBoldTextView tvDetail -> k
+    android.widget.TextView tvType -> n
+    com.duoduovv.common.view.MediumBoldTextView tvZWhere -> p
     android.widget.LinearLayout layoutZhuanJi -> g
     android.widget.ImageView imgDownload -> d
-    com.duoduovv.common.view.MediumBoldTextView tvWhere -> n
     android.widget.ImageView imgShare -> e
-    com.duoduovv.common.view.MediumBoldTextView tvZWhere -> o
+    com.duoduovv.common.view.MediumBoldTextView tvWhere -> o
     android.widget.FrameLayout adContainer -> b
+    com.duoduovv.common.view.MediumBoldTextView tvName -> l
     android.widget.ImageView imgCollect -> c
     androidx.recyclerview.widget.RecyclerView rvList -> i
     androidx.constraintlayout.widget.ConstraintLayout layoutContainer -> f
     androidx.recyclerview.widget.RecyclerView rvAlbum -> h
     androidx.constraintlayout.widget.ConstraintLayout rootView -> a
-    android.widget.TextView tvType -> m
-    android.widget.TextView tvScore -> l
+    android.widget.TextView tvScore -> m
     com.duoduovv.movie.databinding.FragmentMovieDetailBinding bind(android.view.View) -> a
     androidx.constraintlayout.widget.ConstraintLayout getRoot() -> b
     com.duoduovv.movie.databinding.FragmentMovieDetailBinding inflate(android.view.LayoutInflater,android.view.ViewGroup,boolean) -> c
@@ -20867,50 +20946,72 @@ com.duoduovv.movie.view.MovieDetailActivity -> com.duoduovv.movie.view.MovieDeta
     com.duoduovv.movie.adapter.MovieDetailAdapter detailAdapter -> C
     int navHeight -> O
     int topBarHeight -> M
+    boolean hasClickRecommend -> g0
     com.duoduovv.movie.databinding.ActivityMovieDetailBinding mBind -> z
     int currentPlayPosition -> I
     com.duoduovv.movie.view.MovieDetailFragment fragment -> R
     java.lang.String vidByQuery -> Q
-    boolean hasClickRecommend -> X
+    com.duoduovv.movie.view.MovieDetailActivity$MyTimer timerTask -> Y
+    com.duoduovv.movie.view.MovieDetailActivity$MyHandler handler -> Z
     java.lang.String line -> S
+    com.duoduovv.common.util.SampleCoverVideo$OnNextClickListener onNextClickListener -> h0
+    int totalLength -> X
     com.shuyu.gsyvideoplayer.utils.OrientationUtils orientationUtils -> E
     java.lang.String vid -> B
     int realHeight -> P
-    com.duoduovv.movie.view.MovieDetailActivity$videoCallback$1 videoCallback -> U
     com.duoduovv.movie.bean.MovieDetailBean detailBean -> D
     int videoHeight -> N
     java.lang.String way -> F
     int screenHeight -> L
     java.lang.String title -> H
     long currentLength -> K
+    com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 shareClickListener -> e0
     java.lang.String vidTitle -> J
-    com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 shareClickListener -> V
+    com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 reportListener -> f0
+    com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender videoAd -> U
     java.lang.String js -> T
+    int skipLength -> W
     java.lang.String movieId -> A
-    com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 reportListener -> W
-    void jxPlayUrl(java.lang.String) -> A0
-    void onMovieClick(java.lang.String) -> B0
+    com.duoduovv.movie.view.MovieDetailActivity$videoCallback$1 videoCallback -> V
+    void access$setHandler$p(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.view.MovieDetailActivity$MyHandler) -> A0
+    void access$setHasClickRecommend$p(com.duoduovv.movie.view.MovieDetailActivity,boolean) -> B0
     void initView() -> C
-    void onPlayError() -> C0
-    void queryMovieById(java.lang.String) -> D0
-    void setClickInfo(com.duoduovv.movie.bean.MoviePlayInfoBean) -> E0
-    void setData(com.duoduovv.movie.bean.MovieDetailBean) -> F0
+    void access$setLine$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> C0
+    void access$setSkipLength$p(com.duoduovv.movie.view.MovieDetailActivity,int) -> D0
+    void access$setTimerTask$p(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.view.MovieDetailActivity$MyTimer) -> E0
+    void access$setTotalLength$p(com.duoduovv.movie.view.MovieDetailActivity,int) -> F0
     int getLayoutId() -> G
-    void setPlayInfo(com.duoduovv.movie.bean.MoviePlayInfoBean,int) -> G0
-    void setPlayInfo$default(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean,int,int,java.lang.Object) -> H0
+    void access$setVid$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> G0
+    void access$setVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> H0
     void setLayout(boolean,int) -> I
-    void setVideoPlayer() -> I0
-    void updateHistoryDB() -> J0
+    void access$setVidTitle$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> I0
+    void access$updateHistoryDB(com.duoduovv.movie.view.MovieDetailActivity) -> J0
+    void analysisPlayUrl(com.duoduovv.movie.bean.JxPlayUrlBean) -> K0
+    void initGDTVideoAd() -> L0
+    void jxPlayUrl(java.lang.String) -> M0
+    void loadPlayUrl() -> N0
+    void onMovieClick(java.lang.String) -> O0
+    void onNextClick() -> P0
     void onJxError() -> Q
+    void onPlayError() -> Q0
+    void pauseAdLoading() -> R0
     java.lang.Class providerVMClass() -> S
+    void playAdLoading() -> S0
+    void queryMovieById(java.lang.String) -> T0
+    void setClickInfo(com.duoduovv.movie.bean.MoviePlayInfoBean) -> U0
+    void setData(com.duoduovv.movie.bean.MovieDetailBean) -> V0
     void access$analysisPlayUrl(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.JxPlayUrlBean) -> W
+    void setPlayInfo(com.duoduovv.movie.bean.MoviePlayInfoBean,int) -> W0
     long access$getCurrentLength$p(com.duoduovv.movie.view.MovieDetailActivity) -> X
-    int access$getCurrentPlayPosition$p(com.duoduovv.movie.view.MovieDetailActivity) -> Y
-    com.duoduovv.movie.adapter.MovieDetailAdapter access$getDetailAdapter$p(com.duoduovv.movie.view.MovieDetailActivity) -> Z
+    void setPlayInfo$default(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean,int,int,java.lang.Object) -> X0
+    com.duoduovv.movie.adapter.MovieDetailAdapter access$getDetailAdapter$p(com.duoduovv.movie.view.MovieDetailActivity) -> Y
+    void setVideoPlayer() -> Y0
+    com.duoduovv.movie.bean.MovieDetailBean access$getDetailBean$p(com.duoduovv.movie.view.MovieDetailActivity) -> Z
+    void updateHistoryDB() -> Z0
     void onDialogClick(java.lang.String,java.lang.String) -> a
-    com.duoduovv.movie.bean.MovieDetailBean access$getDetailBean$p(com.duoduovv.movie.view.MovieDetailActivity) -> a0
+    com.duoduovv.movie.view.MovieDetailFragment access$getFragment$p(com.duoduovv.movie.view.MovieDetailActivity) -> a0
     void onSelectClick(java.lang.String,java.lang.String,java.lang.String) -> b
-    com.duoduovv.movie.view.MovieDetailFragment access$getFragment$p(com.duoduovv.movie.view.MovieDetailActivity) -> b0
+    com.duoduovv.movie.view.MovieDetailActivity$MyHandler access$getHandler$p(com.duoduovv.movie.view.MovieDetailActivity) -> b0
     boolean access$getHasClickRecommend$p(com.duoduovv.movie.view.MovieDetailActivity) -> c0
     void onArtSelectClick(java.util.List) -> d
     java.lang.String access$getJs$p(com.duoduovv.movie.view.MovieDetailActivity) -> d0
@@ -20922,82 +21023,101 @@ com.duoduovv.movie.view.MovieDetailActivity -> com.duoduovv.movie.view.MovieDeta
     void onSelectClick(java.util.List) -> h
     com.shuyu.gsyvideoplayer.utils.OrientationUtils access$getOrientationUtils$p(com.duoduovv.movie.view.MovieDetailActivity) -> h0
     void onCollectClick(com.duoduovv.room.domain.CollectionBean) -> i
-    java.lang.String access$getVid$p(com.duoduovv.movie.view.MovieDetailActivity) -> i0
+    int access$getSkipLength$p(com.duoduovv.movie.view.MovieDetailActivity) -> i0
     void onDetailClick(com.duoduovv.movie.bean.MovieDetail) -> j
-    java.lang.String access$getVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity) -> j0
-    com.duoduovv.movie.viewmodel.MovieDetailViewModel access$getViewModel$p(com.duoduovv.movie.view.MovieDetailActivity) -> k0
+    com.duoduovv.movie.view.MovieDetailActivity$MyTimer access$getTimerTask$p(com.duoduovv.movie.view.MovieDetailActivity) -> j0
+    int access$getTotalLength$p(com.duoduovv.movie.view.MovieDetailActivity) -> k0
     void onStartClick() -> l
-    java.lang.String access$getWay$p(com.duoduovv.movie.view.MovieDetailActivity) -> l0
-    void access$jxPlayUrl(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> m0
-    void access$onMovieClick(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> n0
-    void access$onPlayError(com.duoduovv.movie.view.MovieDetailActivity) -> o0
-    void access$setClickInfo(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean) -> p0
-    void access$setCurrentLength$p(com.duoduovv.movie.view.MovieDetailActivity,long) -> q0
-    void access$setCurrentPlayPosition$p(com.duoduovv.movie.view.MovieDetailActivity,int) -> r0
-    void access$setData(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MovieDetailBean) -> s0
-    void access$setHasClickRecommend$p(com.duoduovv.movie.view.MovieDetailActivity,boolean) -> t0
-    void access$setLine$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> u0
-    void access$setVid$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> v0
-    void access$setVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> w0
-    void access$setVidTitle$p(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> x0
+    java.lang.String access$getVid$p(com.duoduovv.movie.view.MovieDetailActivity) -> l0
+    java.lang.String access$getVidByQuery$p(com.duoduovv.movie.view.MovieDetailActivity) -> m0
+    com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender access$getVideoAd$p(com.duoduovv.movie.view.MovieDetailActivity) -> n0
+    com.duoduovv.movie.viewmodel.MovieDetailViewModel access$getViewModel$p(com.duoduovv.movie.view.MovieDetailActivity) -> o0
+    java.lang.String access$getWay$p(com.duoduovv.movie.view.MovieDetailActivity) -> p0
+    void access$jxPlayUrl(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> q0
+    void access$loadPlayUrl(com.duoduovv.movie.view.MovieDetailActivity) -> r0
+    void access$onMovieClick(com.duoduovv.movie.view.MovieDetailActivity,java.lang.String) -> s0
+    void access$onNextClick(com.duoduovv.movie.view.MovieDetailActivity) -> t0
+    void access$onPlayError(com.duoduovv.movie.view.MovieDetailActivity) -> u0
+    void access$pauseAdLoading(com.duoduovv.movie.view.MovieDetailActivity) -> v0
+    void access$playAdLoading(com.duoduovv.movie.view.MovieDetailActivity) -> w0
+    void access$setClickInfo(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MoviePlayInfoBean) -> x0
     void initData() -> y
-    void access$updateHistoryDB(com.duoduovv.movie.view.MovieDetailActivity) -> y0
-    void analysisPlayUrl(com.duoduovv.movie.bean.JxPlayUrlBean) -> z0
-com.duoduovv.movie.view.MovieDetailActivity$initView$1 -> com.duoduovv.movie.view.MovieDetailActivity$a:
+    void access$setCurrentLength$p(com.duoduovv.movie.view.MovieDetailActivity,long) -> y0
+    void access$setData(com.duoduovv.movie.view.MovieDetailActivity,com.duoduovv.movie.bean.MovieDetailBean) -> z0
+com.duoduovv.movie.view.MovieDetailActivity$MyHandler -> com.duoduovv.movie.view.MovieDetailActivity$a:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
-    void onChanged(com.duoduovv.movie.bean.MovieDetailBean) -> a
-com.duoduovv.movie.view.MovieDetailActivity$initView$2 -> com.duoduovv.movie.view.MovieDetailActivity$b:
+com.duoduovv.movie.view.MovieDetailActivity$MyTimer -> com.duoduovv.movie.view.MovieDetailActivity$b:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
-    void onChanged(com.duoduovv.movie.bean.MoviePlayInfoBean) -> a
-com.duoduovv.movie.view.MovieDetailActivity$initView$3 -> com.duoduovv.movie.view.MovieDetailActivity$c:
+com.duoduovv.movie.view.MovieDetailActivity$initData$1 -> com.duoduovv.movie.view.MovieDetailActivity$c:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
-    void onChanged(com.duoduovv.movie.bean.MoviePlayInfoBean) -> a
-com.duoduovv.movie.view.MovieDetailActivity$initView$4 -> com.duoduovv.movie.view.MovieDetailActivity$d:
-    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
-    void onChanged(com.duoduovv.movie.bean.JxPlayUrlBean) -> a
-com.duoduovv.movie.view.MovieDetailActivity$initView$5 -> com.duoduovv.movie.view.MovieDetailActivity$e:
+    void onChanged(java.lang.Integer) -> a
+com.duoduovv.movie.view.MovieDetailActivity$initData$2 -> com.duoduovv.movie.view.MovieDetailActivity$d:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
     void onChanged(java.lang.String) -> a
-com.duoduovv.movie.view.MovieDetailActivity$initView$6 -> com.duoduovv.movie.view.MovieDetailActivity$f:
+com.duoduovv.movie.view.MovieDetailActivity$initData$3 -> com.duoduovv.movie.view.MovieDetailActivity$e:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
-com.duoduovv.movie.view.MovieDetailActivity$initView$8 -> com.duoduovv.movie.view.MovieDetailActivity$g:
+com.duoduovv.movie.view.MovieDetailActivity$initView$1 -> com.duoduovv.movie.view.MovieDetailActivity$f:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+    void onChanged(com.duoduovv.movie.bean.MovieDetailBean) -> a
+com.duoduovv.movie.view.MovieDetailActivity$initView$2 -> com.duoduovv.movie.view.MovieDetailActivity$g:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+    void onChanged(com.duoduovv.movie.bean.MoviePlayInfoBean) -> a
+com.duoduovv.movie.view.MovieDetailActivity$initView$3 -> com.duoduovv.movie.view.MovieDetailActivity$h:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+    void onChanged(com.duoduovv.movie.bean.MoviePlayInfoBean) -> a
+com.duoduovv.movie.view.MovieDetailActivity$initView$4 -> com.duoduovv.movie.view.MovieDetailActivity$i:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+    void onChanged(com.duoduovv.movie.bean.JxPlayUrlBean) -> a
+com.duoduovv.movie.view.MovieDetailActivity$initView$5 -> com.duoduovv.movie.view.MovieDetailActivity$j:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+    void onChanged(java.lang.String) -> a
+com.duoduovv.movie.view.MovieDetailActivity$initView$6 -> com.duoduovv.movie.view.MovieDetailActivity$k:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+com.duoduovv.movie.view.MovieDetailActivity$initView$8 -> com.duoduovv.movie.view.MovieDetailActivity$l:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
     void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int) -> a
-com.duoduovv.movie.view.MovieDetailActivity$initView$9 -> com.duoduovv.movie.view.MovieDetailActivity$h:
+com.duoduovv.movie.view.MovieDetailActivity$initView$9 -> com.duoduovv.movie.view.MovieDetailActivity$m:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
-com.duoduovv.movie.view.MovieDetailActivity$onCollectClick$$inlined$also$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$i:
+com.duoduovv.movie.view.MovieDetailActivity$onCollectClick$$inlined$also$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$n:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> g
     java.lang.Object L$0 -> e
     int label -> f
-com.duoduovv.movie.view.MovieDetailActivity$onCollectClick$$inlined$let$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$j:
+com.duoduovv.movie.view.MovieDetailActivity$onCollectClick$$inlined$let$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$o:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> g
     int label -> e
     com.duoduovv.room.domain.CollectionBean $it -> f
-com.duoduovv.movie.view.MovieDetailActivity$onMovieClick$1 -> com.duoduovv.movie.view.MovieDetailActivity$k:
+com.duoduovv.movie.view.MovieDetailActivity$onConfigurationChanged$1 -> com.duoduovv.movie.view.MovieDetailActivity$p:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+com.duoduovv.movie.view.MovieDetailActivity$onMovieClick$1 -> com.duoduovv.movie.view.MovieDetailActivity$q:
     java.lang.String $movieId -> g
     int label -> e
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> f
-com.duoduovv.movie.view.MovieDetailActivity$onPlayError$$inlined$let$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$l:
+com.duoduovv.movie.view.MovieDetailActivity$onNextClickListener$1 -> com.duoduovv.movie.view.MovieDetailActivity$r:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+    void onNextClick() -> a
+com.duoduovv.movie.view.MovieDetailActivity$onPlayError$$inlined$let$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$s:
     java.util.List $lineList -> a
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> c
     com.duoduovv.movie.bean.MovieDetailBean $it -> b
     void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int) -> a
-com.duoduovv.movie.view.MovieDetailActivity$queryMovieById$1 -> com.duoduovv.movie.view.MovieDetailActivity$m:
+com.duoduovv.movie.view.MovieDetailActivity$queryMovieById$1 -> com.duoduovv.movie.view.MovieDetailActivity$t:
     java.lang.String $movieId -> g
     int label -> e
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> f
-com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 -> com.duoduovv.movie.view.MovieDetailActivity$n:
+com.duoduovv.movie.view.MovieDetailActivity$reportListener$1 -> com.duoduovv.movie.view.MovieDetailActivity$u:
     void onReportClick(java.lang.String) -> a
-com.duoduovv.movie.view.MovieDetailActivity$setVideoPlayer$$inlined$apply$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$o:
+com.duoduovv.movie.view.MovieDetailActivity$setVideoPlayer$$inlined$apply$lambda$1 -> com.duoduovv.movie.view.MovieDetailActivity$v:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
-com.duoduovv.movie.view.MovieDetailActivity$setVideoPlayer$1$1 -> com.duoduovv.movie.view.MovieDetailActivity$p:
+com.duoduovv.movie.view.MovieDetailActivity$setVideoPlayer$$inlined$apply$lambda$2 -> com.duoduovv.movie.view.MovieDetailActivity$w:
+    com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
+com.duoduovv.movie.view.MovieDetailActivity$setVideoPlayer$1$1 -> com.duoduovv.movie.view.MovieDetailActivity$x:
     com.duoduovv.common.util.SampleCoverVideo $this_apply -> a
-com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 -> com.duoduovv.movie.view.MovieDetailActivity$q:
+com.duoduovv.movie.view.MovieDetailActivity$shareClickListener$1 -> com.duoduovv.movie.view.MovieDetailActivity$y:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> a
     void onCopyClick() -> a
     void onQQShareClick(int) -> b
     void onWeiChatClick(int) -> c
-com.duoduovv.movie.view.MovieDetailActivity$videoCallback$1 -> com.duoduovv.movie.view.MovieDetailActivity$r:
+com.duoduovv.movie.view.MovieDetailActivity$videoCallback$1 -> com.duoduovv.movie.view.MovieDetailActivity$z:
     com.duoduovv.movie.view.MovieDetailActivity this$0 -> b
     void onAutoComplete(java.lang.String,java.lang.Object[]) -> d
     void onPlayError(java.lang.String,java.lang.Object[]) -> g
@@ -21022,6 +21142,7 @@ com.duoduovv.movie.view.MovieDetailActivityForDebug$initView$1 -> com.duoduovv.m
     void onChanged(com.duoduovv.movie.bean.MovieDetailForDebugBean) -> a
 com.duoduovv.movie.view.MovieDetailFragment -> com.duoduovv.movie.view.a:
     com.duoduovv.movie.component.MovieDetailCallback callback -> d
+    float bannerWidth -> j
     com.duoduovv.advert.ttad.TTBannerAd ttBanner -> g
     com.duoduovv.movie.adapter.MovieAlbumAdapter albumAdapter -> i
     com.duoduovv.advert.gdtad.GDTBannerAd gdtBannerAd -> f
@@ -21035,7 +21156,8 @@ com.duoduovv.movie.view.MovieDetailFragment -> com.duoduovv.movie.view.a:
     void initTTAd(java.lang.String) -> E
     void notifyCollectionChange(com.duoduovv.room.domain.CollectionBean) -> F
     void setCallback(com.duoduovv.movie.component.MovieDetailCallback) -> G
-    void updateSelect(java.util.List,int) -> H
+    void updateAd() -> H
+    void updateSelect(java.util.List,int) -> I
     androidx.viewbinding.ViewBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> t
     void initView() -> w
     com.duoduovv.movie.component.MovieDetailCallback access$getCallback$p(com.duoduovv.movie.view.MovieDetailFragment) -> y
@@ -21148,15 +21270,15 @@ com.duoduovv.movie.view.MovieRankNavFragment -> com.duoduovv.movie.view.f:
     com.duoduovv.movie.databinding.FragmentMovieRankNavBinding mBind -> e
     java.lang.Class providerVMClass() -> E
     com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel access$getViewModel$p(com.duoduovv.movie.view.MovieRankNavFragment) -> J
-    void access$initFragment(com.duoduovv.movie.view.MovieRankNavFragment,com.duoduovv.movie.bean.MovieRankCategoryBean) -> K
+    void access$initFragment(com.duoduovv.movie.view.MovieRankNavFragment,java.util.List) -> K
     com.duoduovv.movie.databinding.FragmentMovieRankNavBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> L
-    void initFragment(com.duoduovv.movie.bean.MovieRankCategoryBean) -> M
+    void initFragment(java.util.List) -> M
     androidx.viewbinding.ViewBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> t
     void initData() -> u
     void initView() -> w
 com.duoduovv.movie.view.MovieRankNavFragment$initView$1 -> com.duoduovv.movie.view.f$a:
     com.duoduovv.movie.view.MovieRankNavFragment this$0 -> a
-    void onChanged(com.duoduovv.movie.bean.MovieRankCategoryBean) -> a
+    void onChanged(java.util.List) -> a
 com.duoduovv.movie.view.MovieTopLayout -> com.duoduovv.movie.view.MovieTopLayout:
     com.duoduovv.movie.view.MovieTopLayout$OnTypeClickListener listener -> b
     com.duoduovv.movie.databinding.ItemRecyclerviewBinding mBind -> a
@@ -21256,10 +21378,10 @@ com.duoduovv.movie.view.WatchHistoryActivity$onDeleteClick$1 -> com.duoduovv.mov
 com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel -> com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel:
     com.duoduovv.movie.repository.MovieRepository repository -> f
     androidx.lifecycle.MutableLiveData movieDetail -> e
-    androidx.lifecycle.MutableLiveData access$getMovieDetail$p(com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel) -> m
-    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel) -> n
-    androidx.lifecycle.MutableLiveData getMovieDetail() -> o
-    kotlinx.coroutines.Job movieDetailForDebug(java.lang.String) -> p
+    androidx.lifecycle.MutableLiveData access$getMovieDetail$p(com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel) -> n
+    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel) -> o
+    androidx.lifecycle.MutableLiveData getMovieDetail() -> p
+    kotlinx.coroutines.Job movieDetailForDebug(java.lang.String) -> q
 com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel$movieDetailForDebug$1 -> com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel$a:
     java.lang.String $movieId -> g
     com.duoduovv.movie.viewmodel.MovieDetailForDebugViewModel this$0 -> f
@@ -21271,32 +21393,32 @@ com.duoduovv.movie.viewmodel.MovieDetailViewModel -> com.duoduovv.movie.viewmode
     androidx.lifecycle.MutableLiveData moviePlayInfo -> f
     androidx.lifecycle.MutableLiveData movieClickInfo -> g
     com.duoduovv.movie.repository.MovieRepository repository -> j
-    androidx.lifecycle.MutableLiveData getPlayUrl() -> A
-    void insertHistory(com.duoduovv.movie.bean.MovieDetailBean,int,java.lang.String,java.lang.String,java.lang.String,int) -> B
-    kotlinx.coroutines.Job jxUrlForGEet(java.lang.String,java.util.Map) -> C
-    kotlinx.coroutines.Job jxUrlForPost(java.lang.String,java.util.Map,java.util.Map) -> D
-    kotlinx.coroutines.Job movieDetail(java.lang.String,java.lang.String) -> E
-    kotlinx.coroutines.Job movieDetail$default(com.duoduovv.movie.viewmodel.MovieDetailViewModel,java.lang.String,java.lang.String,int,java.lang.Object) -> F
-    kotlinx.coroutines.Job moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,java.lang.String,int) -> G
-    kotlinx.coroutines.Job moviePlayInfo$default(com.duoduovv.movie.viewmodel.MovieDetailViewModel,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int,java.lang.Object) -> H
-    kotlinx.coroutines.Job playError(java.lang.String,java.lang.String,java.lang.String) -> I
-    java.lang.Object queryCollectionById(java.lang.String,kotlin.coroutines.Continuation) -> J
-    java.lang.Object queryMovieById(java.lang.String,kotlin.coroutines.Continuation) -> K
-    void updateHistoryDB(int,com.duoduovv.movie.bean.MovieDetailBean,java.lang.String,java.lang.String,java.lang.String,int) -> L
-    androidx.lifecycle.MutableLiveData access$getAnalysisPlayUrl$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getJxUrl$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> n
-    androidx.lifecycle.MutableLiveData access$getMovieClickInfo$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> o
-    androidx.lifecycle.MutableLiveData access$getMovieDetail$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> p
-    androidx.lifecycle.MutableLiveData access$getMoviePlayInfo$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> q
-    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> r
-    void access$insertHistory(com.duoduovv.movie.viewmodel.MovieDetailViewModel,com.duoduovv.movie.bean.MovieDetailBean,int,java.lang.String,java.lang.String,java.lang.String,int) -> s
-    java.lang.Object addCollection(com.duoduovv.room.domain.CollectionBean,kotlin.coroutines.Continuation) -> t
-    kotlinx.coroutines.Job analysisPlayUrl(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> u
-    java.lang.Object deleteCollection(com.duoduovv.room.domain.CollectionBean,kotlin.coroutines.Continuation) -> v
-    androidx.lifecycle.MutableLiveData getJxUrl() -> w
-    androidx.lifecycle.MutableLiveData getMovieClickInfo() -> x
-    androidx.lifecycle.MutableLiveData getMovieDetail() -> y
-    androidx.lifecycle.MutableLiveData getMoviePlayInfo() -> z
+    androidx.lifecycle.MutableLiveData getMoviePlayInfo() -> A
+    androidx.lifecycle.MutableLiveData getPlayUrl() -> B
+    void insertHistory(com.duoduovv.movie.bean.MovieDetailBean,int,java.lang.String,java.lang.String,java.lang.String,int) -> C
+    kotlinx.coroutines.Job jxUrlForGEet(java.lang.String,java.util.Map) -> D
+    kotlinx.coroutines.Job jxUrlForPost(java.lang.String,java.util.Map,java.util.Map) -> E
+    kotlinx.coroutines.Job movieDetail(java.lang.String,java.lang.String) -> F
+    kotlinx.coroutines.Job movieDetail$default(com.duoduovv.movie.viewmodel.MovieDetailViewModel,java.lang.String,java.lang.String,int,java.lang.Object) -> G
+    kotlinx.coroutines.Job moviePlayInfo(java.lang.String,java.lang.String,java.lang.String,java.lang.String,int) -> H
+    kotlinx.coroutines.Job moviePlayInfo$default(com.duoduovv.movie.viewmodel.MovieDetailViewModel,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,int,java.lang.Object) -> I
+    kotlinx.coroutines.Job playError(java.lang.String,java.lang.String,java.lang.String) -> J
+    java.lang.Object queryCollectionById(java.lang.String,kotlin.coroutines.Continuation) -> K
+    java.lang.Object queryMovieById(java.lang.String,kotlin.coroutines.Continuation) -> L
+    void updateHistoryDB(int,com.duoduovv.movie.bean.MovieDetailBean,java.lang.String,java.lang.String,java.lang.String,int) -> M
+    androidx.lifecycle.MutableLiveData access$getAnalysisPlayUrl$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getJxUrl$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> o
+    androidx.lifecycle.MutableLiveData access$getMovieClickInfo$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> p
+    androidx.lifecycle.MutableLiveData access$getMovieDetail$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> q
+    androidx.lifecycle.MutableLiveData access$getMoviePlayInfo$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> r
+    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieDetailViewModel) -> s
+    void access$insertHistory(com.duoduovv.movie.viewmodel.MovieDetailViewModel,com.duoduovv.movie.bean.MovieDetailBean,int,java.lang.String,java.lang.String,java.lang.String,int) -> t
+    java.lang.Object addCollection(com.duoduovv.room.domain.CollectionBean,kotlin.coroutines.Continuation) -> u
+    kotlinx.coroutines.Job analysisPlayUrl(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> v
+    java.lang.Object deleteCollection(com.duoduovv.room.domain.CollectionBean,kotlin.coroutines.Continuation) -> w
+    androidx.lifecycle.MutableLiveData getJxUrl() -> x
+    androidx.lifecycle.MutableLiveData getMovieClickInfo() -> y
+    androidx.lifecycle.MutableLiveData getMovieDetail() -> z
 com.duoduovv.movie.viewmodel.MovieDetailViewModel$addCollection$2 -> com.duoduovv.movie.viewmodel.MovieDetailViewModel$a:
     int label -> e
     com.duoduovv.room.domain.CollectionBean $collectionBean -> f
@@ -21359,10 +21481,10 @@ com.duoduovv.movie.viewmodel.MovieDetailViewModel$updateHistoryDB$1 -> com.duodu
 com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel -> com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel:
     com.duoduovv.movie.repository.MovieRepository repository -> f
     androidx.lifecycle.MutableLiveData movieLibCategory -> e
-    androidx.lifecycle.MutableLiveData access$getMovieLibCategory$p(com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel) -> m
-    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel) -> n
-    androidx.lifecycle.MutableLiveData getMovieLibCategory() -> o
-    kotlinx.coroutines.Job movieLibCategory() -> p
+    androidx.lifecycle.MutableLiveData access$getMovieLibCategory$p(com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel) -> n
+    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel) -> o
+    androidx.lifecycle.MutableLiveData getMovieLibCategory() -> p
+    kotlinx.coroutines.Job movieLibCategory() -> q
 com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel$movieLibCategory$1 -> com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel$a:
     com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel this$0 -> f
     int label -> e
@@ -21371,13 +21493,13 @@ com.duoduovv.movie.viewmodel.MovieLibListViewModel -> com.duoduovv.movie.viewmod
     com.duoduovv.movie.repository.MovieRepository repository -> g
     androidx.lifecycle.MutableLiveData movieLibList -> e
     androidx.lifecycle.MutableLiveData noMoreData -> f
-    java.util.ArrayList access$getDataList$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getMovieLibList$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> n
-    androidx.lifecycle.MutableLiveData access$getNoMoreData$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> o
-    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> p
-    androidx.lifecycle.MutableLiveData getMovieLibList() -> q
-    androidx.lifecycle.MutableLiveData getNoMoreData() -> r
-    kotlinx.coroutines.Job movieLibList(java.util.HashMap,int,java.lang.String) -> s
+    java.util.ArrayList access$getDataList$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getMovieLibList$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> o
+    androidx.lifecycle.MutableLiveData access$getNoMoreData$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> p
+    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieLibListViewModel) -> q
+    androidx.lifecycle.MutableLiveData getMovieLibList() -> r
+    androidx.lifecycle.MutableLiveData getNoMoreData() -> s
+    kotlinx.coroutines.Job movieLibList(java.util.HashMap,int,java.lang.String) -> t
 com.duoduovv.movie.viewmodel.MovieLibListViewModel$movieLibList$1 -> com.duoduovv.movie.viewmodel.MovieLibListViewModel$a:
     java.lang.String $typeId -> i
     java.util.HashMap $map -> g
@@ -21387,20 +21509,20 @@ com.duoduovv.movie.viewmodel.MovieLibListViewModel$movieLibList$1 -> com.duoduov
 com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel -> com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel:
     com.duoduovv.movie.repository.MovieRepository repository -> f
     androidx.lifecycle.MutableLiveData movieRankCategory -> e
-    androidx.lifecycle.MutableLiveData access$getMovieRankCategory$p(com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel) -> m
-    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel) -> n
-    androidx.lifecycle.MutableLiveData getMovieRankCategory() -> o
-    kotlinx.coroutines.Job movieRankCategory() -> p
+    androidx.lifecycle.MutableLiveData access$getMovieRankCategory$p(com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel) -> n
+    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel) -> o
+    androidx.lifecycle.MutableLiveData getMovieRankCategory() -> p
+    kotlinx.coroutines.Job movieRankCategory() -> q
 com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel$movieRankCategory$1 -> com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel$a:
     int label -> e
     com.duoduovv.movie.viewmodel.MovieRankCategoryViewModel this$0 -> f
 com.duoduovv.movie.viewmodel.MovieRankListViewModel -> com.duoduovv.movie.viewmodel.MovieRankListViewModel:
     com.duoduovv.movie.repository.MovieRepository repository -> f
     androidx.lifecycle.MutableLiveData movieRankList -> e
-    androidx.lifecycle.MutableLiveData access$getMovieRankList$p(com.duoduovv.movie.viewmodel.MovieRankListViewModel) -> m
-    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieRankListViewModel) -> n
-    androidx.lifecycle.MutableLiveData getMovieRankList() -> o
-    kotlinx.coroutines.Job movieRankList(java.lang.String) -> p
+    androidx.lifecycle.MutableLiveData access$getMovieRankList$p(com.duoduovv.movie.viewmodel.MovieRankListViewModel) -> n
+    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.MovieRankListViewModel) -> o
+    androidx.lifecycle.MutableLiveData getMovieRankList() -> p
+    kotlinx.coroutines.Job movieRankList(java.lang.String) -> q
 com.duoduovv.movie.viewmodel.MovieRankListViewModel$movieRankList$1 -> com.duoduovv.movie.viewmodel.MovieRankListViewModel$a:
     java.lang.String $column -> g
     com.duoduovv.movie.viewmodel.MovieRankListViewModel this$0 -> f
@@ -21408,10 +21530,10 @@ com.duoduovv.movie.viewmodel.MovieRankListViewModel$movieRankList$1 -> com.duodu
 com.duoduovv.movie.viewmodel.ReportViewModel -> com.duoduovv.movie.viewmodel.ReportViewModel:
     com.duoduovv.movie.repository.MovieRepository repository -> f
     androidx.lifecycle.MutableLiveData report -> e
-    androidx.lifecycle.MutableLiveData access$getReport$p(com.duoduovv.movie.viewmodel.ReportViewModel) -> m
-    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.ReportViewModel) -> n
-    androidx.lifecycle.MutableLiveData getReport() -> o
-    kotlinx.coroutines.Job report(java.lang.String,java.lang.String) -> p
+    androidx.lifecycle.MutableLiveData access$getReport$p(com.duoduovv.movie.viewmodel.ReportViewModel) -> n
+    com.duoduovv.movie.repository.MovieRepository access$getRepository$p(com.duoduovv.movie.viewmodel.ReportViewModel) -> o
+    androidx.lifecycle.MutableLiveData getReport() -> p
+    kotlinx.coroutines.Job report(java.lang.String,java.lang.String) -> q
 com.duoduovv.movie.viewmodel.ReportViewModel$report$1 -> com.duoduovv.movie.viewmodel.ReportViewModel$a:
     java.lang.String $content -> g
     java.lang.String $movieId -> h
@@ -21688,7 +21810,7 @@ com.duoduovv.personal.repository.PersonRepository$weiChatUserInfo$2 -> c.e.h.i.b
     java.lang.String $accessToken -> h
     int label -> e
 com.duoduovv.personal.view.AboutUsActivity -> com.duoduovv.personal.view.AboutUsActivity:
-    com.duoduovv.personal.bean.VersionBean bean -> B
+    com.duoduovv.common.domain.Version bean -> B
     com.duoduovv.personal.databinding.ActivityAboutUsBinding mBind -> z
     com.duoduovv.personal.view.AboutUsActivity$upgradeListener$1 upgradeListener -> E
     int clickTime -> D
@@ -21701,12 +21823,12 @@ com.duoduovv.personal.view.AboutUsActivity -> com.duoduovv.personal.view.AboutUs
     com.duoduovv.personal.databinding.ActivityAboutUsBinding access$getMBind$p(com.duoduovv.personal.view.AboutUsActivity) -> X
     com.duoduovv.common.component.UpgradeDialogFragment access$getUpgradeDialogFragment$p(com.duoduovv.personal.view.AboutUsActivity) -> Y
     com.duoduovv.personal.viewmodel.SettingViewModel access$getViewModel$p(com.duoduovv.personal.view.AboutUsActivity) -> Z
-    void access$onCheckSuccess(com.duoduovv.personal.view.AboutUsActivity,com.duoduovv.personal.bean.VersionBean) -> a0
+    void access$onCheckSuccess(com.duoduovv.personal.view.AboutUsActivity,com.duoduovv.common.domain.Version) -> a0
     void access$onIconClick(com.duoduovv.personal.view.AboutUsActivity,int) -> b0
     void access$toWebActivity(com.duoduovv.personal.view.AboutUsActivity,java.lang.String,java.lang.String) -> c0
     void checkUpgrade() -> d0
     void fastClick() -> e0
-    void onCheckSuccess(com.duoduovv.personal.bean.VersionBean) -> f0
+    void onCheckSuccess(com.duoduovv.common.domain.Version) -> f0
     void onIconClick(int) -> g0
     void toWebActivity(java.lang.String,java.lang.String) -> h0
     void initData() -> y
@@ -21716,7 +21838,7 @@ com.duoduovv.personal.view.AboutUsActivity$initView$10 -> com.duoduovv.personal.
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
 com.duoduovv.personal.view.AboutUsActivity$initView$2 -> com.duoduovv.personal.view.AboutUsActivity$c:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
-    void onChanged(com.duoduovv.personal.bean.VersionBean) -> a
+    void onChanged(com.duoduovv.common.domain.Version) -> a
 com.duoduovv.personal.view.AboutUsActivity$initView$3 -> com.duoduovv.personal.view.AboutUsActivity$d:
     com.duoduovv.personal.view.AboutUsActivity this$0 -> a
     void onChanged(java.lang.Integer) -> a
@@ -21865,11 +21987,13 @@ com.duoduovv.personal.view.MyCollectionActivity$initView$5 -> com.duoduovv.perso
 com.duoduovv.personal.view.MyCollectionActivity$queryAll$2 -> com.duoduovv.personal.view.MyCollectionActivity$j:
     int label -> e
 com.duoduovv.personal.view.PersonalFragment -> com.duoduovv.personal.view.a:
+    com.duoduovv.personal.view.PersonalFragment$shareClickListener$1 shareClickListener -> k
+    float width -> h
+    boolean isHide -> i
+    boolean hasObserve -> j
     com.duoduovv.personal.databinding.FragmentPersonalBinding mBind -> e
-    boolean hasObserve -> h
     com.duoduovv.advert.ttad.TTInfoAd ttAd -> f
     com.duoduovv.advert.gdtad.GDTInfoAd gdtAd -> g
-    com.duoduovv.personal.view.PersonalFragment$shareClickListener$1 shareClickListener -> i
     java.lang.Class providerVMClass() -> E
     void tokenValid() -> I
     void access$accessToken(com.duoduovv.personal.view.PersonalFragment,com.duoduovv.personal.bean.AccessTokenBean) -> J
@@ -21885,18 +22009,19 @@ com.duoduovv.personal.view.PersonalFragment -> com.duoduovv.personal.view.a:
     void access$weiChatLogin(com.duoduovv.personal.view.PersonalFragment) -> T
     void accessToken(com.duoduovv.personal.bean.AccessTokenBean) -> U
     void accessTokenValid(com.duoduovv.personal.bean.AccessTokenValidBean) -> V
-    com.duoduovv.personal.databinding.FragmentPersonalBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> W
-    void initGDTAd(java.lang.String) -> X
-    void initTTAd(java.lang.String) -> Y
-    void loginSuccess(com.duoduovv.personal.bean.LoginBean) -> Z
-    void onGetUserInfoSuc(com.duoduovv.personal.bean.User) -> a0
-    void onShareClick() -> b0
-    void qqAuthSuccess(com.duoduovv.tent.TentUserInfo) -> c0
-    void qqLogin() -> d0
-    void refreshToken(com.duoduovv.personal.bean.RefreshTokenBean) -> e0
-    void setFeedbackUi() -> f0
-    void setUserInfo(com.duoduovv.personal.bean.WeiChatUserInfoBean) -> g0
-    void weiChatLogin() -> h0
+    void initAD() -> W
+    com.duoduovv.personal.databinding.FragmentPersonalBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> X
+    void initGDTAd(java.lang.String) -> Y
+    void initTTAd(java.lang.String) -> Z
+    void loginSuccess(com.duoduovv.personal.bean.LoginBean) -> a0
+    void onGetUserInfoSuc(com.duoduovv.personal.bean.User) -> b0
+    void onShareClick() -> c0
+    void qqAuthSuccess(com.duoduovv.tent.TentUserInfo) -> d0
+    void qqLogin() -> e0
+    void refreshToken(com.duoduovv.personal.bean.RefreshTokenBean) -> f0
+    void setFeedbackUi() -> g0
+    void setUserInfo(com.duoduovv.personal.bean.WeiChatUserInfoBean) -> h0
+    void weiChatLogin() -> i0
     androidx.viewbinding.ViewBinding initBind(android.view.LayoutInflater,android.view.ViewGroup) -> t
     void initData() -> u
     void initView() -> w
@@ -21986,10 +22111,10 @@ com.duoduovv.personal.view.SettingActivity$initView$2 -> com.duoduovv.personal.v
 com.duoduovv.personal.viewmodel.PersonViewModel -> com.duoduovv.personal.viewmodel.PersonViewModel:
     com.duoduovv.personal.repository.PersonRepository repository -> f
     androidx.lifecycle.MutableLiveData userInfo -> e
-    com.duoduovv.personal.repository.PersonRepository access$getRepository$p(com.duoduovv.personal.viewmodel.PersonViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getUserInfo$p(com.duoduovv.personal.viewmodel.PersonViewModel) -> n
-    androidx.lifecycle.MutableLiveData getUserInfo() -> o
-    kotlinx.coroutines.Job userInfo() -> p
+    com.duoduovv.personal.repository.PersonRepository access$getRepository$p(com.duoduovv.personal.viewmodel.PersonViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getUserInfo$p(com.duoduovv.personal.viewmodel.PersonViewModel) -> o
+    androidx.lifecycle.MutableLiveData getUserInfo() -> p
+    kotlinx.coroutines.Job userInfo() -> q
 com.duoduovv.personal.viewmodel.PersonViewModel$userInfo$1 -> com.duoduovv.personal.viewmodel.PersonViewModel$a:
     int label -> e
     com.duoduovv.personal.viewmodel.PersonViewModel this$0 -> f
@@ -22001,21 +22126,21 @@ com.duoduovv.personal.viewmodel.SettingViewModel -> com.duoduovv.personal.viewmo
     androidx.lifecycle.MutableLiveData installState -> i
     androidx.lifecycle.MutableLiveData upgrade -> e
     com.duoduovv.personal.repository.PersonRepository repository -> j
-    kotlinx.coroutines.Job upgrade() -> A
-    com.duoduovv.personal.viewmodel.SettingViewModel$cbFile$1 access$getCbFile$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getDownloadProgress$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> n
-    java.lang.String access$getFilePath$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> o
-    com.duoduovv.personal.repository.PersonRepository access$getRepository$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> p
-    long access$getTotalSize$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> q
-    androidx.lifecycle.MutableLiveData access$getUpgrade$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> r
-    void access$installFile(com.duoduovv.personal.viewmodel.SettingViewModel,java.lang.String) -> s
-    void access$setFilePath$p(com.duoduovv.personal.viewmodel.SettingViewModel,java.lang.String) -> t
-    void access$setTotalSize$p(com.duoduovv.personal.viewmodel.SettingViewModel,long) -> u
-    kotlinx.coroutines.Job downloadApk(java.lang.String) -> v
-    androidx.lifecycle.MutableLiveData getInstallState() -> w
-    androidx.lifecycle.MutableLiveData getProgress() -> x
-    androidx.lifecycle.MutableLiveData getUpgrade() -> y
-    void installFile(java.lang.String) -> z
+    void installFile(java.lang.String) -> A
+    kotlinx.coroutines.Job upgrade() -> B
+    com.duoduovv.personal.viewmodel.SettingViewModel$cbFile$1 access$getCbFile$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getDownloadProgress$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> o
+    java.lang.String access$getFilePath$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> p
+    com.duoduovv.personal.repository.PersonRepository access$getRepository$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> q
+    long access$getTotalSize$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> r
+    androidx.lifecycle.MutableLiveData access$getUpgrade$p(com.duoduovv.personal.viewmodel.SettingViewModel) -> s
+    void access$installFile(com.duoduovv.personal.viewmodel.SettingViewModel,java.lang.String) -> t
+    void access$setFilePath$p(com.duoduovv.personal.viewmodel.SettingViewModel,java.lang.String) -> u
+    void access$setTotalSize$p(com.duoduovv.personal.viewmodel.SettingViewModel,long) -> v
+    kotlinx.coroutines.Job downloadApk(java.lang.String) -> w
+    androidx.lifecycle.MutableLiveData getInstallState() -> x
+    androidx.lifecycle.MutableLiveData getProgress() -> y
+    androidx.lifecycle.MutableLiveData getUpgrade() -> z
 com.duoduovv.personal.viewmodel.SettingViewModel$cbFile$1 -> com.duoduovv.personal.viewmodel.SettingViewModel$a:
     com.duoduovv.personal.viewmodel.SettingViewModel this$0 -> a
     void doSuss(java.lang.String) -> a
@@ -22039,26 +22164,26 @@ com.duoduovv.personal.viewmodel.WeiChatViewModel -> com.duoduovv.personal.viewmo
     androidx.lifecycle.MutableLiveData userInfo -> k
     androidx.lifecycle.MutableLiveData accessToken -> f
     androidx.lifecycle.MutableLiveData refreshToken -> g
-    androidx.lifecycle.MutableLiveData getWeiChatUseInfo() -> A
-    kotlinx.coroutines.Job login(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> B
-    kotlinx.coroutines.Job login$default(com.duoduovv.personal.viewmodel.WeiChatViewModel,int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,java.lang.Object) -> C
-    kotlinx.coroutines.Job refreshToken(java.lang.String,java.lang.String,java.lang.String) -> D
-    kotlinx.coroutines.Job userInfo() -> E
-    kotlinx.coroutines.Job weiCharUserInfo(java.lang.String,java.lang.String,java.lang.String) -> F
-    androidx.lifecycle.MutableLiveData access$getAccessToken$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> m
-    androidx.lifecycle.MutableLiveData access$getAccessTokenValid$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> n
-    androidx.lifecycle.MutableLiveData access$getRefreshToken$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> o
-    com.duoduovv.personal.repository.PersonRepository access$getRepository$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> p
-    androidx.lifecycle.MutableLiveData access$getToken$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> q
-    androidx.lifecycle.MutableLiveData access$getUserInfo$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> r
-    androidx.lifecycle.MutableLiveData access$getWeiChartUserInfo$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> s
-    kotlinx.coroutines.Job accessToken(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> t
-    kotlinx.coroutines.Job accessTokenValid(java.lang.String,java.lang.String,java.lang.String) -> u
-    androidx.lifecycle.MutableLiveData getAccessToken() -> v
-    androidx.lifecycle.MutableLiveData getAccessTokenValid() -> w
-    androidx.lifecycle.MutableLiveData getRefreshToken() -> x
-    androidx.lifecycle.MutableLiveData getToken() -> y
-    androidx.lifecycle.MutableLiveData getUserInfo() -> z
+    androidx.lifecycle.MutableLiveData getUserInfo() -> A
+    androidx.lifecycle.MutableLiveData getWeiChatUseInfo() -> B
+    kotlinx.coroutines.Job login(int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> C
+    kotlinx.coroutines.Job login$default(com.duoduovv.personal.viewmodel.WeiChatViewModel,int,java.lang.String,java.lang.String,java.lang.String,java.lang.String,java.lang.String,int,java.lang.Object) -> D
+    kotlinx.coroutines.Job refreshToken(java.lang.String,java.lang.String,java.lang.String) -> E
+    kotlinx.coroutines.Job userInfo() -> F
+    kotlinx.coroutines.Job weiCharUserInfo(java.lang.String,java.lang.String,java.lang.String) -> G
+    androidx.lifecycle.MutableLiveData access$getAccessToken$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> n
+    androidx.lifecycle.MutableLiveData access$getAccessTokenValid$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> o
+    androidx.lifecycle.MutableLiveData access$getRefreshToken$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> p
+    com.duoduovv.personal.repository.PersonRepository access$getRepository$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> q
+    androidx.lifecycle.MutableLiveData access$getToken$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> r
+    androidx.lifecycle.MutableLiveData access$getUserInfo$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> s
+    androidx.lifecycle.MutableLiveData access$getWeiChartUserInfo$p(com.duoduovv.personal.viewmodel.WeiChatViewModel) -> t
+    kotlinx.coroutines.Job accessToken(java.lang.String,java.lang.String,java.lang.String,java.lang.String) -> u
+    kotlinx.coroutines.Job accessTokenValid(java.lang.String,java.lang.String,java.lang.String) -> v
+    androidx.lifecycle.MutableLiveData getAccessToken() -> w
+    androidx.lifecycle.MutableLiveData getAccessTokenValid() -> x
+    androidx.lifecycle.MutableLiveData getRefreshToken() -> y
+    androidx.lifecycle.MutableLiveData getToken() -> z
 com.duoduovv.personal.viewmodel.WeiChatViewModel$accessToken$1 -> com.duoduovv.personal.viewmodel.WeiChatViewModel$a:
     java.lang.String $url -> g
     com.duoduovv.personal.viewmodel.WeiChatViewModel this$0 -> f
@@ -45916,6 +46041,10 @@ com.qq.e.comm.a -> com.qq.e.comm.a:
     boolean a(android.content.Context,java.lang.Class[]) -> b
     boolean b(android.content.Context) -> c
     boolean b(android.content.Context,java.lang.Class[]) -> d
+com.qq.e.comm.a.a -> com.qq.e.comm.a.a:
+    com.qq.e.comm.a.a a -> b
+    java.lang.Boolean b -> a
+    java.lang.String a(com.qq.e.comm.managers.setting.SM,com.qq.e.comm.managers.plugin.PM,com.qq.e.comm.managers.status.DeviceStatus,com.qq.e.comm.managers.status.APPStatus,long) -> b
 com.qq.e.comm.managers.plugin.PM -> com.qq.e.comm.managers.plugin.PM:
     void a() -> b
     boolean a(com.qq.e.comm.managers.plugin.PM) -> c
@@ -45976,14 +46105,6 @@ com.qq.e.comm.net.NetworkClientImpl -> com.qq.e.comm.net.NetworkClientImpl:
     java.util.concurrent.ExecutorService b -> a
 com.qq.e.comm.net.NetworkClientImpl$TaskCallable -> com.qq.e.comm.net.NetworkClientImpl$TaskCallable:
     void a(java.net.HttpURLConnection) -> b
-com.qq.e.comm.services.RetCodeService -> com.qq.e.comm.services.RetCodeService:
-    java.util.Random c -> a
-    void a(com.qq.e.comm.services.RetCodeService,com.qq.e.comm.services.RetCodeService$RetCodeInfo,int) -> b
-    boolean a(int) -> c
-com.qq.e.comm.services.a -> com.qq.e.comm.services.a:
-    com.qq.e.comm.services.a a -> b
-    java.lang.Boolean b -> a
-    java.lang.String a(com.qq.e.comm.managers.setting.SM,com.qq.e.comm.managers.plugin.PM,com.qq.e.comm.managers.status.DeviceStatus,com.qq.e.comm.managers.status.APPStatus,long) -> b
 com.qq.e.comm.util.a -> com.qq.e.comm.util.a:
     java.lang.String a(java.lang.String) -> b
     java.security.PublicKey b(java.lang.String) -> c
@@ -51715,7 +51836,8 @@ dc.android.bridge.net.BaseViewModel -> dc.android.bridge.net.BaseViewModel:
     androidx.lifecycle.MutableLiveData getException() -> i
     androidx.lifecycle.MutableLiveData getLoading() -> j
     androidx.lifecycle.MutableLiveData getLoadingState() -> k
-    kotlinx.coroutines.Job request(kotlin.jvm.functions.Function2) -> l
+    kotlinx.coroutines.Job request(boolean,kotlin.jvm.functions.Function2) -> l
+    kotlinx.coroutines.Job request$default(dc.android.bridge.net.BaseViewModel,boolean,kotlin.jvm.functions.Function2,int,java.lang.Object) -> m
 dc.android.bridge.net.BaseViewModel$error$2 -> dc.android.bridge.net.BaseViewModel$a:
     dc.android.bridge.net.BaseViewModel$error$2 INSTANCE -> b
     androidx.lifecycle.MutableLiveData invoke() -> a
@@ -51723,10 +51845,11 @@ dc.android.bridge.net.BaseViewModel$loading$2 -> dc.android.bridge.net.BaseViewM
     dc.android.bridge.net.BaseViewModel$loading$2 INSTANCE -> b
     androidx.lifecycle.MutableLiveData invoke() -> a
 dc.android.bridge.net.BaseViewModel$request$1 -> dc.android.bridge.net.BaseViewModel$c:
-    kotlin.jvm.functions.Function2 $block -> h
+    kotlin.jvm.functions.Function2 $block -> i
     java.lang.Object L$0 -> e
     dc.android.bridge.net.BaseViewModel this$0 -> g
     int label -> f
+    boolean $loadingState -> h
 dc.android.bridge.net.HeaderInterceptor -> dc.android.bridge.net.b:
     okhttp3.Response intercept(okhttp3.Interceptor$Chain) -> a
 dc.android.bridge.net.OtherFactory -> dc.android.bridge.net.c:
@@ -51779,10 +51902,11 @@ dc.android.bridge.util.OsUtils -> d.a.a.a.c:
     int px2dip(android.content.Context,float) -> n
 dc.android.bridge.util.StatusBarWrapper -> d.a.a.a.d:
     dc.android.bridge.view.BaseActivity activity -> b
+    boolean showBarView -> f
     boolean isDark -> a
+    android.widget.FrameLayout layoutContent -> d
+    android.view.View vStatusBar -> e
     boolean FLAG_BAR_NAV -> c
-    boolean showBarView -> d
-    com.duoduovv.common.databinding.ActivityContentSourceBinding mBind -> e
     void onCreate(android.view.View,android.content.Context) -> a
     void setBars() -> b
     void setStatusBarColor(boolean,int) -> c

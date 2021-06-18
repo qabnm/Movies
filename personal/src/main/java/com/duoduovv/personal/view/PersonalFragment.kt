@@ -4,6 +4,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -59,6 +60,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     private lateinit var mBind: FragmentPersonalBinding
     private var ttAd: TTInfoAd? = null
     private var gdtAd: GDTInfoAd? = null
+    private var width = 0f
 
     override fun initView() {
         mBind = baseBinding as FragmentPersonalBinding
@@ -103,6 +105,20 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 viewModel.userInfo()
             }
         })
+        width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat()
+    }
+    private var isHide = true
+    override fun onHiddenChanged(hidden: Boolean) {
+        super.onHiddenChanged(hidden)
+        Log.d("hidden","$hidden")
+        isHide = hidden
+        if (!hidden) initAD()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Log.d("hidden","onResume")
+        if (!isHide) initAD()
     }
 
     private fun setFeedbackUi() {
@@ -129,6 +145,10 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             viewModel.userInfo()
         }
         setFeedbackUi()
+        initAD()
+    }
+
+    private fun initAD(){
         if (!StringUtils.isEmpty(AdvertBridge.CENTER_TOP)) {
             if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
                 initTTAd(AdvertBridge.CENTER_TOP)
@@ -143,13 +163,14 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * @param posId String
      */
     private fun initTTAd(posId: String) {
-        ttAd = TTInfoAd()
-        val width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat()
+        if (null == ttAd ){
+            ttAd = TTInfoAd()
+        }else{ ttAd?.destroyInfoAd() }
         ttAd?.initTTInfoAd(requireActivity(), posId, width, 0f, mBind.vTop)
     }
 
     private fun initGDTAd(posId: String) {
-        gdtAd = GDTInfoAd()
+        if (null == gdtAd) gdtAd = GDTInfoAd()
         gdtAd?.initInfoAd(requireActivity(), posId, mBind.vTop, 390, 0)
     }
 

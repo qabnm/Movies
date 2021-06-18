@@ -43,10 +43,10 @@ interface ICinemaApiService {
 
     /**
      * 搜索结果分类
-     * @return BaseResponseData<SearchResultCategoryBean>
+     * @return BaseResponseData<ConfigureBean>
      */
     @GET("api/config")
-    suspend fun searchResultCategory(): BaseResponseData<SearchResultCategoryBean>
+    suspend fun searchResultCategory(): BaseResponseData<ConfigureBean>
 
     /**
      * 搜索结果页

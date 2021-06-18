@@ -2,7 +2,6 @@ package com.duoduovv.cinema.adapter
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -10,49 +9,71 @@ import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.bean.Banner
+import com.duoduovv.cinema.databinding.BannerAdContainerBinding
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
 import com.youth.banner.adapter.BannerAdapter
-import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.OsUtils
-import kotlinx.coroutines.flow.combine
 
 /**
  * @author: jun.liu
  * @date: 2021/1/15 17:59
  * @des:首页顶部banner
  */
-class BannerImgAdapter(data: List<Banner>, private val context: Context) :
-    BannerAdapter<Banner, BannerImgAdapter.BannerViewHolder>(data) {
+class BannerImgAdapter(private val data: List<Banner>, private val context: Context) :
+    BannerAdapter<Banner, RecyclerView.ViewHolder>(data) {
     private var ttInfoAd: TTInfoAd? = null
     private var gdtInfoAd: GDTInfoAd? = null
+    private var bannerWidth = 0f
+    private val typeAd = 1
+    private val typeBanner = 2
 
-    class BannerViewHolder(val bind: ItemBannerViewBinding) : RecyclerView.ViewHolder(bind.root)
-
-    override fun onCreateHolder(parent: ViewGroup?, viewType: Int): BannerViewHolder {
-        val bind = ItemBannerViewBinding.inflate(LayoutInflater.from(context), parent, false)
-        return BannerViewHolder(bind)
+    init {
+        bannerWidth =
+            (OsUtils.px2dip(context, OsUtils.getScreenWidth(context).toFloat()) - 20).toFloat()
     }
 
-    override fun onBindView(holder: BannerViewHolder, data: Banner?, position: Int, size: Int) {
-        if (data?.type == "ad") {
-            Log.d("adad","onBindView方法执行了")
-            //加载广告
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
-                initTTAd(holder.bind.layoutContainer, AdvertBridge.MAIN_PAGE_BANNER)
-            } else {
-                initGDTAd(holder.bind.layoutContainer, AdvertBridge.MAIN_PAGE_BANNER)
+    override fun onCreateHolder(parent: ViewGroup?, viewType: Int) = when (viewType) {
+        typeAd -> {
+            val adBinder =
+                BannerAdContainerBinding.inflate(LayoutInflater.from(context), parent, false)
+            AdViewHolder(adBinder)
+        }
+        else -> {
+            val bannerBind =
+                ItemBannerViewBinding.inflate(LayoutInflater.from(context), parent, false)
+            BannerViewHolder(bannerBind)
+        }
+    }
+
+    override fun onBindView(
+        holder: RecyclerView.ViewHolder,
+        data: Banner?,
+        position: Int,
+        size: Int
+    ) {
+        when (holder.itemViewType) {
+            typeAd -> {
+                if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
+                    initTTAd(
+                        (holder as AdViewHolder).adBinder.bannerAdContainer,
+                        AdvertBridge.MAIN_PAGE_BANNER
+                    )
+                } else {
+                    initGDTAd(
+                        (holder as AdViewHolder).adBinder.bannerAdContainer,
+                        AdvertBridge.MAIN_PAGE_BANNER
+                    )
+                }
             }
-        } else {
-            Log.d("adad","onBindView方法执行了99999999999999999")
-            GlideUtils.setImg(
-                context = context,
-                url = data?.img ?: "",
-                imageView = holder.bind.imgBanner
-            )
-//            mBind.imgBanner.load(data?.img)
-            holder.bind.tvTitle.text = data?.title
-            Log.d("hhhh", "${holder.bind.imgBanner.width},${holder.bind.imgBanner.height}")
+            else -> {
+                GlideUtils.setImg(
+                    context = context,
+                    url = data?.img ?: "",
+                    imageView = (holder as BannerViewHolder).bannerBind.imgBanner
+                )
+                holder.bannerBind.tvTitle.text = data?.title
+            }
         }
     }
 
@@ -62,9 +83,7 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
     private fun initTTAd(container: ViewGroup, posId: String) {
         if (null == ttInfoAd) {
             ttInfoAd = TTInfoAd()
-            val width = (OsUtils.px2dip(context,OsUtils.getScreenWidth(context).toFloat())- 20).toFloat()
-            Log.d("adView","$width")
-            ttInfoAd?.initTTInfoAd(context as Activity, posId, width, 0f, container)
+            ttInfoAd?.initTTInfoAd(context as Activity, posId, bannerWidth, 0f, container)
         }
     }
 
@@ -78,8 +97,17 @@ class BannerImgAdapter(data: List<Banner>, private val context: Context) :
         }
     }
 
+    private class AdViewHolder(val adBinder: BannerAdContainerBinding) :
+        RecyclerView.ViewHolder(adBinder.root)
+
+    private class BannerViewHolder(val bannerBind: ItemBannerViewBinding) :
+        RecyclerView.ViewHolder(bannerBind.root)
+
     fun onDestroy() {
         ttInfoAd?.destroyInfoAd()
         gdtInfoAd?.destroyInfoAd()
     }
+
+    override fun getItemViewType(position: Int) =
+        if ("ad" == data[getRealPosition(position)].type) typeAd else typeBanner
 }

@@ -11,22 +11,24 @@ import kotlinx.coroutines.*
 open class BaseViewModel : ViewModel(), LifecycleObserver {
     //异常处理
     private val error by lazy { MutableLiveData<Throwable>() }
+
     //加载loading状态
     private val loading by lazy { MutableLiveData<Boolean>() }
 
-    fun request(block: suspend CoroutineScope.() -> Unit) = viewModelScope.launch {
-        loading.value = true
-        try {
-            block()
-            Log.d("tag", "请求成功")
-        }catch (e:Exception){
-            error.value = e
-            Log.d("tag", "请求异常$e")
-        }finally {
-            loading.value = false
-            Log.d("tag", "请求完成")
+    fun request(loadingState: Boolean = true,block: suspend CoroutineScope.() -> Unit) =
+        viewModelScope.launch {
+            loading.value = loadingState
+            try {
+                block()
+                Log.d("tag", "请求成功")
+            } catch (e: Exception) {
+                error.value = e
+                Log.d("tag", "请求异常$e")
+            } finally {
+                loading.value = false
+                Log.d("tag", "请求完成")
+            }
         }
-    }
 
     fun getException() = error
 

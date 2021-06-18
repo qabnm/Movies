@@ -30,7 +30,7 @@ import kotlin.system.exitProcess
 @Route(path = RouterPath.PATH_MAIN)
 class MainActivity : BridgeActivity() {
     override fun getLayoutId() = R.layout.activity_main
-    private lateinit var mBind:ActivityMainBinding
+    private lateinit var mBind: ActivityMainBinding
     private var currentPosition = 0
     private val position = "position"
     private var typeId: String? = null
@@ -40,7 +40,7 @@ class MainActivity : BridgeActivity() {
     //    private var hotSpotFragment: BaseFragment? = null
     private var movieFragment: BaseFragment? = null
     private var mineFragment: BaseFragment? = null
-    private var data:ConfigureBean?=null
+    private var data: ConfigureBean? = null
 
     override fun showStatusBarView() = false
 
@@ -124,18 +124,10 @@ class MainActivity : BridgeActivity() {
     ) {
         currentPosition = position
         fragment.takeIf { null != fragment }?.also { transaction.show(it) } ?: run {
-            if (position == 0){
-                (ARouter.getInstance().build(path).withString(TYPE_ID, typeId).withParcelable(DATA,data)
-                    .navigation() as? BaseFragment)?.let {
-                    getFragment(path, it)
-                    transaction.add(R.id.layoutContainer, it, path)
-                }
-            }else{
-                (ARouter.getInstance().build(path).withString(TYPE_ID, typeId)
-                    .navigation() as? BaseFragment)?.let {
-                    getFragment(path, it)
-                    transaction.add(R.id.layoutContainer, it, path)
-                }
+            (ARouter.getInstance().build(path).withString(TYPE_ID, typeId)
+                .navigation() as? BaseFragment)?.let {
+                getFragment(path, it)
+                transaction.add(R.id.layoutContainer, it, path)
             }
         }
     }

@@ -83,6 +83,7 @@ class SplashActivity : BaseViewModelActivity<MainViewModel>(),
         configureBean?.let {
             SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, it.way)
             this.configureBean = it
+            BaseApplication.configBean = it
         }
     }
 

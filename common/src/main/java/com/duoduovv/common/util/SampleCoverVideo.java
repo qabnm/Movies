@@ -9,22 +9,24 @@ import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
+import android.widget.TextView;
 
-import androidx.lifecycle.Observer;
-
+import com.airbnb.lottie.LottieAnimationView;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.request.RequestOptions;
 import com.duoduovv.common.R;
+import com.qq.e.ads.nativ.MediaView;
+import com.qq.e.ads.nativ.widget.NativeAdContainer;
 import com.shuyu.gsyvideoplayer.utils.CommonUtil;
 import com.shuyu.gsyvideoplayer.utils.Debuger;
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 
-import dc.android.tools.LiveDataBus;
 import moe.codeest.enviews.ENPlayView;
 
 /**
@@ -53,15 +55,38 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         super(context, attrs);
     }
 
+    private ImageView imgPlayPause;
+    private ImageView imgNext;
+    private FrameLayout layoutLoading;
+    private LottieAnimationView videoLoading;
+    private ImageView imgBackLoad;
+    private NativeAdContainer layoutAd;
+    private TextView tvSkip;
+    private MediaView mediaView;
+    private ImageView adImgCover;
+
     @Override
     protected void init(Context context) {
         super.init(context);
         mCoverImage = findViewById(R.id.thumbImage);
+        imgPlayPause = findViewById(R.id.imgPlayPause);
+        imgNext = findViewById(R.id.imgPlayNext);
+        layoutLoading = findViewById(R.id.layoutLoading);
+        videoLoading = findViewById(R.id.videoPrepare);
+        imgBackLoad = findViewById(R.id.imgBackLoad);
+        layoutAd = findViewById(R.id.layoutAd);
+        tvSkip = findViewById(R.id.tvSkip);
+        mediaView = findViewById(R.id.mediaView);
+        adImgCover = findViewById(R.id.adImgCover);
 
         if (mThumbImageViewLayout != null &&
                 (mCurrentState == -1 || mCurrentState == CURRENT_STATE_NORMAL || mCurrentState == CURRENT_STATE_ERROR)) {
             mThumbImageViewLayout.setVisibility(VISIBLE);
         }
+        imgPlayPause.setOnClickListener(v -> clickStartIcon());
+        imgNext.setOnClickListener(v -> {
+            if (null != onNextClickListener) onNextClickListener.onNextClick();
+        });
     }
 
     @Override
@@ -226,12 +251,30 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     }
 
     @Override
+    protected void changeUiToPauseShow() {
+        super.changeUiToPauseShow();
+        //父类代码495行
+        if (mIfCurrentIsFullscreen){
+            setViewShowState(mStartButton, INVISIBLE);
+        }
+    }
+
+    @Override
     protected void changeUiToPlayingShow() {
         super.changeUiToPlayingShow();
         Debuger.printfLog("Sample changeUiToPlayingShow");
         if (!byStartedClick) {
             setViewShowState(mBottomContainer, INVISIBLE);
             setViewShowState(mStartButton, INVISIBLE);
+        }
+        if (mIfCurrentIsFullscreen){
+            //如果是全屏
+            imgPlayPause.setVisibility(View.VISIBLE);
+            imgNext.setVisibility(View.VISIBLE);
+            mStartButton.setVisibility(View.GONE);
+        }else{
+            imgPlayPause.setVisibility(View.GONE);
+            imgNext.setVisibility(View.GONE);
         }
     }
 
@@ -242,6 +285,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
         setViewShowState(mBottomContainer, INVISIBLE);
         setViewShowState(mStartButton, INVISIBLE);
         setViewShowState(mBottomProgressBar, VISIBLE);
+
     }
 
     @Override
@@ -266,6 +310,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
 
     /**
      * 播放按钮逻辑
+     * pase状态 时候会回调这个方法
      */
     @Override
     protected void updateStartImage() {
@@ -283,10 +328,12 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
             ImageView imageView = (ImageView) mStartButton;
             if (mCurrentState == CURRENT_STATE_PLAYING) {
                 imageView.setImageResource(R.drawable.selector_player_pause);
+                imgPlayPause.setImageResource(R.drawable.selector_player_pause);
             } else if (mCurrentState == CURRENT_STATE_ERROR) {
                 imageView.setImageResource(R.drawable.video_click_error_selector);
             } else {
                 imageView.setImageResource(R.drawable.selector_player_play);
+                imgPlayPause.setImageResource(R.drawable.selector_player_play);
             }
         }
     }
@@ -309,5 +356,42 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     public void setStartClick(int flag) {
         this.flag = flag;
     }
+    private OnNextClickListener onNextClickListener;
+    public void setOnNextClick(OnNextClickListener onNextClickListener){
+        this.onNextClickListener = onNextClickListener;
+    }
 
+    public interface OnNextClickListener{
+        void onNextClick();
+    }
+
+    public void pauseLoading(){
+        videoLoading.cancelAnimation();
+        layoutLoading.setVisibility(View.GONE);
+    }
+
+    public void playLoading(){
+        layoutLoading.setVisibility(View.VISIBLE);
+        videoLoading.playAnimation();
+    }
+
+    public ImageView getBackLoad(){
+        return imgBackLoad;
+    }
+
+    public NativeAdContainer getLayoutAd(){
+        return layoutAd;
+    }
+
+    public TextView getTvSkip(){
+        return tvSkip;
+    }
+
+    public MediaView getMediaView(){
+        return  mediaView;
+    }
+
+    public ImageView getAdImgCover(){
+        return adImgCover;
+    }
 }

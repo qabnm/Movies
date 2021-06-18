@@ -73,7 +73,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         mBind.imgHistory.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
         }
-        configureBean = arguments?.getParcelable(DATA)
+        configureBean = BaseApplication.configBean
     }
 
     /**
@@ -83,6 +83,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private fun initConfig(configureBean: ConfigureBean?) {
         configureBean?.let {
             val columns = it.columns
+            BaseApplication.configBean = it
             initFragment(columns)
             SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, it.way)
             mBind.imgHistory.visibility =

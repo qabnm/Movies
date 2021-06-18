@@ -30,7 +30,8 @@ data class AdvertBean(
     val logout: String,
     val search: String,
     val movieDetailBanner: String,
-    val centerTop:String
+    val centerTop:String,
+    val videoAd:String
 ) : Parcelable
 
 /**
@@ -40,7 +41,7 @@ data class AdvertBean(
 @Parcelize
 data class Column(
     val id: String,
-    val name: String
+    var name: String
 ) : Parcelable
 
 /**

@@ -6,14 +6,17 @@
             android:name=".view.WatchHistoryActivity"
             android:screenOrientation="portrait" />
 
-        <activity android:name=".view.MovieDetailActivity"
-            android:screenOrientation="portrait"
+        <activity
+            android:name=".view.MovieDetailActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".view.MovieDetailActivityForDebug"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".view.ReportActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".view.MovieDetailActivityForDebug"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.ReportActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

@@ -37,8 +37,9 @@ class MovieDetailFragment : BaseFragment() {
     private var collectionBean: CollectionBean? = null
     private var gdtBannerAd: GDTBannerAd? = null
     private var ttBanner: TTBannerAd? = null
-    private var tvAdapter:MovieEpisodesTvAdapter?=null
-    private var albumAdapter: MovieAlbumAdapter?=null
+    private var tvAdapter: MovieEpisodesTvAdapter? = null
+    private var albumAdapter: MovieAlbumAdapter? = null
+    private var bannerWidth = 0f
 
     fun setCallback(callback: MovieDetailCallback) {
         this.callback = callback
@@ -49,12 +50,20 @@ class MovieDetailFragment : BaseFragment() {
         LiveDataBus.get().with("adClose", String::class.java).observe(this, {
             if ("adClose" == it) mBind.adContainer.visibility = View.GONE
         })
+        bannerWidth =
+            OsUtils.px2dip(requireContext(), OsUtils.getScreenWidth(requireContext()).toFloat())
+                .toFloat() - 20
     }
 
     /**
      * 顶部详情数据绑定
      */
     fun bindDetail(detailBean: MovieDetailBean) {
+        if (detailBean.recommends?.isNotEmpty() == true) {
+            mBind.tvCommend.visibility = View.VISIBLE
+        } else {
+            mBind.tvCommend.visibility = View.INVISIBLE
+        }
         mBind.imgShare.setOnClickListener { callback?.onShareClick() }
         mBind.imgDownload.setOnClickListener { callback?.onDownLoadClick() }
         mBind.imgCollect.setOnClickListener {
@@ -137,6 +146,10 @@ class MovieDetailFragment : BaseFragment() {
         } else {
             mBind.layoutZhuanJi.visibility = View.GONE
         }
+        updateAd()
+    }
+
+    fun updateAd(){
         //加载广告
         if (!StringUtils.isEmpty(AdvertBridge.MOVIE_DETAIL_BANNER)) {
             if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
@@ -144,7 +157,7 @@ class MovieDetailFragment : BaseFragment() {
             } else {
                 initGDTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
             }
-        }else{
+        } else {
             mBind.adContainer.visibility = View.GONE
         }
     }
@@ -154,7 +167,7 @@ class MovieDetailFragment : BaseFragment() {
      * @param movieItem List<MovieItem>
      * @param pos Int
      */
-    fun updateSelect(movieItem: List<MovieItem>,pos:Int){
+    fun updateSelect(movieItem: List<MovieItem>, pos: Int) {
         tvAdapter?.let {
             it.setList(movieItem)
             mBind.rvList.layoutManager?.scrollToPosition(pos)
@@ -179,9 +192,8 @@ class MovieDetailFragment : BaseFragment() {
      * @param posId String
      */
     private fun initTTAd(posId: String) {
-        ttBanner = TTBannerAd()
-        val width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat() -20
-        ttBanner?.initBanner(requireActivity(), posId, width, 0f, mBind.adContainer)
+        if (null == ttBanner) ttBanner = TTBannerAd()
+        ttBanner?.initBanner(requireActivity(), posId, bannerWidth, 0f, mBind.adContainer)
     }
 
     override fun onDestroy() {

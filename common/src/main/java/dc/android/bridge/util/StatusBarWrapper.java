@@ -1,5 +1,6 @@
 package dc.android.bridge.util;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,11 +10,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.RequiresApi;
-import androidx.viewbinding.ViewBinding;
-
 
 import com.duoduovv.common.R;
-import com.duoduovv.common.databinding.ActivityContentSourceBinding;
 
 import dc.android.bridge.view.BaseActivity;
 
@@ -27,28 +25,29 @@ public class StatusBarWrapper {
     private boolean isDark;
     private BaseActivity activity;
     protected boolean FLAG_BAR_NAV = true;
-//    protected FrameLayout layoutContent;
-//    protected View vStatusBar;
+    protected FrameLayout layoutContent;
+    protected View vStatusBar;
     private boolean showBarView = true;
-    private ActivityContentSourceBinding mBind;
+//    private ActivityContentSourceBinding mBind;
 
     public StatusBarWrapper(BaseActivity activity) {
         this.activity = activity;
     }
 
+    @SuppressLint("InflateParams")
     public void onCreate(View contentView, Context context){
-        mBind = ActivityContentSourceBinding.inflate(LayoutInflater.from(context));
-        activity.setContentView(mBind.getRoot());
-//        layoutContent = activity.findViewById(R.id.layout_content_source);
-//        vStatusBar = activity.findViewById(R.id.v_bar_source);
+//        mBind = ActivityContentSourceBinding.inflate(LayoutInflater.from(context));
+        activity.setContentView(LayoutInflater.from(context).inflate(R.layout.activity_content_source,null));
+        layoutContent = activity.findViewById(R.id.layoutContentSource);
+        vStatusBar = activity.findViewById(R.id.vBarSource);
         if (!showBarView){
-            mBind.vBarSource.setVisibility(View.GONE);
+            vStatusBar.setVisibility(View.GONE);
         }else {
-            ViewGroup.LayoutParams params = mBind.vBarSource.getLayoutParams();
+            ViewGroup.LayoutParams params = vStatusBar.getLayoutParams();
             params.height = OsUtils.getStatusBarHeight(activity);
-            mBind.vBarSource.setLayoutParams(params);
+            vStatusBar.setLayoutParams(params);
         }
-        mBind.layoutContentSource.addView(contentView);
+        layoutContent.addView(contentView);
     }
 
     /**
@@ -69,7 +68,7 @@ public class StatusBarWrapper {
                 }
             }
         }
-        if (null != mBind.vBarSource) mBind.vBarSource.setBackgroundColor(statusBarPlaceColor);
+        if (null != vStatusBar) vStatusBar.setBackgroundColor(statusBarPlaceColor);
     }
 
     /**
@@ -160,6 +159,6 @@ public class StatusBarWrapper {
     }
 
     public void setStatusBarVisible(int visible){
-        mBind.vBarSource.setVisibility(visible);
+        vStatusBar.setVisibility(visible);
     }
 }

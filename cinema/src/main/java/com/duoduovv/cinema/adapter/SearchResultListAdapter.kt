@@ -42,6 +42,7 @@ class SearchResultListAdapter(
         val bean = dataList[position]
         GlideUtils.setMovieImg(context, bean.coverUrl, holder.mBind.imgCover)
         holder.mBind.tvTitle.text = bean.vodName
+        holder.mBind.tvScore.text = bean.remark
         holder.mBind.tvTime.text = StringUtils.append(
             bean.vodYear,
             " ", bean.typeText,

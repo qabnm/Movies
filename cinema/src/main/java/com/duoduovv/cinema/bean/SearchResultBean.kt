@@ -37,6 +37,7 @@ data class SearchResultList(
     val typeText: String,
     @SerializedName("movie_flag")
     val movieFlag: String,
+    val remark:String,
     val way: String
 )
 
