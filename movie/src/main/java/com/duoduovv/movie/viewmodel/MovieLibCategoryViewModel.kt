@@ -3,7 +3,6 @@ package com.duoduovv.movie.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.movie.bean.MovieLibCategoryBean
 import com.duoduovv.movie.repository.MovieRepository
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -22,7 +21,7 @@ class MovieLibCategoryViewModel :BaseViewModel(){
      */
     fun movieLibCategory() = request {
         val result = repository.movieLibCategory()
-        if (result.code == SUCCESS) movieLibCategory.postValue(result.data)
+        if (isSuccess(result.code)) movieLibCategory.postValue(result.data)
     }
 
 }

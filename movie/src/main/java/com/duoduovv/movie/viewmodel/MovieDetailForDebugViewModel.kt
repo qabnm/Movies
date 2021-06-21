@@ -3,7 +3,6 @@ package com.duoduovv.movie.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.movie.bean.MovieDetailForDebugBean
 import com.duoduovv.movie.repository.MovieRepository
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -23,6 +22,6 @@ class MovieDetailForDebugViewModel : BaseViewModel() {
      */
     fun movieDetailForDebug(movieId: String) = request {
         val result = repository.movieDetailForDebug(movieId)
-        if (result.code == SUCCESS) movieDetail.postValue(result.data)
+        if (isSuccess(result.code)) movieDetail.postValue(result.data)
     }
 }

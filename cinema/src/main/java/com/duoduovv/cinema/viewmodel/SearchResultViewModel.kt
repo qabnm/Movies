@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.duoduovv.cinema.bean.SearchResultList
 import com.duoduovv.cinema.repository.CinemaRepository
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -29,7 +28,7 @@ class SearchResultViewModel : BaseViewModel() {
      */
     fun searchResult(keyWord: String, page: Int, column: String) = request {
         val result = repository.searchResult(keyWord, page, column)
-        if (result.code == SUCCESS){
+        if (isSuccess(result.code)){
             if (page == 1) dataList.clear()
             val list = result.data.result
             if (list?.isNotEmpty() == true){

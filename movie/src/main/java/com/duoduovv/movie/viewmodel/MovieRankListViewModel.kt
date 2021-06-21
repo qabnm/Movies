@@ -3,7 +3,6 @@ package com.duoduovv.movie.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.movie.bean.MovieRankBean
 import com.duoduovv.movie.repository.MovieRepository
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -23,6 +22,6 @@ class MovieRankListViewModel :BaseViewModel(){
      */
     fun movieRankList(column:String) = request {
         val result = repository.movieRankList(column = column)
-       if (result.code == SUCCESS) movieRankList.postValue(result.data)
+       if (isSuccess(result.code)) movieRankList.postValue(result.data)
     }
 }

@@ -2,7 +2,6 @@ package com.duoduovv.common.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.common.domain.ConfigureBean
-import dc.android.bridge.BridgeContext
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -21,8 +20,6 @@ open class ConfigureViewModel:BaseViewModel() {
      */
     fun configure() = request {
         val result = repository.configure()
-        if (result.code == BridgeContext.SUCCESS) {
-            configure.postValue(result.data)
-        }
+        if (isSuccess(result.code)) configure.postValue(result.data)
     }
 }

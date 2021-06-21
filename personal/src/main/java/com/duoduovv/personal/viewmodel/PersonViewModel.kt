@@ -3,7 +3,6 @@ package com.duoduovv.personal.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.personal.bean.User
 import com.duoduovv.personal.repository.PersonRepository
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -22,7 +21,7 @@ class PersonViewModel : BaseViewModel() {
      */
     fun userInfo() = request {
         val result = repository.userInfo()
-        if (result.code == SUCCESS) userInfo.postValue(result.data.user)
+        if (isSuccess(result.code)) userInfo.postValue(result.data.user)
     }
 
 }

@@ -11,7 +11,6 @@ import com.duoduovv.room.database.CollectionDatabase
 import com.duoduovv.room.database.WatchHistoryDatabase
 import com.duoduovv.room.domain.CollectionBean
 import com.duoduovv.room.domain.VideoWatchHistoryBean
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -48,7 +47,7 @@ class MovieDetailViewModel : BaseViewModel() {
      */
     fun movieDetail(id: String, vid: String = "") = request {
         val result = repository.movieDetail(id = id, vid = vid)
-        if (result.code == SUCCESS) movieDetail.postValue(result.data)
+        if (isSuccess(result.code)) movieDetail.postValue(result.data)
     }
 
     /**
@@ -59,7 +58,7 @@ class MovieDetailViewModel : BaseViewModel() {
      */
     fun moviePlayInfo(vid: String, id: String, line: String, js: String, flag: Int = 0) = request(false) {
         val result = repository.moviePlayInfo(vid, id, line, js)
-        if (result.code == SUCCESS) {
+        if (isSuccess(result.code)) {
             if (flag == 0) {
                 moviePlayInfo.postValue(result.data)
             } else {
@@ -187,7 +186,7 @@ class MovieDetailViewModel : BaseViewModel() {
      */
     fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) = request(false) {
         val result = repository.analysisPlayUrl(vid, movieId, line, content)
-        if (SUCCESS == result.code) {
+        if (isSuccess(result.code)) {
             analysisPlayUrl.postValue(result.data)
         }
     }

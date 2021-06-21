@@ -3,7 +3,6 @@ package com.duoduovv.personal.viewmodel
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.personal.bean.*
 import com.duoduovv.personal.repository.PersonRepository
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -101,7 +100,7 @@ class WeiChatViewModel : BaseViewModel() {
         val bean = result.data
         bean.img = img
         bean.nickName = nickName
-        if (result.code == SUCCESS) token.postValue(result.data)
+        if (isSuccess(result.code)) token.postValue(result.data)
     }
 
     /**
@@ -110,6 +109,6 @@ class WeiChatViewModel : BaseViewModel() {
      */
     fun userInfo() = request {
         val result = repository.userInfo()
-        if (result.code == SUCCESS) userInfo.postValue(result.data.user)
+        if (isSuccess(result.code)) userInfo.postValue(result.data.user)
     }
 }

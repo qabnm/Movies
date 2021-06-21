@@ -4,7 +4,6 @@ import androidx.lifecycle.MutableLiveData
 import com.duoduovv.movie.bean.MovieLibList
 import com.duoduovv.movie.repository.MovieRepository
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseViewModel
 
 /**
@@ -30,7 +29,7 @@ class MovieLibListViewModel : BaseViewModel() {
      */
     fun movieLibList(map: HashMap<String, Any>, page: Int, typeId: String) = request {
         val result = repository.movieLibList(map, page, typeId)
-        if (result.code == SUCCESS) {
+        if (isSuccess(result.code)) {
             if (page == 1) dataList.clear()
             val list = result.data.movies
             if (list?.isNotEmpty() == true) {

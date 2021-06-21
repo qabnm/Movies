@@ -1,8 +1,14 @@
 package dc.android.bridge.net
 
 import android.util.Log
-import androidx.lifecycle.*
-import kotlinx.coroutines.*
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dc.android.bridge.BridgeContext.Companion.SUCCESS
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
 
 /**
  * @author: jun.liu
@@ -15,7 +21,7 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
     //加载loading状态
     private val loading by lazy { MutableLiveData<Boolean>() }
 
-    fun request(loadingState: Boolean = true,block: suspend CoroutineScope.() -> Unit) =
+    fun request(loadingState: Boolean = true, block: suspend CoroutineScope.() -> Unit) =
         viewModelScope.launch {
             loading.value = loadingState
             try {
@@ -38,4 +44,6 @@ open class BaseViewModel : ViewModel(), LifecycleObserver {
         super.onCleared()
         viewModelScope.cancel()
     }
+
+    fun isSuccess(code: Int?) = code == SUCCESS
 }

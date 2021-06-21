@@ -23,6 +23,6 @@ class ReportViewModel : BaseViewModel() {
      */
     fun report(content: String, movieId: String) = request {
         val result = repository.report(content, movieId)
-        if (result.code == SUCCESS) report.postValue(SUCCESS)
+        if (isSuccess(result.code)) report.postValue(SUCCESS)
     }
 }

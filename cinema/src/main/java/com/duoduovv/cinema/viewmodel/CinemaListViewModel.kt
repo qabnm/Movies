@@ -7,7 +7,6 @@ import com.duoduovv.cinema.bean.MainPageBean
 import com.duoduovv.cinema.bean.MainRecommendBean
 import com.duoduovv.cinema.repository.CinemaRepository
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseResponseData
 import dc.android.bridge.net.BaseViewModel
 import kotlinx.coroutines.Deferred
@@ -50,7 +49,7 @@ class CinemaListViewModel : BaseViewModel() {
                 null
             }
         }
-        if (result1.await()?.code == SUCCESS && result2.await()?.code == SUCCESS) {
+        if (isSuccess(result1.await()?.code) && isSuccess(result2.await()?.code)) {
             dataList.clear()
             val list = result2.await()!!.data.recommends
             if (list?.isNotEmpty() == true) dataList.addAll(list)
@@ -65,7 +64,7 @@ class CinemaListViewModel : BaseViewModel() {
      */
     fun mainRecommend(page: Int, column: String) = request {
         val result = repository.mainRecommend(page = page, column = column)
-        if (result.code == SUCCESS) {
+        if (isSuccess(result.code)) {
             val data = result.data.recommends
             if (data?.isNotEmpty() == true) {
                 dataList.addAll(data)
