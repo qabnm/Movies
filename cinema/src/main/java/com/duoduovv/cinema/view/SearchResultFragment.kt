@@ -7,11 +7,11 @@ import androidx.fragment.app.Fragment
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.databinding.FragmentSearchResultBinding
-import com.duoduovv.cinema.viewmodel.SearchResultCategoryViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.NoLineIndicatorAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.domain.Column
+import com.duoduovv.common.viewmodel.ConfigureViewModel
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.view.BaseViewModelFragment
 import net.lucode.hackware.magicindicator.ViewPagerHelper
@@ -22,10 +22,10 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  * @date: 2021/1/8 14:54
  * @des:搜索结果
  */
-class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel>() {
+class SearchResultFragment : BaseViewModelFragment<ConfigureViewModel>() {
     override fun getLayoutId() = R.layout.fragment_search_result
     private lateinit var mBind: FragmentSearchResultBinding
-    override fun providerVMClass() = SearchResultCategoryViewModel::class.java
+    override fun providerVMClass() = ConfigureViewModel::class.java
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSearchResultBinding.inflate(inflater, container, false)
 
@@ -33,8 +33,8 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
 
     override fun initView() {
         mBind = baseBinding as FragmentSearchResultBinding
-        viewModel.getCategory().observe(this, {
-            val result = viewModel.getCategory().value
+        viewModel.getConfigure().observe(this, {
+            val result = viewModel.getConfigure().value
             initFragment(result?.columns)
         })
     }
@@ -71,7 +71,7 @@ class SearchResultFragment : BaseViewModelFragment<SearchResultCategoryViewModel
         BaseApplication.configBean?.let {
             initFragment(it.columns)
         } ?: also {
-            viewModel.searchResultCategory()
+            viewModel.configure()
         }
     }
 }

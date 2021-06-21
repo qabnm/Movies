@@ -1,4 +1,4 @@
-package com.duoduovv.main
+package com.duoduovv.common.viewmodel
 
 import com.duoduovv.common.domain.ConfigureBean
 import dc.android.bridge.net.BaseResponseData
@@ -6,11 +6,10 @@ import retrofit2.http.GET
 
 /**
  * @author: jun.liu
- * @date: 2021/5/28 18:24
+ * @date: 2021/6/21 9:35
  * @des:
  */
-interface IMainApiService {
-
+interface IPublicApiService {
     /**
      * 获取配置信息
      */

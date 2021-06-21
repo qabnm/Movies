@@ -42,13 +42,6 @@ interface ICinemaApiService {
     ): BaseResponseData<MainRecommendBean>
 
     /**
-     * 搜索结果分类
-     * @return BaseResponseData<ConfigureBean>
-     */
-    @GET("api/config")
-    suspend fun searchResultCategory(): BaseResponseData<ConfigureBean>
-
-    /**
      * 搜索结果页
      * @param keyWord String
      * @param page Int

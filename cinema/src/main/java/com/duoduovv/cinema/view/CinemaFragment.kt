@@ -58,7 +58,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
                 .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
         }
         viewModel.getConfigure().observe(this, {
-            val result = viewModel.getConfigure().value?.data
+            val result = viewModel.getConfigure().value
             initConfig(result)
         })
         viewModel.getProgress().observe(this, {

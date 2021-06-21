@@ -13,12 +13,12 @@ import com.duoduovv.common.component.AlertDialogFragment
 import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
+import com.duoduovv.common.viewmodel.ConfigureViewModel
 import com.duoduovv.location.LocationHelper
 import com.duoduovv.main.R
 import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.duoduovv.main.databinding.ActivitySplashBinding
-import com.duoduovv.main.viewmodle.MainViewModel
 import com.permissionx.guolindev.PermissionX
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
@@ -36,10 +36,10 @@ import dc.android.tools.LiveDataBus
  * @date: 2021/1/22 11:48
  * @des:启动页 获取配置接口相关信息
  */
-class SplashActivity : BaseViewModelActivity<MainViewModel>(),
+class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
     PrivacyDialogFragment.OnDialogBtnClickListener {
     override fun getLayoutId() = R.layout.activity_splash
-    override fun providerVMClass() = MainViewModel::class.java
+    override fun providerVMClass() = ConfigureViewModel::class.java
     private lateinit var mBind: ActivitySplashBinding
     override fun showStatusBarView() = false
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
@@ -54,7 +54,7 @@ class SplashActivity : BaseViewModelActivity<MainViewModel>(),
 
     override fun initView() {
         mBind = ActivitySplashBinding.bind(layoutView)
-        viewModel.getConfigure().observe(this, { initConfig(viewModel.getConfigure().value?.data) })
+        viewModel.getConfigure().observe(this, { initConfig(viewModel.getConfigure().value) })
     }
 
     override fun initData() {

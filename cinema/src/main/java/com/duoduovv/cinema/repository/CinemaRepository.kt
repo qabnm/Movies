@@ -36,14 +36,6 @@ class CinemaRepository : CinemaApiRepository() {
     }
 
     /**
-     * 搜索结果分类
-     * @return BaseResponseData<SearchResultCategoryBean>
-     */
-    suspend fun searchResultCategory() = request {
-        apiService.searchResultCategory()
-    }
-
-    /**
      * 搜索结果
      * @param keyWord String
      * @param page Int

@@ -5,16 +5,12 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.cinema.repository.CinemaRepository
 import com.duoduovv.common.BaseApplication
-import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.InstallFileProvider
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
+import com.duoduovv.common.viewmodel.ConfigureViewModel
 import dc.android.bridge.net.BaseRepository
-import dc.android.bridge.net.BaseResponseData
-import dc.android.bridge.net.BaseViewModel
 import java.io.File
 
 /**
@@ -22,9 +18,7 @@ import java.io.File
  * @date: 2021/1/19 17:41
  * @des:
  */
-class CinemaViewModel : BaseViewModel() {
-    private var configure: MutableLiveData<BaseResponseData<ConfigureBean>> = MutableLiveData()
-    fun getConfigure() = configure
+class CinemaViewModel : ConfigureViewModel() {
     private val repository = CinemaRepository()
     private var totalSize: Long = 0
     private var filePath: String? = null
@@ -32,39 +26,6 @@ class CinemaViewModel : BaseViewModel() {
     fun getProgress() = downloadProgress
     private var installState: MutableLiveData<Intent> = MutableLiveData()
     fun getInstallState() = installState
-
-    /**
-     * 首页配置
-     * @return Job
-     */
-    fun configure() = request {
-        val result = repository.configure()
-        if (result.code == SUCCESS) {
-            val bean = result.data
-            AdvertBridge.AD_TYPE = bean.adType
-            val ttBean = bean.ttAd
-            val gdtBean = bean.gdtAd
-            if (AdvertBridge.TT_AD == bean.adType) {
-                //这是穿山甲的广告
-                AdvertBridge.SPLASH = ttBean?.splash ?: ""
-                AdvertBridge.LOGOUT = ttBean?.logout ?: ""
-                AdvertBridge.MAIN_PAGE_BANNER = ttBean?.mainPageBanner ?: ""
-                AdvertBridge.SEARCH = ttBean?.search ?: ""
-                AdvertBridge.MOVIE_DETAIL_BANNER = ttBean?.movieDetailBanner ?: ""
-                AdvertBridge.CENTER_TOP = ttBean?.centerTop ?: ""
-                AdvertBridge.VIDEO_AD = ttBean?.videoAd ?:""
-            } else {
-                //这是广点通的广告
-                AdvertBridge.SPLASH = gdtBean?.splash ?: ""
-                AdvertBridge.LOGOUT = gdtBean?.logout ?: ""
-                AdvertBridge.MAIN_PAGE_BANNER = gdtBean?.mainPageBanner ?: ""
-                AdvertBridge.SEARCH = gdtBean?.search ?: ""
-                AdvertBridge.MOVIE_DETAIL_BANNER = gdtBean?.movieDetailBanner ?: ""
-                AdvertBridge.CENTER_TOP = gdtBean?.centerTop ?: ""
-            }
-            configure.postValue(result)
-        }
-    }
 
     /**
      * apk下载

@@ -1,11 +1,11 @@
-package com.duoduovv.main.repository
+package com.duoduovv.common.viewmodel
 
 /**
  * @author: jun.liu
- * @date: 2021/5/28 18:25
+ * @date: 2021/6/21 9:42
  * @des:
  */
-class MainRepository :MainApiRepository() {
+class PubRepository: PubApiRepository() {
     /**
      * 首页配置信息
      * @return BaseResponseData<ConfigureBean>

@@ -29,12 +29,6 @@ class MovieRepository : MovieApiRepository() {
     }
 
     /**
-     * 电影榜单排名分类
-     * @return BaseResponseData<MovieRankCategoryBean>
-     */
-    suspend fun movieRankCategory() = request { apiService.movieRankCategory() }
-
-    /**
      * 榜单列表
      * @param column String
      * @return BaseResponseData<MovieRankBean>
