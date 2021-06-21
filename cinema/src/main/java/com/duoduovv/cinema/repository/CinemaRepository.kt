@@ -11,14 +11,6 @@ import kotlinx.coroutines.withContext
 class CinemaRepository : CinemaApiRepository() {
 
     /**
-     * 首页配置信息
-     * @return BaseResponseData<ConfigureBean>
-     */
-    suspend fun configure() = request {
-        apiService.configure()
-    }
-
-    /**
      * 首页推荐
      * @param page Int
      * @return BaseResponseData<MainRecommendBean>

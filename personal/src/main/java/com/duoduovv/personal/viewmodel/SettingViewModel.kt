@@ -6,13 +6,11 @@ import android.os.Build
 import android.os.Environment
 import androidx.lifecycle.MutableLiveData
 import com.duoduovv.common.BaseApplication
-import com.duoduovv.common.domain.Version
 import com.duoduovv.common.util.FileUtils
 import com.duoduovv.common.util.InstallFileProvider
+import com.duoduovv.common.viewmodel.ConfigureViewModel
 import com.duoduovv.personal.repository.PersonRepository
-import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.net.BaseRepository
-import dc.android.bridge.net.BaseViewModel
 import java.io.File
 
 /**
@@ -20,9 +18,7 @@ import java.io.File
  * @date: 2021/3/22 18:30
  * @des:設置
  */
-class SettingViewModel :BaseViewModel() {
-    private var upgrade:MutableLiveData<Version> = MutableLiveData()
-    fun getUpgrade() = upgrade
+class SettingViewModel :ConfigureViewModel() {
     private var totalSize: Long = 0
     private var filePath: String? = null
     private var downloadProgress: MutableLiveData<Int> = MutableLiveData()
@@ -30,15 +26,6 @@ class SettingViewModel :BaseViewModel() {
     private var installState: MutableLiveData<Intent> = MutableLiveData()
     fun getInstallState() = installState
     private val repository = PersonRepository()
-
-    /**
-     * 檢查升級
-     * @return Job
-     */
-    fun upgrade() = request {
-        val result = repository.upgrade()
-        if (result.code == SUCCESS) upgrade.postValue(result.data.version)
-    }
 
     /**
      * apk下载

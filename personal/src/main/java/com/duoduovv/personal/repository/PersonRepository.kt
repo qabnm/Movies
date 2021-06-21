@@ -86,14 +86,6 @@ class PersonRepository : PersonApiRepository() {
     }
 
     /**
-     * 檢查升級
-     * @return BaseResponseData<UpgradeBean>
-     */
-    suspend fun upgrade() = request {
-        apiService.upgrade()
-    }
-
-    /**
      * apk升级下载
      * @param url String
      * @return ResponseBody

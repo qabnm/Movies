@@ -40,7 +40,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
     override fun initView() {
         mBind = ActivityAboutUsBinding.bind(layoutView)
         mBind.layoutCheck.setOnClickListener { checkUpgrade() }
-        viewModel.getUpgrade().observe(this, { onCheckSuccess(viewModel.getUpgrade().value) })
+        viewModel.getConfigure().observe(this, { onCheckSuccess(viewModel.getConfigure().value?.version) })
         viewModel.getProgress().observe(this, {
             val progress = viewModel.getProgress().value
             upgradeDialogFragment?.onProgressUpdate(progress ?: 0)
@@ -158,7 +158,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
         BaseApplication.configBean?.let {
             onCheckSuccess(it.version)
         } ?: also {
-            viewModel.upgrade()
+            viewModel.configure()
         }
         mBind.tvVersion.text = "v${OsUtils.getVerName(BaseApplication.baseCtx)}"
     }

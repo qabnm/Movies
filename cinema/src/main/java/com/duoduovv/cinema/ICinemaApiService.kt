@@ -1,7 +1,8 @@
 package com.duoduovv.cinema
 
-import com.duoduovv.cinema.bean.*
-import com.duoduovv.common.domain.ConfigureBean
+import com.duoduovv.cinema.bean.MainPageBean
+import com.duoduovv.cinema.bean.MainRecommendBean
+import com.duoduovv.cinema.bean.SearchResultBean
 import dc.android.bridge.net.BaseResponseData
 import okhttp3.ResponseBody
 import retrofit2.http.GET
@@ -15,12 +16,6 @@ import retrofit2.http.Url
  * @des:
  */
 interface ICinemaApiService {
-
-    /**
-     * 获取配置信息
-     */
-    @GET("api/config")
-    suspend fun configure(): BaseResponseData<ConfigureBean>
 
     /**
      * 首页
