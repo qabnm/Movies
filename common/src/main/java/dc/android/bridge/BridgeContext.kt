@@ -40,15 +40,14 @@ open class BridgeContext {
 
         //以下是广告相关的
         /**
-         * 穿山甲开屏广告媒体ID
+         * 穿山甲广告
          */
-        const val TT_AD_SPLASH_ID = "887474167"
+        const val TYPE_TT_AD = 1
 
         /**
-         * 广点通开屏广告ID
+         * 广点通广告
          */
-        const val GDT_AD_SPLASH_ID = "9031281782757191"
-
+        const val TYPE_GDT_AD = 2
 
         const val BASE_URL = "https://www.duoduovv.cn/"
 

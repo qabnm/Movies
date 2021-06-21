@@ -6,7 +6,6 @@ import com.bytedance.sdk.openadsdk.TTAdConfig
 import com.bytedance.sdk.openadsdk.TTAdConstant
 import com.bytedance.sdk.openadsdk.TTAdSdk
 import com.qq.e.comm.managers.GDTADManager
-import com.qq.e.comm.managers.setting.GlobalSetting
 
 /**
  * @author: jun.liu
@@ -21,43 +20,6 @@ class AdvertBridge {
         //腾讯广点通的appId
         private const val gdtAppId = "1111833726"
         private const val appName = "多多影视大全"
-        const val TT_AD = "ttAd"
-
-        /**
-         * 广告类型 穿山甲 广点通
-         */
-        var AD_TYPE = ""
-
-        /**
-         * 开屏广告位
-         */
-        var SPLASH=""
-
-        /**
-         * 首页banner
-         */
-        var MAIN_PAGE_BANNER = ""
-
-        /**
-         * 退出广告位
-         */
-        var LOGOUT = ""
-
-        /**
-         * 搜索广告位
-         */
-        var SEARCH = ""
-
-        /**
-         * 影视详情banner
-         */
-        var MOVIE_DETAIL_BANNER = ""
-
-        var CENTER_TOP = ""
-
-        var VIDEO_AD = ""
-
-
         /**
          * 初始化穿山甲SDK
          * 调整说明：穿山甲在3450版本对SDK的初始化方法进行了较大的改动，支持了同步初始化和异步初始化两种方式，

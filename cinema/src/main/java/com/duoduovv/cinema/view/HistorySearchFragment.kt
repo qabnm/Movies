@@ -4,23 +4,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.recyclerview.widget.GridLayoutManager
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTBannerAd
-import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTBannerAd
-import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.CinemaContext
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.HotSearchAdapter
 import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.databinding.FragmentHistorySearchBinding
 import com.duoduovv.cinema.listener.IHistoryClickCallback
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.FlowLayout
 import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.util.OsUtils
-import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseFragment
 
 /**
@@ -64,11 +62,12 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         hotList = arguments?.getStringArrayList(BridgeContext.LIST)
         hotSearchAdapter?.setList(hotList)
         setSearchHistory()
-        if (!StringUtils.isEmpty(AdvertBridge.MOVIE_DETAIL_BANNER)) {
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
-                initTTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
-            } else {
-                initGDTAd(AdvertBridge.MOVIE_DETAIL_BANNER)
+        BaseApplication.configBean?.let { it ->
+            it.ad?.let {
+                when(it.movieDetailBanner?.type){
+                    TYPE_TT_AD->{ initTTAd(it.movieDetailBanner!!.value) }
+                    TYPE_GDT_AD ->{ initGDTAd(it.movieDetailBanner!!.value) }
+                }
             }
         }
     }

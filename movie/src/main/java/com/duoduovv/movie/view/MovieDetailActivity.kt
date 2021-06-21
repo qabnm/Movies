@@ -6,20 +6,16 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.res.Configuration
-import android.content.res.Resources
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
 import android.os.Message
 import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
-import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
@@ -176,12 +172,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (null == videoAd) videoAd = GDTVideoAdForSelfRender()
         videoAd?.initVideoAd(
             this,
-            AdvertBridge.VIDEO_AD,
+            BaseApplication.configBean!!.ad!!.videoAd!!.value,
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).adImgCover,
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView,
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd
         )
     }
+
+    private fun isAdNotEmpty() = BaseApplication.configBean?.ad?.videoAd!=null
 
     override fun onJxError() {
         onPlayError()
@@ -359,7 +357,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
-        if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
+        if (isAdNotEmpty()) {
             //视频时长的监听
             LiveDataBus.get().with("videoLength", Int::class.java).observe(this, {
                 //渲染成功了
@@ -456,9 +454,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (way == WAY_H5 || way == WAY_VERIFY) pauseAdLoading()
         title = detailBean.movie.vodName
         line = detailBean.playLine
-        if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
-            initGDTVideoAd()
-        }
+        if (isAdNotEmpty()) initGDTVideoAd()
         queryMovieById(movieId)
     }
 
@@ -493,7 +489,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             )
             fragment?.bindDetail(detailBean!!)
             detailAdapter?.setList(detailBean!!.recommends)
-            if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) loadPlayUrl()
+            if (!isAdNotEmpty()) loadPlayUrl()
             val list = detailBean!!.movieItems
             if (list.isNotEmpty()) {
                 if (!hasClickRecommend) {
@@ -715,11 +711,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         mBind.videoPlayer.currentPlayer.release()
         fragment?.updateAd()
         if (way == WAY_RELEASE) playAdLoading()
-        if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
+        if (isAdNotEmpty()) initGDTVideoAd()
         //只有正常班的才会去请求接口
-        if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
-            viewModel.moviePlayInfo(vid, movieId, line, "", 1)
-        }
+        if (!isAdNotEmpty()) viewModel.moviePlayInfo(vid, movieId, line, "", 1)
     }
 
     private var hasClickRecommend = false
@@ -813,8 +807,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     vid = movieItems[currentPlayPosition].vid
                     vidTitle = movieItems[currentPlayPosition].title
                     //播放广告
-                    if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) initGDTVideoAd()
-                    if (StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
+                    if (isAdNotEmpty()) initGDTVideoAd()
+                    if (!isAdNotEmpty()) {
                         viewModel.moviePlayInfo(vid, movieId, line, "", 1)
                     }
                     //更新选集显示
@@ -847,7 +841,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 setStatusBarVisible(View.VISIBLE)
             }
         }
-        if (!StringUtils.isEmpty(AdvertBridge.VIDEO_AD)) {
+        if (isAdNotEmpty()) {
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.setOnClickListener {
                 if (skipLength == 0) {
                     timerTask.cancel()

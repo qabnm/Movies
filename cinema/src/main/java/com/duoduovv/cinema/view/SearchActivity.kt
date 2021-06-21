@@ -7,20 +7,20 @@ import android.text.TextWatcher
 import android.view.KeyEvent
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.component.HistoryUtil
 import com.duoduovv.cinema.databinding.ActivitySearchBinding
 import com.duoduovv.cinema.listener.IHistoryClickCallback
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
-import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BridgeActivity
-import dc.android.tools.LiveDataBus
 
 
 /**
@@ -61,16 +61,12 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     }
 
     override fun initData() {
-        if (!StringUtils.isEmpty(AdvertBridge.SEARCH)) {
-//            LiveDataBus.get().with("render", String::class.java).observe(this, {
-//                if (it == "render") {
-//                    mBind.rlTop.setBackgroundResource(R.color.colorFFFFFF)
-//                }
-//            })
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
-                initTTAd(AdvertBridge.SEARCH)
-            } else {
-                initGDTAd(AdvertBridge.SEARCH)
+        BaseApplication.configBean?.let { it ->
+            it.ad?.let {
+                when(it.search?.type){
+                    TYPE_TT_AD->{ initTTAd(it.search!!.value) }
+                    TYPE_GDT_AD ->{ initGDTAd(it.search!!.value) }
+                }
             }
         }
     }

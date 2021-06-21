@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTSplashAd
 import com.duoduovv.advert.ttad.TTSplashAds
 import com.duoduovv.common.BaseApplication
@@ -24,6 +23,8 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
 import dc.android.bridge.BridgeContext.Companion.DATA
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
@@ -94,26 +95,19 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
         LiveDataBus.get().with("start", String::class.java).observe(this, {
             if ("start" == it) start()
         })
-        configureBean?.let {
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
-                if (!StringUtils.isEmpty(AdvertBridge.SPLASH)) {
-                    //穿山甲开屏广告
-                    TTSplashAds().initTTSplashAd(this, AdvertBridge.SPLASH, 4000, mBind.adContainer)
-                } else {
-                    start()
+        configureBean?.let { it ->
+            it.ad?.let {
+                when(it.splash?.type){
+                    TYPE_TT_AD->{ TTSplashAds().initTTSplashAd(this, it.splash!!.value, 4000, mBind.adContainer) }
+                    TYPE_GDT_AD->{ initGDTSplash(it.splash!!.value) }
+                    else -> start()
                 }
-            } else {
-                if (!StringUtils.isEmpty(AdvertBridge.SPLASH)) {
-                    //广点通的广告
-                    initGDTSplash(AdvertBridge.SPLASH)
-                } else {
-                    start()
-                }
+            }?:run {
+                start()
             }
         } ?: run {
             //默认用广点通的开屏广告
             start()
-//            initGDTSplash("9031281782757191")
         }
     }
 

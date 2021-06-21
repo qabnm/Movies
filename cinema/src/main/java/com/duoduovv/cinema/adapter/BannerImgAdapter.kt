@@ -5,13 +5,15 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.databinding.BannerAdContainerBinding
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
+import com.duoduovv.common.BaseApplication
 import com.youth.banner.adapter.BannerAdapter
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.OsUtils
 
@@ -54,16 +56,17 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
     ) {
         when (holder.itemViewType) {
             typeAd -> {
-                if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
-                    initTTAd(
-                        (holder as AdViewHolder).adBinder.bannerAdContainer,
-                        AdvertBridge.MAIN_PAGE_BANNER
-                    )
-                } else {
-                    initGDTAd(
-                        (holder as AdViewHolder).adBinder.bannerAdContainer,
-                        AdvertBridge.MAIN_PAGE_BANNER
-                    )
+                BaseApplication.configBean?.let { it ->
+                    it.ad?.let {
+                        when(it.mainPageBanner?.type){
+                            TYPE_TT_AD->{
+                                initTTAd((holder as AdViewHolder).adBinder.bannerAdContainer, it.mainPageBanner!!.value)
+                            }
+                            TYPE_GDT_AD->{
+                                initGDTAd((holder as AdViewHolder).adBinder.bannerAdContainer, it.mainPageBanner!!.value)
+                            }
+                        }
+                    }
                 }
             }
             else -> {

@@ -11,7 +11,6 @@ import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
@@ -39,6 +38,8 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatUserInfoUrl
 import com.duoduovv.weichat.WeiChatTool
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.BridgeContext.Companion.TOKEN
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.BridgeContext.Companion.WAY
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.AndroidUtils
@@ -149,11 +150,12 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     }
 
     private fun initAD(){
-        if (!StringUtils.isEmpty(AdvertBridge.CENTER_TOP)) {
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE) {
-                initTTAd(AdvertBridge.CENTER_TOP)
-            } else {
-                initGDTAd(AdvertBridge.CENTER_TOP)
+        BaseApplication.configBean?.let { it ->
+            it.ad?.let {
+                when(it.centerTop?.type){
+                    TYPE_TT_AD ->{ initTTAd(it.centerTop!!.value) }
+                    TYPE_GDT_AD ->{ initGDTAd(it.centerTop!!.value) }
+                }
             }
         }
     }

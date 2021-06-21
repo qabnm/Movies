@@ -6,14 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.advert.gdtad.GDTInfoAd
 import com.duoduovv.advert.ttad.TTInfoAd
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.R
 import com.duoduovv.main.databinding.DialogLogoutBinding
-import dc.android.bridge.BridgeContext
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.util.OsUtils
-import dc.android.bridge.util.StringUtils
 
 /**
  * @author: jun.liu
@@ -46,11 +46,12 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
             ttInfoAd?.destroyInfoAd()
             listener?.onLogSureClick()
         }
-        if (!StringUtils.isEmpty(AdvertBridge.LOGOUT)){
-            if (AdvertBridge.TT_AD == AdvertBridge.AD_TYPE){
-                initTTAd(AdvertBridge.LOGOUT)
-            }else{
-                initGDTAd(AdvertBridge.LOGOUT)
+        BaseApplication.configBean?.let { it ->
+            it.ad?.let {
+                when(it.logout?.type){
+                    TYPE_TT_AD ->{ initTTAd(it.logout!!.value) }
+                    TYPE_GDT_AD -> { initGDTAd(it.logout!!.value) }
+                }
             }
         }
     }
