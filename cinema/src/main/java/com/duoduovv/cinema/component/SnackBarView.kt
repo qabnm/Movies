@@ -43,21 +43,21 @@ class SnackBarView {
                 val historyBean = list[0]
                 val content: String = when (historyBean.type) {
                     TYPE_TV, TYPE_TV0 -> {
-                        "上次看到：${historyBean.title}第${historyBean.vidTitle}集${
+                        "上次看到：${historyBean.title}第${historyBean.vidTitle}集 ${
                             StringUtils.getDifferTime(
                                 historyBean.currentLength
                             )
                         }"
                     }
                     TYPE_ALBUM -> {
-                        "上次看到：${historyBean.title}第${historyBean.vidTitle}${
+                        "上次看到：${historyBean.title}第${historyBean.vidTitle} ${
                             StringUtils.getDifferTime(
                                 historyBean.currentLength
                             )
                         }"
                     }
                     else -> {
-                        "上次看到：${historyBean.title}${StringUtils.getDifferTime(historyBean.currentLength)}"
+                        "上次看到：${historyBean.title} ${StringUtils.getDifferTime(historyBean.currentLength)}"
                     }
                 }
 
