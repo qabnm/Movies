@@ -31,7 +31,7 @@ class SnackBarView {
     private var listener: OnSnackClickListener? = null
 
     /**
-     * 弹出snackbar
+     * 弹出snackBar
      * @param view View
      * @param context Context
      */
