@@ -149,17 +149,16 @@ class MovieDetailFragment : BaseFragment() {
         updateAd()
     }
 
+    /**
+     * 加载广告
+     */
     fun updateAd(){
         //加载广告
-        BaseApplication.configBean?.let { it ->
-            it.ad?.let {
-                when(it.movieDetailBanner?.type){
-                    TYPE_TT_AD->{ initTTAd(it.movieDetailBanner!!.value) }
-                    TYPE_GDT_AD ->{ initGDTAd(it.movieDetailBanner!!.value) }
-                    else ->{ mBind.adContainer.visibility = View.GONE }
-                }
-            }?:also {
-                mBind.adContainer.visibility = View.GONE
+        BaseApplication.configBean?.ad?.movieDetailBanner?.let {
+            when(it.type){
+                TYPE_TT_AD->{ initTTAd(it.value) }
+                TYPE_GDT_AD ->{ initGDTAd(it.value) }
+                else ->{ mBind.adContainer.visibility = View.GONE }
             }
         }?:also {
             mBind.adContainer.visibility = View.GONE

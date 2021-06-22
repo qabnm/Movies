@@ -62,12 +62,10 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         hotList = arguments?.getStringArrayList(BridgeContext.LIST)
         hotSearchAdapter?.setList(hotList)
         setSearchHistory()
-        BaseApplication.configBean?.let { it ->
-            it.ad?.let {
-                when(it.searchBanner?.type){
-                    TYPE_TT_AD->{ initTTAd(it.searchBanner!!.value) }
-                    TYPE_GDT_AD ->{ initGDTAd(it.searchBanner!!.value) }
-                }
+        BaseApplication.configBean?.ad?.searchBanner?.let {
+            when(it.type){
+                TYPE_TT_AD->{ initTTAd(it.value) }
+                TYPE_GDT_AD ->{ initGDTAd(it.value) }
             }
         }
     }

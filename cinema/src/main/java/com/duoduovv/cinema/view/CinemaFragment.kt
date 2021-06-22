@@ -100,7 +100,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             //展示插屏广告
             val currentDay = SharedPreferencesHelper.helper.getValue("currentTime","")
             if (currentDay != StringUtils.getCurrentDay()){
-                it.ad?.let { initInsertAd(it.insertAd) }
+                it.ad?.insertAd?.let { initInsertAd(it) }
             }
         }
     }
@@ -109,9 +109,9 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      * 插屏广告
      * @param ad AdValue?
      */
-    private fun initInsertAd(ad: AdValue?) {
+    private fun initInsertAd(ad: AdValue) {
         SharedPreferencesHelper.helper.setValue("currentTime",StringUtils.getCurrentDay())
-        when (ad?.type) {
+        when (ad.type) {
             TYPE_TT_AD -> {
                 val ttAd = TTInsertAd()
                 ttAd.initInsertAd(requireActivity(),ad.value,300f,450f)

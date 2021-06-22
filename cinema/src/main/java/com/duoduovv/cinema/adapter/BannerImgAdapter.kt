@@ -60,25 +60,23 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
     ) {
         when (holder.itemViewType) {
             typeAd -> {
-                BaseApplication.configBean?.let { it ->
-                    it.ad?.let {
-                        when (it.mainPageBanner?.type) {
-                            TYPE_TT_AD -> {
-                                (holder as AdViewHolder).adBinder.layoutTTAd.visibility =
-                                    View.VISIBLE
-                                holder.adBinder.layoutGdt.visibility = View.GONE
-                                initTTAd(holder.adBinder.layoutTTAd, it.mainPageBanner!!.value)
-                            }
-                            TYPE_GDT_AD -> {
-                                (holder as AdViewHolder).adBinder.layoutTTAd.visibility = View.GONE
-                                holder.adBinder.layoutGdt.visibility = View.VISIBLE
-                                initGDTAd(
-                                    holder.adBinder.adImgCover,
-                                    holder.adBinder.mediaView,
-                                    holder.adBinder.layoutGdt,
-                                    it.mainPageBanner!!.value
-                                )
-                            }
+                BaseApplication.configBean?.ad?.mainPageBanner?.let {
+                    when (it.type) {
+                        TYPE_TT_AD -> {
+                            (holder as AdViewHolder).adBinder.layoutTTAd.visibility =
+                                View.VISIBLE
+                            holder.adBinder.layoutGdt.visibility = View.GONE
+                            initTTAd(holder.adBinder.layoutTTAd, it.value)
+                        }
+                        TYPE_GDT_AD -> {
+                            (holder as AdViewHolder).adBinder.layoutTTAd.visibility = View.GONE
+                            holder.adBinder.layoutGdt.visibility = View.VISIBLE
+                            initGDTAd(
+                                holder.adBinder.adImgCover,
+                                holder.adBinder.mediaView,
+                                holder.adBinder.layoutGdt,
+                                it.value
+                            )
                         }
                     }
                 }

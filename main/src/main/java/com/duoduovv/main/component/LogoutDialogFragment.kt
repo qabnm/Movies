@@ -46,15 +46,13 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
             ttInfoAd?.destroyInfoAd()
             listener?.onLogSureClick()
         }
-        BaseApplication.configBean?.let { it ->
-            it.ad?.let {
-                when(it.logout?.type){
-                    TYPE_TT_AD ->{ initTTAd(it.logout!!.value) }
-                    TYPE_GDT_AD -> {
-                        mBind.layoutTTAd.visibility = View.GONE
-                        mBind.layoutGdt.visibility = View.VISIBLE
-                        initGDTAd(it.logout!!.value)
-                    }
+        BaseApplication.configBean?.ad?.logout?.let {
+            when(it.type){
+                TYPE_TT_AD ->{ initTTAd(it.value) }
+                TYPE_GDT_AD -> {
+                    mBind.layoutTTAd.visibility = View.GONE
+                    mBind.layoutGdt.visibility = View.VISIBLE
+                    initGDTAd(it.value)
                 }
             }
         }

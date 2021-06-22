@@ -95,18 +95,13 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
         LiveDataBus.get().with("start", String::class.java).observe(this, {
             if ("start" == it) start()
         })
-        configureBean?.let { it ->
-            it.ad?.let {
-                when(it.splash?.type){
-                    TYPE_TT_AD->{ TTSplashAds().initTTSplashAd(this, it.splash!!.value, 4000, mBind.adContainer) }
-                    TYPE_GDT_AD->{ initGDTSplash(it.splash!!.value) }
-                    else -> start()
-                }
-            }?:run {
-                start()
+        configureBean?.ad?.splash?.let {
+            when(it.type){
+                TYPE_TT_AD->{ TTSplashAds().initTTSplashAd(this, it.value, 4000, mBind.adContainer) }
+                TYPE_GDT_AD->{ initGDTSplash(it.value) }
+                else -> start()
             }
-        } ?: run {
-            //默认用广点通的开屏广告
+        }?:run {
             start()
         }
     }

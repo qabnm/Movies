@@ -160,17 +160,15 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     }
 
     private fun initAD(){
-        BaseApplication.configBean?.let { it ->
-            it.ad?.let {
-                when(it.centerTop?.type){
-                    TYPE_TT_AD ->{
-                        initTTAd(it.centerTop!!.value)
-                    }
-                    TYPE_GDT_AD ->{
-                        mBind.layoutTTAd.visibility = View.GONE
-                        mBind.layoutGdt.visibility = View.VISIBLE
-                        initGDTAd(it.centerTop!!.value)
-                    }
+        BaseApplication.configBean?.ad?.centerTop?.let {
+            when(it.type){
+                TYPE_TT_AD ->{
+                    initTTAd(it.value)
+                }
+                TYPE_GDT_AD ->{
+                    mBind.layoutTTAd.visibility = View.GONE
+                    mBind.layoutGdt.visibility = View.VISIBLE
+                    initGDTAd(it.value)
                 }
             }
         }

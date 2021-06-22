@@ -64,15 +64,13 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     }
 
     override fun initData() {
-        BaseApplication.configBean?.let { it ->
-            it.ad?.let {
-                when(it.search?.type){
-                    TYPE_TT_AD->{ initTTAd(it.search!!.value) }
-                    TYPE_GDT_AD ->{
-                        mBind.ttContainer.visibility = View.GONE
-                        mBind.layoutGdt.visibility = View.VISIBLE
-                        initGDTAd(it.search!!.value)
-                    }
+        BaseApplication.configBean?.ad?.search?.let {
+            when(it.type){
+                TYPE_TT_AD->{ initTTAd(it.value) }
+                TYPE_GDT_AD ->{
+                    mBind.ttContainer.visibility = View.GONE
+                    mBind.layoutGdt.visibility = View.VISIBLE
+                    initGDTAd(it.value)
                 }
             }
         }
