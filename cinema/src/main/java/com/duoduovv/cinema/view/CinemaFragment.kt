@@ -31,6 +31,7 @@ import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.OsUtils
+import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelFragment
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -97,7 +98,10 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             this.bean = it.version
             checkUpdate(it.version)
             //展示插屏广告
-            it.ad?.let { initInsertAd(it.insertAd) }
+            val currentDay = SharedPreferencesHelper.helper.getValue("currentTime","")
+            if (currentDay != StringUtils.getCurrentDay()){
+                it.ad?.let { initInsertAd(it.insertAd) }
+            }
         }
     }
 
@@ -106,6 +110,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      * @param ad AdValue?
      */
     private fun initInsertAd(ad: AdValue?) {
+        SharedPreferencesHelper.helper.setValue("currentTime",StringUtils.getCurrentDay())
         when (ad?.type) {
             TYPE_TT_AD -> {
                 val ttAd = TTInsertAd()

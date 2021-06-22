@@ -5,6 +5,9 @@ import android.util.Base64;
 import androidx.exifinterface.media.ExifInterface;
 
 import java.io.UnsupportedEncodingException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 /**
  * 字符串相关工具类
@@ -164,6 +167,11 @@ public class StringUtils {
     public static String lowerFirstLetter(String s) {
         if (isEmpty(s) || !Character.isUpperCase(s.charAt(0))) return s;
         return String.valueOf((char) (s.charAt(0) + 32)) + s.substring(1);
+    }
+
+    public static String getCurrentDay(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd", Locale.CHINESE);
+        return sdf.format(new Date(System.currentTimeMillis()));
     }
 
     /**
