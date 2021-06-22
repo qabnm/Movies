@@ -7,11 +7,22 @@
     app:srlEnableFooterFollowWhenLoadFinished="true"
     app:srlEnableLoadMoreWhenContentNotFull="false">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvList"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="@dimen/dp_10"
-        android:paddingEnd="@dimen/dp_5"
-        android:scrollbars="none" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingStart="@dimen/dp_10"
+            android:paddingEnd="@dimen/dp_5"
+            android:scrollbars="none" />
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom" />
+    </FrameLayout>
 </com.scwang.smart.refresh.layout.SmartRefreshLayout>

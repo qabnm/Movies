@@ -24,13 +24,13 @@ class GlideUtils {
             Glide.with(context).load(glideUrl).into(imageView)
         }
 
-        fun setMovieImg(context: Context, url: String, imageView: ImageView) {
+        fun setMovieImg(context: Context, url: String, imageView: ImageView,df:Int = R.drawable.movie_default) {
             if (StringUtils.isEmpty(url)) return
             val glideUrl = GlideUrl(url, LazyHeaders.Builder().addHeader("User-Agent",
                 WebSettings.getDefaultUserAgent(BaseApplication.baseCtx)).build())
             RequestOptions().apply {
-                placeholder(R.drawable.movie_default)
-                error(R.drawable.movie_default)
+                placeholder(df)
+                error(df)
                 Glide.with(context).load(glideUrl).apply(this).into(imageView)
             }
         }

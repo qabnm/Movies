@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
+import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.databinding.BannerAdContainerBinding
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
@@ -82,10 +83,12 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
                 }
             }
             else -> {
-                GlideUtils.setImg(
+
+                GlideUtils.setMovieImg(
                     context = context,
                     url = data?.img ?: "",
-                    imageView = (holder as BannerViewHolder).bannerBind.imgBanner
+                    imageView = (holder as BannerViewHolder).bannerBind.imgBanner,
+                    R.drawable.banner_df
                 )
                 holder.bannerBind.tvTitle.text = data?.title
             }
