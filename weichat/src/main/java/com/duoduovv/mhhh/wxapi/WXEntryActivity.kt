@@ -9,6 +9,7 @@ import com.duoduovv.weichat.WeiChatTool
 import com.tencent.mm.opensdk.constants.ConstantsAPI
 import com.tencent.mm.opensdk.modelbase.BaseReq
 import com.tencent.mm.opensdk.modelbase.BaseResp
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler
 import dc.android.tools.LiveDataBus
@@ -38,6 +39,12 @@ class WXEntryActivity : AppCompatActivity(), IWXAPIEventHandler {
      */
     override fun onResp(resp: BaseResp) {
         Log.d("weiChat","${resp.errCode}")
+//        Log.d("weiChat","${resp.type}")
+//        if (resp.type == ConstantsAPI.COMMAND_LAUNCH_WX_MINIPROGRAM){
+//            val extraData = (resp as WXLaunchMiniProgram.Resp).extMsg
+//            Log.d("weiChat","$extraData")
+//            LiveDataBus.get().with("extraData").value = extraData
+//        }
         var result = ""
         when (resp.errCode) {
             BaseResp.ErrCode.ERR_OK -> {

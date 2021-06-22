@@ -88,6 +88,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             //问题反馈
             FeedbackAPI.openFeedbackActivity()
         }
+
         mBind.layoutSetting.setOnClickListener {
             ARouter.getInstance().build(PATH_SETTING_ACTIVITY).navigation()
         }
@@ -107,6 +108,13 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             }
         })
         width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat()
+
+//        //以下是小程序测试
+//        LiveDataBus.get().with("extraData",String::class.java).observe(this,{
+//            if (it == "appCallBack"){
+//                ARouter.getInstance().build(RouterPath.PATH_ABOUT_US).navigation()
+//            }
+//        })
     }
     private var isHide = true
     override fun onHiddenChanged(hidden: Boolean) {

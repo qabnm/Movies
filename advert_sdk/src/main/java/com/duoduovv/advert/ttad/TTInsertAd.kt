@@ -22,8 +22,7 @@ class TTInsertAd {
         activity: Activity,
         posId: String,
         width: Float,
-        height: Float,
-        container: ViewGroup
+        height: Float
     ) {
         //创建TTAdNative对象
         val mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
@@ -48,7 +47,9 @@ class TTInsertAd {
 
                         override fun onAdShow(p0: View?, p1: Int) {}
 
-                        override fun onRenderFail(p0: View?, p1: String?, p2: Int) {}
+                        override fun onRenderFail(p0: View?, p1: String?, p2: Int) {
+                            onDismiss()
+                        }
 
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
                             view?.let {
@@ -62,6 +63,10 @@ class TTInsertAd {
                 }
             }
         })
+    }
+
+    private fun onDismiss(){
+        LiveDataBus.get().with("dismiss").value = "dismiss"
     }
 
     fun onDestroy(){

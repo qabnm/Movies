@@ -31,7 +31,7 @@ class LoadingDialogFragment : DialogFragment() {
     private fun initWindow() {
         val window = dialog?.window
         window?.let {
-            it.attributes.width = OsUtils.dip2px(requireContext(), 80f)
+            it.attributes.width = OsUtils.dip2px(requireContext(), 60f)
             it.attributes.gravity = Gravity.CENTER
             it.setDimAmount(0.0f)
             it.setBackgroundDrawableResource(android.R.color.transparent)

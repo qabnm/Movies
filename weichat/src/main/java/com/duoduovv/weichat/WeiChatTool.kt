@@ -12,6 +12,7 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.qqAppId
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatAppId
 import com.tencent.connect.share.QQShare
 import com.tencent.connect.share.QQShare.SHARE_TO_QQ_TYPE_DEFAULT
+import com.tencent.mm.opensdk.modelbiz.WXLaunchMiniProgram
 import com.tencent.mm.opensdk.modelmsg.SendAuth
 import com.tencent.mm.opensdk.modelmsg.SendMessageToWX
 import com.tencent.mm.opensdk.modelmsg.WXMediaMessage
@@ -161,5 +162,16 @@ class WeiChatTool {
                 )
             }
         }
+
+//        fun toxiao(context: Context){
+//            val api = WXAPIFactory.createWXAPI(context, weiChatAppId)
+//            val req = WXLaunchMiniProgram.Req()
+//            req.apply {
+//                userName = "gh_b5747801fc59"
+//                path = "pages/pay/index?order_sn=luge_202106162135571009753&source=app"
+//                miniprogramType = WXLaunchMiniProgram.Req.MINIPROGRAM_TYPE_PREVIEW
+//                api.sendReq(this)
+//            }
+//        }
     }
 }
