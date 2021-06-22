@@ -10,14 +10,32 @@
         android:id="@+id/rlTop"
         android:layout_width="match_parent"
         android:layout_height="0px"
-        app:layout_constraintDimensionRatio="375:211"
         android:background="@drawable/center_top_background"
+        app:layout_constraintDimensionRatio="375:211"
         app:layout_constraintTop_toTopOf="parent">
 
         <FrameLayout
-            android:id="@+id/container"
+            android:id="@+id/ttContainer"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <com.qq.e.ads.nativ.widget.NativeAdContainer
+            android:id="@+id/layoutGdt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <com.qq.e.ads.nativ.MediaView
+                android:id="@+id/mediaView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/adImgCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+        </com.qq.e.ads.nativ.widget.NativeAdContainer>
 
         <RelativeLayout
             android:id="@+id/layoutBack"

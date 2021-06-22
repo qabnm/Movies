@@ -5,9 +5,10 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.KeyEvent
+import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.component.HistoryUtil
@@ -36,8 +37,9 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     private var isSearchClick = false
     private var hotList: ArrayList<String>? = null
     private lateinit var mBind: ActivitySearchBinding
-    private var gdtInfoAd: GDTInfoAd? = null
+    private var gdtInfoAd: GDTInfoAdForSelfRender? = null
     private var ttInfoAd: TTInfoAd? = null
+    private var width = 0
 
     override fun initView() {
         mBind = ActivitySearchBinding.bind(layoutView)
@@ -58,6 +60,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
             }
             false
         }
+        width = OsUtils.px2dip(this,OsUtils.getScreenWidth(this).toFloat())
     }
 
     override fun initData() {
@@ -65,7 +68,11 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
             it.ad?.let {
                 when(it.search?.type){
                     TYPE_TT_AD->{ initTTAd(it.search!!.value) }
-                    TYPE_GDT_AD ->{ initGDTAd(it.search!!.value) }
+                    TYPE_GDT_AD ->{
+                        mBind.ttContainer.visibility = View.GONE
+                        mBind.layoutGdt.visibility = View.VISIBLE
+                        initGDTAd(it.search!!.value)
+                    }
                 }
             }
         }
@@ -76,28 +83,32 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      */
     private fun initTTAd(posId: String) {
         ttInfoAd = TTInfoAd()
-        val width = OsUtils.px2dip(this,OsUtils.getScreenWidth(this).toFloat())
-        ttInfoAd?.initTTInfoAd(this, posId, width.toFloat(), 0f, mBind.container)
+        ttInfoAd?.initTTInfoAd(this, posId, width.toFloat(), 0f, mBind.ttContainer)
     }
 
     /**
      * 请求广点通的信息流广告
      */
     private fun initGDTAd(posId: String) {
-        gdtInfoAd = GDTInfoAd()
+        gdtInfoAd = GDTInfoAdForSelfRender()
         gdtInfoAd?.initInfoAd(
             this,
             posId,
-            mBind.container,
-            390,
-            0
+            mBind.adImgCover,
+            mBind.mediaView,
+            mBind.layoutGdt
         )
+    }
+
+    override fun onResume() {
+        super.onResume()
+        gdtInfoAd?.onResume()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        gdtInfoAd?.destroyInfoAd()
-        gdtInfoAd?.destroyInfoAd()
+        ttInfoAd?.destroyInfoAd()
+        gdtInfoAd?.onDestroy()
     }
 
     /**

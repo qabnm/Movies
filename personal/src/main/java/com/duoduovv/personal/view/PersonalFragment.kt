@@ -11,7 +11,7 @@ import android.view.ViewGroup
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.alibaba.sdk.android.feedback.impl.FeedbackAPI
-import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
@@ -60,7 +60,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     override fun providerVMClass() = WeiChatViewModel::class.java
     private lateinit var mBind: FragmentPersonalBinding
     private var ttAd: TTInfoAd? = null
-    private var gdtAd: GDTInfoAd? = null
+    private var gdtAd: GDTInfoAdForSelfRender? = null
     private var width = 0f
 
     override fun initView() {
@@ -120,6 +120,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         super.onResume()
         Log.d("hidden","onResume")
         if (!isHide) initAD()
+        gdtAd?.onResume()
     }
 
     private fun setFeedbackUi() {
@@ -153,8 +154,14 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         BaseApplication.configBean?.let { it ->
             it.ad?.let {
                 when(it.centerTop?.type){
-                    TYPE_TT_AD ->{ initTTAd(it.centerTop!!.value) }
-                    TYPE_GDT_AD ->{ initGDTAd(it.centerTop!!.value) }
+                    TYPE_TT_AD ->{
+                        initTTAd(it.centerTop!!.value)
+                    }
+                    TYPE_GDT_AD ->{
+                        mBind.layoutTTAd.visibility = View.GONE
+                        mBind.layoutGdt.visibility = View.VISIBLE
+                        initGDTAd(it.centerTop!!.value)
+                    }
                 }
             }
         }
@@ -168,18 +175,22 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         if (null == ttAd ){
             ttAd = TTInfoAd()
         }else{ ttAd?.destroyInfoAd() }
-        ttAd?.initTTInfoAd(requireActivity(), posId, width, 0f, mBind.vTop)
+        ttAd?.initTTInfoAd(requireActivity(), posId, width, 0f, mBind.layoutTTAd)
     }
 
     private fun initGDTAd(posId: String) {
-        if (null == gdtAd) gdtAd = GDTInfoAd()
-        gdtAd?.initInfoAd(requireActivity(), posId, mBind.vTop, 390, 0)
+        if (null == gdtAd) {
+            gdtAd = GDTInfoAdForSelfRender()
+        }else{
+            gdtAd?.onDestroy()
+        }
+        gdtAd?.initInfoAd(requireActivity(), posId, mBind.adImgCover, mBind.mediaView, mBind.layoutGdt)
     }
 
     override fun onDestroy() {
         super.onDestroy()
         ttAd?.destroyInfoAd()
-        gdtAd?.destroyInfoAd()
+        gdtAd?.onDestroy()
     }
 
     /**

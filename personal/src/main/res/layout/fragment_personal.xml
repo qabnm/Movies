@@ -6,13 +6,40 @@
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFF">
 
-    <FrameLayout
-        android:id="@+id/vTop"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutAd"
         android:layout_width="match_parent"
-        android:layout_height="0px"
+        android:layout_height="wrap_content"
         android:background="@drawable/center_top_background"
-        app:layout_constraintDimensionRatio="375:211"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/layoutTTAd"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            app:layout_constraintDimensionRatio="375:211"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.qq.e.ads.nativ.widget.NativeAdContainer
+            android:id="@+id/layoutGdt"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:visibility="gone"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.qq.e.ads.nativ.MediaView
+                android:id="@+id/mediaView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/adImgCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+        </com.qq.e.ads.nativ.widget.NativeAdContainer>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <FrameLayout
         android:id="@+id/layoutContainer"
@@ -20,7 +47,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@+id/vTop">
+        app:layout_constraintTop_toBottomOf="@+id/layoutAd">
 
         <LinearLayout
             android:id="@+id/layoutTop"
@@ -112,8 +139,8 @@
                 android:id="@+id/vDivider"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_10"
-                android:visibility="gone"
-                android:background="@color/colorF2F2F2" />
+                android:background="@color/colorF2F2F2"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/layoutHistory"

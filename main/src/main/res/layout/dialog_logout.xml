@@ -27,20 +27,40 @@
         app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
 
     <FrameLayout
-        android:id="@+id/layoutContainer"
+        android:id="@+id/layoutAd"
         android:layout_width="match_parent"
-        android:layout_height="0px"
-        android:visibility="gone"
-        app:layout_constraintDimensionRatio="375:211"
-        android:layout_marginLeft="@dimen/dp_10"
-        android:layout_marginRight="@dimen/dp_10"
-        app:layout_constraintTop_toBottomOf="@+id/vLine" />
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/vLine">
+
+        <FrameLayout
+            android:id="@+id/layoutTTAd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <com.qq.e.ads.nativ.widget.NativeAdContainer
+            android:id="@+id/layoutGdt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+
+            <com.qq.e.ads.nativ.MediaView
+                android:id="@+id/mediaView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/adImgCover"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY" />
+        </com.qq.e.ads.nativ.widget.NativeAdContainer>
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_40"
         android:orientation="horizontal"
-        app:layout_constraintTop_toBottomOf="@+id/layoutContainer">
+        app:layout_constraintTop_toBottomOf="@+id/layoutAd">
 
         <TextView
             android:id="@+id/tvCancel"

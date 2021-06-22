@@ -64,9 +64,9 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         setSearchHistory()
         BaseApplication.configBean?.let { it ->
             it.ad?.let {
-                when(it.movieDetailBanner?.type){
-                    TYPE_TT_AD->{ initTTAd(it.movieDetailBanner!!.value) }
-                    TYPE_GDT_AD ->{ initGDTAd(it.movieDetailBanner!!.value) }
+                when(it.searchBanner?.type){
+                    TYPE_TT_AD->{ initTTAd(it.searchBanner!!.value) }
+                    TYPE_GDT_AD ->{ initGDTAd(it.searchBanner!!.value) }
                 }
             }
         }

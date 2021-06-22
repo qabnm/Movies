@@ -3,14 +3,18 @@ package com.duoduovv.cinema.adapter
 import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.databinding.BannerAdContainerBinding
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
 import com.duoduovv.common.BaseApplication
+import com.qq.e.ads.nativ.MediaView
+import com.qq.e.ads.nativ.widget.NativeAdContainer
 import com.youth.banner.adapter.BannerAdapter
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
@@ -25,7 +29,7 @@ import dc.android.bridge.util.OsUtils
 class BannerImgAdapter(private val data: List<Banner>, private val context: Context) :
     BannerAdapter<Banner, RecyclerView.ViewHolder>(data) {
     private var ttInfoAd: TTInfoAd? = null
-    private var gdtInfoAd: GDTInfoAd? = null
+    private var gdtInfoAd: GDTInfoAdForSelfRender? = null
     private var bannerWidth = 0f
     private val typeAd = 1
     private val typeBanner = 2
@@ -58,12 +62,22 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
             typeAd -> {
                 BaseApplication.configBean?.let { it ->
                     it.ad?.let {
-                        when(it.mainPageBanner?.type){
-                            TYPE_TT_AD->{
-                                initTTAd((holder as AdViewHolder).adBinder.bannerAdContainer, it.mainPageBanner!!.value)
+                        when (it.mainPageBanner?.type) {
+                            TYPE_TT_AD -> {
+                                (holder as AdViewHolder).adBinder.layoutTTAd.visibility =
+                                    View.VISIBLE
+                                holder.adBinder.layoutGdt.visibility = View.GONE
+                                initTTAd(holder.adBinder.layoutTTAd, it.mainPageBanner!!.value)
                             }
-                            TYPE_GDT_AD->{
-                                initGDTAd((holder as AdViewHolder).adBinder.bannerAdContainer, it.mainPageBanner!!.value)
+                            TYPE_GDT_AD -> {
+                                (holder as AdViewHolder).adBinder.layoutTTAd.visibility = View.GONE
+                                holder.adBinder.layoutGdt.visibility = View.VISIBLE
+                                initGDTAd(
+                                    holder.adBinder.adImgCover,
+                                    holder.adBinder.mediaView,
+                                    holder.adBinder.layoutGdt,
+                                    it.mainPageBanner!!.value
+                                )
                             }
                         }
                     }
@@ -93,10 +107,15 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
     /**
      * 初始化广点通广告
      */
-    private fun initGDTAd(container: ViewGroup, posId: String) {
+    private fun initGDTAd(
+        adImg: ImageView,
+        mediaView: MediaView,
+        container: NativeAdContainer,
+        posId: String
+    ) {
         if (null == gdtInfoAd) {
-            gdtInfoAd = GDTInfoAd()
-            gdtInfoAd?.initInfoAd(context as Activity, posId, container, 380, 0)
+            gdtInfoAd = GDTInfoAdForSelfRender()
+            gdtInfoAd?.initInfoAd(context as Activity, posId, adImg, mediaView, container)
         }
     }
 
@@ -108,7 +127,7 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
 
     fun onDestroy() {
         ttInfoAd?.destroyInfoAd()
-        gdtInfoAd?.destroyInfoAd()
+        gdtInfoAd?.onDestroy()
     }
 
     override fun getItemViewType(position: Int) =

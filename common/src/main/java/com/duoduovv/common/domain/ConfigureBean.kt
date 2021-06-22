@@ -31,9 +31,11 @@ data class AdBean(
     val logout: AdValue?,
     val mainPageBanner: AdValue?,
     val movieDetailBanner: AdValue?,
+    val searchBanner:AdValue?,
     val search: AdValue?,
     val splash: AdValue?,
-    val videoAd: AdValue?
+    val videoAd: AdValue?,
+    val insertAd:AdValue?
 ) : Parcelable
 
 @Keep

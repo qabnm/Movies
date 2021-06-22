@@ -9,13 +9,16 @@ import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.gdtad.GDTInsertAd
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.databinding.FragmentCinemaBinding
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
+import com.duoduovv.common.component.InsertAdDialogFragment
 import com.duoduovv.common.component.UpgradeDialogFragment
+import com.duoduovv.common.domain.AdValue
 import com.duoduovv.common.domain.Column
 import com.duoduovv.common.domain.ConfigureBean
 import com.duoduovv.common.domain.Version
@@ -23,8 +26,9 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
-import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.ID
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseViewModelFragment
@@ -45,6 +49,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var bean: Version? = null
     private lateinit var mBind: FragmentCinemaBinding
     private var configureBean: ConfigureBean? = null
+    private var adDialogFragment: InsertAdDialogFragment? = null
 
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCinemaBinding.inflate(inflater, container, false)
@@ -81,7 +86,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      * @param configureBean ConfigureBean?
      */
     private fun initConfig(configureBean: ConfigureBean?) {
-        configureBean?.let {
+        configureBean?.let { it ->
             val columns = it.columns
             BaseApplication.configBean = it
             initFragment(columns)
@@ -92,6 +97,28 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             BaseApplication.hotList = hotList
             this.bean = it.version
             checkUpdate(it.version)
+            //展示插屏广告
+            it.ad?.let { initInsertAd(it.insertAd) }
+        }
+    }
+
+    /**
+     * 插屏广告
+     * @param ad AdValue?
+     */
+    private fun initInsertAd(ad: AdValue?) {
+        when (ad?.type) {
+            TYPE_TT_AD -> {
+                adDialogFragment = InsertAdDialogFragment(280f, 420f, ad.value)
+                adDialogFragment?.showNow(childFragmentManager, "ad")
+            }
+            TYPE_GDT_AD -> {
+                val gdtAd = GDTInsertAd()
+                gdtAd.initInsertAd(
+                    requireActivity(),
+                    ad.value
+                )
+            }
         }
     }
 

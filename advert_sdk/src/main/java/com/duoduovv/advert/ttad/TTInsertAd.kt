@@ -12,14 +12,13 @@ import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu
- * @date: 2021/5/21 15:19
- * @des:穿山甲banner广告
+ * @date: 2021/6/21 15:52
+ * @des:穿山甲插屏广告
  */
-class TTBannerAd {
+class TTInsertAd {
     private val TAG = "AD_DEMO"
-    private var ttBannerAd: TTNativeExpressAd? = null
-
-    fun initBanner(
+    private var mttAd: TTNativeExpressAd? = null
+    fun initInsertAd(
         activity: Activity,
         posId: String,
         width: Float,
@@ -35,41 +34,37 @@ class TTBannerAd {
             .setAdCount(1)
             .setExpressViewAcceptedSize(width, height)
             .build()
-        mTTAdNative.loadBannerExpressAd(adSlot, object : TTAdNative.NativeExpressAdListener {
+        mTTAdNative.loadInteractionExpressAd(adSlot, object :TTAdNative.NativeExpressAdListener{
             override fun onError(code: Int, msg: String?) {
-                Log.d(TAG, "获取banner广告错误$code$msg")
-                LiveDataBus.get().with("adClose").value = "adClose"
+                Log.d(TAG, "onError$code$msg")
             }
 
-            override fun onNativeExpressAdLoad(adList: MutableList<TTNativeExpressAd>?) {
-                if (adList?.isNotEmpty() == true) {
-                    ttBannerAd = adList[0]
-                    ttBannerAd?.render()
-                    ttBannerAd?.setExpressInteractionListener(object :
-                        TTNativeExpressAd.AdInteractionListener {
+            override fun onNativeExpressAdLoad(ad: MutableList<TTNativeExpressAd>?) {
+                if (ad?.isNotEmpty() == true){
+                    mttAd = ad[0]
+                    mttAd?.render()
+                    mttAd?.setExpressInteractionListener(object :TTNativeExpressAd.AdInteractionListener{
                         override fun onAdClicked(p0: View?, p1: Int) {}
 
                         override fun onAdShow(p0: View?, p1: Int) {}
 
-                        override fun onRenderFail(p0: View?, p1: String?, p2: Int) {
-                            LiveDataBus.get().with("adClose").value = "adClose"
-                        }
+                        override fun onRenderFail(p0: View?, p1: String?, p2: Int) {}
 
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
                             view?.let {
-                                container.addView(it)
+                                LiveDataBus.get().with("insert").value = "200"
+                                mttAd?.showInteractionExpressAd(activity)
                             }
                         }
-                        override fun onAdDismiss() {
-                            LiveDataBus.get().with("adClose").value = "adClose"
-                        }
+
+                        override fun onAdDismiss() {}
                     })
                 }
             }
         })
     }
 
-    fun onDestroy() {
-        ttBannerAd?.destroy()
+    fun onDestroy(){
+        mttAd?.destroy()
     }
 }

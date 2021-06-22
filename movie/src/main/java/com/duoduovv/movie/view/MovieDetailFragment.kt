@@ -187,7 +187,7 @@ class MovieDetailFragment : BaseFragment() {
      * @param posId String
      */
     private fun initGDTAd(posId: String) {
-        gdtBannerAd = GDTBannerAd()
+        if (null == gdtBannerAd)gdtBannerAd = GDTBannerAd()
         gdtBannerAd?.initBanner(requireActivity(), posId, mBind.adContainer)
     }
 

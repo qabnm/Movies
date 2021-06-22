@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
-import com.duoduovv.advert.gdtad.GDTInfoAd
+import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.R
@@ -22,7 +22,7 @@ import dc.android.bridge.util.OsUtils
  */
 class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : DialogFragment() {
     private lateinit var mBind: DialogLogoutBinding
-    private var gdtInfoAd: GDTInfoAd? = null
+    private var gdtInfoAd: GDTInfoAdForSelfRender? = null
     private var ttInfoAd:TTInfoAd?= null
 
     override fun onCreateView(
@@ -37,12 +37,12 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
 
     private fun initViews() {
         mBind.tvSure.setOnClickListener {
-            gdtInfoAd?.destroyInfoAd()
+            gdtInfoAd?.onDestroy()
             ttInfoAd?.destroyInfoAd()
             dismiss()
         }
         mBind.tvCancel.setOnClickListener {
-            gdtInfoAd?.destroyInfoAd()
+            gdtInfoAd?.onDestroy()
             ttInfoAd?.destroyInfoAd()
             listener?.onLogSureClick()
         }
@@ -50,7 +50,11 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
             it.ad?.let {
                 when(it.logout?.type){
                     TYPE_TT_AD ->{ initTTAd(it.logout!!.value) }
-                    TYPE_GDT_AD -> { initGDTAd(it.logout!!.value) }
+                    TYPE_GDT_AD -> {
+                        mBind.layoutTTAd.visibility = View.GONE
+                        mBind.layoutGdt.visibility = View.VISIBLE
+                        initGDTAd(it.logout!!.value)
+                    }
                 }
             }
         }
@@ -61,20 +65,20 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
      */
     private fun initTTAd(posId:String){
         ttInfoAd = TTInfoAd()
-        ttInfoAd?.initTTInfoAd(requireActivity(),posId,226f,0f,mBind.layoutContainer)
+        ttInfoAd?.initTTInfoAd(requireActivity(),posId,246f,0f,mBind.layoutTTAd)
     }
 
     /**
      * 请求广点通的信息流广告
      */
     private fun initGDTAd(posId: String) {
-        gdtInfoAd = GDTInfoAd()
+        gdtInfoAd = GDTInfoAdForSelfRender()
         gdtInfoAd?.initInfoAd(
             requireActivity(),
             posId,
-            mBind.layoutContainer,
-            270,
-            105
+            mBind.adImgCover,
+            mBind.mediaView,
+            mBind.layoutGdt
         )
     }
 

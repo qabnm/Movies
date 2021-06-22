@@ -31,8 +31,8 @@ class WeiChatTool {
     companion object {
         var weiChatApi: IWXAPI? = null
         var mTenCent: Tencent? = null
-        var loginListener:TentLoginListener?=null
-        var shareListener:TentShareListener?=null
+        var loginListener: TentLoginListener? = null
+        var shareListener: TentShareListener? = null
 
         /**
          * 注册APP到微信
@@ -122,7 +122,7 @@ class WeiChatTool {
          * @param context Context
          * @param listener TentUiListener
          */
-        fun qqLogin(context: Activity, listener: TentLoginListener){
+        fun qqLogin(context: Activity, listener: TentLoginListener) {
             if (mTenCent?.isSessionValid == false) {
                 mTenCent?.login(context, "all", listener)
             }
