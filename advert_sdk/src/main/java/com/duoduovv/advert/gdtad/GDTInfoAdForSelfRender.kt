@@ -115,7 +115,7 @@ class GDTInfoAdForSelfRender {
 
                     override fun onVideoCompleted() {
                         Log.d(TAG, "onVideoCompleted")
-                        onDestroy()
+//                        onDestroy()
                     }
 
                     override fun onVideoError(error: AdError?) {

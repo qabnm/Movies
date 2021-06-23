@@ -20,5 +20,7 @@ data class MovieLibList(
     val strId:String,
     @SerializedName("vod_name")
     val vodName:String,
-    val way:String
+    val way:String,
+    val type:String?=null,
+    var hasLoad:Boolean = false
 )
