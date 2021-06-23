@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    tools:viewBindingIgnore="true">
 
     <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvEpisodes"
@@ -18,5 +19,5 @@
 
     <View
         android:layout_width="@dimen/dp_13"
-        android:layout_height="@dimen/dp_50"/>
+        android:layout_height="@dimen/dp_50" />
 </LinearLayout>

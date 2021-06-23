@@ -4,12 +4,13 @@
     android:id="@+id/tvType"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:paddingStart="0px"
     android:paddingTop="@dimen/dp_8"
     android:paddingEnd="@dimen/dp_25"
-    android:paddingStart="0px"
     android:paddingBottom="@dimen/dp_8"
     android:textColor="@color/color666666"
     android:textSize="@dimen/sp_13"
-    tools:text="最近更新">
+    tools:text="最近更新"
+    tools:viewBindingIgnore="true">
 
 </TextView>

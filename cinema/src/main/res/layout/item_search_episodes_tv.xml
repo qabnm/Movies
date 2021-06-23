@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/dp_15">
+    android:paddingBottom="@dimen/dp_15"
+    tools:viewBindingIgnore="true">
 
     <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvEpisodes"

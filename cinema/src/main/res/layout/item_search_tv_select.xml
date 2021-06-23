@@ -3,17 +3,18 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:viewBindingIgnore="true">
 
     <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvEpisodes"
         android:layout_width="0px"
         android:layout_height="0px"
-        app:layout_constraintDimensionRatio="1:1"
         android:background="@drawable/shape_radius28_solid_f3f4f8"
         android:gravity="center"
         android:textColor="@color/color000000"
         android:textSize="@dimen/sp_16"
+        app:layout_constraintDimensionRatio="1:1"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/vLine"
         app:layout_constraintTop_toTopOf="parent"
