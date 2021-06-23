@@ -352,13 +352,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     private var skipLength = 6
     private var totalLength = 0
-    private lateinit var timerTask: MyTimer
+    private var timerTask: MyTimer?=null
+    private var handler: MyHandler?=null
     override fun initData() {
         vid = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
         if (isAdNotEmpty()) {
             //视频时长的监听
+            handler = MyHandler()
             LiveDataBus.get().with("videoLength", Int::class.java).observe(this, {
                 //渲染成功了
                 pauseAdLoading()
@@ -366,13 +368,19 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (it > 0) {
                     //当前是视频类型
                     totalLength = it / 1000
-                    handler = MyHandler(it)
+                    if (null != timerTask){
+                        timerTask?.cancel()
+                        timerTask = null
+                    }
                     timerTask = MyTimer()
                     Timer().schedule(timerTask, 0, 1000)
                 } else {
                     //图片广告
                     totalLength = 0
-                    handler = MyHandler(-1)
+                    if (null != timerTask){
+                        timerTask?.cancel()
+                        timerTask = null
+                    }
                     timerTask = MyTimer()
                     Timer().schedule(timerTask, 0, 1000)
                 }
@@ -387,7 +395,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             })
             mBind.videoPlayer.tvSkip.setOnClickListener {
                 if (skipLength == 0) {
-                    timerTask.cancel()
+                    timerTask?.cancel()
                     videoAd?.onDestroy()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     playAdLoading()
@@ -397,22 +405,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
-    private lateinit var handler: MyHandler
-
     private inner class MyTimer : TimerTask() {
         override fun run() {
             if (skipLength > 0) skipLength--
             if (totalLength > 0) totalLength--
             when {
                 skipLength > 0 -> {
-                    handler.sendEmptyMessage(0)
+                    handler?.sendEmptyMessage(0)
                 }
                 totalLength > 0 -> {
-                    handler.sendEmptyMessage(1)
+                    handler?.sendEmptyMessage(1)
                 }
                 else -> {
-                    handler.sendEmptyMessage(2)
-                    timerTask.cancel()
+                    handler?.sendEmptyMessage(2)
+                    timerTask?.cancel()
                     skipLength = 6
                 }
             }
@@ -420,7 +426,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     @SuppressLint("HandlerLeak")
-    private inner class MyHandler(val length: Int) : Handler(Looper.getMainLooper()) {
+    private inner class MyHandler : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
             super.handleMessage(msg)
             if (msg.what == 0) {
@@ -706,6 +712,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         this.vidTitle = vidTitle
         this.movieId = movieId
         mBind.layoutStateError.visibility = View.GONE
+        destroyTimer()
         videoAd?.onDestroy()
         //清理掉当前正在播放的视频
         mBind.videoPlayer.currentPlayer.release()
@@ -725,8 +732,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun onMovieClick(movieId: String) {
         //清理掉正在播放的视频
         GlobalScope.launch(Dispatchers.Main) {
-            if (way == WAY_RELEASE) playAdLoading()
+            destroyTimer()
             videoAd?.onDestroy()
+            if (way == WAY_RELEASE) playAdLoading()
             mBind.videoPlayer.currentPlayer.release()
             mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()
@@ -770,10 +778,19 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             )
         }
     }
+    private fun destroyTimer(){
+        timerTask?.cancel()
+        handler?.let {
+            it.removeMessages(0)
+            it.removeMessages(1)
+            it.removeMessages(2)
+        }
+    }
 
     override fun onDestroy() {
         super.onDestroy()
         //获取视频播放信息
+        destroyTimer()
         pauseAdLoading()
         GSYVideoManager.releaseAllVideos()
         orientationUtils?.releaseListener()
@@ -844,7 +861,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (isAdNotEmpty()) {
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.setOnClickListener {
                 if (skipLength == 0) {
-                    timerTask.cancel()
+                    timerTask?.cancel()
                     videoAd?.onDestroy()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     playAdLoading()
