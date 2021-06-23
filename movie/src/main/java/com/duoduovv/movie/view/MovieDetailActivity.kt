@@ -92,6 +92,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var fragment: MovieDetailFragment? = null
     private var line = ""//播放线路
     private var js = ""
+    private var videoAd: GDTVideoAdForSelfRender? = null
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
@@ -167,7 +168,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
-    private var videoAd: GDTVideoAdForSelfRender? = null
+    /**
+     * 初始化广告
+     */
     private fun initGDTVideoAd() {
         if (null == videoAd) videoAd = GDTVideoAdForSelfRender()
         videoAd?.initVideoAd(
@@ -179,16 +182,29 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         )
     }
 
+    /**
+     * 当前是否需要显示广告
+     * @return Boolean
+     */
     private fun isAdNotEmpty() = BaseApplication.configBean?.ad?.videoAd!=null
 
+    /**
+     * 请求解析接口出错了
+     */
     override fun onJxError() {
         onPlayError()
     }
 
+    /**
+     * 显示加载的动画
+     */
     private fun pauseAdLoading() {
         (mBind.videoPlayer.currentPlayer as SampleCoverVideo).pauseLoading()
     }
 
+    /**
+     * 停止加载的动画
+     */
     private fun playAdLoading() {
         (mBind.videoPlayer.currentPlayer as SampleCoverVideo).playLoading()
     }
@@ -309,6 +325,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    /**
+     * 获取三方的解析接口后 将获取的内容去请求自己后台的接口 拿到真正的播放链接
+     * @param content String?
+     */
     private fun jxPlayUrl(content: String?) {
         content?.let {
             viewModel.analysisPlayUrl(vid, movieId, line, it)
@@ -528,9 +548,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (list.isNotEmpty()) {
             //去请求播放地址信息 播放地址也 可能是H5的跳转链接
             if (!hasClickRecommend) {
-                if (StringUtils.isEmpty(vid)) {
-                    vid = list[0].vid
-                }
+                if (StringUtils.isEmpty(vid)) vid = list[0].vid
             } else {
                 vid = list[0].vid
             }
@@ -578,14 +596,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private val shareClickListener = object : ShareDialogFragment.OnShareClickListener {
         override fun onQQShareClick(flag: Int) {
             WeiChatTool.regToQQ(BaseApplication.baseCtx)
-            WeiChatTool.shareToQQ(
-                this@MovieDetailActivity,
-                SHARE_TITLE,
-                SHARE_CONTENT,
-                SHARE_LINK,
-                resources.getString(R.string.app_name),
-                flag
-            )
+            WeiChatTool.shareToQQ(this@MovieDetailActivity, SHARE_TITLE, SHARE_CONTENT, SHARE_LINK, resources.getString(R.string.app_name), flag)
         }
 
         override fun onCopyClick() {
@@ -597,13 +608,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
         override fun onWeiChatClick(flag: Int) {
             WeiChatTool.regToWx(BaseApplication.baseCtx)
-            WeiChatTool.weiChatShareAsWeb(
-                SHARE_LINK,
-                SHARE_TITLE,
-                SHARE_CONTENT,
-                BitmapFactory.decodeResource(resources, R.drawable.share_icon),
-                flag
-            )
+            WeiChatTool.weiChatShareAsWeb(SHARE_LINK, SHARE_TITLE, SHARE_CONTENT,
+                BitmapFactory.decodeResource(resources, R.drawable.share_icon), flag)
         }
     }
 
