@@ -2,7 +2,6 @@ package com.duoduovv.common.domain
 
 import android.os.Parcelable
 import androidx.annotation.Keep
-import com.duoduovv.advert.gdtad.*
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -18,9 +17,6 @@ data class ConfigureBean(
     val version: Version?,
     val hotSearch: List<String>,
     val way: String,
-    val adType: String,
-    val ttAd: AdvertBean?,
-    val gdtAd: AdvertBean?,
     val ad:AdBean?
 ) : Parcelable
 
@@ -42,18 +38,6 @@ data class AdBean(
 @Keep
 @Parcelize
 data class AdValue(val type: Int, val value: String) : Parcelable
-
-@Keep
-@Parcelize
-data class AdvertBean(
-    val splash: String,
-    val mainPageBanner: String,
-    val logout: String,
-    val search: String,
-    val movieDetailBanner: String,
-    val centerTop: String,
-    val videoAd: String
-) : Parcelable
 
 /**
  * 首页顶部栏目分类
