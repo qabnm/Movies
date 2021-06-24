@@ -17,14 +17,14 @@ import com.duoduovv.common.R
  */
 class GlideUtils {
     companion object {
-        fun setImg(context: Context, url: String, imageView: ImageView) {
+        fun setImg(context: Context, url: String?, imageView: ImageView) {
             if (StringUtils.isEmpty(url)) return
             val glideUrl = GlideUrl(url, LazyHeaders.Builder().addHeader("User-Agent",
                 WebSettings.getDefaultUserAgent(BaseApplication.baseCtx)).build())
             Glide.with(context).load(glideUrl).into(imageView)
         }
 
-        fun setMovieImg(context: Context, url: String, imageView: ImageView,df:Int = R.drawable.movie_default) {
+        fun setMovieImg(context: Context, url: String?, imageView: ImageView,df:Int = R.drawable.movie_default) {
             if (StringUtils.isEmpty(url)) return
             val glideUrl = GlideUrl(url, LazyHeaders.Builder().addHeader("User-Agent",
                 WebSettings.getDefaultUserAgent(BaseApplication.baseCtx)).build())
