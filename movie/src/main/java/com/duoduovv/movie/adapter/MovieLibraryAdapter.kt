@@ -13,12 +13,12 @@ import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.databinding.ItemMovieLibraryBinding
+import com.duoduovv.common.databinding.ItemTypeAdBinding
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.Filter
 import com.duoduovv.movie.bean.MovieLibList
 import com.duoduovv.movie.bean.TypeListArray
 import com.duoduovv.movie.databinding.ItemLibTopLayoutBinding
-import com.duoduovv.movie.databinding.ItemLibraryAdBinding
 import com.duoduovv.movie.view.MovieTopLayout
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
@@ -55,7 +55,7 @@ class MovieLibraryAdapter(
             LayoutInflater.from(context).inflate(R.layout.layout_movie_lib_empty, parent, false)
         )
         else -> {
-            val bind = ItemLibraryAdBinding.inflate(LayoutInflater.from(context), parent, false)
+            val bind = ItemTypeAdBinding.inflate(LayoutInflater.from(context), parent, false)
             AdViewHolder(bind)
         }
     }
@@ -168,7 +168,7 @@ class MovieLibraryAdapter(
         0 -> TYPE_TOP
         else -> {
             if (movieList?.isNotEmpty() == true) {
-                if (movieList!![position - 1].type == "ad") {
+                if (movieList!![position - 1].itemType == "ad") {
                     position
                 } else {
                     TYPE_LIIST
@@ -185,7 +185,7 @@ class MovieLibraryAdapter(
     private class TypeViewHolder(val bind: ItemLibTopLayoutBinding) :
         RecyclerView.ViewHolder(bind.root)
 
-    private class AdViewHolder(val bind: ItemLibraryAdBinding) : RecyclerView.ViewHolder(bind.root)
+    private class AdViewHolder(val bind: ItemTypeAdBinding) : RecyclerView.ViewHolder(bind.root)
 
     private class EmptyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 

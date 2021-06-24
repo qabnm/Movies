@@ -19,5 +19,7 @@ data class FilmRecommendBean(
     val remark:String,
     @SerializedName("str_id")
     val strId:String,
-    val way:String
+    val way:String,
+    val itemType:String?=null,
+    var hasLoad:Boolean = false
 ):Parcelable
