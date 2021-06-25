@@ -23,7 +23,7 @@
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/indicator"
-        android:layout_width="@dimen/dp_120"
+        android:layout_width="wrap_content"
         android:layout_height="@dimen/dp_44"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

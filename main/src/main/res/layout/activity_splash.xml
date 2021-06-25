@@ -5,12 +5,11 @@
     android:background="@drawable/layer_window_background"
     android:orientation="vertical">
 
-
     <FrameLayout
         android:id="@+id/adContainer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/dp_70"
+        android:layout_marginBottom="@dimen/dp_80"
         android:background="@android:color/transparent" />
 
 </RelativeLayout>

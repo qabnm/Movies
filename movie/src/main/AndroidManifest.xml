@@ -18,5 +18,8 @@
         <activity
             android:name=".view.ReportActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".view.SubjectDetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

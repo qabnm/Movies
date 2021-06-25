@@ -29,7 +29,7 @@ class TTSplashAds {
         val width = ScreenUtils.getScreenWidth(activity)
         val totalHeight = ScreenUtils.getScreenHeight(activity)
         val navHeight = ScreenUtils.getNavigationBarHeight(activity)
-        val height = totalHeight - navHeight - ScreenUtils.dip2px(activity, 70f)
+        val height = totalHeight - navHeight - ScreenUtils.dip2px(activity, 80f)
         // 创建TTAdNative对象，createAdNative(Context context) context需要传入Activity对象
         val mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
         //创建广告请求AdSlot

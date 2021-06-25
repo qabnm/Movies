@@ -111,5 +111,10 @@ class RouterPath {
          * 城市选择功能
          */
         const val PATH_CITY_SELECT = "/personal/CitySelectActivity"
+
+        /**
+         * 专题详情页
+         */
+        const val PATH_SUBJECT_DETAIL= "/movie/SubjectDetailActivity"
     }
 }

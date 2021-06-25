@@ -57,8 +57,11 @@ class MovieFragment : BaseFragment() {
 
     override fun initData() {
         typeId = arguments?.getString(BridgeContext.TYPE_ID)
-        val data = listOf("片库", "榜单")
+        val data = listOf("专题","片库", "榜单")
         val fragmentList = ArrayList<Fragment>()
+        val subjectFragment = SubjectFragment()
+        fragmentList.add(subjectFragment)
+
         libFragment = MovieLibraryNavFragment()
         val bundle = Bundle()
         bundle.putString(BridgeContext.TYPE_ID, typeId)
