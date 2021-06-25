@@ -52,11 +52,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-//    //序列化插件
-//    androidExtensions {
-//        experimental = true
-//    }
-
+    kotlinOptions {
+        jvmTarget = JavaVersion.VERSION_1_8
+    }
     //viewBing插件
     buildFeatures {
         viewBinding = true

@@ -27,7 +27,6 @@ abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     override fun initVM() {
         providerVMClass()?.let {
             viewModel = ViewModelProvider(this).get(it)
-            lifecycle.addObserver(viewModel)
         }
 //        loadingDialog = LoadingDialogFragment()
     }
@@ -90,9 +89,4 @@ abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     }
 
     open fun finishLoading() {}
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycle.removeObserver(viewModel)
-    }
 }

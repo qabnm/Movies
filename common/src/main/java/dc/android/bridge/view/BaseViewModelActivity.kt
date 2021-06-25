@@ -30,7 +30,6 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     override fun initViewModel() {
         providerVMClass()?.let {
             viewModel = ViewModelProvider(this).get(it)
-            lifecycle.addObserver(viewModel)
         }
 //        loadingDialog = LoadingDialogFragment()
     }
@@ -95,9 +94,4 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     }
 
     open fun finishLoading() {}
-
-    override fun onDestroy() {
-        super.onDestroy()
-        lifecycle.removeObserver(viewModel)
-    }
 }
