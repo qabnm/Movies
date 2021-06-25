@@ -65,6 +65,13 @@ class LocationHelper(private val context: Context, private val lbsListener: OnLo
         mLocationClient?.onDestroy()
     }
 
+    /**
+     * 停止定位
+     */
+    fun stopLocation(){
+        mLocationClient?.stopLocation()
+    }
+
     interface OnLocationListener {
         /**
          *  定位成功
