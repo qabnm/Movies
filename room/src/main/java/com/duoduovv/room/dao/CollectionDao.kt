@@ -10,12 +10,13 @@ import com.duoduovv.room.domain.CollectionBean
  */
 @Dao
 interface CollectionDao {
+
     /**
      * 查询所有数据
-     * @return List<CollectionBean>
+     * @return List<CollectionBean>?
      */
-    @Query("select * from CollectionBean")
-    fun queryAll(): List<CollectionBean>
+    @Query("select * from CollectionBean order by collectionTime desc")
+    fun queryAllByDate():List<CollectionBean>?
 
     /**
      * 通过id查询数据

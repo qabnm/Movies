@@ -84,8 +84,8 @@ class MovieDetailViewModel : BaseViewModel() {
             if (progress > 0) {
                 //首先查询数据库是否有当前影片 如果有了就执行update操作
                 val dataList =
-                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAll()
-                if (dataList.isNotEmpty()) {
+                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAllByDate()
+                if (dataList?.isNotEmpty() == true) {
                     var updateBean: VideoWatchHistoryBean? = null
                     for (i in dataList.indices) {
                         if (movieId == dataList[i].movieId) {

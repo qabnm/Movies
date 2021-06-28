@@ -10,12 +10,13 @@ import com.duoduovv.room.domain.VideoWatchHistoryBean
  */
 @Dao
 interface HistoryDao {
+
     /**
      * 查询所有数据
-     * @return List<VideoWatchHistoryBean>
+     * @return List<VideoWatchHistoryBean>?
      */
-    @Query("select * from VideoWatchHistoryBean")
-    fun queryAll(): List<VideoWatchHistoryBean>
+    @Query("select * from VideoWatchHistoryBean order by currentTime desc")
+    fun queryAllByDate():List<VideoWatchHistoryBean>?
 
     /**
      * 通过id查询

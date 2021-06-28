@@ -38,8 +38,7 @@ class SnackBarView {
     fun initSnack(view: View, context: Context) {
         GlobalScope.launch(Dispatchers.Main) {
             val list = getDB()
-            if (list.isNotEmpty()) {
-                Collections.sort(list) { o1, o2 -> (o2.currentTime - o1.currentTime).toInt() }
+            if (list?.isNotEmpty() == true) {
                 val historyBean = list[0]
                 val content: String = when (historyBean.type) {
                     TYPE_TV, TYPE_TV0 -> {
@@ -95,7 +94,7 @@ class SnackBarView {
      * @return List<VideoWatchHistoryBean>
      */
     private suspend fun getDB() = withContext(Dispatchers.IO) {
-        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAll()
+        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAllByDate()
     }
 
     fun setSnackClick(listener: OnSnackClickListener) {

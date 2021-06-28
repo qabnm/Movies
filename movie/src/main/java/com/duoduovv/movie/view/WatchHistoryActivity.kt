@@ -100,14 +100,14 @@ class WatchHistoryActivity : BridgeActivity() {
     override fun initData() {
         GlobalScope.launch(Dispatchers.Main) {
             val dataList = getDB()
-            if (dataList.isEmpty()) {
+            if (dataList?.isEmpty() == true) {
                 //观看历史为空
                 mBind.layoutEmpty.setEmptyVisibility(1)
                 mBind.layoutSelect.visibility = View.GONE
                 mBind.layoutTopBar.setRightVisibility(View.GONE)
                 isFirst = true
             } else {
-                Collections.sort(dataList) { o1, o2 -> (o2.currentTime - o1.currentTime).toInt() }
+//                Collections.sort(dataList) { o1, o2 -> (o2.currentTime - o1.currentTime).toInt() }
                 mBind.layoutEmpty.setEmptyVisibility(0)
                 mBind.layoutTopBar.setRightVisibility(View.VISIBLE)
                 mBind.layoutTopBar.setRightText("编辑")
@@ -129,7 +129,7 @@ class WatchHistoryActivity : BridgeActivity() {
      * @return List<VideoWatchHistoryBean>
      */
     private suspend fun getDB() = withContext(Dispatchers.IO) {
-        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAll()
+        WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAllByDate()
     }
 
     /**

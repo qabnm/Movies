@@ -21,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 /**
  * @author: jun.liu
@@ -61,10 +60,6 @@ class MyCollectionActivity : BridgeActivity() {
         mBind.layoutTopBar.setRightClick { onEditClick() }
         mBind.tvAllSelect.setOnClickListener { allSelect() }
         mBind.tvDelete.setOnClickListener { deleteCollect() }
-//        viewModel.deleteState().observe(this,
-//            { onDeleteSuccess(viewModel.deleteState().value?.movie_id) })
-//        viewModel.getCollection()
-//            .observe(this, { getCollection(viewModel.getCollection().value?.favorites) })
     }
 
     /**
@@ -183,7 +178,6 @@ class MyCollectionActivity : BridgeActivity() {
     }
 
     override fun initData() {
-//        viewModel.collectionList(page)
         GlobalScope.launch(Dispatchers.Main) {
             getCollection(queryAll())
         }
@@ -194,7 +188,7 @@ class MyCollectionActivity : BridgeActivity() {
      * @return List<CollectionBean>
      */
     private suspend fun queryAll() = withContext(Dispatchers.IO) {
-        CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().queryAll()
+        CollectionDatabase.getInstance(BaseApplication.baseCtx).collection().queryAllByDate()
     }
 
     /**
@@ -217,7 +211,6 @@ class MyCollectionActivity : BridgeActivity() {
             mBind.layoutEmpty.setEmptyVisibility(0)
             mBind.layoutTopBar.setRightVisibility(View.VISIBLE)
             mBind.layoutTopBar.setRightText("编辑")
-            Collections.sort(dataList!!) { o1, o2 -> (o2.collectionTime - o1.collectionTime).toInt() }
         }
         collectionAdapter?.setList(dataList)
     }
