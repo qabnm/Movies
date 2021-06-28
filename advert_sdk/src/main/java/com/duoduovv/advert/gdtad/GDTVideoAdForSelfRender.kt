@@ -163,7 +163,7 @@ class GDTVideoAdForSelfRender {
         val builder = VideoOption.Builder()
         builder.apply {
             setAutoPlayPolicy(VideoOption.AutoPlayPolicy.ALWAYS)
-            setAutoPlayMuted(true)
+            setAutoPlayMuted(false)
             setDetailPageMuted(false)
             setNeedCoverImage(true)
             setNeedProgressBar(true)
