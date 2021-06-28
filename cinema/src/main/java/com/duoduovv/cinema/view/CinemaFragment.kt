@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.advert.gdtad.GDTInsertAd
 import com.duoduovv.advert.ttad.TTInsertAd
 import com.duoduovv.cinema.R
+import com.duoduovv.cinema.component.SnackBarView
 import com.duoduovv.cinema.databinding.FragmentCinemaBinding
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
@@ -50,13 +52,14 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private var bean: Version? = null
     private lateinit var mBind: FragmentCinemaBinding
     private var configureBean: ConfigureBean? = null
+    private var isFirstShowRecord = true
 
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCinemaBinding.inflate(inflater, container, false)
 
     override fun initView() {
         mBind = baseBinding as FragmentCinemaBinding
-        val layoutParams = mBind.vStatusBar.layoutParams as LinearLayout.LayoutParams
+        val layoutParams = mBind.vStatusBar.layoutParams as ConstraintLayout.LayoutParams
         layoutParams.height = OsUtils.getStatusBarHeight(requireActivity())
         mBind.tvSearch.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
@@ -98,8 +101,8 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             this.bean = it.version
             checkUpdate(it.version)
             //展示插屏广告
-            val currentDay = SharedPreferencesHelper.helper.getValue("currentTime","")
-            if (currentDay != StringUtils.getCurrentDay()){
+            val currentDay = SharedPreferencesHelper.helper.getValue("currentTime", "")
+            if (currentDay != StringUtils.getCurrentDay()) {
                 it.ad?.insertAd?.let { initInsertAd(it) }
             }
         }
@@ -110,11 +113,11 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      * @param ad AdValue?
      */
     private fun initInsertAd(ad: AdValue) {
-        SharedPreferencesHelper.helper.setValue("currentTime",StringUtils.getCurrentDay())
+        SharedPreferencesHelper.helper.setValue("currentTime", StringUtils.getCurrentDay())
         when (ad.type) {
             TYPE_TT_AD -> {
                 val ttAd = TTInsertAd()
-                ttAd.initInsertAd(requireActivity(),ad.value,300f,450f)
+                ttAd.initInsertAd(requireActivity(), ad.value, 300f, 450f)
             }
             TYPE_GDT_AD -> {
                 val gdtAd = GDTInsertAd()
@@ -181,5 +184,29 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         configureBean?.let {
             initConfig(it)
         } ?: run { viewModel.configure() }
+    }
+
+    /**
+     * 显示上次播放记录
+     */
+    fun showRecord() {
+        if (isFirstShowRecord){
+            isFirstShowRecord = false
+            val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, "") as String
+            if (way == BridgeContext.WAY_RELEASE) {
+                val snackBarView = SnackBarView()
+                snackBarView.setSnackClick(object : SnackBarView.OnSnackClickListener {
+                    override fun onSnackClick(movieId: String) {
+                        onMovieClick(movieId)
+                    }
+                })
+                snackBarView.initSnack(this.view!!.findViewById(R.id.coordinator), requireContext())
+            }
+        }
+    }
+
+    private fun onMovieClick(movieId: String) {
+        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(ID, movieId)
+            .navigation()
     }
 }

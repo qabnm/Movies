@@ -10,7 +10,6 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
 import com.duoduovv.cinema.bean.FilmRecommendBean
 import com.duoduovv.cinema.bean.MainBean
-import com.duoduovv.cinema.component.SnackBarView
 import com.duoduovv.cinema.databinding.FragmentCinemaListBinding
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
 import com.duoduovv.common.util.RouterPath
@@ -25,7 +24,6 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
-import dc.android.bridge.BridgeContext.Companion.WAY_RELEASE
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
 import java.util.*
@@ -82,6 +80,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         } else {
             mBind.rvList.visibility = View.GONE
         }
+        (parentFragment as? CinemaFragment)?.showRecord()
     }
 
     /**
@@ -99,7 +98,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun initData() {
         column = arguments?.getString(ID) ?: ""
         viewModel.main(1, column)
-        showRecord()
     }
 
     /**
@@ -119,22 +117,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
         viewModel.mainRecommend(page, column = column)
-    }
-
-    /**
-     * 显示上次播放记录
-     */
-    private fun showRecord() {
-        val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, "") as String
-        if (way == WAY_RELEASE) {
-            val snackBarView = SnackBarView()
-            snackBarView.setSnackClick(object : SnackBarView.OnSnackClickListener {
-                override fun onSnackClick(movieId: String) {
-                    onMovieClick(movieId, WAY_RELEASE)
-                }
-            })
-            snackBarView.initSnack(this.view!!.findViewById(R.id.coordinator), requireContext())
-        }
     }
 
     /**
