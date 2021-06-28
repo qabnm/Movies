@@ -82,7 +82,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         } else {
             mBind.rvList.visibility = View.GONE
         }
-        showRecord()
     }
 
     /**
@@ -100,6 +99,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun initData() {
         column = arguments?.getString(ID) ?: ""
         viewModel.main(1, column)
+        showRecord()
     }
 
     /**

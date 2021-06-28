@@ -64,7 +64,6 @@ class TTInfoAd {
                         override fun onRenderFail(p0: View?, p1: String?, p2: Int) {}
 
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
-                            LiveDataBus.get().with("render").value = "render"
                             view?.let {
                                 container.addView(it)
                             }
