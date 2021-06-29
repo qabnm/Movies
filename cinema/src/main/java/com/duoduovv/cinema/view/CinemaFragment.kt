@@ -120,10 +120,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             }
             TYPE_GDT_AD -> {
                 val gdtAd = GDTInsertAd()
-                gdtAd.initInsertAd(
-                    requireActivity(),
-                    ad.value
-                )
+                gdtAd.initInsertAd(requireActivity(), ad.value)
             }
         }
     }

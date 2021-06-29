@@ -16,7 +16,9 @@ import android.view.WindowManager
 import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.advert.gdtad.GDTEncourageAd
 import com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender
+import com.duoduovv.advert.ttad.TTEncourageAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.listener.VideoPlayCallback
@@ -613,10 +615,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    private var ttEncourageAd:TTEncourageAd?=null
+    private var gdtEncourageAd:GDTEncourageAd?=null
     /**
      * 下载
      */
     override fun onDownLoadClick() {
+//        if (null == ttEncourageAd) ttEncourageAd = TTEncourageAd()
+//        ttEncourageAd?.initAd(this,"946280869","123",1)
+        if (null == gdtEncourageAd) gdtEncourageAd = GDTEncourageAd()
+        gdtEncourageAd?.initAd(this,"1052602148965811")
     }
 
     /**
