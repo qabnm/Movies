@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
@@ -190,7 +189,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
      * 显示上次播放记录
      */
     fun showRecord() {
-        if (isFirstShowRecord){
+        if (isFirstShowRecord) {
             isFirstShowRecord = false
             val way = SharedPreferencesHelper.helper.getValue(BridgeContext.WAY, "") as String
             if (way == BridgeContext.WAY_RELEASE) {

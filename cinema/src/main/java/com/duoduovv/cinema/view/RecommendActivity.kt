@@ -24,7 +24,6 @@ class RecommendActivity : BridgeActivity() {
 
     override fun initView() {
         mBind = ActivityRecommendBinding.bind(layoutView)
-        mBind.rvList.layoutManager = GridLayoutManager(this, 3)
         adapter = FilmRecommendAdapter(false)
         mBind.rvList.adapter = adapter
         adapter?.setOnItemClickListener { adapter, _, position ->

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#0d000000"
@@ -17,20 +18,16 @@
         android:layout_height="@dimen/dp_0_5"
         android:background="@color/colorE5E5E5" />
 
-    <!--<com.scwang.smart.refresh.layout.SmartRefreshLayout
-        android:id="@+id/refreshLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srlEnableFooterFollowWhenLoadFinished="true"
-        app:srlEnableLoadMoreWhenContentNotFull="false">-->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dp_10"
         android:paddingStart="@dimen/dp_12"
         android:paddingEnd="@dimen/dp_7"
-        android:layout_marginTop="@dimen/dp_10"
-        android:scrollbars="none" />
-    <!--</com.scwang.smart.refresh.layout.SmartRefreshLayout>-->
+        android:scrollbars="none"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="3"
+        tools:itemCount="6"
+        tools:listitem="@layout/item_movie_library" />
 </LinearLayout>

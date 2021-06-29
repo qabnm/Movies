@@ -48,7 +48,6 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun initView() {
         adapter = null
         mBind = baseBinding as FragmentCinemaListBinding
-        mBind.rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
         mBind.refreshLayout.apply {
             setRefreshHeader(ClassicsHeader(requireActivity()))
             setRefreshFooter(ClassicsFooter(requireActivity()))
