@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * @date: 2021/6/25 16:18
  * @des: 专题详情页
  */
-data class SubjectDetailBean(val list: List<SubjectDetailListBean>)
+data class SubjectDetailBean(@SerializedName("movies") val list: List<SubjectDetailListBean>)
 
 data class SubjectDetailListBean(
     @SerializedName("cover_url")
@@ -17,5 +17,5 @@ data class SubjectDetailListBean(
     val strId: String,
     @SerializedName("vod_name")
     val vodName: String,
-    val way:String
+    val way: String
 )

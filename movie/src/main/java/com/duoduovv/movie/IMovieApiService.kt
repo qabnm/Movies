@@ -67,7 +67,7 @@ interface IMovieApiService {
         @Query("vid") vid: String,
         @Query("id") id: String,
         @Query("line") line: String,
-        @Query("js") js:String
+        @Query("js") js: String
     ): BaseResponseData<MoviePlayInfoBean>
 
     /**
@@ -113,4 +113,18 @@ interface IMovieApiService {
         @Field("url") url: String,
         @Field("message") message: String
     ): BaseResponseData<Any>
+
+    /**
+     * 专题列表页
+     */
+    @GET("api/special")
+    suspend fun subjectList(): BaseResponseData<MovieSubjectBean>
+
+    /**
+     * 专题详情
+     * @param subjectId String
+     * @return BaseResponseData<SubjectDetailBean>
+     */
+    @GET("api/special/detail")
+    suspend fun subjectDetail(@Query("id") subjectId: String): BaseResponseData<SubjectDetailBean>
 }

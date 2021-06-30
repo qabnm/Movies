@@ -85,5 +85,6 @@ class MovieFragment : BaseFragment() {
             mBind.indicator.navigator = this
         }
         ViewPagerHelper.bind(mBind.indicator, mBind.vpContainer)
+        mBind.vpContainer.currentItem = 1
     }
 }

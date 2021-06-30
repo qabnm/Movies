@@ -63,8 +63,8 @@ class MovieRepository : MovieApiRepository() {
      * @param line String
      * @return BaseResponseData<MoviePlayInfoBean>
      */
-    suspend fun moviePlayInfo(vid: String, id: String, line: String,js:String) = request {
-        apiService.moviePlayInfo(vid, id, line,js)
+    suspend fun moviePlayInfo(vid: String, id: String, line: String, js: String) = request {
+        apiService.moviePlayInfo(vid, id, line, js)
     }
 
     /**
@@ -121,5 +121,22 @@ class MovieRepository : MovieApiRepository() {
      */
     suspend fun playError(vid: String, url: String, message: String) = request {
         apiService.playError(vid = vid, url = url, message = message)
+    }
+
+    /**
+     * 专题 列表
+     * @return BaseResponseData<MovieSubjectBean>
+     */
+    suspend fun subjectList() = request {
+        apiService.subjectList()
+    }
+
+    /**
+     * 专题详情页
+     * @param subjectId String
+     * @return BaseResponseData<SubjectDetailBean>
+     */
+    suspend fun subjectDetail(subjectId: String) = request {
+        apiService.subjectDetail(subjectId)
     }
 }

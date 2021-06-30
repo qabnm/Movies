@@ -11,6 +11,10 @@
         android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_0_5"
+        android:background="@color/colorF0F0F0" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"
