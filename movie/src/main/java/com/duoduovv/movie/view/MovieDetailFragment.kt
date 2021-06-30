@@ -186,7 +186,11 @@ class MovieDetailFragment : BaseFragment() {
      * @param posId String
      */
     private fun initGDTAd(posId: String) {
-        if (null == gdtBannerAd)gdtBannerAd = GDTBannerAd()
+        if (null == gdtBannerAd){
+            gdtBannerAd = GDTBannerAd()
+        }else{
+            gdtBannerAd?.onDestroy()
+        }
         gdtBannerAd?.initBanner(requireActivity(), posId, mBind.adContainer)
     }
 
@@ -195,7 +199,11 @@ class MovieDetailFragment : BaseFragment() {
      * @param posId String
      */
     private fun initTTAd(posId: String) {
-        if (null == ttBanner) ttBanner = TTBannerAd()
+        if (null == ttBanner) {
+            ttBanner = TTBannerAd()
+        }else{
+            ttBanner?.onDestroy()
+        }
         ttBanner?.initBanner(requireActivity(), posId, bannerWidth, 0f, mBind.adContainer)
     }
 

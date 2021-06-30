@@ -174,7 +174,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 初始化广告
      */
     private fun initGDTVideoAd() {
-        if (null == videoAd) videoAd = GDTVideoAdForSelfRender()
+        if (null == videoAd){
+            videoAd = GDTVideoAdForSelfRender()
+        }else{
+            videoAd?.onDestroy()
+        }
         videoAd?.initVideoAd(
             this,
             BaseApplication.configBean!!.ad!!.videoAd!!.value,
@@ -923,5 +927,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         UIListenerManager.getInstance()
             .onActivityResult(requestCode, resultCode, data, WeiChatTool.shareListener)
         super.onActivityResult(requestCode, resultCode, data)
+    }
+
+    override fun getSystemService(name: String): Any {
+        if (Context.AUDIO_SERVICE == name){
+            return applicationContext.getSystemService(name)
+        }
+        return super.getSystemService(name)
     }
 }

@@ -108,26 +108,21 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 viewModel.userInfo()
             }
         })
-        width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat()
-
-//        //以下是小程序测试
-//        LiveDataBus.get().with("extraData",String::class.java).observe(this,{
-//            if (it == "appCallBack"){
-//                ARouter.getInstance().build(RouterPath.PATH_ABOUT_US).navigation()
-//            }
-//        })
+        width = OsUtils.px2dip(requireContext(), OsUtils.getScreenWidth(requireContext()).toFloat())
+            .toFloat()
     }
+
     private var isHide = true
     override fun onHiddenChanged(hidden: Boolean) {
         super.onHiddenChanged(hidden)
-        Log.d("hidden","$hidden")
+        Log.d("hidden", "$hidden")
         isHide = hidden
         if (!hidden) initAD()
     }
 
     override fun onResume() {
         super.onResume()
-        Log.d("hidden","onResume")
+        Log.d("hidden", "onResume")
         if (!isHide) initAD()
         gdtAd?.onResume()
     }
@@ -159,13 +154,13 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         initAD()
     }
 
-    private fun initAD(){
+    private fun initAD() {
         BaseApplication.configBean?.ad?.centerTop?.let {
-            when(it.type){
-                TYPE_TT_AD ->{
+            when (it.type) {
+                TYPE_TT_AD -> {
                     initTTAd(it.value)
                 }
-                TYPE_GDT_AD ->{
+                TYPE_GDT_AD -> {
                     mBind.layoutTTAd.visibility = View.GONE
                     mBind.layoutGdt.visibility = View.VISIBLE
                     initGDTAd(it.value)
@@ -179,19 +174,27 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
      * @param posId String
      */
     private fun initTTAd(posId: String) {
-        if (null == ttAd ){
+        if (null == ttAd) {
             ttAd = TTInfoAd()
-        }else{ ttAd?.destroyInfoAd() }
+        } else {
+            ttAd?.destroyInfoAd()
+        }
         ttAd?.initTTInfoAd(requireActivity(), posId, width, 0f, mBind.layoutTTAd)
     }
 
     private fun initGDTAd(posId: String) {
         if (null == gdtAd) {
             gdtAd = GDTInfoAdForSelfRender()
-        }else{
+        } else {
             gdtAd?.onDestroy()
         }
-        gdtAd?.initInfoAd(requireActivity(), posId, mBind.adImgCover, mBind.mediaView, mBind.layoutGdt)
+        gdtAd?.initInfoAd(
+            requireActivity(),
+            posId,
+            mBind.adImgCover,
+            mBind.mediaView,
+            mBind.layoutGdt
+        )
     }
 
     override fun onDestroy() {
