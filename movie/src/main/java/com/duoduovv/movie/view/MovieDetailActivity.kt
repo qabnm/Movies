@@ -406,7 +406,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     }
                     timerTask = MyTimer()
                     Timer().schedule(timerTask, 0, 1000)
-                } else {
+                } else if (it == -1){
                     //图片广告
                     totalLength = 0
                     if (null != timerTask) {
