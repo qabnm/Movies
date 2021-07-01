@@ -91,11 +91,11 @@ dependencies {
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:$ext.adapter_helper"
     api "com.github.hackware1993:MagicIndicator:$ext.pager_indicator"
 
-    api "com.shuyu:gsyVideoPlayer-java:$ext.video_version"
+    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:$ext.video_version-jitpack"
     //是否需要ExoPlayer模式
-    api "com.shuyu:GSYVideoPlayer-exo2:$ext.video_version"
+    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-exo_player2:$ext.video_version-jitpack"
     //更多ijk的编码支持
-    api "com.shuyu:gsyVideoPlayer-ex_so:$ext.video_version"
+    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-ex_so:$ext.video_version-jitpack"
     //下拉刷新的
     api "com.scwang.smart:refresh-layout-kernel:$ext.refresh_version"      //核心必须依赖
     api "com.scwang.smart:refresh-header-classics:$ext.refresh_version"    //经典刷新头
