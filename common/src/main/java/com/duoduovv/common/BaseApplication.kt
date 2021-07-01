@@ -24,10 +24,10 @@ open class BaseApplication : Application() {
         super.onCreate()
         baseCtx = this.applicationContext
         initOthers()
-        if (!OsUtils.isAppDebug()) {
+//        if (!OsUtils.isAppDebug()) {
             //正式环境开启异常上报
             CrashReport.initCrashReport(applicationContext, "857247490b", false)
-        }
+//        }
     }
 
     /**

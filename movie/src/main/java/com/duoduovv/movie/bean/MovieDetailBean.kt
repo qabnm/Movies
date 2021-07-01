@@ -24,7 +24,12 @@ data class LineList(val line: String, val name: String, var isDefault: Boolean =
 /**
  * 选集信息
  */
-data class MovieItem(val vid: String, val title: String, var isSelect: Boolean = false)
+data class MovieItem(
+    val vid: String,
+    val title: String,
+    val vip: String,
+    var isSelect: Boolean = false
+)
 
 /**
  * 详情

@@ -41,6 +41,8 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
 import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.cache.CacheFactory
+import com.shuyu.gsyvideoplayer.player.IjkPlayerManager
+import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext.Companion.ID
@@ -59,6 +61,8 @@ import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.tools.LiveDataBus
 import kotlinx.coroutines.*
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
+import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -76,7 +80,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun providerVMClass() = MovieDetailViewModel::class.java
     private lateinit var mBind: ActivityMovieDetailBinding
     private var movieId = ""
-    private var vid = ""
+    private var vidStr = ""
     private var detailAdapter: MovieDetailAdapter? = null
     private var detailBean: MovieDetailBean? = null
     private var orientationUtils: OrientationUtils? = null
@@ -96,6 +100,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var line = ""//播放线路
     private var js = ""
     private var videoAd: GDTVideoAdForSelfRender? = null
+    private var vip = "0"
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
@@ -160,7 +165,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             lineAdapter.setList(lineList)
             lineAdapter.setOnItemClickListener { _, _, position ->
                 this.line = lineList[position].line
-                viewModel.moviePlayInfo(vid, movieId, line, js, 1)
+                viewModel.moviePlayInfo(vidStr, movieId, line, js, 1)
                 mBind.layoutStateError.visibility = View.GONE
                 playAdLoading()
                 for (i in it.lineList.indices) {
@@ -224,14 +229,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.onPlayError(url, *objects)
             onPlayError()
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
-            viewModel.playError(vid, url, "onPlayError")
+            viewModel.playError(vidStr, url, "onPlayError")
         }
 
         override fun onPrepared(url: String?, vararg objects: Any?) {
             super.onPrepared(url, *objects)
             mBind.layoutStateError.visibility = View.GONE
             orientationUtils?.isEnable = mBind.videoPlayer.isRotateWithSystem
-            if (currentLength > 0 && vidByQuery == vid) {
+            if (currentLength > 0 && vidByQuery == vidStr) {
                 mBind.videoPlayer.seekTo(currentLength)
             }
             currentLength = 0
@@ -299,7 +304,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                                 }
                                 mapHeadData = map
                             }
-                            setUp(playList[0].url, true, title)
+                            setUp(playList[0].url, false, title)
                             startPlayLogic()
                         }
                     } else {
@@ -338,7 +343,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     private fun jxPlayUrl(content: String?) {
         content?.let {
-            viewModel.analysisPlayUrl(vid, movieId, line, it)
+            viewModel.analysisPlayUrl(vidStr, movieId, line, it)
         }
     }
 
@@ -369,7 +374,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         }
                         mapHeadData = map
                     }
-                    setUp(playUrls[0].url, true, title)
+                    setUp(playUrls[0].url, false, title)
                     startPlayLogic()
                 }
                 Log.d("videoPlayer", "****这里执行了：way=$way")
@@ -382,7 +387,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var timerTask: MyTimer?=null
     private var handler: MyHandler?=null
     override fun initData() {
-        vid = intent.getStringExtra(TYPE_ID) ?: ""
+        vidStr = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
         viewModel.movieDetail(id = movieId)
         if (isAdNotEmpty()) {
@@ -505,7 +510,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         //代表当前的播放过  这里判断vid是因为这个vid是可能变化的
                         for (i in detailBean!!.movieItems.indices) {
                             if (it.vid == detailBean!!.movieItems[i].vid) {
-                                vid = it.vid
+                                vidStr = it.vid
                                 vidByQuery = it.vid
                                 currentLength = it.currentLength.toLong()
                                 break
@@ -526,12 +531,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val list = detailBean!!.movieItems
             if (list.isNotEmpty()) {
                 if (!hasClickRecommend) {
-                    if (StringUtils.isEmpty(vid)) {
+                    if (StringUtils.isEmpty(vidStr)) {
                         detailBean!!.movieItems[0].isSelect = true
                         vidTitle = detailBean!!.movieItems[0].title
                     } else {
                         for (i in list.indices) {
-                            if (vid == list[i].vid) {
+                            if (vidStr == list[i].vid) {
                                 detailBean!!.movieItems[i].isSelect = true
                                 vidTitle = detailBean!!.movieItems[i].title
                             }
@@ -555,11 +560,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         if (list.isNotEmpty()) {
             //去请求播放地址信息 播放地址也 可能是H5的跳转链接
             if (!hasClickRecommend) {
-                if (StringUtils.isEmpty(vid)) vid = list[0].vid
+                if (StringUtils.isEmpty(vidStr)) vidStr = list[0].vid
             } else {
-                vid = list[0].vid
+                vidStr = list[0].vid
             }
-            viewModel.moviePlayInfo(vid, movieId, line, "")
+            viewModel.moviePlayInfo(vidStr, movieId, line, "")
             if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(0)
         }
     }
@@ -703,7 +708,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onArtSelectClick(dataList: List<MovieItem>) {
         for (i in dataList.indices) {
-            if (vid == dataList[i].vid) dataList[i].isSelect = true
+            if (vidStr == dataList[i].vid) dataList[i].isSelect = true
         }
         val dialogFragment = MovieDetailArtSelectDialog(height = realHeight, dataList, this)
         dialogFragment.showNow(supportFragmentManager, "select")
@@ -715,7 +720,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onSelectClick(dataList: List<MovieItem>) {
         for (i in dataList.indices) {
-            if (vid == dataList[i].vid) dataList[i].isSelect = true
+            if (vidStr == dataList[i].vid) dataList[i].isSelect = true
         }
         val dialogFragment = MovieDetailSelectDialogFragment(height = realHeight, dataList, this)
         dialogFragment.showNow(supportFragmentManager, "select")
@@ -727,7 +732,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param movieId String
      */
     override fun onSelectClick(vid: String, movieId: String, vidTitle: String) {
-        this.vid = vid
+        this.vidStr = vid
         this.vidTitle = vidTitle
         this.movieId = movieId
         mBind.layoutStateError.visibility = View.GONE
@@ -736,6 +741,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         //清理掉当前正在播放的视频
         mBind.videoPlayer.currentPlayer.release()
         fragment?.updateAd()
+        //如果是最后三集 需要观看激励视频
+
+
         if (way == WAY_RELEASE) playAdLoading()
         if (isAdNotEmpty()) initGDTVideoAd()
         //只有正常班的才会去请求接口
@@ -791,7 +799,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 progress = mBind.videoPlayer.currentPlayer.currentPositionWhenPlaying,
                 detailBean = it,
                 movieId = movieId,
-                vid = vid,
+                vid = vidStr,
                 vidTitle = vidTitle,
                 duration = mBind.videoPlayer.currentPlayer.duration
             )
@@ -830,7 +838,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             detailBean?.let {
                 val movieItems = it.movieItems
                 for (i in movieItems.indices) {
-                    if (vid == movieItems[i].vid) {
+                    if (vidStr == movieItems[i].vid) {
                         currentPlayPosition = i
                     }
                 }
@@ -840,12 +848,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     playAdLoading()
                     //还有下一集 播放下一集
                     currentPlayPosition++
-                    vid = movieItems[currentPlayPosition].vid
+                    vidStr = movieItems[currentPlayPosition].vid
                     vidTitle = movieItems[currentPlayPosition].title
                     //播放广告
                     if (isAdNotEmpty()) initGDTVideoAd()
                     if (!isAdNotEmpty()) {
-                        viewModel.moviePlayInfo(vid, movieId, line, "", 1)
+                        viewModel.moviePlayInfo(vidStr, movieId, line, "", 1)
                     }
                     //更新选集显示
                     for (i in movieItems.indices) {
