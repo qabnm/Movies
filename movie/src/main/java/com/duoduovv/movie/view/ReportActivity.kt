@@ -31,8 +31,10 @@ class ReportActivity : BaseViewModelActivity<ReportViewModel>() {
         normalColor = ContextCompat.getColor(this, R.color.color999999)
         selectColor = ContextCompat.getColor(this, R.color.colorFFFFFF)
         viewModel.getReport().observe(this, {
-            AndroidUtils.toast("举报成功，我们会尽快处理！", this)
-            finish()
+            if (it == 200) {
+                AndroidUtils.toast("举报成功，我们会尽快处理！", this)
+                finish()
+            }
         })
         mBind.btnSeQing.setOnCheckedChangeListener { _, isChecked ->
             mBind.btnSeQing.setTextColor(if (isChecked) selectColor else normalColor)

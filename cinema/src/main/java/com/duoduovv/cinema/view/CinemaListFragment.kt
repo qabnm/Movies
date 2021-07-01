@@ -4,7 +4,6 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
 import com.duoduovv.cinema.adapter.MainPageAdapter
@@ -76,10 +75,10 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
                 adapter?.notifyDataChanged(value)
             }
             if (mBind.refreshLayout.isRefreshing) mBind.refreshLayout.finishRefresh()
+            (parentFragment as? CinemaFragment)?.showRecord()
         } else {
             mBind.rvList.visibility = View.GONE
         }
-        (parentFragment as? CinemaFragment)?.showRecord()
     }
 
     /**

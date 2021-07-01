@@ -74,8 +74,10 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
         })
         viewModel.getInstallState().observe(this, {
             val intent = viewModel.getInstallState().value
-            intent?.let { startActivity(it) }
-            requireActivity().finish()
+            intent?.let {
+                startActivity(it)
+                requireActivity().finish()
+            }
         })
         mBind.imgHistory.setOnClickListener {
             ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()

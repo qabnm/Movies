@@ -69,12 +69,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     }
 
     private fun setData(movies: List<MovieLibList>?) {
-        Log.i("typeList", "${typeList?.isNotEmpty()}")
         if (typeList?.isNotEmpty() == true) {
-            Log.i(
-                "typeList",
-                "adapter::${null == movieLibAdapter}movie:&&&&${movies?.isNotEmpty()}"
-            )
             if (null == movieLibAdapter) {
                 movieLibAdapter = MovieLibraryAdapter(requireActivity(), typeList!!, movies)
                 movieLibAdapter?.setItemClickListener(this)
@@ -82,8 +77,6 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             } else {
                 movieLibAdapter?.notifyDataChanged(movies)
             }
-        } else {
-
         }
         finishLoading()
     }
