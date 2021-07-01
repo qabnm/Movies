@@ -180,9 +180,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 初始化广告
      */
     private fun initGDTVideoAd() {
-        if (null == videoAd){
+        if (null == videoAd) {
             videoAd = GDTVideoAdForSelfRender()
-        }else{
+        } else {
             videoAd?.onDestroy()
         }
         videoAd?.initVideoAd(
@@ -198,7 +198,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 当前是否需要显示广告
      * @return Boolean
      */
-    private fun isAdNotEmpty() = BaseApplication.configBean?.ad?.videoAd!=null
+    private fun isAdNotEmpty() = BaseApplication.configBean?.ad?.videoAd != null
 
     /**
      * 请求解析接口出错了
@@ -287,14 +287,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     Log.d("videoPlayer", "****这里执行了：way=$way")
                     if (playList?.isNotEmpty() == true) {
                         (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(1)
-                        val movieFlag = detailBean!!.movie.movieFlag
+                        val movieFlag = detailBean?.movie?.movieFlag
                         val title = if (movieFlag == TYPE_TV || movieFlag == TYPE_TV0) {
                             //电视剧或者剧集类型
-                            "${detailBean!!.movie.vodName} 第${vidTitle}集"
+                            "${detailBean?.movie?.vodName} 第${vidTitle}集"
                         } else if (movieFlag == TYPE_ALBUM) {
-                            "${detailBean!!.movie.vodName} 第${vidTitle}"
+                            "${detailBean?.movie?.vodName} 第${vidTitle}"
                         } else {
-                            detailBean!!.movie.vodName
+                            detailBean?.movie?.vodName ?: ""
                         }
                         mBind.videoPlayer.currentPlayer.apply {
                             if (it.headers?.isNotEmpty() == true) {
@@ -357,14 +357,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             val playUrls = it.playUrls
             if (playUrls?.isNotEmpty() == true) {
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(1)
-                val movieFlag = detailBean!!.movie.movieFlag
+                val movieFlag = detailBean?.movie?.movieFlag
                 val title = if (movieFlag == TYPE_TV || movieFlag == TYPE_TV0) {
                     //电视剧或者剧集类型
-                    "${detailBean!!.movie.vodName} 第${vidTitle}集"
+                    "${detailBean?.movie?.vodName} 第${vidTitle}集"
                 } else if (movieFlag == TYPE_ALBUM) {
-                    "${detailBean!!.movie.vodName} 第${vidTitle}"
+                    "${detailBean?.movie?.vodName} 第${vidTitle}"
                 } else {
-                    detailBean!!.movie.vodName
+                    detailBean?.movie?.vodName ?: ""
                 }
                 mBind.videoPlayer.currentPlayer.apply {
                     if (it.headers?.isNotEmpty() == true) {
@@ -384,8 +384,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     private var skipLength = 6
     private var totalLength = 0
-    private var timerTask: MyTimer?=null
-    private var handler: MyHandler?=null
+    private var timerTask: MyTimer? = null
+    private var handler: MyHandler? = null
     override fun initData() {
         vidStr = intent.getStringExtra(TYPE_ID) ?: ""
         movieId = intent.getStringExtra(ID) ?: ""
@@ -400,7 +400,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (it > 0) {
                     //当前是视频类型
                     totalLength = it / 1000
-                    if (null != timerTask){
+                    if (null != timerTask) {
                         timerTask?.cancel()
                         timerTask = null
                     }
@@ -409,7 +409,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 } else {
                     //图片广告
                     totalLength = 0
-                    if (null != timerTask){
+                    if (null != timerTask) {
                         timerTask?.cancel()
                         timerTask = null
                     }
@@ -420,7 +420,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -429,7 +430,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -476,7 +478,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 videoAd?.onDestroy()
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
                     View.GONE
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text=""
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
                 playAdLoading()
                 loadPlayUrl()
             }
@@ -486,14 +488,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun setData(detailBean: MovieDetailBean?) {
         //查询视频详情
         this.detailBean = detailBean
-        if (detailBean == null) return
-        movieId = detailBean.movie.strId
-        way = detailBean.way
-        if (way == WAY_H5 || way == WAY_VERIFY) pauseAdLoading()
-        title = detailBean.movie.vodName
-        line = detailBean.playLine
-        if (isAdNotEmpty()) initGDTVideoAd()
-        queryMovieById(movieId)
+        detailBean?.let {
+            movieId = it.movie.strId
+            way = it.way
+            if (way == WAY_H5 || way == WAY_VERIFY) pauseAdLoading()
+            title = it.movie.vodName
+            line = it.playLine
+            if (isAdNotEmpty()) initGDTVideoAd()
+            queryMovieById(movieId)
+        }
     }
 
     /**
@@ -503,69 +506,75 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     private fun queryMovieById(movieId: String) {
         GlobalScope.launch(Dispatchers.Main) {
-            if (way == WAY_RELEASE) {
-                val bean = viewModel.queryMovieById(movieId)
-                bean?.let {
-                    if (it.movieId == movieId) {
+            detailBean?.let {
+                if (way == WAY_RELEASE) {
+                    val bean = viewModel.queryMovieById(movieId)
+                    if (bean?.movieId == movieId) {
                         //代表当前的播放过  这里判断vid是因为这个vid是可能变化的
-                        for (i in detailBean!!.movieItems.indices) {
-                            if (it.vid == detailBean!!.movieItems[i].vid) {
-                                vidStr = it.vid
-                                vidByQuery = it.vid
-                                currentLength = it.currentLength.toLong()
-                                break
+                        if (it.movieItems?.isNotEmpty() == true) {
+                            for (i in it.movieItems.indices) {
+                                if (bean.vid == it.movieItems[i].vid) {
+                                    vidStr = bean.vid
+                                    vidByQuery = bean.vid
+                                    currentLength = bean.currentLength.toLong()
+                                    break
+                                }
                             }
                         }
                     }
                 }
-            }
-            //视频信息
-            mBind.videoPlayer.loadCoverImage(
-                this@MovieDetailActivity,
-                detailBean!!.movie.coverUrl,
-                ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
-            )
-            fragment?.bindDetail(detailBean!!)
-            detailAdapter?.setList(detailBean!!.recommends)
-            if (!isAdNotEmpty()) loadPlayUrl()
-            val list = detailBean!!.movieItems
-            if (list.isNotEmpty()) {
-                if (!hasClickRecommend) {
-                    if (StringUtils.isEmpty(vidStr)) {
-                        detailBean!!.movieItems[0].isSelect = true
-                        vidTitle = detailBean!!.movieItems[0].title
+                //视频信息
+                mBind.videoPlayer.loadCoverImage(
+                    this@MovieDetailActivity,
+                    it.movie.coverUrl,
+                    ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
+                )
+                fragment?.bindDetail(it)
+                detailAdapter?.setList(it.recommends)
+                if (!isAdNotEmpty()) loadPlayUrl()
+                val list = it.movieItems
+                if (list?.isNotEmpty() == true) {
+                    if (!hasClickRecommend) {
+                        if (StringUtils.isEmpty(vidStr)) {
+                            it.movieItems[0].isSelect = true
+                            vidTitle = it.movieItems[0].title
+                        } else {
+                            for (i in list.indices) {
+                                if (vidStr == list[i].vid) {
+                                    it.movieItems[i].isSelect = true
+                                    vidTitle = it.movieItems[i].title
+                                }
+                            }
+                        }
                     } else {
-                        for (i in list.indices) {
-                            if (vidStr == list[i].vid) {
-                                detailBean!!.movieItems[i].isSelect = true
-                                vidTitle = detailBean!!.movieItems[i].title
-                            }
-                        }
+                        it.movieItems[0].isSelect = true
+                        vidTitle = it.movieItems[0].title
                     }
-                } else {
-                    detailBean!!.movieItems[0].isSelect = true
-                    vidTitle = detailBean!!.movieItems[0].title
+                    fragment?.bindDetail(it)
                 }
-                fragment?.bindDetail(detailBean!!)
+                //更新收藏状态
+                val collectionBean = viewModel.queryCollectionById(it.movie.id)
+                fragment?.notifyCollectionChange(collectionBean)
             }
-            //更新收藏状态
-            val collectionBean = viewModel.queryCollectionById(detailBean!!.movie.id)
-            fragment?.notifyCollectionChange(collectionBean)
         }
     }
 
     private fun loadPlayUrl() {
         //默认播放第一集
-        val list = detailBean!!.movieItems
-        if (list.isNotEmpty()) {
-            //去请求播放地址信息 播放地址也 可能是H5的跳转链接
-            if (!hasClickRecommend) {
-                if (StringUtils.isEmpty(vidStr)) vidStr = list[0].vid
-            } else {
-                vidStr = list[0].vid
+        detailBean?.let {
+            val list = it.movieItems
+            if (list?.isNotEmpty() == true) {
+                //去请求播放地址信息 播放地址也 可能是H5的跳转链接
+                if (!hasClickRecommend) {
+                    if (StringUtils.isEmpty(vidStr)) vidStr = list[0].vid
+                } else {
+                    vidStr = list[0].vid
+                }
+                viewModel.moviePlayInfo(vidStr, movieId, line, "")
+                if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(
+                    0
+                )
             }
-            viewModel.moviePlayInfo(vidStr, movieId, line, "")
-            if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(0)
         }
     }
 
@@ -608,7 +617,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private val shareClickListener = object : ShareDialogFragment.OnShareClickListener {
         override fun onQQShareClick(flag: Int) {
             WeiChatTool.regToQQ(BaseApplication.baseCtx)
-            WeiChatTool.shareToQQ(this@MovieDetailActivity, SHARE_TITLE, SHARE_CONTENT, SHARE_LINK, resources.getString(R.string.app_name), flag)
+            WeiChatTool.shareToQQ(
+                this@MovieDetailActivity,
+                SHARE_TITLE,
+                SHARE_CONTENT,
+                SHARE_LINK,
+                resources.getString(R.string.app_name),
+                flag
+            )
         }
 
         override fun onCopyClick() {
@@ -620,13 +636,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
         override fun onWeiChatClick(flag: Int) {
             WeiChatTool.regToWx(BaseApplication.baseCtx)
-            WeiChatTool.weiChatShareAsWeb(SHARE_LINK, SHARE_TITLE, SHARE_CONTENT,
-                BitmapFactory.decodeResource(resources, R.drawable.share_icon), flag)
+            WeiChatTool.weiChatShareAsWeb(
+                SHARE_LINK, SHARE_TITLE, SHARE_CONTENT,
+                BitmapFactory.decodeResource(resources, R.drawable.share_icon), flag
+            )
         }
     }
 
-    private var ttEncourageAd:TTEncourageAd?=null
-    private var gdtEncourageAd:GDTEncourageAd?=null
+    private var ttEncourageAd: TTEncourageAd? = null
+    private var gdtEncourageAd: GDTEncourageAd? = null
+
     /**
      * 下载
      */
@@ -634,7 +653,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 //        if (null == ttEncourageAd) ttEncourageAd = TTEncourageAd()
 //        ttEncourageAd?.initAd(this,"946280869","123",1)
         if (null == gdtEncourageAd) gdtEncourageAd = GDTEncourageAd()
-        gdtEncourageAd?.initAd(this,"1052602148965811")
+        gdtEncourageAd?.initAd(this, "1052602148965811")
     }
 
     /**
@@ -643,15 +662,19 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onCollectClick(collectionBean: CollectionBean?) {
         collectionBean?.let {
             GlobalScope.launch(Dispatchers.Main) {
-                if (it.isCollect) {
-                    viewModel.deleteCollection(it)
-                    AndroidUtils.toast("取消收藏成功", this@MovieDetailActivity)
+                if (null != detailBean) {
+                    if (it.isCollect) {
+                        viewModel.deleteCollection(it)
+                        AndroidUtils.toast("取消收藏成功", this@MovieDetailActivity)
+                    } else {
+                        viewModel.addCollection(it)
+                        AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
+                    }
+                    val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
+                    fragment?.notifyCollectionChange(bean)
                 } else {
-                    viewModel.addCollection(it)
-                    AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
+                    AndroidUtils.toast("操作失败，请稍后再试", this@MovieDetailActivity)
                 }
-                val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
-                fragment?.notifyCollectionChange(bean)
             }
         } ?: also {
             GlobalScope.launch(Dispatchers.Main) {
@@ -805,7 +828,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             )
         }
     }
-    private fun destroyTimer(){
+
+    private fun destroyTimer() {
         timerTask?.cancel()
         handler?.let {
             it.removeMessages(0)
@@ -837,30 +861,32 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             //正常播放的模式 如果有下一集 直接播放下一集
             detailBean?.let {
                 val movieItems = it.movieItems
-                for (i in movieItems.indices) {
-                    if (vidStr == movieItems[i].vid) {
-                        currentPlayPosition = i
-                    }
-                }
-                if (currentPlayPosition < movieItems.size - 1) {
-                    //清除当前正在播放的
-                    mBind.videoPlayer.currentPlayer.release()
-                    playAdLoading()
-                    //还有下一集 播放下一集
-                    currentPlayPosition++
-                    vidStr = movieItems[currentPlayPosition].vid
-                    vidTitle = movieItems[currentPlayPosition].title
-                    //播放广告
-                    if (isAdNotEmpty()) initGDTVideoAd()
-                    if (!isAdNotEmpty()) {
-                        viewModel.moviePlayInfo(vidStr, movieId, line, "", 1)
-                    }
-                    //更新选集显示
+                if (movieItems?.isNotEmpty() == true) {
                     for (i in movieItems.indices) {
-                        movieItems[i].isSelect = false
+                        if (vidStr == movieItems[i].vid) {
+                            currentPlayPosition = i
+                        }
                     }
-                    movieItems[currentPlayPosition].isSelect = true
-                    fragment?.updateSelect(it.movieItems, currentPlayPosition)
+                    if (currentPlayPosition < movieItems.size - 1) {
+                        //清除当前正在播放的
+                        mBind.videoPlayer.currentPlayer.release()
+                        playAdLoading()
+                        //还有下一集 播放下一集
+                        currentPlayPosition++
+                        vidStr = movieItems[currentPlayPosition].vid
+                        vidTitle = movieItems[currentPlayPosition].title
+                        //播放广告
+                        if (isAdNotEmpty()) initGDTVideoAd()
+                        if (!isAdNotEmpty()) {
+                            viewModel.moviePlayInfo(vidStr, movieId, line, "", 1)
+                        }
+                        //更新选集显示
+                        for (i in movieItems.indices) {
+                            movieItems[i].isSelect = false
+                        }
+                        movieItems[currentPlayPosition].isSelect = true
+                        fragment?.updateSelect(it.movieItems, currentPlayPosition)
+                    }
                 }
             }
         }
@@ -890,7 +916,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -921,14 +948,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onDialogClick(vid: String, vidTitle: String) {
         //更新显示
         detailBean?.let {
-            var pos = 0
-            for (i in it.movieItems.indices) {
-                it.movieItems[i].isSelect = false
-                if (vid == it.movieItems[i].vid) pos = i
+            if (it.movieItems?.isNotEmpty() == true) {
+                var pos = 0
+                for (i in it.movieItems.indices) {
+                    it.movieItems[i].isSelect = false
+                    if (vid == it.movieItems[i].vid) pos = i
+                }
+                it.movieItems[pos].isSelect = true
+                fragment?.updateSelect(it.movieItems, pos)
+                onSelectClick(vid, movieId, vidTitle)
             }
-            it.movieItems[pos].isSelect = true
-            fragment?.updateSelect(it.movieItems, pos)
-            onSelectClick(vid, movieId, vidTitle)
         }
     }
 
@@ -936,12 +965,5 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         UIListenerManager.getInstance()
             .onActivityResult(requestCode, resultCode, data, WeiChatTool.shareListener)
         super.onActivityResult(requestCode, resultCode, data)
-    }
-
-    override fun getSystemService(name: String): Any {
-        if (Context.AUDIO_SERVICE == name){
-            return applicationContext.getSystemService(name)
-        }
-        return super.getSystemService(name)
     }
 }

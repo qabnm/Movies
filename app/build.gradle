@@ -1,6 +1,11 @@
+apply plugin: 'bugly'
 apply plugin: 'com.android.application'
 apply plugin: 'com.aliyun.ams.emas-services'
 apply plugin: 'kotlin-android'
+bugly {
+    appId = '857247490b' // 注册时分配的App ID
+    appKey = '7d6a5edd-bb08-4847-b9bd-8c714a2dc743' // 注册时分配的App Key
+}
 def ext = rootProject.ext
 def cfg = ext.android
 
@@ -77,10 +82,10 @@ android {
             // 不显示Log
             buildConfigField "boolean", "LEO_DEBUG", "false"
             //是否zip对齐
-            zipAlignEnabled true
+            zipAlignEnabled false
             // 缩减resource文件
             shrinkResources false
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             //签名
             signingConfig signingConfigs.release

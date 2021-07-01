@@ -1,12 +1,7 @@
-apply plugin: 'bugly'
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-parcelize'
-bugly {
-    appId = '857247490b' // 注册时分配的App ID
-    appKey = '7d6a5edd-bb08-4847-b9bd-8c714a2dc743' // 注册时分配的App Key
-}
 
 def ext = rootProject.ext
 def cfg = ext.android

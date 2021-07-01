@@ -83,9 +83,9 @@ class MovieDetailFragment : BaseFragment() {
             //是电视类型
             mBind.layoutContainer.visibility = View.VISIBLE
             mBind.tvWhere.text = detailBean.movie.lastRemark
-            if (detailBean.movieItems.size > 6) {
+            if (detailBean.movieItems?.size?:0 > 6) {
                 mBind.tvWhere.visibility = View.VISIBLE
-                mBind.tvWhere.setOnClickListener { callback?.onSelectClick(detailBean.movieItems) }
+                mBind.tvWhere.setOnClickListener { callback?.onSelectClick(detailBean.movieItems!!) }
             } else {
                 mBind.tvWhere.visibility = View.INVISIBLE
             }

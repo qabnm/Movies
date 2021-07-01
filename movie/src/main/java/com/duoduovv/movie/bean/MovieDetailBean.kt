@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName
 data class MovieDetailBean(
     val movie: MovieDetail,
     val lineList: List<LineList>,
-    val movieItems: List<MovieItem>,
+    val movieItems: List<MovieItem>?,
     val recommends: List<DetailRecommend>?,
     val way: String,
     val playLine: String
