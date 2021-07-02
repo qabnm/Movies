@@ -45,10 +45,13 @@ import com.shuyu.gsyvideoplayer.player.IjkPlayerManager
 import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
+import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
+import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
 import dc.android.bridge.BridgeContext.Companion.URL
@@ -100,7 +103,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var line = ""//播放线路
     private var js = ""
     private var videoAd: GDTVideoAdForSelfRender? = null
-    private var vip = "0"
+    private var vip:String?=null
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
@@ -406,7 +409,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     }
                     timerTask = MyTimer()
                     Timer().schedule(timerTask, 0, 1000)
-                } else if (it == -1){
+                } else if (it == -1) {
                     //图片广告
                     totalLength = 0
                     if (null != timerTask) {
@@ -420,8 +423,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -430,13 +432,21 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
             }
         }
+
+        //激励广告的
+        LiveDataBus.get().with("encourageAd",String::class.java).observe(this, {
+            if (it == "start")dismissLoading()
+            if (it == "onAdClose") {
+                dismissLoading()
+                loadPlayUrl()
+            }
+        })
     }
 
     private inner class MyTimer : TimerTask() {
@@ -465,19 +475,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.handleMessage(msg)
             if (msg.what == 0) {
                 if (totalLength > 0) {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
-                        "$totalLength | ${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | ${skipLength}秒可关闭"
                 } else {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
-                        "${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "${skipLength}秒可关闭"
                 }
             } else if (msg.what == 1) {
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
-                    "$totalLength | 关闭"
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | 关闭"
             } else {
                 videoAd?.onDestroy()
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                    View.GONE
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
                 playAdLoading()
                 loadPlayUrl()
@@ -514,6 +520,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         if (it.movieItems?.isNotEmpty() == true) {
                             for (i in it.movieItems.indices) {
                                 if (bean.vid == it.movieItems[i].vid) {
+                                    vip = it.movieItems[i].vip
                                     vidStr = bean.vid
                                     vidByQuery = bean.vid
                                     currentLength = bean.currentLength.toLong()
@@ -538,17 +545,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         if (StringUtils.isEmpty(vidStr)) {
                             it.movieItems[0].isSelect = true
                             vidTitle = it.movieItems[0].title
+                            vip = it.movieItems[0].vip
                         } else {
                             for (i in list.indices) {
                                 if (vidStr == list[i].vid) {
                                     it.movieItems[i].isSelect = true
                                     vidTitle = it.movieItems[i].title
+                                    vip = it.movieItems[i].vip
                                 }
                             }
                         }
                     } else {
                         it.movieItems[0].isSelect = true
                         vidTitle = it.movieItems[0].title
+                        vip = it.movieItems[0].vip
                     }
                     fragment?.bindDetail(it)
                 }
@@ -566,14 +576,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             if (list?.isNotEmpty() == true) {
                 //去请求播放地址信息 播放地址也 可能是H5的跳转链接
                 if (!hasClickRecommend) {
-                    if (StringUtils.isEmpty(vidStr)) vidStr = list[0].vid
+                    if (StringUtils.isEmpty(vidStr)) {
+                        vidStr = list[0].vid
+                        vip = list[0].vip
+                    }
                 } else {
                     vidStr = list[0].vid
+                    vip = list[0].vip
+                    hasClickRecommend = false
                 }
                 viewModel.moviePlayInfo(vidStr, movieId, line, "")
-                if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(
-                    0
-                )
+                if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(0)
             }
         }
     }
@@ -643,18 +656,37 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
     }
 
+    /**
+     * 激励视频
+     */
+    private fun initEncourageAd() {
+        BaseApplication.configBean?.ad?.encourageAd?.let {
+            when (it.type) {
+                TYPE_TT_AD -> {
+                    showLoading()
+                    if (null == ttEncourageAd) ttEncourageAd = TTEncourageAd()
+                    ttEncourageAd?.initAd(this, it.value, vidStr, 1)
+                }
+                TYPE_GDT_AD -> {
+                    showLoading()
+                    if (null == gdtEncourageAd) gdtEncourageAd = GDTEncourageAd()
+                    gdtEncourageAd?.initAd(this, it.value)
+                }
+                else -> {
+                    loadPlayUrl()
+                }
+            }
+        } ?: also {
+            loadPlayUrl()
+        }
+    }
+
     private var ttEncourageAd: TTEncourageAd? = null
     private var gdtEncourageAd: GDTEncourageAd? = null
-
     /**
      * 下载
      */
-    override fun onDownLoadClick() {
-//        if (null == ttEncourageAd) ttEncourageAd = TTEncourageAd()
-//        ttEncourageAd?.initAd(this,"946280869","123",1)
-        if (null == gdtEncourageAd) gdtEncourageAd = GDTEncourageAd()
-        gdtEncourageAd?.initAd(this, "1052602148965811")
-    }
+    override fun onDownLoadClick() {}
 
     /**
      * 收藏
@@ -754,10 +786,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * @param vid String
      * @param movieId String
      */
-    override fun onSelectClick(vid: String, movieId: String, vidTitle: String) {
+    override fun onSelectClick(vid: String, movieId: String, vidTitle: String, vip: String?) {
         this.vidStr = vid
         this.vidTitle = vidTitle
         this.movieId = movieId
+        this.vip = vip
         mBind.layoutStateError.visibility = View.GONE
         destroyTimer()
         videoAd?.onDestroy()
@@ -765,12 +798,16 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         mBind.videoPlayer.currentPlayer.release()
         fragment?.updateAd()
         //如果是最后三集 需要观看激励视频
-
-
-        if (way == WAY_RELEASE) playAdLoading()
-        if (isAdNotEmpty()) initGDTVideoAd()
-        //只有正常班的才会去请求接口
-        if (!isAdNotEmpty()) viewModel.moviePlayInfo(vid, movieId, line, "", 1)
+        if (vip == "1") {
+            //这里需要先请求激励视频，然后正常播放视频
+            initEncourageAd()
+        } else {
+            //走原有的逻辑
+            if (way == WAY_RELEASE) playAdLoading()
+            if (isAdNotEmpty()) initGDTVideoAd()
+            //只有正常班的才会去请求接口
+            if (!isAdNotEmpty()) viewModel.moviePlayInfo(vid, movieId, line, "", 1)
+        }
     }
 
     private var hasClickRecommend = false
@@ -875,10 +912,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         currentPlayPosition++
                         vidStr = movieItems[currentPlayPosition].vid
                         vidTitle = movieItems[currentPlayPosition].title
+                        vip = movieItems[currentPlayPosition].vip
                         //播放广告
-                        if (isAdNotEmpty()) initGDTVideoAd()
-                        if (!isAdNotEmpty()) {
-                            viewModel.moviePlayInfo(vidStr, movieId, line, "", 1)
+                        if (vip == "1"){
+                            initEncourageAd()
+                        }else{
+                            if (isAdNotEmpty()) initGDTVideoAd()
+                            if (!isAdNotEmpty()) {
+                                viewModel.moviePlayInfo(vidStr, movieId, line, "", 1)
+                            }
                         }
                         //更新选集显示
                         for (i in movieItems.indices) {
@@ -901,9 +943,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 //横屏
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 setStatusBarVisible(View.GONE)
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setOnNextClick(
-                    onNextClickListener
-                )
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setOnNextClick(onNextClickListener)
             }
             else -> {
                 //竖屏
@@ -916,17 +956,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
             }
         }
-        videoAd?.onConfigurationChanged(
-            (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd,
-            this
-        )
+        videoAd?.onConfigurationChanged((mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd, this)
     }
 
     private val onNextClickListener = SampleCoverVideo.OnNextClickListener { onNextClick() }
@@ -945,7 +981,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 选集弹窗的点击事件
      * @param vid String
      */
-    override fun onDialogClick(vid: String, vidTitle: String) {
+    override fun onDialogClick(vid: String, vidTitle: String,vip:String?) {
         //更新显示
         detailBean?.let {
             if (it.movieItems?.isNotEmpty() == true) {
@@ -956,7 +992,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
                 it.movieItems[pos].isSelect = true
                 fragment?.updateSelect(it.movieItems, pos)
-                onSelectClick(vid, movieId, vidTitle)
+                onSelectClick(vid, movieId, vidTitle,vip)
             }
         }
     }

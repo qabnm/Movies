@@ -78,7 +78,7 @@ class GDTVideoAdForSelfRender {
                 mImagePoster.visibility = View.VISIBLE
                 mMediaView.visibility = View.GONE
                 ad.bindImageViews(imageViews, 0)
-                LiveDataBus.get().with("videoLength").value = 0
+                LiveDataBus.get().with("videoLength").value = -1
             }
             ad.adPatternType == AdPatternType.NATIVE_VIDEO -> {
                 layoutAd.visibility = View.VISIBLE

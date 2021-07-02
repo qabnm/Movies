@@ -28,7 +28,7 @@ class GDTEncourageAd {
             override fun onVideoCached() {
                 //视频素材缓存成功，可在此回调后进行广告展示
                 Log.d(tag, "onVideoCached")
-                LiveDataBus.get().with("start").value = "start"
+                LiveDataBus.get().with("encourageAd").value = "start"
                 if (rewardVideoAD?.hasShown() == false) {//当前广告数据还没有展示过
                     val delta = 1000//建议给广告过期时间加个buffer，单位ms，这里demo采用1000ms的buffer
                     //展示广告前判断广告数据未过期
@@ -79,7 +79,7 @@ class GDTEncourageAd {
     }
 
     private fun adClose(){
-        LiveDataBus.get().with("onAdClose").value = "onAdClose"
+        LiveDataBus.get().with("encourageAd").value = "onAdClose"
         onDestroy()
     }
 

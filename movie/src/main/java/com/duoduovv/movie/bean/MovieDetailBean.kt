@@ -27,7 +27,7 @@ data class LineList(val line: String, val name: String, var isDefault: Boolean =
 data class MovieItem(
     val vid: String,
     val title: String,
-    val vip: String,
+    val vip: String?,
     var isSelect: Boolean = false
 )
 

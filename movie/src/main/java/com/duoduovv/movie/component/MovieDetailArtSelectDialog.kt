@@ -43,7 +43,7 @@ class MovieDetailArtSelectDialog(
             data[position].isSelect = true
             ad.notifyDataSetChanged()
             val vid = data[position].vid
-            listener?.onDialogClick(vid, data[position].title)
+            listener?.onDialogClick(vid, data[position].title,data[position].vip)
         }
         mBind.imgCancel.setOnClickListener { dismiss() }
     }
@@ -54,7 +54,7 @@ class MovieDetailArtSelectDialog(
     }
 
     interface OnSelectDialogItemClickListener {
-        fun onDialogClick(vid: String, vidTitle: String)
+        fun onDialogClick(vid: String, vidTitle: String,vip:String?)
     }
 
     /**

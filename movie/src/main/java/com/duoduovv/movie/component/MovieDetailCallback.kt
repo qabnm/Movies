@@ -15,6 +15,6 @@ interface MovieDetailCallback {
     fun onCollectClick(collectionBean: CollectionBean?)
     fun onDetailClick(bean: MovieDetail)
     fun onSelectClick(dataList: List<MovieItem>)
-    fun onSelectClick(vid: String, movieId: String, vidTitle: String)
+    fun onSelectClick(vid: String, movieId: String, vidTitle: String,vip:String?)
     fun onArtSelectClick(dataList: List<MovieItem>)
 }

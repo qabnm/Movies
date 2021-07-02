@@ -107,7 +107,7 @@ class MovieDetailFragment : BaseFragment() {
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                callback?.onSelectClick(vid, detailBean.movie.strId, data[position].title)
+                callback?.onSelectClick(vid, detailBean.movie.strId, data[position].title,data[position].vip)
             }
         } else {
             mBind.layoutContainer.visibility = View.GONE
@@ -134,7 +134,7 @@ class MovieDetailFragment : BaseFragment() {
                 data[position].isSelect = true
                 ad.notifyDataSetChanged()
                 val vid = data[position].vid
-                callback?.onSelectClick(vid, detailBean.movie.strId, data[position].title)
+                callback?.onSelectClick(vid, detailBean.movie.strId, data[position].title,data[position].vip)
             }
             if (detailBean.movieItems.size > 5) {
                 mBind.tvZWhere.visibility = View.VISIBLE
