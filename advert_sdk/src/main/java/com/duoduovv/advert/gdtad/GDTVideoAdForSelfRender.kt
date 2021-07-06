@@ -22,7 +22,7 @@ import dc.android.tools.LiveDataBus
  */
 class GDTVideoAdForSelfRender {
     private var mAdData: NativeUnifiedADData? = null
-    private lateinit var mAdManager: NativeUnifiedAD
+    private var mAdManager: NativeUnifiedAD?=null
     private val TAG = "GDTVideoAdForSelfRender"
 
     fun initVideoAd(
@@ -32,25 +32,27 @@ class GDTVideoAdForSelfRender {
         mMediaView: MediaView,
         layoutAd: NativeAdContainer
     ) {
-        mAdManager = NativeUnifiedAD(context, posId, object : NativeADUnifiedListener {
-            override fun onNoAD(error: AdError?) {
-                Log.d(TAG, "onNoAD${error?.errorCode}${error?.errorMsg}")
-                onVideoPrepare()
-            }
+        if (null == mAdManager){
+            mAdManager = NativeUnifiedAD(context, posId, object : NativeADUnifiedListener {
+                override fun onNoAD(error: AdError?) {
+                    Log.d(TAG, "onNoAD${error?.errorCode}${error?.errorMsg}")
+                    onVideoPrepare()
+                }
 
-            override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
-                if (ads?.isNotEmpty() == true) {
-                    Log.d(TAG, "onADLoaded")
-                    mAdData = ads[0]
-                    mAdData?.let {
-                        initAd(context, it, mImagePoster, mMediaView, layoutAd)
+                override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
+                    if (ads?.isNotEmpty() == true) {
+                        Log.d(TAG, "onADLoaded")
+                        mAdData = ads[0]
+                        mAdData?.let {
+                            initAd(context, it, mImagePoster, mMediaView, layoutAd)
+                        }
                     }
                 }
-            }
-        })
-        mAdManager.setMinVideoDuration(8)
-        mAdManager.setMaxVideoDuration(61)
-        mAdManager.loadData(1)
+            })
+            mAdManager?.setMinVideoDuration(8)
+            mAdManager?.setMaxVideoDuration(61)
+        }
+        mAdManager?.loadData(1)
     }
 
     private fun onVideoPrepare() {

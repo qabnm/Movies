@@ -497,14 +497,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     private fun setData(detailBean: MovieDetailBean?) {
         //查询视频详情
-        this.detailBean = detailBean
         detailBean?.let {
+            this.detailBean = it
             movieId = it.movie.strId
             way = it.way
             if (way == WAY_H5 || way == WAY_VERIFY) pauseAdLoading()
             title = it.movie.vodName
             line = it.playLine
-            if (isAdNotEmpty()) initGDTVideoAd()
+//            if (isAdNotEmpty()) initGDTVideoAd()
             queryMovieById(movieId)
         }
     }
@@ -542,7 +542,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 )
                 fragment?.bindDetail(it)
                 detailAdapter?.setList(it.recommends)
-                if (!isAdNotEmpty()) loadPlayUrl()
                 val list = it.movieItems
                 if (list?.isNotEmpty() == true) {
                     if (!hasClickRecommend) {
@@ -565,6 +564,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         vip = it.movieItems[0].vip
                     }
                     fragment?.bindDetail(it)
+                    if (isAdNotEmpty()) initGDTVideoAd()
+                    if (!isAdNotEmpty()) loadPlayUrl()
                 }
                 //更新收藏状态
                 val collectionBean = viewModel.queryCollectionById(it.movie.id)
@@ -621,7 +622,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             setStartClickListener(this@MovieDetailActivity)
             isNeedLockFull = true
             isShowPauseCover = false
-//            backLoad.setOnClickListener { onBackPressed() }
+            backLoad.setOnClickListener { onBackPressed() }
         }
     }
 

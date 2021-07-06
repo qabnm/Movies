@@ -22,7 +22,7 @@ class GDTBannerAd {
             container.removeView(it)
             it.destroy()
         }
-        bannerView = UnifiedBannerView(activity, posId,object :UnifiedBannerADListener{
+       if (null == bannerView) bannerView = UnifiedBannerView(activity, posId,object :UnifiedBannerADListener{
             override fun onNoAD(p0: AdError?) {
                 LiveDataBus.get().with("adClose").value = "adClose"
             }

@@ -16,7 +16,7 @@ import dc.android.tools.LiveDataBus
  * @des:穿山甲信息流 浮层广告
  */
 class TTInfoAd {
-    private val TAG = "AD_DEMO"
+    private val TAG = "TTInfoAd"
     private var mttAd: TTNativeExpressAd? = null
 
     /**
