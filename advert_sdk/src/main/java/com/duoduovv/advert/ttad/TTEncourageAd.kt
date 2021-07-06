@@ -32,6 +32,7 @@ class TTEncourageAd {
         mTTAdNative.loadRewardVideoAd(adSlot, object :TTAdNative.RewardVideoAdListener{
             override fun onError(code: Int, msg: String?) {
                 Log.d(TAG, "$code$msg")
+                adClose()
             }
 
             override fun onRewardVideoAdLoad(ad: TTRewardVideoAd?) {
@@ -49,6 +50,7 @@ class TTEncourageAd {
 
                     override fun onAdClose() {
                         Log.d(TAG,"onAdClose")
+                        adClose()
                     }
 
                     override fun onVideoComplete() {
@@ -61,9 +63,6 @@ class TTEncourageAd {
 
                     override fun onRewardVerify(rewardVerify: Boolean, rewardAmount: Int, rewardName: String?, code: Int, msg: String?) {
                         Log.d(TAG,"onRewardVerify")
-                        if (rewardVerify){
-                            LiveDataBus.get().with("rewardVerify").value = "rewardVerify"
-                        }
                     }
 
                     override fun onSkippedVideo() {
@@ -75,9 +74,19 @@ class TTEncourageAd {
             override fun onRewardVideoCached() {
                 //视频广告加载后，视频资源缓存到本地的回调，在此回调后，播放本地视频，流畅不阻塞。
                 Log.d(TAG,"onRewardVideoCached")
-                ttRewardVideoAd?.showRewardVideoAd(context, TTAdConstant.RitScenes.CUSTOMIZE_SCENES,"vid")
+                ttRewardVideoAd?.showRewardVideoAd(context, TTAdConstant.RitScenes.CUSTOMIZE_SCENES,vid)
+                LiveDataBus.get().with("encourageAd").value = "start"
                 ttRewardVideoAd = null
             }
         })
+    }
+
+    private fun adClose(){
+        LiveDataBus.get().with("encourageAd").value = "onAdClose"
+        onDestroy()
+    }
+
+    fun onDestroy(){
+        ttRewardVideoAd = null
     }
 }

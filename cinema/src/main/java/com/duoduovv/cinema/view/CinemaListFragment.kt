@@ -81,6 +81,11 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         }
     }
 
+    override fun onDestroyView() {
+        adapter?.onDestroy()
+        super.onDestroyView()
+    }
+
     /**
      * 没有更多数据了
      * @param flag String?

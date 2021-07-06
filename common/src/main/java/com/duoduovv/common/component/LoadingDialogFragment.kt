@@ -1,11 +1,13 @@
 package com.duoduovv.common.component
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
+import com.airbnb.lottie.LottieAnimationView
 import com.duoduovv.common.R
 import dc.android.bridge.util.OsUtils
 
@@ -15,12 +17,15 @@ import dc.android.bridge.util.OsUtils
  * @des:loading弹窗
  */
 class LoadingDialogFragment : DialogFragment() {
+    private var lottieView:LottieAnimationView?= null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.dialog_loading, container, false)
+        val view = inflater.inflate(R.layout.dialog_loading, container, false)
+        lottieView = view.findViewById(R.id.lottieView)
+        return view
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -37,5 +42,13 @@ class LoadingDialogFragment : DialogFragment() {
             it.setBackgroundDrawableResource(android.R.color.transparent)
         }
         dialog?.setCanceledOnTouchOutside(false)
+    }
+
+    fun clearAnimation(){
+        lottieView?.cancelAnimation()
+        lottieView?.clearAnimation()
+        lottieView?.removeAllAnimatorListeners()
+        lottieView?.removeAllUpdateListeners()
+        lottieView = null
     }
 }

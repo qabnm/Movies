@@ -102,6 +102,11 @@ class MovieLibraryAdapter(
         }
     }
 
+    fun onDestroy(){
+        ttAd?.destroyInfoAd()
+        gdtAd?.onDestroy()
+    }
+
     private var ttAd:TTInfoAd?=null
     private var gdtAd:GDTInfoAdForSelfRender?=null
     /**

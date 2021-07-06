@@ -207,10 +207,21 @@ class MovieDetailFragment : BaseFragment() {
         ttBanner?.initBanner(requireActivity(), posId, bannerWidth, 0f, mBind.adContainer)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mBind.adContainer?.removeAllViews()
+        ttBanner?.onDestroy()
+        gdtBannerAd?.onDestroy()
+        ttBanner = null
+        gdtBannerAd = null
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         ttBanner?.onDestroy()
         gdtBannerAd?.onDestroy()
+        ttBanner = null
+        gdtBannerAd = null
     }
 
     /**

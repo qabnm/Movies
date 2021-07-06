@@ -366,7 +366,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
     }
 
     public void pauseLoading(){
-        videoLoading.cancelAnimation();
+        videoLoading.clearAnimation();
         layoutLoading.setVisibility(View.GONE);
     }
 

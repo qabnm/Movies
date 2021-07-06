@@ -55,7 +55,9 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
 
     override fun initView() {
         mBind = ActivitySplashBinding.bind(layoutView)
-        viewModel.getConfigure().observe(this, { initConfig(viewModel.getConfigure().value) })
+        viewModel.getConfigure().observe(this, {
+            initConfig(viewModel.getConfigure().value)
+        })
     }
 
     override fun initData() {
@@ -88,6 +90,7 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
         }
     }
 
+    private var ttSplashAds :TTSplashAds?= null
     /**
      * 请求开屏广告
      */
@@ -97,7 +100,10 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
         })
         configureBean?.ad?.splash?.let {
             when(it.type){
-                TYPE_TT_AD->{ TTSplashAds().initTTSplashAd(this, it.value, 4000, mBind.adContainer) }
+                TYPE_TT_AD->{
+                    ttSplashAds = TTSplashAds()
+                    ttSplashAds?.initTTSplashAd(this, it.value, 4000, mBind.adContainer)
+                }
                 TYPE_GDT_AD->{ initGDTSplash(it.value) }
                 else -> start()
             }
@@ -259,8 +265,12 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
      */
     private fun start() {
         locationHelper?.destroyLocation()
-        ARouter.getInstance().build(RouterPath.PATH_MAIN).withParcelable(DATA, configureBean)
-            .navigation()
+        ARouter.getInstance().build(RouterPath.PATH_MAIN).withParcelable(DATA, configureBean).navigation()
+//        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(BridgeContext.ID, "818953").navigation()
+//        mBind.adContainer.removeAllViews()
+        ttSplashAds?.onDestroy()
+        ttSplashAds = null
+        gdtSplashAd = null
         this.finish()
     }
 

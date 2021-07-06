@@ -17,7 +17,7 @@ import dc.android.tools.ScreenUtils
  * @des:穿山甲开屏广告
  */
 class TTSplashAds {
-
+    private var listener:TTSplashAdListener?= null
     /**
      *初始化穿山甲开屏广告
      * @param activity Activity
@@ -38,7 +38,8 @@ class TTSplashAds {
             .setImageAcceptedSize(width, height)
             .build()
         //加载开屏广告
-        mTTAdNative.loadSplashAd(adSlot, TTSplashAdListener(activity, container), timeOut)
+        listener = TTSplashAdListener(activity,container)
+        mTTAdNative.loadSplashAd(adSlot, listener!!, timeOut)
     }
 
     private class TTSplashAdListener(
@@ -103,5 +104,8 @@ class TTSplashAds {
                 }
             }
         }
+    }
+    fun onDestroy(){
+        listener = null
     }
 }

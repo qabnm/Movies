@@ -99,6 +99,11 @@ class MainPageAdapter(
         }
     }
 
+    fun onDestroy(){
+        ttAd?.destroyInfoAd()
+        gdtAd?.onDestroy()
+    }
+
     private var ttAd: TTInfoAd?=null
     private var gdtAd: GDTInfoAdForSelfRender?=null
     /**
@@ -132,6 +137,11 @@ class MainPageAdapter(
         }
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        ttAd?.destroyInfoAd()
+        gdtAd?.onDestroy()
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
 
     override fun getItemViewType(position: Int) = when (position) {
         0 -> {

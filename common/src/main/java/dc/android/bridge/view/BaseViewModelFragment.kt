@@ -65,6 +65,7 @@ abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
     open fun tokenValid() {}
 
     private fun showLoading() {
+        loadingDialog = null
         loadingDialog = LoadingDialogFragment()
         if (loadingDialog?.isAdded == false) {
             loadingDialog?.showNow(childFragmentManager, "loading")
@@ -73,8 +74,10 @@ abstract class BaseViewModelFragment<VM : BaseViewModel> : BaseFragment() {
 
     private fun dismissLoading() {
         if (loadingDialog?.isAdded == true){
+            loadingDialog?.clearAnimation()
             loadingDialog?.dismiss()
-            loadingDialog?.onDestroy()
+            loadingDialog?.onDestroyView()
+            loadingDialog = null
         }
     }
 

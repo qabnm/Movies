@@ -50,6 +50,7 @@ class GDTBannerAd {
             }
         })
         container.visibility = View.VISIBLE
+        container.removeAllViews()
         container.addView(bannerView)
         bannerView?.loadAD()
         bannerView?.setRefresh(5)

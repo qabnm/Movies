@@ -23,7 +23,7 @@ import dc.android.tools.LiveDataBus
 class GDTVideoAdForSelfRender {
     private var mAdData: NativeUnifiedADData? = null
     private lateinit var mAdManager: NativeUnifiedAD
-    private val TAG = "adLoad"
+    private val TAG = "GDTVideoAdForSelfRender"
 
     fun initVideoAd(
         context: Context,
@@ -85,6 +85,7 @@ class GDTVideoAdForSelfRender {
                 //视频广告
                 mImagePoster.visibility = View.GONE
                 mMediaView.visibility = View.VISIBLE
+                mMediaView.removeAllViews()
                 ad.bindMediaView(mMediaView, getVideoOption(), object : NativeADMediaListener {
                     override fun onVideoInit() {
                         Log.d(TAG, "onVideoInit")
@@ -166,7 +167,7 @@ class GDTVideoAdForSelfRender {
             setAutoPlayMuted(false)
             setDetailPageMuted(false)
             setNeedCoverImage(true)
-            setNeedProgressBar(true)
+            setNeedProgressBar(false)
             setEnableDetailPage(true)
             setEnableUserControl(false)
         }

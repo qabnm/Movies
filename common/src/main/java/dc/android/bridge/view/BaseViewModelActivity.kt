@@ -67,6 +67,7 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
     open fun onJxError(){}
 
     open fun showLoading() {
+        loadingDialog = null
         loadingDialog = LoadingDialogFragment()
         Log.d("dialog","走到showLoading方法了")
         if (loadingDialog?.isAdded == false) {
@@ -77,8 +78,10 @@ open class BaseViewModelActivity<VM : BaseViewModel> : BridgeActivity() {
 
     open fun dismissLoading() {
         if (loadingDialog?.isAdded == true){
+            loadingDialog?.clearAnimation()
             loadingDialog?.dismiss()
-            loadingDialog?.onDestroy()
+            loadingDialog?.onDestroyView()
+            loadingDialog = null
             Log.d("dialog","dismissLoading")
         }
     }

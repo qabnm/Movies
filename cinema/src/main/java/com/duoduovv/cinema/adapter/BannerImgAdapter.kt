@@ -40,6 +40,12 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
             (OsUtils.px2dip(context, OsUtils.getScreenWidth(context).toFloat()) - 20).toFloat()
     }
 
+    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
+        ttInfoAd?.destroyInfoAd()
+        gdtInfoAd?.onDestroy()
+        super.onDetachedFromRecyclerView(recyclerView)
+    }
+
     override fun onCreateHolder(parent: ViewGroup?, viewType: Int) = when (viewType) {
         typeAd -> {
             val adBinder =

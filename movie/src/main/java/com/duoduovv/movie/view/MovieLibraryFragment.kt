@@ -1,6 +1,5 @@
 package com.duoduovv.movie.view
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -55,6 +54,11 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             setOnLoadMoreListener(this@MovieLibraryFragment)
         }
         movieLibAdapter = null
+    }
+
+    override fun onDestroyView() {
+        movieLibAdapter?.onDestroy()
+        super.onDestroyView()
     }
 
     override fun initData() {

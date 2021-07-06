@@ -103,7 +103,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var line = ""//播放线路
     private var js = ""
     private var videoAd: GDTVideoAdForSelfRender? = null
-    private var vip:String?=null
+    private var vip: String? = null
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
     }
@@ -310,8 +310,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                             setUp(playList[0].url, false, title)
                             startPlayLogic()
                         }
-                    } else {
-                    }
+                    } else { }
                 }
                 "jx" -> {
                     //需要再次解析播放地址
@@ -334,8 +333,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         viewModel.jxUrlForPost(it.request.url, map, paramsMap)
                     }
                 }
-                else -> {
-                }
+                else -> { }
             }
         }
     }
@@ -422,8 +420,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             })
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
-                    videoAd?.onDestroy()
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -431,8 +430,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             mBind.videoPlayer.tvSkip.setOnClickListener {
                 if (skipLength == 0) {
                     timerTask?.cancel()
-                    videoAd?.onDestroy()
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -440,8 +440,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
 
         //激励广告的
-        LiveDataBus.get().with("encourageAd",String::class.java).observe(this, {
-            if (it == "start")dismissLoading()
+        LiveDataBus.get().with("encourageAd", String::class.java).observe(this, {
+            if (it == "start") dismissLoading()
             if (it == "onAdClose") {
                 dismissLoading()
                 loadPlayUrl()
@@ -475,16 +475,20 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.handleMessage(msg)
             if (msg.what == 0) {
                 if (totalLength > 0) {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | ${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
+                        "$totalLength | ${skipLength}秒可关闭"
                 } else {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
+                        "${skipLength}秒可关闭"
                 }
             } else if (msg.what == 1) {
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | 关闭"
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
+                    "$totalLength | 关闭"
             } else {
-                videoAd?.onDestroy()
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
+                videoAd?.onDestroy()
                 playAdLoading()
                 loadPlayUrl()
             }
@@ -586,7 +590,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     hasClickRecommend = false
                 }
                 viewModel.moviePlayInfo(vidStr, movieId, line, "")
-                if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(0)
+                if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(
+                    0
+                )
             }
         }
     }
@@ -615,7 +621,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             setStartClickListener(this@MovieDetailActivity)
             isNeedLockFull = true
             isShowPauseCover = false
-            backLoad.setOnClickListener { onBackPressed() }
+//            backLoad.setOnClickListener { onBackPressed() }
         }
     }
 
@@ -665,7 +671,14 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 TYPE_TT_AD -> {
                     showLoading()
                     if (null == ttEncourageAd) ttEncourageAd = TTEncourageAd()
-                    ttEncourageAd?.initAd(this, it.value, vidStr, 1)
+                    //获取当前的屏幕方向
+                    val posId =
+                        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            it.value.substring(0, it.value.indexOf(","))
+                        } else {
+                            it.value.substring(it.value.indexOf(",") + 1, it.value.length)
+                        }
+                    ttEncourageAd?.initAd(this, posId, vidStr, 1)
                 }
                 TYPE_GDT_AD -> {
                     showLoading()
@@ -683,6 +696,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     private var ttEncourageAd: TTEncourageAd? = null
     private var gdtEncourageAd: GDTEncourageAd? = null
+
     /**
      * 下载
      */
@@ -795,7 +809,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         destroyTimer()
         videoAd?.onDestroy()
         //清理掉当前正在播放的视频
-        mBind.videoPlayer.currentPlayer.onVideoPause()
+        mBind.videoPlayer.currentPlayer.release()
         fragment?.updateAd()
         //如果是最后三集 需要观看激励视频
         if (vip == "1") {
@@ -822,7 +836,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             destroyTimer()
             videoAd?.onDestroy()
             if (way == WAY_RELEASE) playAdLoading()
-            mBind.videoPlayer.currentPlayer.onVideoPause()
+            mBind.videoPlayer.currentPlayer.release()
             mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()
             hasClickRecommend = true
@@ -846,6 +860,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onStop() {
+        Log.d("MovieDetailActivity","onStop")
         updateHistoryDB()
         super.onStop()
     }
@@ -886,6 +901,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     override fun onPause() {
+        Log.d("MovieDetailActivity","onPause")
         mBind.videoPlayer.currentPlayer.onVideoPause()
         super.onPause()
     }
@@ -906,7 +922,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     }
                     if (currentPlayPosition < movieItems.size - 1) {
                         //清除当前正在播放的
-                        mBind.videoPlayer.currentPlayer.onVideoPause()
+                        mBind.videoPlayer.currentPlayer.release()
                         playAdLoading()
                         //还有下一集 播放下一集
                         currentPlayPosition++
@@ -914,9 +930,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         vidTitle = movieItems[currentPlayPosition].title
                         vip = movieItems[currentPlayPosition].vip
                         //播放广告
-                        if (vip == "1"){
+                        if (vip == "1") {
                             initEncourageAd()
-                        }else{
+                        } else {
                             if (isAdNotEmpty()) initGDTVideoAd()
                             if (!isAdNotEmpty()) {
                                 viewModel.moviePlayInfo(vidStr, movieId, line, "", 1)
@@ -943,7 +959,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 //横屏
                 window.addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
                 setStatusBarVisible(View.GONE)
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setOnNextClick(onNextClickListener)
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setOnNextClick(
+                    onNextClickListener
+                )
             }
             else -> {
                 //竖屏
@@ -956,13 +974,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }
             }
         }
-        videoAd?.onConfigurationChanged((mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd, this)
+        videoAd?.onConfigurationChanged(
+            (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd,
+            this
+        )
     }
 
     private val onNextClickListener = SampleCoverVideo.OnNextClickListener { onNextClick() }
@@ -981,7 +1003,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 选集弹窗的点击事件
      * @param vid String
      */
-    override fun onDialogClick(vid: String, vidTitle: String,vip:String?) {
+    override fun onDialogClick(vid: String, vidTitle: String, vip: String?) {
         //更新显示
         detailBean?.let {
             if (it.movieItems?.isNotEmpty() == true) {
@@ -992,7 +1014,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 }
                 it.movieItems[pos].isSelect = true
                 fragment?.updateSelect(it.movieItems, pos)
-                onSelectClick(vid, movieId, vidTitle,vip)
+                onSelectClick(vid, movieId, vidTitle, vip)
             }
         }
     }
