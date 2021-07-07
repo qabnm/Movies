@@ -19,7 +19,7 @@ import com.duoduovv.movie.bean.Filter
 import com.duoduovv.movie.bean.MovieLibList
 import com.duoduovv.movie.bean.TypeListArray
 import com.duoduovv.movie.databinding.ItemLibTopLayoutBinding
-import com.duoduovv.movie.view.MovieTopLayout
+import com.duoduovv.movie.component.MovieTopLayout
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.util.GlideUtils

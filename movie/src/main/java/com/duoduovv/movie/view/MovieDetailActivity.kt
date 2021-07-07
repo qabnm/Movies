@@ -547,7 +547,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         if (StringUtils.isEmpty(vidStr)) {
                             it.movieItems[0].isSelect = true
                             vidTitle = it.movieItems[0].title
-                            vip = it.movieItems[0].vip ?: "1"
+                            vip = it.movieItems[0].vip
                             vidStr = it.movieItems[0].vid
                         } else {
                             for (i in list.indices) {

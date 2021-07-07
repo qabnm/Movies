@@ -1,4 +1,4 @@
-package com.duoduovv.movie.view
+package com.duoduovv.movie.component
 
 import android.content.Context
 import android.util.AttributeSet

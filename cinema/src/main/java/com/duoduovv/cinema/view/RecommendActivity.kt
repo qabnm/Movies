@@ -1,6 +1,5 @@
 package com.duoduovv.cinema.view
 
-import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.cinema.R
