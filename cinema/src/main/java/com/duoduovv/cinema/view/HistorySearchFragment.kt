@@ -120,9 +120,9 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
      */
     private fun onMoreClick() {
         val layoutParams = mBind.layoutHistory.layoutParams as LinearLayout.LayoutParams
+        mBind.imgMore.visibility = View.GONE
         //展开所有的记录
         layoutParams.height = LinearLayout.LayoutParams.WRAP_CONTENT
-        mBind.imgMore.visibility = View.GONE
     }
 
     private var isFirstSet = true

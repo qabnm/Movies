@@ -122,7 +122,7 @@ class MovieLibraryAdapter(
                         holder.bind.layoutTTAd.visibility = View.VISIBLE
                         holder.bind.layoutGdt.visibility = View.GONE
                         if (null == ttAd) ttAd = TTInfoAd()
-                        val width = OsUtils.px2dip(context, OsUtils.getScreenWidth(context).toFloat()) - 24
+                        val width = OsUtils.px2dip(context, OsUtils.getScreenWidth(context).toFloat()) - 20
                         ttAd?.initTTInfoAd(context as Activity, it.value, width.toFloat(), 0f, holder.bind.layoutTTAd)
                     }
                     TYPE_GDT_AD -> {
