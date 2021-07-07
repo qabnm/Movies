@@ -2,8 +2,6 @@ package dc.android.bridge.util;
 
 import android.util.Base64;
 
-import androidx.exifinterface.media.ExifInterface;
-
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -201,4 +199,5 @@ public class StringUtils {
         timeStr += ":" + (time % 60 < 10 ? "0" + time % 60 : time % 60 + "");
         return timeStr;
     }
+
 }

@@ -46,17 +46,19 @@ class MovieFragment : BaseFragment() {
                 .navigation()
         }
         LiveDataBus.get().with(BridgeContext.ID, String::class.java).observe(this, {
-            typeId = it
-            Log.i("typeId", "我已经接受到typeId了，$typeId")
-            if (null != mBind.vpContainer.adapter) {
-                mBind.vpContainer.currentItem = 0
-                libFragment?.setTypeId(it)
+            it?.let {
+                typeId = it
+                Log.i("typeId", "我已经接受到typeId了，$typeId")
+                if (null != mBind.vpContainer.adapter) {
+                    mBind.vpContainer.currentItem = 1
+                    libFragment?.setTypeId(it)
+                }
             }
         })
     }
 
     override fun initData() {
-        typeId = arguments?.getString(BridgeContext.TYPE_ID)
+        typeId = arguments?.getString(BridgeContext.TYPE_ID)?:""
         val data = listOf("专题","片库", "榜单")
         val fragmentList = ArrayList<Fragment>()
         val subjectFragment = SubjectFragment()

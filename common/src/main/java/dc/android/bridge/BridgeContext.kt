@@ -15,6 +15,7 @@ open class BridgeContext {
         const val DATA = "data"
 
         const val ADDRESS = "address"
+        const val ADDRESS_CH = "address_ch"
         const val ID = "id"
         const val LIST = "list"
         const val NO_MORE_DATA = "noMoreData"
@@ -37,6 +38,8 @@ open class BridgeContext {
         const val PROVINCE = "province"
         const val CITY = "city"
         const val AREA = "area"
+        
+        const val UMENG_WAY_RELEASE = "way_release"
 
         //以下是广告相关的
         /**

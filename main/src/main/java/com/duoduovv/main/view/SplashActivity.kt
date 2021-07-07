@@ -1,6 +1,7 @@
 package com.duoduovv.main.view
 
 import android.Manifest
+import android.os.Build
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat
@@ -19,8 +20,10 @@ import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.duoduovv.main.databinding.ActivitySplashBinding
 import com.permissionx.guolindev.PermissionX
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
+import dc.android.bridge.BridgeContext.Companion.ADDRESS_CH
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
 import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
@@ -67,15 +70,16 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                 privacyDialogFragment?.showNow(supportFragmentManager, "privacy")
             }
             else -> {
-                viewModel.configure()
+                location()
             }
         }
     }
 
     override fun showLoading() {}
 
-    override fun dismissLoading() {
-        location()
+    override fun dismissLoading() {}
+    override fun finishLoading() {
+        initSplashAd()
     }
 
     /**
@@ -87,6 +91,14 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
             SharedPreferencesHelper.helper.setValue(BridgeContext.WAY, it.way)
             this.configureBean = it
             BaseApplication.configBean = it
+            initSplashAd()
+            //统计可播放的way
+            if (it.way == BridgeContext.WAY_RELEASE){
+                Log.d("WAY_RELEASE",it.way)
+                val location = SharedPreferencesHelper.helper.getValue(ADDRESS_CH,"")
+                val map = mapOf("location" to location,"phone" to Build.MODEL)
+                MobclickAgent.onEventObject(applicationContext,BridgeContext.UMENG_WAY_RELEASE,map)
+            }
         }
     }
 
@@ -203,7 +215,8 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                 locationHelper?.startLocation(OsUtils.isAppDebug())
             } else {
                 SharedPreferencesHelper.helper.remove(ADDRESS)
-                initSplashAd()
+                SharedPreferencesHelper.helper.remove(ADDRESS_CH)
+                viewModel.configure()
             }
         }
     }
@@ -227,10 +240,7 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                 SharedPreferencesHelper.helper.getValue(BridgeContext.PROVINCE, "") as String
             val dfCity = SharedPreferencesHelper.helper.getValue(BridgeContext.CITY, "") as String
             val dfArea = SharedPreferencesHelper.helper.getValue(BridgeContext.AREA, "") as String
-            if (StringUtils.isEmpty(dfProvince) || StringUtils.isEmpty(dfCity) || StringUtils.isEmpty(
-                    dfArea
-                )
-            ) {
+            if (StringUtils.isEmpty(dfProvince) || StringUtils.isEmpty(dfCity) || StringUtils.isEmpty(dfArea)) {
                 //没有默认地址
                 SharedPreferencesHelper.helper.setValue(
                     ADDRESS,
@@ -240,6 +250,10 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                         OsUtils.getVerCode(BaseApplication.baseCtx)
                     },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
                 )
+                SharedPreferencesHelper.helper.setValue(ADDRESS_CH,"{\"p\":\"$province\",\"c\":\"$city" +
+                        "\",\"d\":\"$district\",\"v\":${
+                    OsUtils.getVerCode(BaseApplication.baseCtx)
+                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}")
             } else {
                 //有默认地址就用默认地址
                 SharedPreferencesHelper.helper.setValue(
@@ -250,13 +264,18 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                         OsUtils.getVerCode(BaseApplication.baseCtx)
                     },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
                 )
+                SharedPreferencesHelper.helper.setValue(ADDRESS_CH,"{\"p\":\"$dfProvince\",\"c\":\"$dfCity" +
+                        "\",\"d\":\"$dfArea\",\"v\":${
+                            OsUtils.getVerCode(BaseApplication.baseCtx)
+                        },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}")
             }
-            initSplashAd()
+            viewModel.configure()
         }
 
         override fun onLocationFail() {
             SharedPreferencesHelper.helper.remove(ADDRESS)
-            initSplashAd()
+            SharedPreferencesHelper.helper.remove(ADDRESS_CH)
+            viewModel.configure()
         }
     }
 

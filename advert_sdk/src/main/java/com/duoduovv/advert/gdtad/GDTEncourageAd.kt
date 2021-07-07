@@ -3,7 +3,6 @@ package com.duoduovv.advert.gdtad
 import android.app.Activity
 import android.os.SystemClock
 import android.util.Log
-import android.widget.Toast
 import com.qq.e.ads.rewardvideo.RewardVideoAD
 import com.qq.e.ads.rewardvideo.RewardVideoADListener
 import com.qq.e.comm.util.AdError

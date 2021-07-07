@@ -48,5 +48,6 @@ data class SearchResultList(
 data class MovieItem(
     var vid: String,
     var title: String,
+    val vip:String?=null,
     var isSelect: Boolean = false
 ) : Parcelable
