@@ -22,7 +22,6 @@ import dc.android.tools.LiveDataBus
  */
 class GDTVideoAdForSelfRender {
     private var mAdData: NativeUnifiedADData? = null
-    private var mAdManager: NativeUnifiedAD?=null
     private val TAG = "GDTVideoAdForSelfRender"
 
     fun initVideoAd(
@@ -32,27 +31,23 @@ class GDTVideoAdForSelfRender {
         mMediaView: MediaView,
         layoutAd: NativeAdContainer
     ) {
-        if (null == mAdManager){
-            mAdManager = NativeUnifiedAD(context, posId, object : NativeADUnifiedListener {
-                override fun onNoAD(error: AdError?) {
-                    Log.d(TAG, "onNoAD${error?.errorCode}${error?.errorMsg}")
-                    onVideoPrepare()
-                }
+        val mAdManager = NativeUnifiedAD(context, posId, object : NativeADUnifiedListener {
+            override fun onNoAD(error: AdError?) {
+                Log.d(TAG, "onNoAD${error?.errorCode}${error?.errorMsg}")
+                onVideoPrepare()
+            }
 
-                override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
-                    if (ads?.isNotEmpty() == true) {
-                        Log.d(TAG, "onADLoaded")
-                        mAdData = ads[0]
-                        mAdData?.let {
-                            initAd(context, it, mImagePoster, mMediaView, layoutAd)
-                        }
+            override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
+                if (ads?.isNotEmpty() == true) {
+                    Log.d(TAG, "onADLoaded")
+                    mAdData = ads[0]
+                    mAdData?.let {
+                        initAd(context, it, mImagePoster, mMediaView, layoutAd)
                     }
                 }
-            })
-            mAdManager?.setMinVideoDuration(8)
-            mAdManager?.setMaxVideoDuration(61)
-        }
-        mAdManager?.loadData(1)
+            }
+        })
+        mAdManager.loadData(1)
     }
 
     private fun onVideoPrepare() {
@@ -176,15 +171,16 @@ class GDTVideoAdForSelfRender {
         return builder.build()
     }
 
-    fun onConfigurationChanged(container: FrameLayout,context: Context){
-        val height = Resources.getSystem().displayMetrics.widthPixels.coerceAtMost(Resources.getSystem().displayMetrics.heightPixels)
+    fun onConfigurationChanged(container: FrameLayout, context: Context) {
+        val height =
+            Resources.getSystem().displayMetrics.widthPixels.coerceAtMost(Resources.getSystem().displayMetrics.heightPixels)
         container.post {
             val configuration = context.resources.configuration
             val layoutParams: ViewGroup.LayoutParams = container.layoutParams
             if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
                 layoutParams.height = height
             } else if (configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                layoutParams.height = (height*9/16f).toInt()
+                layoutParams.height = (height * 9 / 16f).toInt()
             }
             container.layoutParams = layoutParams
         }

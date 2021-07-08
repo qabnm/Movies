@@ -183,7 +183,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             videoAd?.onDestroy()
         }
         videoAd?.initVideoAd(
-            this,
+            BaseApplication.baseCtx,
             BaseApplication.configBean!!.ad!!.videoAd!!.value,
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).adImgCover,
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView,
@@ -503,7 +503,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             if (way == WAY_H5 || way == WAY_VERIFY) pauseAdLoading()
             title = it.movie.vodName
             line = it.playLine
-//            if (isAdNotEmpty()) initGDTVideoAd()
             queryMovieById(movieId)
         }
     }
@@ -817,7 +816,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         destroyTimer()
         videoAd?.onDestroy()
         //清理掉当前正在播放的视频
-        mBind.videoPlayer.currentPlayer.release()
+        mBind.videoPlayer.currentPlayer.onVideoPause()
         fragment?.updateAd()
         //如果是最后三集 需要观看激励视频
         if (vip == "1") {
@@ -844,7 +843,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             destroyTimer()
             videoAd?.onDestroy()
             if (way == WAY_RELEASE) playAdLoading()
-            mBind.videoPlayer.currentPlayer.release()
+            mBind.videoPlayer.currentPlayer.onVideoPause()
             mBind.layoutStateError.visibility = View.GONE
             updateHistoryDB()
             hasClickRecommend = true
@@ -930,7 +929,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     }
                     if (currentPlayPosition < movieItems.size - 1) {
                         //清除当前正在播放的
-                        mBind.videoPlayer.currentPlayer.release()
+                        mBind.videoPlayer.currentPlayer.onVideoPause()
                         playAdLoading()
                         //还有下一集 播放下一集
                         currentPlayPosition++
