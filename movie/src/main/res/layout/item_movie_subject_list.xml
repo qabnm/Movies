@@ -22,6 +22,14 @@
         app:layout_constraintTop_toBottomOf="@+id/vLine"
         app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
 
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/imgCoverGround"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_60"
+        android:background="@drawable/gradient_subject"
+        app:layout_constraintTop_toTopOf="@+id/imgCover"
+        app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
+
     <TextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"

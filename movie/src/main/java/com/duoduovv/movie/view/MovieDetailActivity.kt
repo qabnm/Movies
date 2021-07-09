@@ -20,6 +20,7 @@ import com.duoduovv.advert.gdtad.GDTEncourageAd
 import com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender
 import com.duoduovv.advert.ttad.TTEncourageAd
 import com.duoduovv.common.BaseApplication
+import com.duoduovv.common.component.GSYExoHttpDataSourceFactory
 import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
@@ -39,7 +40,13 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
+import com.google.android.exoplayer2.source.MediaSource
+import com.google.android.exoplayer2.upstream.DataSource
+import com.google.android.exoplayer2.upstream.TransferListener
 import com.shuyu.gsyvideoplayer.GSYVideoManager
+import com.shuyu.gsyvideoplayer.cache.CacheFactory
+import com.shuyu.gsyvideoplayer.player.PlayerFactory
+import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
 import dc.android.bridge.BridgeContext.Companion.ID
@@ -60,6 +67,11 @@ import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.tools.LiveDataBus
 import kotlinx.coroutines.*
+import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
+import tv.danmaku.ijk.media.exo2.ExoMediaSourceInterceptListener
+import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
+import tv.danmaku.ijk.media.exo2.ExoSourceManager
+import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -417,8 +429,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -428,8 +439,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -473,19 +483,15 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.handleMessage(msg)
             if (msg.what == 0) {
                 if (totalLength > 0) {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
-                        "$totalLength | ${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | ${skipLength}秒可关闭"
                 } else {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
-                        "${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "${skipLength}秒可关闭"
                 }
             } else if (msg.what == 1) {
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
-                    "$totalLength | 关闭"
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | 关闭"
             } else {
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                    View.GONE
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
                 videoAd?.onDestroy()
                 playAdLoading()
@@ -586,20 +592,11 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         detailBean?.let {
             val list = it.movieItems
             if (list?.isNotEmpty() == true) {
-                //去请求播放地址信息 播放地址也 可能是H5的跳转链接
-//                if (!hasClickRecommend) {
-//                    if (StringUtils.isEmpty(vidStr)) {
-//                        vidStr = list[0].vid
-//                        vip = list[0].vip
-//                    }
-//                } else {
-//                    vidStr = list[0].vid
-//                    vip = list[0].vip
-//                    hasClickRecommend = false
-//                }
                 playAdLoading()
                 viewModel.moviePlayInfo(vidStr, movieId, line, "")
-                if (way == WAY_H5) (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(0)
+                if (way == WAY_H5) {
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).setStartClick(0)
+                }
             }
         }
     }
@@ -608,6 +605,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 设置播放器的基本功能
      */
     private fun setVideoPlayer() {
+        GSYVideoType.enableMediaCodec()
+        GSYVideoType.enableMediaCodecTexture()
+//        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
+//        CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
         mBind.videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
@@ -617,7 +618,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             //是否根据视频尺寸，自动选择竖屏全屏或者横屏全屏
             isAutoFullWithSize = false
             //音频焦点冲突时是否释放
-            isReleaseWhenLossAudio = true
+            isReleaseWhenLossAudio = false
             //全屏动画
             isShowFullAnimation = false
             //非wifi环境下，显示流量提醒
@@ -981,8 +982,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }

@@ -44,6 +44,7 @@ class MovieDetailSelectDialogFragment(
             ad.notifyDataSetChanged()
             val vid = data[position].vid
             listener?.onDialogClick(vid, data[position].title,data[position].vip)
+            dismiss()
         }
         mBind.imgCancel.setOnClickListener { dismiss() }
     }
