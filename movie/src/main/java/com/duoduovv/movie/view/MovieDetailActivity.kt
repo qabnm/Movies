@@ -429,7 +429,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -439,7 +440,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -483,15 +485,19 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.handleMessage(msg)
             if (msg.what == 0) {
                 if (totalLength > 0) {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | ${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
+                        "$totalLength | ${skipLength}秒可关闭"
                 } else {
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "${skipLength}秒可关闭"
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
+                        "${skipLength}秒可关闭"
                 }
             } else if (msg.what == 1) {
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = "$totalLength | 关闭"
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text =
+                    "$totalLength | 关闭"
             } else {
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                    View.GONE
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
                 videoAd?.onDestroy()
                 playAdLoading()
@@ -820,12 +826,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         mBind.videoPlayer.currentPlayer.onVideoPause()
         fragment?.updateAd()
         //如果是最后三集 需要观看激励视频
+        if (way == WAY_RELEASE) playAdLoading()
         if (vip == "1") {
             //这里需要先请求激励视频，然后正常播放视频
+            (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
             initEncourageAd()
         } else {
             //走原有的逻辑
-            if (way == WAY_RELEASE) playAdLoading()
             if (isAdNotEmpty()) initGDTVideoAd()
             //只有正常班的才会去请求接口
             if (!isAdNotEmpty()) viewModel.moviePlayInfo(vid, movieId, line, "", 1)
@@ -982,7 +989,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     playAdLoading()
                     loadPlayUrl()
                 }

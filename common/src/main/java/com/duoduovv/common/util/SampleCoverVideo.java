@@ -372,7 +372,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
 
     public void playLoading(){
         layoutLoading.setVisibility(View.VISIBLE);
-        videoLoading.playAnimation();
+        if (!videoLoading.isAnimating())videoLoading.playAnimation();
     }
 
     public ImageView getBackLoad(){
