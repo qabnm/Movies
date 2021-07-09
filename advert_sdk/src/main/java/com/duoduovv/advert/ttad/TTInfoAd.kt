@@ -8,7 +8,6 @@ import com.bytedance.sdk.openadsdk.AdSlot
 import com.bytedance.sdk.openadsdk.TTAdNative
 import com.bytedance.sdk.openadsdk.TTAdSdk
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd
-import dc.android.tools.LiveDataBus
 
 /**
  * @author: jun.liu

@@ -43,6 +43,7 @@ class GDTInfoAdForSelfRender {
             override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
                 if (ads?.isNotEmpty() == true) {
                     Log.d(TAG, "onADLoaded")
+                    mAdData?.destroy()
                     mAdData = ads[0]
                     mAdData?.let {
                         initAd(context, it, mImagePoster, mMediaView, layoutAd)
