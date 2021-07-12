@@ -1,5 +1,6 @@
 package com.duoduovv.cinema.view
 
+import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
@@ -36,23 +37,33 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     override fun providerVMClass() = SearchResultViewModel::class.java
 
     override fun getLayoutId() = R.layout.fragment_search_result_list
-    private lateinit var mBind:FragmentSearchResultListBinding
+    private lateinit var mBind: FragmentSearchResultListBinding
     private var typeId = ""
     private var keyWord = ""
     private var page = 1
     private var vid = ""
 
     override fun initView() {
-        resultAdapter = null
         mBind = baseBinding as FragmentSearchResultListBinding
         viewModel.getSearchResult().observe(this, { setData(viewModel.getSearchResult().value) })
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
         mBind.rvList.layoutManager = LinearLayoutManager(requireActivity())
         mBind.refreshLayout.apply {
-            setRefreshHeader(ClassicsHeader(requireActivity()))
-            setRefreshFooter(ClassicsFooter(requireActivity()))
+            setRefreshHeader(ClassicsHeader(context))
+            setRefreshFooter(ClassicsFooter(context))
             setOnRefreshListener(this@SearchResultListFragment)
             setOnLoadMoreListener(this@SearchResultListFragment)
+        }
+    }
+
+    companion object {
+        fun newInstance(id: String, keyWord: String): SearchResultListFragment {
+            val fragment = SearchResultListFragment()
+            val bundle = Bundle()
+            bundle.putString(ID, id)
+            bundle.putString(KEY_WORD, keyWord)
+            fragment.arguments = bundle
+            return fragment
         }
     }
 
@@ -78,7 +89,8 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
         if (mBind.refreshLayout.isLoading) mBind.refreshLayout.finishLoadMore()
     }
 
-    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) = FragmentSearchResultListBinding.inflate(inflater,container,false)
+    override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
+        FragmentSearchResultListBinding.inflate(inflater, container, false)
 
     override fun initData() {
         typeId = arguments?.getString(ID, "") ?: ""
@@ -137,6 +149,12 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
         viewModel.searchResult(keyWord = keyWord, page = page, column = typeId)
+    }
+
+    override fun onDestroyView() {
+        resultAdapter = null
+        mBind.refreshLayout.removeAllViews()
+        super.onDestroyView()
     }
 
     /**

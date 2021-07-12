@@ -65,11 +65,11 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             setOnRefreshListener(this@MovieLibraryFragment)
             setOnLoadMoreListener(this@MovieLibraryFragment)
         }
-        movieLibAdapter = null
     }
 
     override fun onDestroyView() {
         movieLibAdapter?.onDestroy()
+        movieLibAdapter = null
         super.onDestroyView()
     }
 

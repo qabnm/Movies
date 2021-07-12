@@ -1,6 +1,5 @@
 package com.duoduovv.cinema.component
 
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 import com.duoduovv.cinema.view.CinemaListFragment
