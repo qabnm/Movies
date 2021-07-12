@@ -1,18 +1,16 @@
 package com.duoduovv.movie.view
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.NoLineIndicatorAdapter
-import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
+import com.duoduovv.movie.component.MovieFragmentPagerAdapter
 import com.duoduovv.movie.databinding.FragmentMovieBinding
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.OsUtils
@@ -33,8 +31,7 @@ class MovieFragment : BaseFragment() {
         FragmentMovieBinding.inflate(inflater, container, false)
 
     override fun getLayoutId() = R.layout.fragment_movie
-    private var typeId: String? = null
-    private var libFragment: MovieLibraryNavFragment? = null
+    private var typeId: String = ""
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieBinding
@@ -51,7 +48,7 @@ class MovieFragment : BaseFragment() {
                 Log.i("typeId", "我已经接受到typeId了，$typeId")
                 if (null != mBind.vpContainer.adapter) {
                     mBind.vpContainer.currentItem = 1
-                    libFragment?.setTypeId(it)
+                    MovieLibraryNavFragment.instance?.setTypeId(it)
                 }
             }
         })
@@ -60,20 +57,8 @@ class MovieFragment : BaseFragment() {
     override fun initData() {
         typeId = arguments?.getString(BridgeContext.TYPE_ID)?:""
         val data = listOf("专题","片库", "榜单")
-        val fragmentList = ArrayList<Fragment>()
-        val subjectFragment = SubjectFragment()
-        fragmentList.add(subjectFragment)
-
-        libFragment = MovieLibraryNavFragment()
-        val bundle = Bundle()
-        bundle.putString(BridgeContext.TYPE_ID, typeId)
-        libFragment!!.arguments = bundle
-        fragmentList.add(libFragment!!)
         Log.i("typeId", "初始化先执行了，$typeId")
-
-        val rankNavFragment = MovieRankNavFragment()
-        fragmentList.add(rankNavFragment)
-        mBind.vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
+        mBind.vpContainer.adapter = MovieFragmentPagerAdapter(childFragmentManager, typeId,3)
         CommonNavigator(requireActivity()).apply {
             adapter = NoLineIndicatorAdapter(
                 viewPager = mBind.vpContainer,

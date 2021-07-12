@@ -1,5 +1,6 @@
 package com.duoduovv.movie.view
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,6 +45,16 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
             }
             ARouter.getInstance().build(path)
                 .withString(BridgeContext.ID, movieId).navigation()
+        }
+    }
+
+    companion object{
+        fun newInstance(id:String):MovieRankFragment{
+            val fragment = MovieRankFragment()
+            val bundle = Bundle()
+            bundle.putString(BridgeContext.ID, id)
+            fragment.arguments = bundle
+            return fragment
         }
     }
 

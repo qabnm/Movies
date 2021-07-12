@@ -37,6 +37,10 @@ class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>() {
         viewModel.getSubjectList().observe(this, { setList(viewModel.getSubjectList().value) })
     }
 
+    companion object{
+        fun newInstance() = SubjectFragment()
+    }
+
     private fun setList(list: List<SubjectListBean>?) {
         adapter?.setList(list)
     }

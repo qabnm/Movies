@@ -3,18 +3,13 @@ package com.duoduovv.movie.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
-import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.Config
 import com.duoduovv.movie.component.MovieLibraryFragmentPagerAdapter
 import com.duoduovv.movie.databinding.FragmentMovieLibraryNavBinding
 import com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel
 import dc.android.bridge.BridgeContext
-import dc.android.bridge.BridgeContext.Companion.ID
-import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.view.BaseViewModelFragment
 import net.lucode.hackware.magicindicator.ViewPagerHelper
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator
@@ -40,6 +35,19 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
             initFragment(value?.configs)
         })
     }
+
+    companion object{
+        var instance:MovieLibraryNavFragment?=null
+        fun newInstance(typeId: String):MovieLibraryNavFragment{
+            val fragment = MovieLibraryNavFragment()
+            val bundle = Bundle()
+            bundle.putString(BridgeContext.TYPE_ID, typeId)
+            fragment.arguments = bundle
+            instance = fragment
+            return fragment
+        }
+    }
+
 
     override fun initData() {
         //获取分类接口
