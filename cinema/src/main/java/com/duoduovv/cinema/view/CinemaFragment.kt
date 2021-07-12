@@ -1,23 +1,21 @@
 package com.duoduovv.cinema.view
 
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.fragment.app.Fragment
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.advert.gdtad.GDTInsertAd
 import com.duoduovv.advert.ttad.TTInsertAd
 import com.duoduovv.cinema.R
+import com.duoduovv.cinema.component.CinemaFragmentViewPagerAdapter
 import com.duoduovv.cinema.component.SnackBarView
 import com.duoduovv.cinema.databinding.FragmentCinemaBinding
 import com.duoduovv.cinema.viewmodel.CinemaViewModel
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.adapter.ScaleTitleNavAdapter
-import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.common.component.UpgradeDialogFragment
 import com.duoduovv.common.domain.AdValue
 import com.duoduovv.common.domain.Column
@@ -52,6 +50,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private lateinit var mBind: FragmentCinemaBinding
     private var configureBean: ConfigureBean? = null
     private var isFirstShowRecord = true
+    private val idList = ArrayList<String>()
 
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCinemaBinding.inflate(inflater, container, false)
@@ -159,16 +158,12 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
     private fun initFragment(columns: List<Column>?) {
         if (columns?.isEmpty() == true) return
         val titleList = ArrayList<String>()
-        val fragmentList = ArrayList<Fragment>()
         for (i in columns!!.indices) {
-            val fragment = CinemaListFragment()
-            val bundle = Bundle()
-            bundle.putString(ID, columns[i].id)
-            fragment.arguments = bundle
-            fragmentList.add(fragment)
+            idList.add(columns[i].id)
             titleList.add(columns[i].name)
         }
-        mBind.vpContainer.adapter = ViewPagerAdapter(childFragmentManager, data = fragmentList)
+        mBind.vpContainer.adapter =
+            CinemaFragmentViewPagerAdapter(childFragmentManager, idList.size, idList)
         CommonNavigator(requireActivity()).apply {
             adapter = ScaleTitleNavAdapter(mBind.vpContainer, titleList)
             isAdjustMode = titleList.size <= 5

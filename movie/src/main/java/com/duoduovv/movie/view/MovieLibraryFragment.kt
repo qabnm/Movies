@@ -1,5 +1,6 @@
 package com.duoduovv.movie.view
 
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
@@ -38,6 +39,17 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     private val map = HashMap<String, Any>()
     private var page = 1
     private var movieLibAdapter: MovieLibraryAdapter? = null
+
+    companion object{
+        fun newInstance(key:String, filter: ArrayList<Filter>):MovieLibraryFragment{
+            val fragment = MovieLibraryFragment()
+            val bundle = Bundle()
+            bundle.putString(ID,key)
+            bundle.putParcelableArrayList(LIST, filter)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieLibraryBinding

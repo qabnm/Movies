@@ -1,5 +1,6 @@
 package com.duoduovv.cinema.view
 
+import android.os.Bundle
 import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
@@ -43,13 +44,21 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     private lateinit var mBind: FragmentCinemaListBinding
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCinemaListBinding.inflate(inflater, container, false)
+    companion object{
+        fun newInstance(id:String):CinemaListFragment{
+            val fragment = CinemaListFragment()
+            val bundle = Bundle()
+            bundle.putString(ID,id)
+            fragment.arguments = bundle
+            return fragment
+        }
+    }
 
     override fun initView() {
-        adapter = null
         mBind = baseBinding as FragmentCinemaListBinding
         mBind.refreshLayout.apply {
-            setRefreshHeader(ClassicsHeader(requireActivity()))
-            setRefreshFooter(ClassicsFooter(requireActivity()))
+            setRefreshHeader(ClassicsHeader(context))
+            setRefreshFooter(ClassicsFooter(context))
             setOnRefreshListener(this@CinemaListFragment)
             setOnLoadMoreListener(this@CinemaListFragment)
         }
@@ -68,7 +77,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         if (null != value) {
             mBind.rvList.visibility = View.VISIBLE
             if (null == adapter) {
-                adapter = MainPageAdapter(requireActivity(), bean = value)
+                adapter = MainPageAdapter(requireContext(), bean = value,this)
                 mBind.rvList.adapter = adapter
                 adapter?.setOnItemClickListener(this)
             } else {
@@ -83,6 +92,8 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
 
     override fun onDestroyView() {
         adapter?.onDestroy()
+        mBind.refreshLayout.removeAllViews()
+        adapter = null
         super.onDestroyView()
     }
 
@@ -154,4 +165,5 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         ARouter.getInstance().build(RouterPath.PATH_RECOMMEND)
             .withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
     }
+
 }

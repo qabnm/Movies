@@ -12,11 +12,12 @@ data class MovieLibCategoryBean(
     val configs: List<Config>
 )
 
+@Parcelize
 data class Config(
     val filter: List<Filter>,
     val name: String,
     val key: String
-)
+):Parcelable
 
 @Parcelize
 data class Filter(

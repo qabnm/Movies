@@ -18,6 +18,7 @@ import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.bean.FilmRecommendBean
 import com.duoduovv.cinema.bean.MainBean
 import com.duoduovv.cinema.databinding.*
+import com.duoduovv.cinema.view.CinemaListFragment
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.databinding.ItemTypeAdBinding
 import com.youth.banner.indicator.CircleIndicator
@@ -25,6 +26,7 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
+import dc.android.bridge.view.BaseFragment
 
 /**
  * @author: jun.liu
@@ -33,7 +35,8 @@ import dc.android.bridge.util.StringUtils
  */
 class MainPageAdapter(
     private val context: Context,
-    private var bean: MainBean
+    private var bean: MainBean,
+    private val fragment: CinemaListFragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var listener: OnItemClickListener? = null
 
@@ -102,6 +105,8 @@ class MainPageAdapter(
     fun onDestroy(){
         ttAd?.destroyInfoAd()
         gdtAd?.onDestroy()
+        bannerAdapter?.onDestroy()
+        bean.mainPageBean.banners?.clear()
     }
 
     private var ttAd: TTInfoAd?=null
@@ -135,12 +140,6 @@ class MainPageAdapter(
                 }
             }
         }
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        ttAd?.destroyInfoAd()
-        gdtAd?.onDestroy()
-        super.onDetachedFromRecyclerView(recyclerView)
     }
 
     override fun getItemViewType(position: Int) = when (position) {
@@ -179,14 +178,15 @@ class MainPageAdapter(
             }
         }
     }
-
+    private var bannerAdapter:BannerImgAdapter?= null
     /**
      * banner显示
      */
     private fun bindBanner(holder: BannerViewHolder) {
         bean.mainPageBean.banners?.let {
-            holder.bannerBind.layoutBanner.addBannerLifecycleObserver(context as AppCompatActivity)
-                .setAdapter(BannerImgAdapter(it, context)).indicator = CircleIndicator(context)
+            bannerAdapter = BannerImgAdapter(it,context)
+            holder.bannerBind.layoutBanner.addBannerLifecycleObserver(fragment)
+                .setAdapter(bannerAdapter).indicator = CircleIndicator(context)
             holder.bannerBind.layoutBanner.setOnBannerListener { data, _ ->
                 val jumpType = (data as Banner).jumpType
                 val movieId = data.movieId

@@ -9,6 +9,7 @@ import com.duoduovv.common.adapter.ScaleTitleNavAdapter
 import com.duoduovv.common.adapter.ViewPagerAdapter
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.Config
+import com.duoduovv.movie.component.MovieLibraryFragmentPagerAdapter
 import com.duoduovv.movie.databinding.FragmentMovieLibraryNavBinding
 import com.duoduovv.movie.viewmodel.MovieLibCategoryViewModel
 import dc.android.bridge.BridgeContext
@@ -34,7 +35,7 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieLibraryNavBinding
-        viewModel.getMovieLibCategory().observe(this, Observer {
+        viewModel.getMovieLibCategory().observe(this,  {
             val value = viewModel.getMovieLibCategory().value
             initFragment(value?.configs)
         })
@@ -64,19 +65,16 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
         var position = 0
         dataList = configs
         val titleList = ArrayList<String>()
-        val fragmentList = ArrayList<Fragment>()
         if (configs?.isNotEmpty() == true) {
             for (i in configs.indices) {
-                val fragment = MovieLibraryFragment()
-                val bundle = Bundle()
-                bundle.putString(ID, configs[i].key)
-                bundle.putParcelableArrayList(LIST, configs[i].filter as ArrayList)
-                fragment.arguments = bundle
                 titleList.add(configs[i].name)
-                fragmentList.add(fragment)
                 if (typeId == configs[i].key) position = i
             }
-            mBind.vpContainer.adapter = ViewPagerAdapter(childFragmentManager, fragmentList)
+            mBind.vpContainer.adapter = MovieLibraryFragmentPagerAdapter(
+                childFragmentManager,
+                titleList.size,
+                configs as ArrayList<Config>
+            )
             CommonNavigator(requireActivity()).apply {
                 adapter = ScaleTitleNavAdapter(
                     viewPager = mBind.vpContainer,
