@@ -41,6 +41,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     private var movieLibAdapter: MovieLibraryAdapter? = null
 
     companion object{
+        @JvmStatic
         fun newInstance(key:String, filter: ArrayList<Filter>):MovieLibraryFragment{
             val fragment = MovieLibraryFragment()
             val bundle = Bundle()

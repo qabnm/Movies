@@ -38,6 +38,7 @@ class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>() {
     }
 
     companion object{
+        @JvmStatic
         fun newInstance() = SubjectFragment()
     }
 

@@ -57,6 +57,7 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     }
 
     companion object {
+        @JvmStatic
         fun newInstance(id: String, keyWord: String): SearchResultListFragment {
             val fragment = SearchResultListFragment()
             val bundle = Bundle()

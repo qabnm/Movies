@@ -45,6 +45,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCinemaListBinding.inflate(inflater, container, false)
     companion object{
+        @JvmStatic
         fun newInstance(id:String):CinemaListFragment{
             val fragment = CinemaListFragment()
             val bundle = Bundle()

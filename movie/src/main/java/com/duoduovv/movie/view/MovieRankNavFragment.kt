@@ -34,6 +34,7 @@ class MovieRankNavFragment : BaseViewModelFragment<ConfigureViewModel>() {
     }
 
     companion object {
+        @JvmStatic
         fun newInstance() = MovieRankNavFragment()
     }
 

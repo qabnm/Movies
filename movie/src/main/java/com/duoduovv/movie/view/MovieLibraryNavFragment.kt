@@ -37,7 +37,9 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
     }
 
     companion object{
+        @JvmStatic
         var instance:MovieLibraryNavFragment?=null
+        @JvmStatic
         fun newInstance(typeId: String):MovieLibraryNavFragment{
             val fragment = MovieLibraryNavFragment()
             val bundle = Bundle()

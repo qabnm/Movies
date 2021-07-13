@@ -49,6 +49,7 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
     }
 
     companion object{
+        @JvmStatic
         fun newInstance(id:String):MovieRankFragment{
             val fragment = MovieRankFragment()
             val bundle = Bundle()
