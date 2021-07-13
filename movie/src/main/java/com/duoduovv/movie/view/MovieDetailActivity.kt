@@ -191,8 +191,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private fun initGDTVideoAd() {
         if (null == videoAd) {
             videoAd = GDTVideoAdForSelfRender()
-        } else {
-            videoAd?.onDestroy()
         }
         videoAd?.initVideoAd(
             BaseApplication.baseCtx,
@@ -429,8 +427,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -440,8 +437,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                        View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -496,8 +492,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     "$totalLength | 关闭"
             } else {
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
-                    View.GONE
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
                 videoAd?.onDestroy()
                 playAdLoading()

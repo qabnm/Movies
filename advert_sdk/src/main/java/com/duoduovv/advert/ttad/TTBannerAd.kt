@@ -18,6 +18,7 @@ import dc.android.tools.LiveDataBus
 class TTBannerAd {
     private val TAG = "AD_DEMO"
     private var ttBannerAd: TTNativeExpressAd? = null
+    private var mTTAdNative:TTAdNative?=null
 
     fun initBanner(
         activity: Activity,
@@ -27,7 +28,7 @@ class TTBannerAd {
         container: ViewGroup
     ) {
         //创建TTAdNative对象
-        val mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
+        if (null == mTTAdNative)mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
         //创建广告请求AdSlot
         val adSlot = AdSlot.Builder()
             .setCodeId(posId)
@@ -35,18 +36,20 @@ class TTBannerAd {
             .setAdCount(1)
             .setExpressViewAcceptedSize(width, height)
             .build()
-        mTTAdNative.loadBannerExpressAd(adSlot, object : TTAdNative.NativeExpressAdListener {
+        mTTAdNative?.loadBannerExpressAd(adSlot, object : TTAdNative.NativeExpressAdListener {
             override fun onError(code: Int, msg: String?) {
                 Log.d(TAG, "获取banner广告错误$code$msg")
                 LiveDataBus.get().with("adClose").value = "adClose"
+                container.removeAllViews()
             }
 
             override fun onNativeExpressAdLoad(adList: MutableList<TTNativeExpressAd>?) {
+                ttBannerAd?.destroy()
                 if (adList?.isNotEmpty() == true) {
                     ttBannerAd = adList[0]
+                    ttBannerAd?.setSlideIntervalTime(15*1000)
                     ttBannerAd?.render()
-                    ttBannerAd?.setExpressInteractionListener(object :
-                        TTNativeExpressAd.AdInteractionListener {
+                    ttBannerAd?.setExpressInteractionListener(object : TTNativeExpressAd.AdInteractionListener {
                         override fun onAdClicked(p0: View?, p1: Int) {}
 
                         override fun onAdShow(p0: View?, p1: Int) {}

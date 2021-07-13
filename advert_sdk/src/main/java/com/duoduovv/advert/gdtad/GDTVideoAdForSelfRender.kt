@@ -22,6 +22,7 @@ import dc.android.tools.LiveDataBus
  */
 class GDTVideoAdForSelfRender {
     private var mAdData: NativeUnifiedADData? = null
+    private var mAdManager:NativeUnifiedAD?=null
     private val TAG = "GDTVideoAdForSelfRender"
 
     fun initVideoAd(
@@ -31,23 +32,27 @@ class GDTVideoAdForSelfRender {
         mMediaView: MediaView,
         layoutAd: NativeAdContainer
     ) {
-        val mAdManager = NativeUnifiedAD(context, posId, object : NativeADUnifiedListener {
-            override fun onNoAD(error: AdError?) {
-                Log.d(TAG, "onNoAD${error?.errorCode}${error?.errorMsg}")
-                onVideoPrepare()
-            }
+        if (null == mAdManager){
+            mAdManager = NativeUnifiedAD(context, posId, object : NativeADUnifiedListener {
+                override fun onNoAD(error: AdError?) {
+                    Log.d(TAG, "onNoAD${error?.errorCode}${error?.errorMsg}")
+                    mMediaView.removeAllViews()
+                    onVideoPrepare()
+                }
 
-            override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
-                if (ads?.isNotEmpty() == true) {
-                    Log.d(TAG, "onADLoaded")
-                    mAdData = ads[0]
-                    mAdData?.let {
-                        initAd(context, it, mImagePoster, mMediaView, layoutAd)
+                override fun onADLoaded(ads: MutableList<NativeUnifiedADData>?) {
+                    mAdData?.destroy()
+                    if (ads?.isNotEmpty() == true) {
+                        Log.d(TAG, "onADLoaded")
+                        mAdData = ads[0]
+                        mAdData?.let {
+                            initAd(context, it, mImagePoster, mMediaView, layoutAd)
+                        }
                     }
                 }
-            }
-        })
-        mAdManager.loadData(1)
+            })
+        }
+        mAdManager?.loadData(1)
     }
 
     private fun onVideoPrepare() {
@@ -73,9 +78,11 @@ class GDTVideoAdForSelfRender {
             imageViews.isNotEmpty() -> {
                 layoutAd.visibility = View.VISIBLE
                 mImagePoster.visibility = View.VISIBLE
+                mMediaView.removeAllViews()
                 mMediaView.visibility = View.GONE
                 ad.bindImageViews(imageViews, 0)
                 LiveDataBus.get().with("videoLength").value = -1
+                clickableViews.clear()
             }
             ad.adPatternType == AdPatternType.NATIVE_VIDEO -> {
                 layoutAd.visibility = View.VISIBLE
