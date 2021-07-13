@@ -64,6 +64,10 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     }
 
     override fun initData() {
+        initAd()
+    }
+
+    private fun initAd(){
         BaseApplication.configBean?.ad?.search?.let {
             when(it.type){
                 TYPE_TT_AD->{ initTTAd(it.value) }
@@ -80,7 +84,8 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      * 请求穿山甲广告
      */
     private fun initTTAd(posId: String) {
-        ttInfoAd = TTInfoAd()
+        if (null == ttInfoAd)ttInfoAd = TTInfoAd()
+        ttInfoAd?.destroyInfoAd()
         ttInfoAd?.initTTInfoAd(this, posId, width.toFloat(), 0f, mBind.ttContainer)
     }
 
@@ -88,7 +93,8 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      * 请求广点通的信息流广告
      */
     private fun initGDTAd(posId: String) {
-        gdtInfoAd = GDTInfoAdForSelfRender()
+        if (null == gdtInfoAd)gdtInfoAd = GDTInfoAdForSelfRender()
+        gdtInfoAd?.onDestroy()
         gdtInfoAd?.initInfoAd(
             this,
             posId,
@@ -129,6 +135,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      */
     private fun onCancelClick() {
         if (!TextUtils.isEmpty(mBind.etSearch.text)) {
+            initAd()
             if (searchResultFragment?.isVisible == true){
                 searchResultFragment?.setKeyWord(mBind.etSearch.text.toString())
                 searchResultFragment?.initData()
@@ -208,6 +215,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      * @param result String
      */
     override fun onHistoryClick(result: String) {
+        initAd()
         mBind.etSearch.setText(result)
         toResultFragment(result = result)
     }
