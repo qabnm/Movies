@@ -16,7 +16,8 @@ import com.bytedance.sdk.openadsdk.TTNativeExpressAd
  */
 class TTInfoAd {
     private val TAG = "TTInfoAd"
-    private var mttAd: TTNativeExpressAd? = null
+    private var mTTAdNative:TTAdNative?= null
+    private val data = ArrayList<TTNativeExpressAd>()
 
     /**
      * 初始化信息流广告
@@ -34,7 +35,7 @@ class TTInfoAd {
         container: ViewGroup
     ) {
         //创建TTAdNative对象
-        val mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
+        if (null == mTTAdNative) mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
         //创建广告请求AdSlot
         val adSlot = AdSlot.Builder()
             .setCodeId(posId)
@@ -43,18 +44,20 @@ class TTInfoAd {
             .setExpressViewAcceptedSize(width, height)
             .build()
         //请求广告
-        mTTAdNative.loadNativeExpressAd(adSlot, object : TTAdNative.NativeExpressAdListener {
+        mTTAdNative?.loadNativeExpressAd(adSlot, object : TTAdNative.NativeExpressAdListener {
             override fun onError(code: Int, msg: String?) {
                 Log.d(TAG, "onError$code$msg")
+                container.removeAllViews()
             }
 
             override fun onNativeExpressAdLoad(adList: MutableList<TTNativeExpressAd>?) {
                 if (adList?.isNotEmpty() == true) {
                     container.visibility = View.VISIBLE
                     container.removeAllViews()
-                    mttAd = adList[0]
-                    mttAd?.render()
-                    mttAd?.setExpressInteractionListener(object :
+                    val mttAd = adList[0]
+                    data.add(mttAd)
+                    mttAd.render()
+                    mttAd.setExpressInteractionListener(object :
                         TTNativeExpressAd.ExpressAdInteractionListener {
                         override fun onAdClicked(p0: View?, p1: Int) {}
 
@@ -62,10 +65,9 @@ class TTInfoAd {
 
                         override fun onRenderFail(p0: View?, p1: String?, p2: Int) {}
 
-                        override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
-                            view?.let {
-                                container.addView(it)
-                            }
+                        override fun onRenderSuccess(view: View, p1: Float, p2: Float) {
+                            container.removeAllViews()
+                            container.addView(view)
                         }
                     })
                 }
@@ -74,6 +76,10 @@ class TTInfoAd {
     }
 
     fun destroyInfoAd(){
-        mttAd?.destroy()
+        Log.d(TAG, "${data.size}")
+        for (i in data.indices){
+            data[i].destroy()
+        }
+        data.clear()
     }
 }

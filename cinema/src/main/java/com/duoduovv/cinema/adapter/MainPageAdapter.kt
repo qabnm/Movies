@@ -39,6 +39,7 @@ class MainPageAdapter(
     private val fragment: CinemaListFragment
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var listener: OnItemClickListener? = null
+    private var width = 0f
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = when (viewType) {
         CinemaContext.TYPE_BANNER -> {
@@ -76,6 +77,9 @@ class MainPageAdapter(
             val adBinder = ItemTypeAdBinding.inflate(LayoutInflater.from(context),parent,false)
             TypeAdViewHolder(adBinder)
         }
+    }
+    init {
+        width = OsUtils.px2dip(context, OsUtils.getScreenWidth(context).toFloat()).toFloat() - 20
     }
 
     fun notifyDataChanged(bean: MainBean) {
@@ -126,8 +130,7 @@ class MainPageAdapter(
                             holder.adBinder.layoutTTAd.visibility = View.VISIBLE
                             holder.adBinder.layoutGdt.visibility = View.GONE
                             if (null == ttAd) ttAd = TTInfoAd()
-                            val width = OsUtils.px2dip(context, OsUtils.getScreenWidth(context).toFloat()) - 20
-                            ttAd?.initTTInfoAd(context as Activity, it.value, width.toFloat(), 0f, holder.adBinder.layoutTTAd)
+                            ttAd?.initTTInfoAd(context as Activity, it.value, width, 0f, holder.adBinder.layoutTTAd)
                         }
                         BridgeContext.TYPE_GDT_AD -> {
                             holder.adBinder.layoutTTAd.visibility = View.GONE
