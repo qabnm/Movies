@@ -116,5 +116,10 @@ class RouterPath {
          * 专题详情页
          */
         const val PATH_SUBJECT_DETAIL= "/movie/SubjectDetailActivity"
+
+        /**
+         * 搜索结果页面
+         */
+        const val PATH_SEARCH_RESULT = "/cinema/SearchResultActivity"
     }
 }

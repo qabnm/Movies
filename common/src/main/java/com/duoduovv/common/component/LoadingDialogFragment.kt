@@ -1,5 +1,6 @@
 package com.duoduovv.common.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -16,7 +17,7 @@ import dc.android.bridge.util.OsUtils
  * @des:loading弹窗
  */
 class LoadingDialogFragment : DialogFragment() {
-    private var lottieView:LottieAnimationView?= null
+    private var lottieView: LottieAnimationView? = null
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +33,10 @@ class LoadingDialogFragment : DialogFragment() {
         initWindow()
     }
 
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
+    }
+
     private fun initWindow() {
         val window = dialog?.window
         window?.let {
@@ -44,11 +49,16 @@ class LoadingDialogFragment : DialogFragment() {
         dialog?.setCancelable(false)
     }
 
-    fun clearAnimation(){
-        lottieView?.cancelAnimation()
-        lottieView?.clearAnimation()
-        lottieView?.removeAllAnimatorListeners()
-        lottieView?.removeAllUpdateListeners()
-        lottieView = null
+    override fun onDestroyView() {
+        clearAnimation()
+        super.onDestroyView()
+    }
+
+    fun clearAnimation() {
+        lottieView?.let {
+            it.clearAnimation()
+            it.removeAllAnimatorListeners()
+            it.removeAllUpdateListeners()
+        }
     }
 }

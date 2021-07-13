@@ -61,6 +61,11 @@ class SearchResultFragment : BaseViewModelFragment<ConfigureViewModel>() {
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        mBind.vpContainer.adapter = null
+        mBind.vpContainer.removeAllViews()
+    }
     override fun initData() {
         BaseApplication.configBean?.let {
             initFragment(it.columns)

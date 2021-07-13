@@ -150,9 +150,9 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
         cb?.onHistoryClick(result)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
         ttInfoAd?.onDestroy()
         gdtInfoAd?.onDestroy()
+        super.onDestroyView()
     }
 }
