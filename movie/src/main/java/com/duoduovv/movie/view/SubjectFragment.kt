@@ -32,7 +32,7 @@ class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>() {
         adapter?.setOnItemClickListener { adapter, _, position ->
             val dataBean = (adapter as MovieSubjectListAdapter).data[position]
             ARouter.getInstance().build(RouterPath.PATH_SUBJECT_DETAIL)
-                .withString(TITLE, dataBean.title).withString(ID, dataBean.subjectId).navigation()
+                .withString(TITLE, dataBean.title).withString(ID, dataBean.subjectId).withString("coverUrl",dataBean.coverUrl).navigation()
         }
         viewModel.getSubjectList().observe(this, { setList(viewModel.getSubjectList().value) })
     }
