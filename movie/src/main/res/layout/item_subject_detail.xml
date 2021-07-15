@@ -5,9 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingLeft="@dimen/dp_12"
-    android:paddingTop="@dimen/dp_15"
     android:paddingRight="@dimen/dp_12"
+    android:paddingBottom="@dimen/dp_15"
     tools:viewBindingIgnore="true">
+
+    <View
+        android:id="@+id/vTop"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_15"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/imgCover"
@@ -16,7 +23,7 @@
         android:scaleType="centerCrop"
         android:src="@drawable/movie_default"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/vTop"
         app:shapeAppearanceOverlay="@style/StyleShapeRounder3" />
 
     <com.google.android.material.imageview.ShapeableImageView

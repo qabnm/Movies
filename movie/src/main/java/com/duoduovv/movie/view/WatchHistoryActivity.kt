@@ -7,6 +7,8 @@ import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.viewholder.BaseViewHolder
+import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
+import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.SharedPreferencesHelper
@@ -18,12 +20,12 @@ import com.duoduovv.room.domain.VideoWatchHistoryBean
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
+import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 
 /**
  * @author: jun.liu
@@ -39,10 +41,11 @@ class WatchHistoryActivity : BridgeActivity() {
     private var selectCount = 0
     private var historyAdapter: WatchHistoryAdapter? = null
     private var isAllSelect = false
+    private var ttAd: TTInfoAd? = null
+    private var gdtAd: GDTInfoAdForSelfRender? = null
 
     override fun initView() {
         mBind = ActivityWatchHistoryBinding.bind(layoutView)
-        mBind.rvList.layoutManager = LinearLayoutManager(this)
         historyAdapter = WatchHistoryAdapter()
         mBind.rvList.adapter = historyAdapter
         historyAdapter?.addChildClickViewIds(R.id.imgSelect)
@@ -63,6 +66,48 @@ class WatchHistoryActivity : BridgeActivity() {
             ARouter.getInstance().build(path)
                 .withString(ID, bean.movieId).withString(TYPE_ID, bean.vid).navigation()
         }
+        initAd()
+    }
+
+    private fun initAd() {
+        BaseApplication.configBean?.ad?.centerTop?.let {
+            mBind.layoutAd.visibility = View.VISIBLE
+            when (it.type) {
+                BridgeContext.TYPE_TT_AD -> {
+                    val width =
+                        OsUtils.px2dip(this, OsUtils.getScreenWidth(this).toFloat()).toFloat()
+                    ttAd = TTInfoAd()
+                    ttAd?.initTTInfoAd(this, it.value, width, 0f, mBind.layoutTTAd)
+                }
+                BridgeContext.TYPE_GDT_AD -> {
+                    mBind.layoutGdt.visibility = View.VISIBLE
+                    gdtAd = GDTInfoAdForSelfRender()
+                    gdtAd?.initInfoAd(
+                        this,
+                        it.value,
+                        mBind.adImgCover,
+                        mBind.mediaView,
+                        mBind.layoutGdt
+                    )
+                }
+                else -> {
+                    mBind.layoutAd.visibility = View.GONE
+                }
+            }
+        } ?: also {
+            mBind.layoutAd.visibility = View.GONE
+        }
+    }
+
+    override fun onDestroy() {
+        ttAd?.destroyInfoAd()
+        gdtAd?.onDestroy()
+        super.onDestroy()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        gdtAd?.onResume()
     }
 
     /**

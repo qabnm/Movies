@@ -15,6 +15,7 @@ import dc.android.bridge.util.StringUtils
 class MovieSubjectDetailAdapter :
     BaseQuickAdapter<SubjectDetailListBean, BaseViewHolder>(R.layout.item_subject_detail) {
     override fun convert(holder: BaseViewHolder, item: SubjectDetailListBean) {
+        holder.setGone(R.id.vTop, holder.layoutPosition != 0)
         GlideUtils.setMovieImg(context, item.coverUrl, holder.getView(R.id.imgCover))
         holder.setText(R.id.tvName, item.vodName)
         holder.setText(R.id.tvScore, item.remark)

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorFFFFFF"
@@ -21,6 +22,38 @@
         android:layout_height="@dimen/dp_0_5"
         android:background="@color/colorF0F0F0" />
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layoutAd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <FrameLayout
+            android:id="@+id/layoutTTAd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.qq.e.ads.nativ.widget.NativeAdContainer
+            android:id="@+id/layoutGdt"
+            android:layout_width="match_parent"
+            android:layout_height="0px"
+            android:visibility="gone"
+            app:layout_constraintDimensionRatio="16:9"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.qq.e.ads.nativ.MediaView
+                android:id="@+id/mediaView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <ImageView
+                android:id="@+id/adImgCover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY" />
+        </com.qq.e.ads.nativ.widget.NativeAdContainer>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <com.duoduovv.common.view.EmptyLayout
         android:id="@+id/layoutEmpty"
         android:layout_width="match_parent"
@@ -32,17 +65,21 @@
             android:id="@+id/rvList"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="@dimen/dp_10"
             android:layout_above="@+id/layoutSelect"
-            android:scrollbars="none" />
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/dp_10"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_watch_history" />
 
         <LinearLayout
             android:id="@+id/layoutSelect"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_50"
-            android:orientation="horizontal"
-            android:background="@drawable/layer_list_f0f0f0_top"
             android:layout_alignParentBottom="true"
+            android:background="@drawable/layer_list_f0f0f0_top"
+            android:orientation="horizontal"
             android:visibility="gone">
 
             <TextView
