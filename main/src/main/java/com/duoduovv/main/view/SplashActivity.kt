@@ -28,6 +28,7 @@ import dc.android.bridge.BridgeContext.Companion.AGREEMENT
 import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
+import dc.android.bridge.EventContext.Companion.EVENT_WAY_RELEASE
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
@@ -97,7 +98,7 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                 Log.d("WAY_RELEASE",it.way)
                 val location = SharedPreferencesHelper.helper.getValue(ADDRESS_CH,"")
                 val map = mapOf("location" to location,"phone" to Build.MODEL)
-                MobclickAgent.onEventObject(applicationContext,BridgeContext.UMENG_WAY_RELEASE,map)
+                MobclickAgent.onEventObject(applicationContext,EVENT_WAY_RELEASE,map)
             }
         }
     }

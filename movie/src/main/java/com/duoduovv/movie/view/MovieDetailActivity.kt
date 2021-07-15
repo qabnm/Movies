@@ -49,11 +49,13 @@ import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_ID
+import dc.android.bridge.BridgeContext.Companion.TYPE_MOVIE
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
@@ -61,6 +63,7 @@ import dc.android.bridge.BridgeContext.Companion.URL
 import dc.android.bridge.BridgeContext.Companion.WAY_H5
 import dc.android.bridge.BridgeContext.Companion.WAY_RELEASE
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
+import dc.android.bridge.EventContext
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
@@ -212,6 +215,17 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      */
     override fun onJxError() {
         onPlayError()
+        //统计解析错误的信息
+        MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_JX_ERROR,getPlayErrorParams())
+    }
+
+    private fun getPlayErrorParams():HashMap<String,Any>{
+        val map = HashMap<String,Any>()
+        val flag = detailBean?.movie?.movieFlag
+        map["movieName"] = detailBean?.movie?.vodName?:""
+        map["line"] = line
+        if (flag != TYPE_MOVIE) map["vidTitle"] = vidTitle
+        return map
     }
 
     /**
@@ -237,6 +251,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             onPlayError()
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
             viewModel.playError(vidStr, url, "onPlayError")
+            //统计播放出错
+            MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_PLAY_ERROR,getPlayErrorParams())
         }
 
         override fun onPrepared(url: String?, vararg objects: Any?) {

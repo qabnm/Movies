@@ -39,8 +39,6 @@ open class BridgeContext {
         const val CITY = "city"
         const val AREA = "area"
         
-        const val UMENG_WAY_RELEASE = "way_release"
-
         //以下是广告相关的
         /**
          * 穿山甲广告

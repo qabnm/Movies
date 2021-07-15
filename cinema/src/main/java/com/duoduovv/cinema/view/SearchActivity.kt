@@ -16,9 +16,11 @@ import com.duoduovv.cinema.databinding.ActivitySearchBinding
 import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
+import dc.android.bridge.EventContext.Companion.EVENT_SEARCH_KEYWORD
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BridgeActivity
@@ -60,18 +62,20 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
             }
             false
         }
-        width = OsUtils.px2dip(this,OsUtils.getScreenWidth(this).toFloat())
+        width = OsUtils.px2dip(this, OsUtils.getScreenWidth(this).toFloat())
     }
 
     override fun initData() {
         initAd()
     }
 
-    private fun initAd(){
+    private fun initAd() {
         BaseApplication.configBean?.ad?.search?.let {
-            when(it.type){
-                TYPE_TT_AD->{ initTTAd(it.value) }
-                TYPE_GDT_AD ->{
+            when (it.type) {
+                TYPE_TT_AD -> {
+                    initTTAd(it.value)
+                }
+                TYPE_GDT_AD -> {
                     mBind.ttContainer.visibility = View.GONE
                     mBind.layoutGdt.visibility = View.VISIBLE
                     initGDTAd(it.value)
@@ -84,7 +88,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      * 请求穿山甲广告
      */
     private fun initTTAd(posId: String) {
-        if (null == ttInfoAd)ttInfoAd = TTInfoAd()
+        if (null == ttInfoAd) ttInfoAd = TTInfoAd()
         ttInfoAd?.destroyInfoAd()
         ttInfoAd?.initTTInfoAd(this, posId, width.toFloat(), 0f, mBind.ttContainer)
     }
@@ -93,7 +97,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
      * 请求广点通的信息流广告
      */
     private fun initGDTAd(posId: String) {
-        if (null == gdtInfoAd)gdtInfoAd = GDTInfoAdForSelfRender()
+        if (null == gdtInfoAd) gdtInfoAd = GDTInfoAdForSelfRender()
         gdtInfoAd?.onDestroy()
         gdtInfoAd?.initInfoAd(
             this,
@@ -136,12 +140,15 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
     private fun onCancelClick() {
         if (!TextUtils.isEmpty(mBind.etSearch.text)) {
             initAd()
-            if (searchResultFragment?.isVisible == true){
+            if (searchResultFragment?.isVisible == true) {
                 searchResultFragment?.setKeyWord(mBind.etSearch.text.toString())
                 searchResultFragment?.initData()
-            }else{
+            } else {
                 toResultFragment(mBind.etSearch.text.toString())
             }
+            //搜索关键词统计
+            val map = mapOf("keyWord" to mBind.etSearch.text.toString())
+            MobclickAgent.onEventObject(applicationContext, EVENT_SEARCH_KEYWORD, map)
         } else {
             finish()
         }
