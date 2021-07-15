@@ -210,7 +210,8 @@ class MainPageAdapter(
             categoryAdapter.setList(category)
             categoryAdapter.setOnItemClickListener { _, _, position ->
                 val typeId = category[position].typeSpeArray.typeId
-                listener?.onCategoryClick(typeId = typeId)
+                val typeName = category[position].name
+                listener?.onCategoryClick(typeId = typeId,typeName = typeName)
             }
         }
     }
@@ -299,7 +300,7 @@ class MainPageAdapter(
     }
 
     interface OnItemClickListener {
-        fun onCategoryClick(typeId: String)
+        fun onCategoryClick(typeId: String,typeName:String)
         fun onMovieClick(movieId: String, way: String)
         fun onTodayMoreClick(dataList: List<FilmRecommendBean>)
     }

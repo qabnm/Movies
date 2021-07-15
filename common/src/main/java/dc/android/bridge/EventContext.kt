@@ -7,6 +7,19 @@ package dc.android.bridge
  */
 class EventContext {
     companion object{
+
+        /**
+         * 栏目分类
+         */
+        const val EVENT_CATEGORY = "category"
+        /**
+         * 从banner进入影视详情
+         */
+        const val EVENT_BANNER_MOVIE_DETAIL= "banner_movie_detail"
+        /**
+         * 点击栏目进入影视详情页面
+         */
+        const val EVENT_MOVIE_DETAIL = "movie_detail"
         /**
          * 可播放统计
          */

@@ -12,6 +12,7 @@ import com.duoduovv.cinema.bean.FilmRecommendBean
 import com.duoduovv.cinema.bean.MainBean
 import com.duoduovv.cinema.databinding.FragmentCinemaListBinding
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE_DETAIL
 import com.duoduovv.common.util.SharedPreferencesHelper
@@ -20,10 +21,12 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
+import dc.android.bridge.EventContext
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
 import java.util.*
@@ -41,15 +44,18 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     private var adapter: MainPageAdapter? = null
     private var column = ""
     private var mainBean: MainBean? = null
+    private var tabName: String = ""
     private lateinit var mBind: FragmentCinemaListBinding
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentCinemaListBinding.inflate(inflater, container, false)
-    companion object{
+
+    companion object {
         @JvmStatic
-        fun newInstance(id:String):CinemaListFragment{
+        fun newInstance(id: String, tabName: String): CinemaListFragment {
             val fragment = CinemaListFragment()
             val bundle = Bundle()
-            bundle.putString(ID,id)
+            bundle.putString(ID, id)
+            bundle.putString(BridgeContext.TITLE, tabName)
             fragment.arguments = bundle
             return fragment
         }
@@ -78,7 +84,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         if (null != value) {
             mBind.rvList.visibility = View.VISIBLE
             if (null == adapter) {
-                adapter = MainPageAdapter(requireContext(), bean = value,this)
+                adapter = MainPageAdapter(requireContext(), bean = value, this)
                 mBind.rvList.adapter = adapter
                 adapter?.setOnItemClickListener(this)
             } else {
@@ -112,6 +118,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
 
     override fun initData() {
         column = arguments?.getString(ID) ?: ""
+        tabName = arguments?.getString(BridgeContext.TITLE) ?: ""
         viewModel.main(1, column)
     }
 
@@ -138,8 +145,10 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      * 点击分类 跳转片库
      * @param typeId String
      */
-    override fun onCategoryClick(typeId: String) {
+    override fun onCategoryClick(typeId: String,typeName:String) {
         LiveDataBus.get().with(BridgeContext.TYPE_ID).value = typeId
+        val map = mapOf("categoryName" to typeName)
+        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_CATEGORY,map)
     }
 
     /**
@@ -157,6 +166,12 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path).withString(ID, movieId).navigation()
+        val map = mapOf("tabName" to tabName)
+        MobclickAgent.onEventObject(
+            BaseApplication.baseCtx,
+            if (way == "-1") EventContext.EVENT_BANNER_MOVIE_DETAIL else EventContext.EVENT_MOVIE_DETAIL,
+            map
+        )
     }
 
     /**

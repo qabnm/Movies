@@ -163,7 +163,7 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             titleList.add(columns[i].name)
         }
         mBind.vpContainer.adapter =
-            CinemaFragmentViewPagerAdapter(childFragmentManager, idList.size, idList)
+            CinemaFragmentViewPagerAdapter(childFragmentManager, idList.size, columns as ArrayList<Column>)
         CommonNavigator(requireActivity()).apply {
             adapter = ScaleTitleNavAdapter(mBind.vpContainer, titleList)
             isAdjustMode = titleList.size <= 5

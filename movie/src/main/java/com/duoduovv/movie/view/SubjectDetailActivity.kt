@@ -1,6 +1,5 @@
 package com.duoduovv.movie.view
 
-import android.view.View
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.component.AppBarStateChangeListener
@@ -58,8 +57,8 @@ class SubjectDetailActivity : BaseViewModelActivity<SubjectDetailViewModel>() {
     }
 
     private fun setList(list: List<SubjectDetailListBean>?) {
-        detailAdapter?.setList(list)
         if (list?.isNotEmpty() == true) {
+            detailAdapter?.setList(list)
             mBind.tvTotal.text = "共${list.size}部"
         } else {
             mBind.tvTotal.text = ""

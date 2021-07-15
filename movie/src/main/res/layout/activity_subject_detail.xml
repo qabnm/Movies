@@ -71,7 +71,7 @@
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/dp_50"
+                android:layout_height="@dimen/dp_44"
                 app:layout_collapseMode="pin"
                 app:contentInsetStart="0px"
                 app:contentInsetLeft="0px"
