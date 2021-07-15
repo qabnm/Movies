@@ -57,7 +57,6 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
-    api "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api "androidx.core:core-ktx:$ext.core_ktx_version"
     api "androidx.appcompat:appcompat:$ext.appcompact_version"
     api "androidx.constraintlayout:constraintlayout:$ext.constraintlayout_version"
@@ -86,11 +85,11 @@ dependencies {
     api "com.github.CymChad:BaseRecyclerViewAdapterHelper:$ext.adapter_helper"
     api "com.github.hackware1993:MagicIndicator:$ext.pager_indicator"
 
-    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:$ext.video_version-jitpack"
+    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-java:$ext.video_version"
     //是否需要ExoPlayer模式
-    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-exo_player2:$ext.video_version-jitpack"
+    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-exo_player2:$ext.video_version"
     //更多ijk的编码支持
-    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-ex_so:$ext.video_version-jitpack"
+    api "com.github.CarGuo.GSYVideoPlayer:gsyVideoPlayer-ex_so:$ext.video_version"
     //下拉刷新的
     api "com.scwang.smart:refresh-layout-kernel:$ext.refresh_version"      //核心必须依赖
     api "com.scwang.smart:refresh-header-classics:$ext.refresh_version"    //经典刷新头
@@ -108,8 +107,8 @@ dependencies {
     api "com.tencent.bugly:crashreport:$ext.bugly_crash"
 
     api "com.airbnb.android:lottie:$ext.lottie_version"
-    compileOnly 'org.checkerframework:checker-qual:3.3.0'
-    implementation "com.google.android.gms:play-services-cronet:17.0.0"
+//    compileOnly 'org.checkerframework:checker-qual:3.3.0'
+//    implementation "com.google.android.gms:play-services-cronet:17.0.0"
     debugApi 'com.squareup.leakcanary:leakcanary-android:2.7'
     debugApi 'com.github.markzhai:blockcanary-android:1.5.0'
 

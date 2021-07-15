@@ -280,6 +280,11 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
         }
     }
 
+    override fun onDestroy() {
+        mBind.adContainer.removeAllViews()
+        super.onDestroy()
+    }
+
     /**
      * 跳转首页activity
      */

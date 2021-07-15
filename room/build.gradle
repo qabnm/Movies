@@ -54,7 +54,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     api 'androidx.room:room-runtime:2.2.5'
     api 'androidx.room:room-ktx:2.2.5'
     kapt 'androidx.room:room-compiler:2.2.5'

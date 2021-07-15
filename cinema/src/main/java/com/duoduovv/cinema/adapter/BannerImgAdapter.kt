@@ -2,11 +2,9 @@ package com.duoduovv.cinema.adapter
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
@@ -15,8 +13,6 @@ import com.duoduovv.cinema.bean.Banner
 import com.duoduovv.cinema.databinding.BannerAdContainerBinding
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
 import com.duoduovv.common.BaseApplication
-import com.qq.e.ads.nativ.MediaView
-import com.qq.e.ads.nativ.widget.NativeAdContainer
 import com.youth.banner.adapter.BannerAdapter
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
@@ -70,27 +66,12 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
             typeAd -> {
                 BaseApplication.configBean?.ad?.mainPageBanner?.let {
                     when (it.type) {
-                        TYPE_TT_AD -> {
-                            (holder as AdViewHolder).adBinder.layoutTTAd.visibility =
-                                View.VISIBLE
-                            holder.adBinder.layoutGdt.visibility = View.GONE
-                            initTTAd(holder.adBinder.layoutTTAd, it.value)
-                        }
-                        TYPE_GDT_AD -> {
-                            (holder as AdViewHolder).adBinder.layoutTTAd.visibility = View.GONE
-                            holder.adBinder.layoutGdt.visibility = View.VISIBLE
-                            initGDTAd(
-                                holder.adBinder.adImgCover,
-                                holder.adBinder.mediaView,
-                                holder.adBinder.layoutGdt,
-                                it.value
-                            )
-                        }
+                        TYPE_TT_AD -> { initTTAd(it.value, holder as AdViewHolder) }
+                        TYPE_GDT_AD -> { initGDTAd(holder as AdViewHolder, it.value) }
                     }
                 }
             }
             else -> {
-
                 GlideUtils.setMovieImg(
                     context = context,
                     url = data?.img ?: "",
@@ -105,25 +86,30 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
     /**
      * 请求穿山甲广告
      */
-    private fun initTTAd(container: ViewGroup, posId: String) {
+    private fun initTTAd(posId: String, holder: AdViewHolder) {
         if (null == ttInfoAd) {
+            holder.adBinder.layoutTTAd.visibility = View.VISIBLE
+            holder.adBinder.layoutGdt.visibility = View.GONE
             ttInfoAd = TTInfoAd()
-            ttInfoAd?.initTTInfoAd(context as Activity, posId, bannerWidth, 0f, container)
+            ttInfoAd?.initTTInfoAd(context as Activity, posId, bannerWidth, 0f, holder.adBinder.layoutTTAd)
         }
     }
 
     /**
      * 初始化广点通广告
      */
-    private fun initGDTAd(
-        adImg: ImageView,
-        mediaView: MediaView,
-        container: NativeAdContainer,
-        posId: String
-    ) {
+    private fun initGDTAd(holder: AdViewHolder, posId: String) {
         if (null == gdtInfoAd) {
+            holder.adBinder.layoutTTAd.visibility = View.GONE
+            holder.adBinder.layoutGdt.visibility = View.VISIBLE
             gdtInfoAd = GDTInfoAdForSelfRender()
-            gdtInfoAd?.initInfoAd(context as Activity, posId, adImg, mediaView, container)
+            gdtInfoAd?.initInfoAd(
+                context as Activity,
+                posId,
+                holder.adBinder.adImgCover,
+                holder.adBinder.mediaView,
+                holder.adBinder.layoutGdt
+            )
         }
     }
 

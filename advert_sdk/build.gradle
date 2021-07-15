@@ -55,7 +55,6 @@ android {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.lib"])
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.core:core-ktx:$ext.core_ktx_version"
     api 'com.pangle.cn:ads-sdk:3.5.0.8'
     api 'com.qq.e.union:tbs:4.373.1243'
