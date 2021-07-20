@@ -63,19 +63,19 @@
                     android:includeFontPadding="false"
                     android:paddingStart="@dimen/dp_12"
                     android:paddingEnd="0px"
-                    tools:text="共10部"
                     android:textColor="#FFFEFE"
-                    android:textSize="@dimen/sp_13" />
+                    android:textSize="@dimen/sp_13"
+                    tools:text="共10部" />
             </LinearLayout>
 
             <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolBar"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/dp_44"
-                app:layout_collapseMode="pin"
-                app:contentInsetStart="0px"
                 app:contentInsetLeft="0px"
-                app:popupTheme="@style/CollAppTheme" >
+                app:contentInsetStart="0px"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/CollAppTheme">
 
                 <ImageView
                     android:id="@+id/ivBack"
@@ -84,6 +84,11 @@
                     android:layout_centerVertical="true"
                     android:padding="@dimen/dp_10"
                     android:src="@drawable/back_white" />
+
+                <View
+                    android:layout_width="@dimen/dp_30"
+                    android:layout_height="@dimen/dp_30"
+                    android:layout_gravity="end" />
             </com.google.android.material.appbar.MaterialToolbar>
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
