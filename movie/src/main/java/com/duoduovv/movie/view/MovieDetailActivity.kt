@@ -264,6 +264,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
             currentLength = 0
             pauseAdLoading()
+            MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_PLAY_SUCCESS,null)
         }
 
         override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
@@ -868,6 +869,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             hasClickRecommend = true
             viewModel.movieDetail(movieId)
         }
+        MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_MOVIE_DETAIL_RECOMMEND,null)
     }
 
     override fun onBackPressed() {

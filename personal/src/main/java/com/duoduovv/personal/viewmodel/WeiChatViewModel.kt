@@ -100,7 +100,8 @@ class WeiChatViewModel : BaseViewModel() {
         val bean = result.data
         bean.img = img
         bean.nickName = nickName
-        if (isSuccess(result.code)) token.postValue(result.data)
+        bean.openType = openType
+        if (isSuccess(result.code)) token.postValue(bean)
     }
 
     /**

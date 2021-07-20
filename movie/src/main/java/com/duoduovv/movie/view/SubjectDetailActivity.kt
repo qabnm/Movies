@@ -2,6 +2,7 @@ package com.duoduovv.movie.view
 
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.component.AppBarStateChangeListener
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
@@ -10,9 +11,11 @@ import com.duoduovv.movie.bean.SubjectDetailListBean
 import com.duoduovv.movie.databinding.ActivitySubjectDetailBinding
 import com.duoduovv.movie.viewmodel.SubjectDetailViewModel
 import com.google.android.material.appbar.AppBarLayout
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
+import dc.android.bridge.EventContext
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.view.BaseViewModelActivity
 
@@ -85,5 +88,6 @@ class SubjectDetailActivity : BaseViewModelActivity<SubjectDetailViewModel>() {
             RouterPath.PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path).withString(ID, movieId).navigation()
+        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SUBJECT_TO_DETAIL,null)
     }
 }

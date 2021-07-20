@@ -36,12 +36,14 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatAppId
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatSecret
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatUserInfoUrl
 import com.duoduovv.weichat.WeiChatTool
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext.Companion.SUCCESS
 import dc.android.bridge.BridgeContext.Companion.TOKEN
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.BridgeContext.Companion.WAY
 import dc.android.bridge.BridgeContext.Companion.WAY_VERIFY
+import dc.android.bridge.EventContext
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.util.OsUtils
@@ -70,10 +72,20 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             mBind.layoutIsRes.visibility = View.VISIBLE
             mBind.layoutHistory.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_WATCH_HISTORY).navigation()
+                MobclickAgent.onEventObject(
+                    BaseApplication.baseCtx,
+                    EventContext.EVENT_WATCH_HISTORY,
+                    null
+                )
             }
             mBind.layoutDownload.setOnClickListener { }
             mBind.layoutCollection.setOnClickListener {
                 ARouter.getInstance().build(RouterPath.PATH_MY_COLLECTION).navigation()
+                MobclickAgent.onEventObject(
+                    BaseApplication.baseCtx,
+                    EventContext.EVENT_COLLECTION,
+                    null
+                )
             }
             mBind.layoutShare.setOnClickListener { onShareClick() }
             mBind.layoutContainer.visibility = View.VISIBLE
@@ -225,8 +237,18 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 mBind.layoutTop.visibility = View.VISIBLE
                 GlideUtils.setImg(requireActivity(), it.img, mBind.imageIcon)
                 mBind.tvUser.text = it.nickName
+                MobclickAgent.onEventObject(
+                    BaseApplication.baseCtx,
+                    if (it.openType == 1) EventContext.EVENT_QQ_LOGIN_SUCCESS else EventContext.EVENT_WEICHAT_LOGIN_SUCCESS,
+                    null
+                )
             } else {
                 //登录失败
+                MobclickAgent.onEventObject(
+                    BaseApplication.baseCtx,
+                    if (it.openType == 1) EventContext.EVENT_QQ_LOGIN_fail else EventContext.EVENT_WEICHAT_LOGIN_fail,
+                    null
+                )
             }
         }
     }
@@ -351,6 +373,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
     private fun onShareClick() {
         val shareDialog = ShareDialogFragment(shareClickListener)
         shareDialog.showNow(childFragmentManager, "share")
+        MobclickAgent.onEventObject(BaseApplication.baseCtx, EventContext.EVENT_SHARE_CENTER, null)
     }
 
     private val shareClickListener = object : ShareDialogFragment.OnShareClickListener {

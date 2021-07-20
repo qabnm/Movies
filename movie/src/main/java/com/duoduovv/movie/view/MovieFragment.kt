@@ -1,9 +1,11 @@
 package com.duoduovv.movie.view
 
+import android.annotation.SuppressLint
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.viewpager.widget.ViewPager
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
@@ -12,7 +14,9 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.component.MovieFragmentPagerAdapter
 import com.duoduovv.movie.databinding.FragmentMovieBinding
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.EventContext
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseFragment
 import dc.android.tools.LiveDataBus
@@ -52,13 +56,40 @@ class MovieFragment : BaseFragment() {
                 }
             }
         })
+        mBind.vpContainer.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            @SuppressLint("MissingSuperCall")
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
+
+            override fun onPageSelected(position: Int) {
+                when (position) {
+                    0 -> {
+                        //专题
+                        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SUBJECT_TAB,null)
+                    }
+                    1 -> {
+                        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_MOVIE_LIB_TAB,null)
+                    }
+                    2 -> {
+                        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_RANK_TAB,null)
+                    }
+                }
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {
+            }
+        })
     }
 
     override fun initData() {
-        typeId = arguments?.getString(BridgeContext.TYPE_ID)?:""
-        val data = listOf("专题","片库", "榜单")
+        typeId = arguments?.getString(BridgeContext.TYPE_ID) ?: ""
+        val data = listOf("专题", "片库", "榜单")
         Log.i("typeId", "初始化先执行了，$typeId")
-        mBind.vpContainer.adapter = MovieFragmentPagerAdapter(childFragmentManager, typeId,3)
+        mBind.vpContainer.adapter = MovieFragmentPagerAdapter(childFragmentManager, typeId, 3)
         CommonNavigator(requireActivity()).apply {
             adapter = NoLineIndicatorAdapter(
                 viewPager = mBind.vpContainer,

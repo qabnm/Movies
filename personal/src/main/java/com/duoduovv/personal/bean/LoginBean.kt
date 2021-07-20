@@ -5,4 +5,4 @@ package com.duoduovv.personal.bean
  * @date: 2021/2/25 15:09
  * @des:
  */
-data class LoginBean(val token: String?, var img: String = "", var nickName: String = "")
+data class LoginBean(val token: String?, var img: String = "", var nickName: String = "",var openType:Int = 0)

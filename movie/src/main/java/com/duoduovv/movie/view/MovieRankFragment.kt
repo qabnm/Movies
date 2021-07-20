@@ -5,13 +5,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
+import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieRankAdapter
 import com.duoduovv.movie.bean.MovieRankBean
 import com.duoduovv.movie.databinding.FragmentMovieRankBinding
 import com.duoduovv.movie.viewmodel.MovieRankListViewModel
+import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
+import dc.android.bridge.EventContext
 import dc.android.bridge.view.BaseViewModelFragment
 
 /**
@@ -43,8 +46,8 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
             } else {
                 RouterPath.PATH_MOVIE_DETAIL
             }
-            ARouter.getInstance().build(path)
-                .withString(BridgeContext.ID, movieId).navigation()
+            ARouter.getInstance().build(path).withString(BridgeContext.ID, movieId).navigation()
+            MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_RANK_TO_DETAIL,null)
         }
     }
 

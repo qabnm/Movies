@@ -5,8 +5,6 @@ import android.content.Context
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.advert.AdvertBridge
 import com.duoduovv.common.domain.ConfigureBean
-import com.github.moduth.blockcanary.BlockCanary
-import com.github.moduth.blockcanary.BlockCanaryContext
 import com.tencent.bugly.crashreport.CrashReport
 import com.tencent.smtt.export.external.TbsCoreSettings
 import com.tencent.smtt.sdk.QbSdk
@@ -62,7 +60,7 @@ open class BaseApplication : Application() {
         map[TbsCoreSettings.TBS_SETTINGS_USE_SPEEDY_CLASSLOADER] = true
         map[TbsCoreSettings.TBS_SETTINGS_USE_DEXLOADER_SERVICE] = true
         QbSdk.initTbsSettings(map)
-        BlockCanary.install(this, BlockCanaryContext()).start()
+//        BlockCanary.install(this, BlockCanaryContext()).start()
     }
 
     override fun onTerminate() {
