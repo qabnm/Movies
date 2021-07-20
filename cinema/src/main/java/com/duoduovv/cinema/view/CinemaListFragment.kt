@@ -169,8 +169,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         val map = mapOf("tabName" to tabName)
         MobclickAgent.onEventObject(
             BaseApplication.baseCtx,
-            if (way == "-1") EventContext.EVENT_BANNER_MOVIE_DETAIL else EventContext.EVENT_MOVIE_DETAIL,
-            map
+            if (way == "-1") EventContext.EVENT_BANNER_MOVIE_DETAIL else EventContext.EVENT_MOVIE_DETAIL, map
         )
     }
 
@@ -181,5 +180,4 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         ARouter.getInstance().build(RouterPath.PATH_RECOMMEND)
             .withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
     }
-
 }

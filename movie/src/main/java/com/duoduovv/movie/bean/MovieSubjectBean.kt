@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName
  * @date: 2021/6/25 11:03
  * @des:专题页
  */
-data class MovieSubjectBean(@SerializedName("records") val subject: List<SubjectListBean>)
+data class MovieSubjectBean(@SerializedName("records") val subject: List<SubjectListBean>?)
 
 data class SubjectListBean(
     @SerializedName("id")

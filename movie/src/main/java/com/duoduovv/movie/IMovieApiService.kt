@@ -118,7 +118,7 @@ interface IMovieApiService {
      * 专题列表页
      */
     @GET("api/special")
-    suspend fun subjectList(): BaseResponseData<MovieSubjectBean>
+    suspend fun subjectList(@Query("page") page: Int): BaseResponseData<MovieSubjectBean>
 
     /**
      * 专题详情

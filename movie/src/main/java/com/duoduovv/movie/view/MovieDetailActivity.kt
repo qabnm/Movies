@@ -20,7 +20,6 @@ import com.duoduovv.advert.gdtad.GDTEncourageAd
 import com.duoduovv.advert.gdtad.GDTVideoAdForSelfRender
 import com.duoduovv.advert.ttad.TTEncourageAd
 import com.duoduovv.common.BaseApplication
-import com.duoduovv.common.component.GSYExoHttpDataSourceFactory
 import com.duoduovv.common.component.ShareDialogFragment
 import com.duoduovv.common.listener.VideoPlayCallback
 import com.duoduovv.common.util.RouterPath
@@ -40,12 +39,7 @@ import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_CONTENT
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_LINK
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.SHARE_TITLE
 import com.duoduovv.weichat.WeiChatTool
-import com.google.android.exoplayer2.source.MediaSource
-import com.google.android.exoplayer2.upstream.DataSource
-import com.google.android.exoplayer2.upstream.TransferListener
 import com.shuyu.gsyvideoplayer.GSYVideoManager
-import com.shuyu.gsyvideoplayer.cache.CacheFactory
-import com.shuyu.gsyvideoplayer.player.PlayerFactory
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
@@ -70,11 +64,6 @@ import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.tools.LiveDataBus
 import kotlinx.coroutines.*
-import tv.danmaku.ijk.media.exo2.Exo2PlayerManager
-import tv.danmaku.ijk.media.exo2.ExoMediaSourceInterceptListener
-import tv.danmaku.ijk.media.exo2.ExoPlayerCacheManager
-import tv.danmaku.ijk.media.exo2.ExoSourceManager
-import java.io.File
 import java.util.*
 import kotlin.collections.HashMap
 

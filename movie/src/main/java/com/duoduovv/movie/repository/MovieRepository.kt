@@ -127,8 +127,8 @@ class MovieRepository : MovieApiRepository() {
      * 专题 列表
      * @return BaseResponseData<MovieSubjectBean>
      */
-    suspend fun subjectList() = request {
-        apiService.subjectList()
+    suspend fun subjectList(page: Int) = request {
+        apiService.subjectList(page)
     }
 
     /**
