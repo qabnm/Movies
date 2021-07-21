@@ -42,7 +42,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  */
 @Route(path = RouterPath.PATH_CINEMA)
 class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
-    override fun getLayoutId() = R.layout.fragment_cinema
     override fun providerVMClass() = CinemaViewModel::class.java
     private var hotList: List<String>? = null
     private var upgradeDialogFragment: UpgradeDialogFragment? = null

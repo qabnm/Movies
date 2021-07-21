@@ -1,15 +1,11 @@
 package com.duoduovv.cinema.view
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.cinema.R
-import com.duoduovv.cinema.adapter.MainPageAdapter
-import com.duoduovv.cinema.bean.FilmRecommendBean
-import com.duoduovv.cinema.bean.MainBean
+import com.duoduovv.cinema.adapter.CinemaListAdapter
+import com.duoduovv.cinema.bean.ColumnBean
 import com.duoduovv.cinema.databinding.FragmentCinemaListBinding
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
 import com.duoduovv.common.BaseApplication
@@ -24,7 +20,6 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
-import dc.android.bridge.BridgeContext.Companion.LIST
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.EventContext
 import dc.android.bridge.view.BaseViewModelFragment
@@ -37,13 +32,11 @@ import java.util.*
  * @des:首页列表
  */
 class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefreshListener,
-    OnLoadMoreListener, MainPageAdapter.OnItemClickListener {
-    override fun getLayoutId() = R.layout.fragment_cinema_list
+    OnLoadMoreListener, CinemaListAdapter.OnItemClickListener {
     override fun providerVMClass() = CinemaListViewModel::class.java
     private var page = 1
-    private var adapter: MainPageAdapter? = null
+    private var adapter: CinemaListAdapter? = null
     private var column = ""
-    private var mainBean: MainBean? = null
     private var tabName: String = ""
     private lateinit var mBind: FragmentCinemaListBinding
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
@@ -69,31 +62,23 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             setOnRefreshListener(this@CinemaListFragment)
             setOnLoadMoreListener(this@CinemaListFragment)
         }
-        viewModel.getMain().observe(this, { setData(viewModel.getMain().value) })
-        viewModel.getMainRecommend().observe(this, {
-            val value = viewModel.getMainRecommend().value
-            mainBean?.mainRecommendBean?.recommends = value
-            mainBean?.let { adapter?.notifyDataChanged(it) }
-            if (mBind.refreshLayout.isLoading) mBind.refreshLayout.finishLoadMore()
-        })
+        viewModel.getCinemaList().observe(this, { setData(viewModel.getCinemaList().value) })
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
     }
 
-    private fun setData(value: MainBean?) {
-        mainBean = value
-        if (null != value) {
-            mBind.rvList.visibility = View.VISIBLE
+    private fun setData(dataList: List<ColumnBean>?) {
+        if (dataList?.isNotEmpty() == true) {
             if (null == adapter) {
-                adapter = MainPageAdapter(requireContext(), bean = value, this)
+                adapter =
+                    CinemaListAdapter(dataList as ArrayList<ColumnBean>, requireContext(), this)
                 mBind.rvList.adapter = adapter
                 adapter?.setOnItemClickListener(this)
             } else {
-                adapter?.notifyDataChanged(value)
+                adapter?.notifyDataChanged(dataList as ArrayList<ColumnBean>,page)
             }
             if (mBind.refreshLayout.isRefreshing) mBind.refreshLayout.finishRefresh()
+            if (mBind.refreshLayout.isLoading) mBind.refreshLayout.finishLoadMore()
             (parentFragment as? CinemaFragment)?.showRecord()
-        } else {
-            mBind.rvList.visibility = View.GONE
         }
     }
 
@@ -119,7 +104,11 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun initData() {
         column = arguments?.getString(ID) ?: ""
         tabName = arguments?.getString(BridgeContext.TITLE) ?: ""
-        viewModel.main(1, column)
+        loadData()
+    }
+
+    private fun loadData() {
+        viewModel.cinemaList(page, column)
     }
 
     /**
@@ -129,7 +118,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun onRefresh(refreshLayout: RefreshLayout) {
         refreshLayout.resetNoMoreData()
         page = 1
-        viewModel.main(page, column = column)
+        loadData()
     }
 
     /**
@@ -138,17 +127,17 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
      */
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
-        viewModel.mainRecommend(page, column = column)
+        loadData()
     }
 
     /**
      * 点击分类 跳转片库
      * @param typeId String
      */
-    override fun onCategoryClick(typeId: String,typeName:String) {
+    override fun onCategoryClick(typeId: String, typeName: String) {
         LiveDataBus.get().with(BridgeContext.TYPE_ID).value = typeId
         val map = mapOf("categoryName" to typeName)
-        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_CATEGORY,map)
+        MobclickAgent.onEventObject(BaseApplication.baseCtx, EventContext.EVENT_CATEGORY, map)
     }
 
     /**
@@ -169,15 +158,16 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         val map = mapOf("tabName" to tabName)
         MobclickAgent.onEventObject(
             BaseApplication.baseCtx,
-            if (way == "-1") EventContext.EVENT_BANNER_MOVIE_DETAIL else EventContext.EVENT_MOVIE_DETAIL, map
+            if (way == "-1") EventContext.EVENT_BANNER_MOVIE_DETAIL else EventContext.EVENT_MOVIE_DETAIL,
+            map
         )
     }
 
     /**
      * 今日推荐查看更多
      */
-    override fun onTodayMoreClick(dataList: List<FilmRecommendBean>) {
-        ARouter.getInstance().build(RouterPath.PATH_RECOMMEND)
-            .withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
+    override fun onMoreClick(type: String?) {
+//        ARouter.getInstance().build(RouterPath.PATH_RECOMMEND)
+//            .withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
     }
 }

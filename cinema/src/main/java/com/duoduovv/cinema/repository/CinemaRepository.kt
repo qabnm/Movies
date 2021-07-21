@@ -11,6 +11,16 @@ import kotlinx.coroutines.withContext
 class CinemaRepository : CinemaApiRepository() {
 
     /**
+     * 首页栏目列表
+     * @param page Int
+     * @param column String
+     * @return BaseResponseData<CinemaListBean>
+     */
+    suspend fun cinemaList(page: Int, column: String) = request {
+        apiService.cinemaList(page, column)
+    }
+
+    /**
      * 首页推荐
      * @param page Int
      * @return BaseResponseData<MainRecommendBean>
@@ -43,7 +53,7 @@ class CinemaRepository : CinemaApiRepository() {
      * @param url String
      * @return ResponseBody
      */
-    suspend fun downloadFile(url:String) = withContext(Dispatchers.IO){
+    suspend fun downloadFile(url: String) = withContext(Dispatchers.IO) {
         apiService.downloadFile(url)
     }
 }

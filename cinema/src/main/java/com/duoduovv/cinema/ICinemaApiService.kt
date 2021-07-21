@@ -1,5 +1,6 @@
 package com.duoduovv.cinema
 
+import com.duoduovv.cinema.bean.CinemaListBean
 import com.duoduovv.cinema.bean.MainPageBean
 import com.duoduovv.cinema.bean.MainRecommendBean
 import com.duoduovv.cinema.bean.SearchResultBean
@@ -16,6 +17,18 @@ import retrofit2.http.Url
  * @des:
  */
 interface ICinemaApiService {
+
+    /**
+     * 首页栏目列表
+     * @param page Int
+     * @param typeId String
+     * @return BaseResponseData<CinemaListBean>
+     */
+    @GET("api/v2/index")
+    suspend fun cinemaList(
+        @Query("page") page: Int,
+        @Query("column") typeId: String
+    ): BaseResponseData<CinemaListBean>
 
     /**
      * 首页
@@ -57,5 +70,5 @@ interface ICinemaApiService {
      */
     @Streaming
     @GET
-    suspend fun downloadFile(@Url url:String):ResponseBody
+    suspend fun downloadFile(@Url url: String): ResponseBody
 }

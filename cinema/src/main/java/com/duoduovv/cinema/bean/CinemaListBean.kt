@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName
  * @des:
  */
 data class CinemaListBean(
-    val columns: List<ColumnBean>
+    val columns: List<ColumnBean>?
 )
 
 data class ColumnBean(
@@ -22,6 +22,7 @@ data class ColumnBean(
     @SerializedName("str_id")
     val strId: String?,
     val titleName: String?,
+    @SerializedName("itemType")
     val type: String?,
     val way: String?,
     var hasLoad:Boolean = false

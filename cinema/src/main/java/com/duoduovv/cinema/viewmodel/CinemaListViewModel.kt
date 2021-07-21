@@ -1,10 +1,7 @@
 package com.duoduovv.cinema.viewmodel
 
 import androidx.lifecycle.MutableLiveData
-import com.duoduovv.cinema.bean.FilmRecommendBean
-import com.duoduovv.cinema.bean.MainBean
-import com.duoduovv.cinema.bean.MainPageBean
-import com.duoduovv.cinema.bean.MainRecommendBean
+import com.duoduovv.cinema.bean.*
 import com.duoduovv.cinema.repository.CinemaRepository
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
 import dc.android.bridge.net.BaseResponseData
@@ -22,11 +19,14 @@ class CinemaListViewModel : BaseViewModel() {
     private var mainBean: MutableLiveData<MainBean> = MutableLiveData()
     private var noMoreData: MutableLiveData<String> = MutableLiveData()
     private val repository = CinemaRepository()
+    private val cinemaList = MutableLiveData<List<ColumnBean>>()
+    fun getCinemaList() = cinemaList
 
     fun getMainRecommend() = mainRecommend
     fun getMain() = mainBean
     fun getNoMoreData() = noMoreData
     private val dataList = ArrayList<FilmRecommendBean>()
+    private val dataSet = ArrayList<ColumnBean>()
 
     /**
      * 合并首页三个请求接口
@@ -75,6 +75,30 @@ class CinemaListViewModel : BaseViewModel() {
                     noMoreData.postValue(NO_MORE_DATA)
                 } else {
                     mainRecommend.postValue(dataList)
+                }
+            }
+        }
+    }
+
+    /**
+     * 首页栏目列表
+     * @param page Int
+     * @param column String
+     * @return Job
+     */
+    fun cinemaList(page: Int, column: String) = request {
+        val result = repository.cinemaList(page, column)
+        if (isSuccess(result.code)){
+            if (page == 1) dataSet.clear()
+            val data = result.data.columns
+            if (data?.isNotEmpty() == true){
+                dataSet.addAll(data)
+                cinemaList.postValue(dataSet)
+            }else{
+                if (page != 1){
+                    noMoreData.postValue(NO_MORE_DATA)
+                }else{
+                    cinemaList.postValue(dataSet)
                 }
             }
         }

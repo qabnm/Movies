@@ -31,7 +31,7 @@ import dc.android.bridge.util.StringUtils
  * @des:首页栏目页面adapter
  */
 class CinemaListAdapter(
-    private val dataList: ArrayList<ColumnBean>,
+    private var dataList: ArrayList<ColumnBean>,
     private val context: Context,
     private val fragment: CinemaListFragment
 ) :
@@ -216,7 +216,7 @@ class CinemaListAdapter(
         "banner" -> typeBanner
         "category" -> typeCategory
         "title" -> typeTitle
-        "list" -> typeList
+        "video" -> typeList
         else -> {
             position
         }
@@ -247,6 +247,17 @@ class CinemaListAdapter(
                     else -> 3
                 }
             }
+    }
+
+    fun notifyDataChanged(dataList: ArrayList<ColumnBean>,page:Int){
+        if (page == 1) {
+            //代表这时候是下拉刷新了，这时候会重新请求广告，所以这时候要把之前的广告数据给销毁掉
+            ttAd?.destroyInfoAd()
+            gdtAd?.onDestroy()
+            bannerAdapter?.onDestroy()
+        }
+        this.dataList = dataList
+        notifyDataSetChanged()
     }
 
     fun setOnItemClickListener(listener: OnItemClickListener) {
