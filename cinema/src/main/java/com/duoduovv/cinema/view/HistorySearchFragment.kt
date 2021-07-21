@@ -31,7 +31,6 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentHistorySearchBinding.inflate(inflater, container, false)
 
-    override fun getLayoutId() = R.layout.fragment_history_search
     private var cb: IHistoryClickCallback? = null
     private var hotSearchAdapter: HotSearchAdapter? = null
     private var hotList: List<String>? = null

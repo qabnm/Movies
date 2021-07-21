@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
-import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieLibraryAdapter
 import com.duoduovv.movie.bean.Filter
 import com.duoduovv.movie.bean.MovieLibList
@@ -33,7 +32,6 @@ import dc.android.bridge.view.BaseViewModelFragment
  */
 class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     MovieLibraryAdapter.OnItemClickListener, OnRefreshListener, OnLoadMoreListener {
-    override fun getLayoutId() = R.layout.fragment_movie_library
     override fun providerVMClass() = MovieLibListViewModel::class.java
     private lateinit var mBind: FragmentMovieLibraryBinding
 

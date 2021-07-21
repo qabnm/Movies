@@ -34,7 +34,6 @@ class MovieFragment : BaseFragment() {
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMovieBinding.inflate(inflater, container, false)
 
-    override fun getLayoutId() = R.layout.fragment_movie
     private var typeId: String = ""
 
     override fun initView() {

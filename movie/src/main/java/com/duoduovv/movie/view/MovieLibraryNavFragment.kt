@@ -20,7 +20,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  * @des:影片库外部导航fragment
  */
 class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>() {
-    override fun getLayoutId() = R.layout.fragment_movie_library_nav
     override fun providerVMClass() = MovieLibCategoryViewModel::class.java
     private lateinit var mBind: FragmentMovieLibraryNavBinding
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =

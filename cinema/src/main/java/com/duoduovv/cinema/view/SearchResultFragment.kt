@@ -19,7 +19,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  * @des:搜索结果
  */
 class SearchResultFragment : BaseViewModelFragment<ConfigureViewModel>() {
-    override fun getLayoutId() = R.layout.fragment_search_result
     private lateinit var mBind: FragmentSearchResultBinding
     override fun providerVMClass() = ConfigureViewModel::class.java
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =

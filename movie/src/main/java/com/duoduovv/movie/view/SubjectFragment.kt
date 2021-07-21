@@ -25,12 +25,11 @@ import dc.android.bridge.view.BaseViewModelFragment
  */
 class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>(), OnRefreshListener, OnLoadMoreListener {
     private lateinit var mbind: FragmentSubjectBinding
-    override fun providerVMClass() = SubjectListViewModel::class.java
     private var page = 1
+    private var adapter: MovieSubjectListAdapter? = null
+    override fun providerVMClass() = SubjectListViewModel::class.java
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentSubjectBinding.inflate(inflater, container, false)
-
-    private var adapter: MovieSubjectListAdapter? = null
 
     override fun initView() {
         mbind = baseBinding as FragmentSubjectBinding

@@ -36,7 +36,6 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
     private var resultAdapter: SearchResultListAdapter? = null
     override fun providerVMClass() = SearchResultViewModel::class.java
 
-    override fun getLayoutId() = R.layout.fragment_search_result_list
     private lateinit var mBind: FragmentSearchResultListBinding
     private var typeId = ""
     private var keyWord = ""

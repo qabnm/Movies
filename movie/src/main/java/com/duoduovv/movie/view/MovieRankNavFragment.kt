@@ -19,7 +19,6 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigat
  * @des:影片榜单外部导航fragment
  */
 class MovieRankNavFragment : BaseViewModelFragment<ConfigureViewModel>() {
-    override fun getLayoutId() = R.layout.fragment_movie_rank_nav
     override fun providerVMClass() = ConfigureViewModel::class.java
     private lateinit var mBind: FragmentMovieRankNavBinding
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
-import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieRankAdapter
 import com.duoduovv.movie.bean.MovieRankBean
 import com.duoduovv.movie.databinding.FragmentMovieRankBinding
@@ -23,7 +22,6 @@ import dc.android.bridge.view.BaseViewModelFragment
  * @des:榜单页面
  */
 class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
-    override fun getLayoutId() = R.layout.fragment_movie_rank
     override fun providerVMClass() = MovieRankListViewModel::class.java
     private lateinit var mBind: FragmentMovieRankBinding
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =

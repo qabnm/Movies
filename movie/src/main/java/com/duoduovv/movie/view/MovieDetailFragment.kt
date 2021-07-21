@@ -28,7 +28,6 @@ import dc.android.tools.LiveDataBus
  * @des:影视详情
  */
 class MovieDetailFragment : BaseFragment() {
-    override fun getLayoutId() = R.layout.fragment_movie_detail
     private lateinit var mBind: FragmentMovieDetailBinding
     override fun initBind(inflater: LayoutInflater, container: ViewGroup?) =
         FragmentMovieDetailBinding.inflate(inflater, container, false)

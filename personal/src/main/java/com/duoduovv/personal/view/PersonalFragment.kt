@@ -58,7 +58,6 @@ import dc.android.tools.LiveDataBus
  */
 @Route(path = PATH_PERSONAL)
 class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
-    override fun getLayoutId() = R.layout.fragment_personal
     override fun providerVMClass() = WeiChatViewModel::class.java
     private lateinit var mBind: FragmentPersonalBinding
     private var ttAd: TTInfoAd? = null
