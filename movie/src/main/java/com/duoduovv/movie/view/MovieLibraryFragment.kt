@@ -41,12 +41,12 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     private var page = 1
     private var movieLibAdapter: MovieLibraryAdapter? = null
 
-    companion object{
+    companion object {
         @JvmStatic
-        fun newInstance(key:String, filter: ArrayList<Filter>):MovieLibraryFragment{
+        fun newInstance(key: String, filter: ArrayList<Filter>): MovieLibraryFragment {
             val fragment = MovieLibraryFragment()
             val bundle = Bundle()
-            bundle.putString(ID,key)
+            bundle.putString(ID, key)
             bundle.putParcelableArrayList(LIST, filter)
             fragment.arguments = bundle
             return fragment
@@ -83,6 +83,10 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
                 map[typeList!![i].key] = typeList!![i].array[0].key
             }
         }
+        loadData()
+    }
+
+    private fun loadData() {
         viewModel.movieLibList(map, page, typeId)
     }
 
@@ -115,7 +119,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     override fun onTypeClick(key: String, name: String) {
         page = 1
         map[key] = name
-        viewModel.movieLibList(map, page, typeId)
+        loadData()
     }
 
     /**
@@ -129,7 +133,11 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             RouterPath.PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path).withString(ID, movieId).navigation()
-        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_MOVIELIB_TO_DETAIL,null)
+        MobclickAgent.onEventObject(
+            BaseApplication.baseCtx,
+            EventContext.EVENT_MOVIELIB_TO_DETAIL,
+            null
+        )
     }
 
     /**
@@ -139,7 +147,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     override fun onRefresh(refreshLayout: RefreshLayout) {
         page = 1
         refreshLayout.resetNoMoreData()
-        viewModel.movieLibList(map, page, typeId)
+        loadData()
     }
 
     /**
@@ -148,7 +156,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
      */
     override fun onLoadMore(refreshLayout: RefreshLayout) {
         page++
-        viewModel.movieLibList(map, page, typeId)
+        loadData()
     }
 
     /**

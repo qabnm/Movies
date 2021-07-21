@@ -76,10 +76,14 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             } else {
                 adapter?.notifyDataChanged(dataList as ArrayList<ColumnBean>,page)
             }
-            if (mBind.refreshLayout.isRefreshing) mBind.refreshLayout.finishRefresh()
-            if (mBind.refreshLayout.isLoading) mBind.refreshLayout.finishLoadMore()
             (parentFragment as? CinemaFragment)?.showRecord()
         }
+        finishLoading()
+    }
+
+    override fun finishLoading() {
+        if (mBind.refreshLayout.isRefreshing) mBind.refreshLayout.finishRefresh()
+        if (mBind.refreshLayout.isLoading) mBind.refreshLayout.finishLoadMore()
     }
 
     override fun onDestroyView() {
