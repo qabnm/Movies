@@ -186,16 +186,16 @@ class MainPageAdapter(
      * banner显示
      */
     private fun bindBanner(holder: BannerViewHolder) {
-        bean.mainPageBean.banners?.let {
-            bannerAdapter = BannerImgAdapter(it,context)
-            holder.bannerBind.layoutBanner.addBannerLifecycleObserver(fragment)
-                .setAdapter(bannerAdapter).indicator = CircleIndicator(context)
-            holder.bannerBind.layoutBanner.setOnBannerListener { data, _ ->
-                val jumpType = (data as Banner).jumpType
-                val movieId = data.movieId
-                if (jumpType == "1") listener?.onMovieClick(movieId, "-1")
-            }
-        }
+//        bean.mainPageBean.banners?.let {
+//            bannerAdapter = BannerImgAdapter(it,context)
+//            holder.bannerBind.layoutBanner.addBannerLifecycleObserver(fragment)
+//                .setAdapter(bannerAdapter).indicator = CircleIndicator(context)
+//            holder.bannerBind.layoutBanner.setOnBannerListener { data, _ ->
+//                val jumpType = (data as Banner).jumpType
+//                val movieId = data.movieId
+//                if (jumpType == "1") listener?.onMovieClick(movieId, "-1")
+//            }
+//        }
     }
 
     /**
@@ -237,11 +237,11 @@ class MainPageAdapter(
 
     private fun bindTitle(holder: TitleViewHolder) {
         holder.titleBind.tvTitle.text = "热门推荐"
-        if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
-            holder.titleBind.vLine.visibility = View.GONE
-        } else {
-            holder.titleBind.vLine.visibility = View.VISIBLE
-        }
+//        if (bean.mainPageBean.selectRecommends?.isNotEmpty() == true) {
+//            holder.titleBind.vLine.visibility = View.GONE
+//        } else {
+//            holder.titleBind.vLine.visibility = View.VISIBLE
+//        }
     }
 
     /**

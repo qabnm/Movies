@@ -27,14 +27,14 @@ data class Banner(
     val type: String? = null
 )
 
-/**
- * 首页分类
- */
-data class Category(
-    val icon: String,
-    val name: String,
-    @SerializedName("type_spe_array")
-    val typeSpeArray: TypeSpeBean
-)
-
-data class TypeSpeBean(@SerializedName("type_id") val typeId: String)
+///**
+// * 首页分类
+// */
+//data class Category(
+//    val icon: String,
+//    val name: String,
+//    @SerializedName("type_spe_array")
+//    val typeSpeArray: TypeSpeBean
+//)
+//
+//data class TypeSpeBean(@SerializedName("type_id") val typeId: String)

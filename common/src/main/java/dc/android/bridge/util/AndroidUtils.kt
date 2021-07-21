@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.R
+import java.lang.ref.WeakReference
 
 /**
  * @author: jun.liu
@@ -32,9 +33,10 @@ class AndroidUtils {
         }
 
         fun toast(str: String?, context: Context) {
-            val customToast = Toast(BaseApplication.baseCtx)
+            val weakReference = WeakReference(context)
+            val customToast = Toast(weakReference.get())
             val layoutView =
-                LayoutInflater.from(context).inflate(R.layout.layout_custom_toast, null)
+                LayoutInflater.from(weakReference.get()).inflate(R.layout.layout_custom_toast, null)
             val tvContent: TextView = layoutView.findViewById(R.id.tvContent)
             tvContent.text = str
             customToast.apply {

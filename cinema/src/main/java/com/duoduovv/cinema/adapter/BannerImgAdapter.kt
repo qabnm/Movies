@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.cinema.R
-import com.duoduovv.cinema.bean.Banner
+import com.duoduovv.cinema.bean.BannerBean
 import com.duoduovv.cinema.databinding.BannerAdContainerBinding
 import com.duoduovv.cinema.databinding.ItemBannerViewBinding
 import com.duoduovv.common.BaseApplication
@@ -24,8 +24,8 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/1/15 17:59
  * @des:首页顶部banner
  */
-class BannerImgAdapter(private val data: List<Banner>, private val context: Context) :
-    BannerAdapter<Banner, RecyclerView.ViewHolder>(data) {
+class BannerImgAdapter(private val data: List<BannerBean>, private val context: Context) :
+    BannerAdapter<BannerBean, RecyclerView.ViewHolder>(data) {
     private var ttInfoAd: TTInfoAd? = null
     private var gdtInfoAd: GDTInfoAdForSelfRender? = null
     private var bannerWidth = 0f
@@ -58,7 +58,7 @@ class BannerImgAdapter(private val data: List<Banner>, private val context: Cont
 
     override fun onBindView(
         holder: RecyclerView.ViewHolder,
-        data: Banner?,
+        data: BannerBean?,
         position: Int,
         size: Int
     ) {
