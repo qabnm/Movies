@@ -14,7 +14,6 @@ import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.R
 import com.duoduovv.movie.component.MovieFragmentPagerAdapter
 import com.duoduovv.movie.databinding.FragmentMovieBinding
-import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.EventContext
 import dc.android.bridge.util.OsUtils
@@ -68,13 +67,13 @@ class MovieFragment : BaseFragment() {
                 when (position) {
                     0 -> {
                         //专题
-                        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SUBJECT_TAB,null)
+                        EventContext.uMenEvent(EventContext.EVENT_SUBJECT_TAB,null)
                     }
                     1 -> {
-                        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_MOVIE_LIB_TAB,null)
+                        EventContext.uMenEvent(EventContext.EVENT_MOVIE_LIB_TAB,null)
                     }
                     2 -> {
-                        MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_RANK_TAB,null)
+                        EventContext.uMenEvent(EventContext.EVENT_RANK_TAB,null)
                     }
                 }
             }

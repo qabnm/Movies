@@ -43,7 +43,6 @@ import com.shuyu.gsyvideoplayer.GSYVideoManager
 import com.shuyu.gsyvideoplayer.utils.GSYVideoType
 import com.shuyu.gsyvideoplayer.utils.OrientationUtils
 import com.tencent.connect.common.UIListenerManager
-import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
@@ -205,7 +204,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onJxError() {
         onPlayError()
         //统计解析错误的信息
-        MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_JX_ERROR,getPlayErrorParams())
+        EventContext.uMenEvent(EventContext.EVENT_JX_ERROR,getPlayErrorParams())
     }
 
     private fun getPlayErrorParams():HashMap<String,Any>{
@@ -241,7 +240,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
             viewModel.playError(vidStr, url, "onPlayError")
             //统计播放出错
-            MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_PLAY_ERROR,getPlayErrorParams())
+            EventContext.uMenEvent(EventContext.EVENT_PLAY_ERROR,getPlayErrorParams())
         }
 
         override fun onPrepared(url: String?, vararg objects: Any?) {
@@ -253,7 +252,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
             currentLength = 0
             pauseAdLoading()
-            MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_PLAY_SUCCESS,null)
+            EventContext.uMenEvent(EventContext.EVENT_PLAY_SUCCESS,null)
         }
 
         override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
@@ -858,7 +857,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             hasClickRecommend = true
             viewModel.movieDetail(movieId)
         }
-        MobclickAgent.onEventObject(applicationContext,EventContext.EVENT_MOVIE_DETAIL_RECOMMEND,null)
+        EventContext.uMenEvent(EventContext.EVENT_MOVIE_DETAIL_RECOMMEND,null)
     }
 
     override fun onBackPressed() {

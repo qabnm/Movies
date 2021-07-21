@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import com.alibaba.android.arouter.launcher.ARouter
-import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.movie.adapter.MovieLibraryAdapter
 import com.duoduovv.movie.bean.Filter
@@ -17,7 +16,6 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
-import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.LIST
@@ -133,11 +131,7 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
             RouterPath.PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path).withString(ID, movieId).navigation()
-        MobclickAgent.onEventObject(
-            BaseApplication.baseCtx,
-            EventContext.EVENT_MOVIELIB_TO_DETAIL,
-            null
-        )
+        EventContext.uMenEvent(EventContext.EVENT_MOVIELIB_TO_DETAIL, null)
     }
 
     /**

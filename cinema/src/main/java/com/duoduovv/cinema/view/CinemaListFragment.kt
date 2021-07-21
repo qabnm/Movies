@@ -8,7 +8,6 @@ import com.duoduovv.cinema.adapter.CinemaListAdapter
 import com.duoduovv.cinema.bean.ColumnBean
 import com.duoduovv.cinema.databinding.FragmentCinemaListBinding
 import com.duoduovv.cinema.viewmodel.CinemaListViewModel
-import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
 import com.duoduovv.common.util.RouterPath.Companion.PATH_MOVIE_DETAIL
 import com.duoduovv.common.util.SharedPreferencesHelper
@@ -17,7 +16,6 @@ import com.scwang.smart.refresh.header.ClassicsHeader
 import com.scwang.smart.refresh.layout.api.RefreshLayout
 import com.scwang.smart.refresh.layout.listener.OnLoadMoreListener
 import com.scwang.smart.refresh.layout.listener.OnRefreshListener
-import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
@@ -74,7 +72,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
                 mBind.rvList.adapter = adapter
                 adapter?.setOnItemClickListener(this)
             } else {
-                adapter?.notifyDataChanged(dataList as ArrayList<ColumnBean>,page)
+                adapter?.notifyDataChanged(dataList as ArrayList<ColumnBean>, page)
             }
             (parentFragment as? CinemaFragment)?.showRecord()
         }
@@ -141,7 +139,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     override fun onCategoryClick(typeId: String, typeName: String) {
         LiveDataBus.get().with(BridgeContext.TYPE_ID).value = typeId
         val map = mapOf("categoryName" to typeName)
-        MobclickAgent.onEventObject(BaseApplication.baseCtx, EventContext.EVENT_CATEGORY, map)
+        EventContext.uMenEvent(EventContext.EVENT_CATEGORY, map)
     }
 
     /**
@@ -160,8 +158,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
         }
         ARouter.getInstance().build(path).withString(ID, movieId).navigation()
         val map = mapOf("tabName" to tabName)
-        MobclickAgent.onEventObject(
-            BaseApplication.baseCtx,
+        EventContext.uMenEvent(
             if (way == "-1") EventContext.EVENT_BANNER_MOVIE_DETAIL else EventContext.EVENT_MOVIE_DETAIL,
             map
         )

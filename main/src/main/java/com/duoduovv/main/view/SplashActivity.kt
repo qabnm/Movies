@@ -20,7 +20,6 @@ import com.duoduovv.main.component.PermissionDialogFragment
 import com.duoduovv.main.component.PrivacyDialogFragment
 import com.duoduovv.main.databinding.ActivitySplashBinding
 import com.permissionx.guolindev.PermissionX
-import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ADDRESS_CH
@@ -28,6 +27,7 @@ import dc.android.bridge.BridgeContext.Companion.AGREEMENT
 import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
+import dc.android.bridge.EventContext
 import dc.android.bridge.EventContext.Companion.EVENT_WAY_RELEASE
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
@@ -96,9 +96,9 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
             //统计可播放的way
             if (it.way == BridgeContext.WAY_RELEASE){
                 Log.d("WAY_RELEASE",it.way)
-                val location = SharedPreferencesHelper.helper.getValue(ADDRESS_CH,"")
+                val location = SharedPreferencesHelper.helper.getValue(ADDRESS_CH,"") as String
                 val map = mapOf("location" to location,"phone" to Build.MODEL)
-                MobclickAgent.onEventObject(applicationContext,EVENT_WAY_RELEASE,map)
+                EventContext.uMenEvent(EVENT_WAY_RELEASE,map)
             }
         }
     }

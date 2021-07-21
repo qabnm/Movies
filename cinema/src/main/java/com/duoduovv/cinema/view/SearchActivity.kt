@@ -16,10 +16,10 @@ import com.duoduovv.cinema.databinding.ActivitySearchBinding
 import com.duoduovv.cinema.listener.IHistoryClickCallback
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.util.RouterPath
-import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
+import dc.android.bridge.EventContext
 import dc.android.bridge.EventContext.Companion.EVENT_SEARCH_KEYWORD
 import dc.android.bridge.util.AndroidUtils
 import dc.android.bridge.util.OsUtils
@@ -148,7 +148,7 @@ class SearchActivity : BridgeActivity(), IHistoryClickCallback {
             }
             //搜索关键词统计
             val map = mapOf("keyWord" to mBind.etSearch.text.toString())
-            MobclickAgent.onEventObject(applicationContext, EVENT_SEARCH_KEYWORD, map)
+            EventContext.uMenEvent(EVENT_SEARCH_KEYWORD, map)
         } else {
             finish()
         }

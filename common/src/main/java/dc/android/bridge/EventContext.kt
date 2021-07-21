@@ -1,25 +1,35 @@
 package dc.android.bridge
 
+import com.duoduovv.common.BaseApplication
+import com.umeng.analytics.MobclickAgent
+
 /**
  * @author: jun.liu
  * @date: 2021/7/15 9:44
  * @des:
  */
 class EventContext {
-    companion object{
+    companion object {
+
+        fun uMenEvent(eventId: String, map: Map<String, Any>?) {
+            MobclickAgent.onEventObject(BaseApplication.baseCtx, eventId, map)
+        }
 
         /**
          * 栏目分类
          */
         const val EVENT_CATEGORY = "category"
+
         /**
          * 从banner进入影视详情
          */
-        const val EVENT_BANNER_MOVIE_DETAIL= "banner_movie_detail"
+        const val EVENT_BANNER_MOVIE_DETAIL = "banner_movie_detail"
+
         /**
          * 点击栏目进入影视详情页面
          */
         const val EVENT_MOVIE_DETAIL = "movie_detail"
+
         /**
          * 可播放统计
          */
@@ -58,7 +68,7 @@ class EventContext {
         /**
          * 分享好友
          */
-        const val EVENT_SHARE_CENTER="share_center"
+        const val EVENT_SHARE_CENTER = "share_center"
 
         /**
          * QQ分享

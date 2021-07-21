@@ -3,15 +3,12 @@ package com.duoduovv.common.component
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
-import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.R
 import com.duoduovv.common.databinding.DialogShareBinding
-import com.duoduovv.weichat.WeiChatBridgeContext
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.shareToQQ
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.shareToQQZone
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatCircle
 import com.duoduovv.weichat.WeiChatBridgeContext.Companion.weiChatFriend
-import com.umeng.analytics.MobclickAgent
 import dc.android.bridge.EventContext
 
 /**
@@ -37,23 +34,23 @@ class ShareDialogFragment(private val listener: OnShareClickListener?) :
         mBind.tvCancel.setOnClickListener { dismiss() }
         mBind.layoutQQ.setOnClickListener {
             listener?.onQQShareClick(shareToQQ)
-            MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SHARE_QQ,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_QQ,null)
         }
         mBind.layoutZone.setOnClickListener {
             listener?.onQQShareClick(shareToQQZone)
-            MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SHARE_QQ_ZONE,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_QQ_ZONE,null)
         }
         mBind.layoutCopy.setOnClickListener {
             listener?.onCopyClick()
-            MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SHARE_COPY,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_COPY,null)
         }
         mBind.layoutWeiChat.setOnClickListener {
             listener?.onWeiChatClick(weiChatFriend)
-            MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SHARE_WEICHAT,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_WEICHAT,null)
         }
         mBind.layoutWeiChatCircle.setOnClickListener {
             listener?.onWeiChatClick(weiChatCircle)
-            MobclickAgent.onEventObject(BaseApplication.baseCtx,EventContext.EVENT_SHARE_WEI_CIELE,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_WEI_CIELE,null)
         }
     }
 
