@@ -19,6 +19,7 @@ import com.scwang.smart.refresh.layout.listener.OnRefreshListener
 import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ID
 import dc.android.bridge.BridgeContext.Companion.NO_MORE_DATA
+import dc.android.bridge.BridgeContext.Companion.TITLE
 import dc.android.bridge.EventContext
 import dc.android.bridge.view.BaseViewModelFragment
 import dc.android.tools.LiveDataBus
@@ -46,7 +47,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             val fragment = CinemaListFragment()
             val bundle = Bundle()
             bundle.putString(ID, id)
-            bundle.putString(BridgeContext.TITLE, tabName)
+            bundle.putString(TITLE, tabName)
             fragment.arguments = bundle
             return fragment
         }
@@ -105,7 +106,7 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
 
     override fun initData() {
         column = arguments?.getString(ID) ?: ""
-        tabName = arguments?.getString(BridgeContext.TITLE) ?: ""
+        tabName = arguments?.getString(TITLE) ?: ""
         loadData()
     }
 
@@ -167,8 +168,8 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
     /**
      * 今日推荐查看更多
      */
-    override fun onMoreClick(type: String?) {
-//        ARouter.getInstance().build(RouterPath.PATH_RECOMMEND)
-//            .withParcelableArrayList(LIST, dataList as ArrayList<out Parcelable>).navigation()
+    override fun onMoreClick(titleName: String, id: String) {
+        ARouter.getInstance().build(RouterPath.PATH_RECOMMEND).withString(ID, id)
+            .withString(TITLE, titleName).navigation()
     }
 }

@@ -25,6 +25,7 @@ data class ColumnBean(
     @SerializedName("itemType")
     val type: String?,
     val way: String?,
+    val id:String?,
     var hasLoad:Boolean = false
 )
 

@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
-import com.duoduovv.cinema.bean.Banner
+import com.duoduovv.cinema.bean.BannerBean
 import com.duoduovv.cinema.bean.ColumnBean
 import com.duoduovv.cinema.databinding.ItemLayoutCategoryBinding
 import com.duoduovv.cinema.databinding.ItemMainBannerBinding
@@ -156,7 +156,7 @@ class CinemaListAdapter(
         holder.listBind.tvName.text = bean.vodName
         holder.listBind.tvScore.text = StringUtils.getString(bean.remark)
         holder.listBind.layoutContainer.setOnClickListener {
-            listener?.onMovieClick(bean.strId!!, bean.way!!)
+            listener?.onMovieClick(bean.strId?:"", bean.way?:"")
         }
     }
 
@@ -168,7 +168,7 @@ class CinemaListAdapter(
     private fun bindTitle(holder: TitleViewHolder, position: Int) {
         holder.titleBind.tvTitle.text = dataList[position].titleName
         holder.titleBind.layoutMore.setOnClickListener {
-            listener?.onMoreClick(dataList[position].type)
+            listener?.onMoreClick(dataList[position].titleName ?: "", dataList[position].id ?: "")
         }
     }
 
@@ -203,7 +203,7 @@ class CinemaListAdapter(
             holder.bannerBind.layoutBanner.addBannerLifecycleObserver(fragment)
                 .setAdapter(bannerAdapter).indicator = CircleIndicator(context)
             holder.bannerBind.layoutBanner.setOnBannerListener { data, _ ->
-                val jumpType = (data as Banner).jumpType
+                val jumpType = (data as BannerBean).jumpType
                 val movieId = data.movieId
                 if (jumpType == "1") listener?.onMovieClick(movieId, "-1")
             }
@@ -249,7 +249,7 @@ class CinemaListAdapter(
             }
     }
 
-    fun notifyDataChanged(dataList: ArrayList<ColumnBean>,page:Int){
+    fun notifyDataChanged(dataList: ArrayList<ColumnBean>, page: Int) {
         if (page == 1) {
             //代表这时候是下拉刷新了，这时候会重新请求广告，所以这时候要把之前的广告数据给销毁掉
             ttAd?.destroyInfoAd()
@@ -267,6 +267,6 @@ class CinemaListAdapter(
     interface OnItemClickListener {
         fun onCategoryClick(typeId: String, typeName: String)
         fun onMovieClick(movieId: String, way: String)
-        fun onMoreClick(type: String?)
+        fun onMoreClick(titleName: String, id: String)
     }
 }

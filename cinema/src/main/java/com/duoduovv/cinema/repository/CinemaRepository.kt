@@ -21,20 +21,13 @@ class CinemaRepository : CinemaApiRepository() {
     }
 
     /**
-     * 首页推荐
+     * 栏目点击查看更多
+     * @param id String
      * @param page Int
-     * @return BaseResponseData<MainRecommendBean>
+     * @return BaseResponseData<MovieMoreBean>
      */
-    suspend fun mainRecommend(page: Int, column: String) = request {
-        apiService.mainRecommend(page, column)
-    }
-
-    /**
-     * 首页
-     * @return BaseResponseData<MainPageBean>
-     */
-    suspend fun mainPage(column: String) = request {
-        apiService.mainPage(column = column)
+    suspend fun movieMoreList(id: String, page: Int) = request {
+        apiService.movieMoreList(id, page)
     }
 
     /**

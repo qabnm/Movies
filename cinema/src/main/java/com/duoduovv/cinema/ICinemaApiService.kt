@@ -1,8 +1,7 @@
 package com.duoduovv.cinema
 
 import com.duoduovv.cinema.bean.CinemaListBean
-import com.duoduovv.cinema.bean.MainPageBean
-import com.duoduovv.cinema.bean.MainRecommendBean
+import com.duoduovv.cinema.bean.MovieMoreBean
 import com.duoduovv.cinema.bean.SearchResultBean
 import dc.android.bridge.net.BaseResponseData
 import okhttp3.ResponseBody
@@ -31,23 +30,16 @@ interface ICinemaApiService {
     ): BaseResponseData<CinemaListBean>
 
     /**
-     * 首页
-     * @return BaseResponseData<MainPageBean>
-     */
-    @GET("api/index")
-    suspend fun mainPage(@Query("column") column: String): BaseResponseData<MainPageBean>
-
-    /**
-     * 首页推荐
-     * @param typeId String
+     * 不同分类点击更多
+     * @param id String
      * @param page Int
-     * @return BaseResponseData<MainRecommendBean>
+     * @return BaseResponseData<MovieMoreBean>
      */
-    @GET("api/index/recommend")
-    suspend fun mainRecommend(
-        @Query("page") page: Int,
-        @Query("column") typeId: String
-    ): BaseResponseData<MainRecommendBean>
+    @GET("api/v2/index/more")
+    suspend fun movieMoreList(
+        @Query("id") id: String,
+        @Query("page") page: Int
+    ): BaseResponseData<MovieMoreBean>
 
     /**
      * 搜索结果页

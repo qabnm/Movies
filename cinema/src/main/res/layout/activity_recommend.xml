@@ -4,30 +4,37 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0d000000"
+    android:background="@color/colorFFFFFF"
     android:orientation="vertical">
 
     <com.duoduovv.common.view.TopBarLayout
+        android:id="@+id/layoutTopBar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_44"
-        android:background="@color/colorFFFFFF"
-        app:contentTitle="今日推荐" />
+        android:background="@color/colorFFFFFF" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/dp_0_5"
         android:background="@color/colorE5E5E5" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvList"
+    <com.scwang.smart.refresh.layout.SmartRefreshLayout
+        android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:paddingStart="@dimen/dp_12"
-        android:paddingEnd="@dimen/dp_7"
-        android:scrollbars="none"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="3"
-        tools:itemCount="6"
-        tools:listitem="@layout/item_movie_library" />
+        android:layout_height="match_parent"
+        app:srlEnableFooterFollowWhenLoadFinished="true"
+        app:srlEnableLoadMoreWhenContentNotFull="false">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/dp_12"
+            android:paddingEnd="@dimen/dp_7"
+            android:scrollbars="none"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:itemCount="6"
+            tools:listitem="@layout/item_movie_library" />
+    </com.scwang.smart.refresh.layout.SmartRefreshLayout>
 </LinearLayout>
