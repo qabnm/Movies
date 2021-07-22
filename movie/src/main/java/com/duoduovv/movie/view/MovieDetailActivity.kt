@@ -134,7 +134,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         fragment = MovieDetailFragment()
         fragment?.let {
             it.setCallback(this)
-            supportFragmentManager.beginTransaction().add(R.id.layoutTop, it).commitAllowingStateLoss()
+            supportFragmentManager.beginTransaction().add(R.id.layoutTop, it)
+                .commitAllowingStateLoss()
         }
         detailAdapter = MovieDetailAdapter()
         mBind.rvList.adapter = detailAdapter
@@ -268,7 +269,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         override fun onAutoComplete(url: String?, vararg objects: Any?) {
             super.onAutoComplete(url, *objects)
             //播放完成了
-            onNextClick()
+//            onNextClick()
         }
     }
 
@@ -621,10 +622,6 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 设置播放器的基本功能
      */
     private fun setVideoPlayer() {
-        GSYVideoType.enableMediaCodec()
-        GSYVideoType.enableMediaCodecTexture()
-//        PlayerFactory.setPlayManager(Exo2PlayerManager::class.java)
-//        CacheFactory.setCacheManager(ExoPlayerCacheManager::class.java)
         mBind.videoPlayer.apply {
             thumbImageViewLayout.visibility = View.VISIBLE
             //设置全屏按键功能
@@ -737,8 +734,12 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                         viewModel.deleteCollection(it)
                         AndroidUtils.toast("取消收藏成功", this@MovieDetailActivity)
                     } else {
-                        viewModel.addCollection(it)
-                        AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
+                        try {
+                            viewModel.addCollection(it)
+                            AndroidUtils.toast("收藏成功", this@MovieDetailActivity)
+                        } catch (e: Exception) {
+                            AndroidUtils.toast("操作失败，请稍后再试", this@MovieDetailActivity)
+                        }
                     }
                     val bean = viewModel.queryCollectionById(detailBean!!.movie.id)
                     fragment?.notifyCollectionChange(bean)
@@ -887,7 +888,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
 
     override fun onStop() {
         Log.d("MovieDetailActivity", "onStop")
-        updateHistoryDB()
+        try {
+            updateHistoryDB()
+        } catch (e: Exception) {
+        }
         super.onStop()
     }
 

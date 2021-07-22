@@ -9,6 +9,7 @@ import com.bytedance.sdk.openadsdk.TTAdNative
 import com.bytedance.sdk.openadsdk.TTAdSdk
 import com.bytedance.sdk.openadsdk.TTNativeExpressAd
 import dc.android.tools.LiveDataBus
+import java.lang.ref.WeakReference
 
 /**
  * @author: jun.liu
@@ -21,7 +22,7 @@ class TTBannerAd {
     private var mTTAdNative:TTAdNative?=null
 
     fun initBanner(
-        activity: Activity,
+        activity: Activity?,
         posId: String,
         width: Float,
         height: Float,
@@ -44,7 +45,6 @@ class TTBannerAd {
             }
 
             override fun onNativeExpressAdLoad(adList: MutableList<TTNativeExpressAd>?) {
-                ttBannerAd?.destroy()
                 if (adList?.isNotEmpty() == true) {
                     ttBannerAd = adList[0]
                     ttBannerAd?.setSlideIntervalTime(15*1000)

@@ -1,5 +1,6 @@
 package com.duoduovv.common.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -25,6 +26,10 @@ class UpgradeDialogFragment() : DialogFragment() {
         this.isForce = isForce
         this.upgradeContent = upgradeContent
         this.downloadUrl = downloadUrl
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
     }
 
     override fun onCreateView(

@@ -33,7 +33,7 @@ import dc.android.bridge.util.StringUtils
 class CinemaListAdapter(
     private var dataList: ArrayList<ColumnBean>,
     private val context: Context,
-    private val fragment: CinemaListFragment
+    private var fragment: CinemaListFragment?
 ) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private val typeBanner = -100
@@ -102,6 +102,7 @@ class CinemaListAdapter(
         gdtAd?.onDestroy()
         bannerAdapter?.onDestroy()
         dataList.clear()
+        fragment = null
     }
 
     /**
@@ -199,6 +200,7 @@ class CinemaListAdapter(
     private fun bindBanner(holder: BannerViewHolder, position: Int) {
         val bannerData = dataList[position].banner
         if (bannerData?.isNotEmpty() == true) {
+            bannerAdapter?.onDestroy()
             bannerAdapter = BannerImgAdapter(bannerData, context)
             holder.bannerBind.layoutBanner.addBannerLifecycleObserver(fragment)
                 .setAdapter(bannerAdapter).indicator = CircleIndicator(context)

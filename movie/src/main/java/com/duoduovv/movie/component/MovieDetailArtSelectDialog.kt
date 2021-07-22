@@ -1,9 +1,11 @@
 package com.duoduovv.movie.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.duoduovv.common.component.NoLeakDialog
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieEpisodesArtAdapter
 import com.duoduovv.movie.bean.MovieItem
@@ -28,6 +30,10 @@ class MovieDetailArtSelectDialog() : DialogFragment() {
         this.height = height
         this.dataList = dataList
         this.listener = listener
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
     }
 
     override fun onCreateView(

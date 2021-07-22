@@ -1,5 +1,6 @@
 package com.duoduovv.movie.view
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
 import dc.android.bridge.util.OsUtils
 import dc.android.bridge.view.BaseFragment
 import dc.android.tools.LiveDataBus
+import java.lang.ref.WeakReference
 
 /**
  * @author: jun.liu
@@ -213,16 +215,21 @@ class MovieDetailFragment : BaseFragment() {
         }else{
             ttBanner?.onDestroy()
         }
-        ttBanner?.initBanner(requireActivity(), posId, bannerWidth, 0f, mBind.adContainer)
+        val weakReference = WeakReference(requireActivity())
+        val weakContainer = WeakReference(mBind.adContainer)
+        weakContainer.get()?.let {
+            ttBanner?.initBanner(weakReference.get(), posId, bannerWidth, 0f, it)
+        }
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         mBind.adContainer.removeAllViews()
         ttBanner?.onDestroy()
         gdtBannerAd?.onDestroy()
         ttBanner = null
         gdtBannerAd = null
+        Log.d("onDestroyView","onDestroyView")
+        super.onDestroyView()
     }
 
     /**

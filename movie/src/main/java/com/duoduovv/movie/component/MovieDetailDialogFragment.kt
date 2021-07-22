@@ -1,8 +1,10 @@
 package com.duoduovv.movie.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
+import com.duoduovv.common.component.NoLeakDialog
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.MovieDetail
 import com.duoduovv.movie.bean.MovieDetailBean
@@ -13,8 +15,7 @@ import com.duoduovv.movie.databinding.LayoutMovieDetailBinding
  * @date: 2021/2/24 17:24
  * @des:详情简介
  */
-class MovieDetailDialogFragment() :
-    DialogFragment() {
+class MovieDetailDialogFragment() : DialogFragment() {
     private lateinit var mBind: LayoutMovieDetailBinding
     private var height = 0
     private lateinit var bean: MovieDetail
@@ -40,6 +41,10 @@ class MovieDetailDialogFragment() :
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         initWindow()
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.duoduovv.common.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -39,6 +40,10 @@ class AlertDialogFragment() : DialogFragment() {
         mBind = DialogAlertBinding.inflate(inflater, container, false)
         initViews()
         return mBind.root
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
     }
 
     private fun initViews() {

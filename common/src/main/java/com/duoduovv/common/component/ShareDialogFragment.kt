@@ -1,5 +1,6 @@
 package com.duoduovv.common.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
@@ -77,6 +78,10 @@ class ShareDialogFragment() : DialogFragment() {
             it.setBackgroundDrawableResource(R.color.colorFFFFFF)
             it.attributes.windowAnimations = R.style.BottomToTopAnim
         }
+    }
+
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
     }
 
     interface OnShareClickListener {

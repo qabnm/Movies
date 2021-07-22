@@ -1,9 +1,11 @@
 package com.duoduovv.movie.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import androidx.recyclerview.widget.GridLayoutManager
+import com.duoduovv.common.component.NoLeakDialog
 import com.duoduovv.movie.R
 import com.duoduovv.movie.adapter.MovieDetailSelectAdapter
 import com.duoduovv.movie.bean.MovieItem
@@ -39,6 +41,9 @@ class MovieDetailSelectDialogFragment() : DialogFragment() {
         mBind = ItemMovieDetailSelectBinding.inflate(inflater, container, false)
         initViews()
         return mBind.root
+    }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
     }
 
     private fun initViews() {

@@ -1,5 +1,6 @@
 package com.duoduovv.main.component
 
+import android.app.Dialog
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -10,6 +11,7 @@ import com.duoduovv.advert.gdtad.GDTInfoAdForSelfRender
 import com.duoduovv.advert.ttad.TTInfoAd
 import com.duoduovv.common.BaseApplication
 import com.duoduovv.common.R
+import com.duoduovv.common.component.NoLeakDialog
 import com.duoduovv.main.databinding.DialogLogoutBinding
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
@@ -57,6 +59,15 @@ class LogoutDialogFragment: DialogFragment() {
                 }
             }
         }
+    }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        return NoLeakDialog(requireContext(),theme)
+    }
+
+    override fun onDestroyView() {
+        ttInfoAd?.destroyInfoAd()
+        gdtInfoAd?.onDestroy()
+        super.onDestroyView()
     }
 
     /**
