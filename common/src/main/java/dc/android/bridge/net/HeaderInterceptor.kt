@@ -29,7 +29,8 @@ class HeaderInterceptor : Interceptor {
             },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
         }
         if (OsUtils.isAppDebug()) {
-            val debugWay = SharedPreferencesHelper.helper.getValue(BridgeContext.DEBUG_WAY, "") as String
+            val debugWay =
+                SharedPreferencesHelper.helper.getValue(BridgeContext.DEBUG_WAY, "") as String
             if (!StringUtils.isEmpty(debugWay)) {
                 builder.addHeader(
                     "WAYLEVEL",
@@ -38,9 +39,12 @@ class HeaderInterceptor : Interceptor {
             }
         }
         builder.addHeader("User-Agent", "$userAgent---$location")
+        val authorization =
+            SharedPreferencesHelper.helper.getValue(BridgeContext.AUTHORIZATION, "") as? String ?: ""
+        val token = SharedPreferencesHelper.helper.getValue(TOKEN, "") as? String ?: ""
         builder.addHeader(
             "Authorization",
-            SharedPreferencesHelper.helper.getValue(TOKEN, "") as? String ?: ""
+            if (StringUtils.isEmpty(token)) authorization else token
         )
         return chain.proceed(builder.build())
     }

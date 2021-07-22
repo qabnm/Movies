@@ -13,6 +13,7 @@ open class BridgeContext {
         const val TOKEN_ERROR = "登录超时"
         const val NOTIFICATION = "notification"
         const val DATA = "data"
+        const val AUTHORIZATION = "authorization"
 
         const val ADDRESS = "address"
         const val ADDRESS_CH = "address_ch"

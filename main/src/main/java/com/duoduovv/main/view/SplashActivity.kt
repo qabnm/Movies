@@ -24,6 +24,7 @@ import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.ADDRESS
 import dc.android.bridge.BridgeContext.Companion.ADDRESS_CH
 import dc.android.bridge.BridgeContext.Companion.AGREEMENT
+import dc.android.bridge.BridgeContext.Companion.AUTHORIZATION
 import dc.android.bridge.BridgeContext.Companion.DATA
 import dc.android.bridge.BridgeContext.Companion.TYPE_GDT_AD
 import dc.android.bridge.BridgeContext.Companion.TYPE_TT_AD
@@ -34,6 +35,7 @@ import dc.android.bridge.util.OsUtils
 import dc.android.bridge.util.StringUtils
 import dc.android.bridge.view.BaseViewModelActivity
 import dc.android.tools.LiveDataBus
+import java.util.*
 
 
 /**
@@ -65,6 +67,12 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
     }
 
     override fun initData() {
+        val authorization = SharedPreferencesHelper.helper.getValue(AUTHORIZATION, "") as? String
+        if (StringUtils.isEmpty(authorization)) {
+            //存一个
+            val identity = UUID.randomUUID().toString()
+            SharedPreferencesHelper.helper.setValue(AUTHORIZATION,identity)
+        }
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
             false -> {
                 privacyDialogFragment = PrivacyDialogFragment(this)
@@ -94,16 +102,17 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
             BaseApplication.configBean = it
             initSplashAd()
             //统计可播放的way
-            if (it.way == BridgeContext.WAY_RELEASE){
-                Log.d("WAY_RELEASE",it.way)
-                val location = SharedPreferencesHelper.helper.getValue(ADDRESS_CH,"") as String
-                val map = mapOf("location" to location,"phone" to Build.MODEL)
-                EventContext.uMenEvent(EVENT_WAY_RELEASE,map)
+            if (it.way == BridgeContext.WAY_RELEASE) {
+                Log.d("WAY_RELEASE", it.way)
+                val location = SharedPreferencesHelper.helper.getValue(ADDRESS_CH, "") as String
+                val map = mapOf("location" to location, "phone" to Build.MODEL)
+                EventContext.uMenEvent(EVENT_WAY_RELEASE, map)
             }
         }
     }
 
-    private var ttSplashAds :TTSplashAds?= null
+    private var ttSplashAds: TTSplashAds? = null
+
     /**
      * 请求开屏广告
      */
@@ -112,15 +121,17 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
             if ("start" == it) start()
         })
         configureBean?.ad?.splash?.let {
-            when(it.type){
-                TYPE_TT_AD->{
+            when (it.type) {
+                TYPE_TT_AD -> {
                     ttSplashAds = TTSplashAds()
                     ttSplashAds?.initTTSplashAd(this, it.value, 4000, mBind.adContainer)
                 }
-                TYPE_GDT_AD->{ initGDTSplash(it.value) }
+                TYPE_GDT_AD -> {
+                    initGDTSplash(it.value)
+                }
                 else -> start()
             }
-        }?:run {
+        } ?: run {
             start()
         }
     }
@@ -241,7 +252,10 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                 SharedPreferencesHelper.helper.getValue(BridgeContext.PROVINCE, "") as String
             val dfCity = SharedPreferencesHelper.helper.getValue(BridgeContext.CITY, "") as String
             val dfArea = SharedPreferencesHelper.helper.getValue(BridgeContext.AREA, "") as String
-            if (StringUtils.isEmpty(dfProvince) || StringUtils.isEmpty(dfCity) || StringUtils.isEmpty(dfArea)) {
+            if (StringUtils.isEmpty(dfProvince) || StringUtils.isEmpty(dfCity) || StringUtils.isEmpty(
+                    dfArea
+                )
+            ) {
                 //没有默认地址
                 SharedPreferencesHelper.helper.setValue(
                     ADDRESS,
@@ -251,10 +265,12 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                         OsUtils.getVerCode(BaseApplication.baseCtx)
                     },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
                 )
-                SharedPreferencesHelper.helper.setValue(ADDRESS_CH,"{\"p\":\"$province\",\"c\":\"$city" +
-                        "\",\"d\":\"$district\",\"v\":${
-                    OsUtils.getVerCode(BaseApplication.baseCtx)
-                },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}")
+                SharedPreferencesHelper.helper.setValue(
+                    ADDRESS_CH, "{\"p\":\"$province\",\"c\":\"$city" +
+                            "\",\"d\":\"$district\",\"v\":${
+                                OsUtils.getVerCode(BaseApplication.baseCtx)
+                            },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+                )
             } else {
                 //有默认地址就用默认地址
                 SharedPreferencesHelper.helper.setValue(
@@ -265,10 +281,12 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
                         OsUtils.getVerCode(BaseApplication.baseCtx)
                     },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
                 )
-                SharedPreferencesHelper.helper.setValue(ADDRESS_CH,"{\"p\":\"$dfProvince\",\"c\":\"$dfCity" +
-                        "\",\"d\":\"$dfArea\",\"v\":${
-                            OsUtils.getVerCode(BaseApplication.baseCtx)
-                        },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}")
+                SharedPreferencesHelper.helper.setValue(
+                    ADDRESS_CH, "{\"p\":\"$dfProvince\",\"c\":\"$dfCity" +
+                            "\",\"d\":\"$dfArea\",\"v\":${
+                                OsUtils.getVerCode(BaseApplication.baseCtx)
+                            },\"ch\":\"${AndroidUtils.getAppMetaData()}\"}"
+                )
             }
             viewModel.configure()
         }
@@ -290,7 +308,8 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
      */
     private fun start() {
         locationHelper?.destroyLocation()
-        ARouter.getInstance().build(RouterPath.PATH_MAIN).withParcelable(DATA, configureBean).navigation()
+        ARouter.getInstance().build(RouterPath.PATH_MAIN).withParcelable(DATA, configureBean)
+            .navigation()
 //        ARouter.getInstance().build(RouterPath.PATH_MOVIE_DETAIL).withString(BridgeContext.ID, "818953").navigation()
 //        mBind.adContainer.removeAllViews()
         ttSplashAds?.onDestroy()
