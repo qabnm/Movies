@@ -56,16 +56,17 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param id String
      * @return Job
      */
-    fun moviePlayInfo(vid: String, id: String, line: String, js: String, flag: Int = 0) = request(false) {
-        val result = repository.moviePlayInfo(vid, id, line, js)
-        if (isSuccess(result.code)) {
-            if (flag == 0) {
-                moviePlayInfo.postValue(result.data)
-            } else {
-                movieClickInfo.postValue(result.data)
+    fun moviePlayInfo(vid: String, id: String, line: String, js: String, flag: Int = 0) =
+        request(false) {
+            val result = repository.moviePlayInfo(vid, id, line, js)
+            if (isSuccess(result.code)) {
+                if (flag == 0) {
+                    moviePlayInfo.postValue(result.data)
+                } else {
+                    movieClickInfo.postValue(result.data)
+                }
             }
         }
-    }
 
     /**
      * 更新历史观看记录
@@ -84,7 +85,8 @@ class MovieDetailViewModel : BaseViewModel() {
             if (progress > 0) {
                 //首先查询数据库是否有当前影片 如果有了就执行update操作
                 val dataList =
-                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryAllByDate()
+                    WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history()
+                        .queryAllByDate()
                 if (dataList?.isNotEmpty() == true) {
                     var updateBean: VideoWatchHistoryBean? = null
                     for (i in dataList.indices) {
@@ -184,12 +186,13 @@ class MovieDetailViewModel : BaseViewModel() {
      * @param movieId String
      * @param line String
      */
-    fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) = request(false) {
-        val result = repository.analysisPlayUrl(vid, movieId, line, content)
-        if (isSuccess(result.code)) {
-            analysisPlayUrl.postValue(result.data)
+    fun analysisPlayUrl(vid: String, movieId: String, line: String, content: String) =
+        request(false) {
+            val result = repository.analysisPlayUrl(vid, movieId, line, content)
+            if (isSuccess(result.code)) {
+                analysisPlayUrl.postValue(result.data)
+            }
         }
-    }
 
     /**
      * 解析三方的地址
@@ -217,12 +220,12 @@ class MovieDetailViewModel : BaseViewModel() {
 
     /**
      * 视频播放失败
-     * @param vid String
-     * @param url String
+     * @param pid String
+     * @param status String
      * @param message String
      * @return Job
      */
-    fun playError(vid: String, url: String, message: String) = request(false) {
-        repository.playError(vid, url, message)
+    fun playError(pid: String, status: String, message: String) = request(false) {
+        repository.playError(pid, status, message)
     }
 }

@@ -9,7 +9,7 @@ import com.shuyu.gsyvideoplayer.listener.VideoAllCallBack
  * 播放过程中的监听
  */
 open class VideoPlayCallback : VideoAllCallBack {
-    private val TAG = "videoPlayer"
+    private val TAG = "VideoPlayCallback"
     override fun onStartPrepared(url: String?, vararg objects: Any?) {
         Log.d(TAG, "onStartPrepared")
     }

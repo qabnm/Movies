@@ -11,7 +11,8 @@ data class MoviePlayInfoBean(
     val request: Request,
     val type: String?,
     val js:String?,
-    val headers: List<Header>?
+    val headers: List<Header>?,
+    val pid:String
 )
 
 data class PlayUrl(

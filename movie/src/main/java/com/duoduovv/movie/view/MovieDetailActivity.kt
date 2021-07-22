@@ -204,13 +204,13 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     override fun onJxError() {
         onPlayError()
         //统计解析错误的信息
-        EventContext.uMenEvent(EventContext.EVENT_JX_ERROR,getPlayErrorParams())
+        EventContext.uMenEvent(EventContext.EVENT_JX_ERROR, getPlayErrorParams())
     }
 
-    private fun getPlayErrorParams():HashMap<String,Any>{
-        val map = HashMap<String,Any>()
+    private fun getPlayErrorParams(): HashMap<String, Any> {
+        val map = HashMap<String, Any>()
         val flag = detailBean?.movie?.movieFlag
-        map["movieName"] = detailBean?.movie?.vodName?:""
+        map["movieName"] = detailBean?.movie?.vodName ?: ""
         map["line"] = line
         if (flag != TYPE_MOVIE) map["vidTitle"] = vidTitle
         return map
@@ -230,6 +230,10 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         (mBind.videoPlayer.currentPlayer as SampleCoverVideo).playLoading()
     }
 
+    private fun playState(status: String) {
+        viewModel.playError(pid, status, "onPlayError")
+    }
+
     /**
      * 播放器相关状态和时间监听毁掉
      */
@@ -238,9 +242,9 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             super.onPlayError(url, *objects)
             onPlayError()
             AndroidUtils.toast("播放出错！", this@MovieDetailActivity)
-            viewModel.playError(vidStr, url, "onPlayError")
+            playState("0")
             //统计播放出错
-            EventContext.uMenEvent(EventContext.EVENT_PLAY_ERROR,getPlayErrorParams())
+            EventContext.uMenEvent(EventContext.EVENT_PLAY_ERROR, getPlayErrorParams())
         }
 
         override fun onPrepared(url: String?, vararg objects: Any?) {
@@ -252,7 +256,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             }
             currentLength = 0
             pauseAdLoading()
-            EventContext.uMenEvent(EventContext.EVENT_PLAY_SUCCESS,null)
+            EventContext.uMenEvent(EventContext.EVENT_PLAY_SUCCESS, null)
+            playState("1")
         }
 
         override fun onQuitFullscreen(url: String?, vararg objects: Any?) {
@@ -276,6 +281,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     }
 
     private var playFlag = 0
+    private var pid = ""
 
     /**
      * 视频播放信息  第一次进来的时候，只加载视频信息 但是不播放
@@ -286,6 +292,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         bean?.let {
             //根据type判断是否需要调用解析的接口
             this.playFlag = flag
+            pid = it.pid
             js = it.js ?: ""
             when (it.type) {
                 "h5" -> {
@@ -432,7 +439,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             LiveDataBus.get().with("onAdComplete", String::class.java).observe(this, {
                 if ("onAdComplete" == it) {
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -442,7 +450,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                    (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                        View.GONE
                     videoAd?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
@@ -497,7 +506,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     "$totalLength | 关闭"
             } else {
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView.removeAllViews()
-                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility = View.GONE
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
+                    View.GONE
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
                 videoAd?.onDestroy()
                 playAdLoading()
@@ -857,7 +867,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
             hasClickRecommend = true
             viewModel.movieDetail(movieId)
         }
-        EventContext.uMenEvent(EventContext.EVENT_MOVIE_DETAIL_RECOMMEND,null)
+        EventContext.uMenEvent(EventContext.EVENT_MOVIE_DETAIL_RECOMMEND, null)
     }
 
     override fun onBackPressed() {

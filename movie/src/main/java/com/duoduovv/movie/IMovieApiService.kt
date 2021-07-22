@@ -101,16 +101,16 @@ interface IMovieApiService {
 
     /**
      * 视频播放失败的接口
-     * @param vid String
-     * @param url String
+     * @param pid String
+     * @param status String
      * @param message String
      * @return BaseResponseData<Any>
      */
     @FormUrlEncoded
     @POST("api/v2/vod/play_err")
     suspend fun playError(
-        @Field("vid") vid: String,
-        @Field("url") url: String,
+        @Field("pid") pid: String,
+        @Field("status") status: String,
         @Field("message") message: String
     ): BaseResponseData<Any>
 

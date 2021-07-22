@@ -114,13 +114,13 @@ class MovieRepository : MovieApiRepository() {
 
     /**
      * 视频播放失败
-     * @param vid String 点播ID
-     * @param url String 当前播放的url
+     * @param pid String 点播ID
+     * @param status String 当前播放的url
      * @param message String 错误信息
      * @return BaseResponseData<Any>
      */
-    suspend fun playError(vid: String, url: String, message: String) = request {
-        apiService.playError(vid = vid, url = url, message = message)
+    suspend fun playError(pid: String, status: String, message: String) = request {
+        apiService.playError(pid, status, message)
     }
 
     /**
