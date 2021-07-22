@@ -5,6 +5,7 @@ import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.duoduovv.movie.R
 import com.duoduovv.movie.bean.MovieDetail
+import com.duoduovv.movie.bean.MovieDetailBean
 import com.duoduovv.movie.databinding.LayoutMovieDetailBinding
 
 /**
@@ -12,13 +13,19 @@ import com.duoduovv.movie.databinding.LayoutMovieDetailBinding
  * @date: 2021/2/24 17:24
  * @des:详情简介
  */
-class MovieDetailDialogFragment(
-    private val height: Int,
-    private val bean: MovieDetail,
-    private val listener: OnReportClickListener?
-) :
+class MovieDetailDialogFragment() :
     DialogFragment() {
     private lateinit var mBind: LayoutMovieDetailBinding
+    private var height = 0
+    private lateinit var bean: MovieDetail
+    private var listener: OnReportClickListener? = null
+
+    constructor(height: Int, bean: MovieDetail, listener: OnReportClickListener?) : this() {
+        this.height = height
+        this.bean = bean
+        this.listener = listener
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -16,9 +16,14 @@ import dc.android.bridge.EventContext
  * @date: 2021/4/20 9:39
  * @des:分享
  */
-class ShareDialogFragment(private val listener: OnShareClickListener?) :
-    DialogFragment() {
+class ShareDialogFragment() : DialogFragment() {
     private lateinit var mBind: DialogShareBinding
+    private var listener: OnShareClickListener? = null
+
+    constructor(listener: OnShareClickListener?) : this() {
+        this.listener = listener
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,23 +39,23 @@ class ShareDialogFragment(private val listener: OnShareClickListener?) :
         mBind.tvCancel.setOnClickListener { dismiss() }
         mBind.layoutQQ.setOnClickListener {
             listener?.onQQShareClick(shareToQQ)
-            EventContext.uMenEvent(EventContext.EVENT_SHARE_QQ,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_QQ, null)
         }
         mBind.layoutZone.setOnClickListener {
             listener?.onQQShareClick(shareToQQZone)
-            EventContext.uMenEvent(EventContext.EVENT_SHARE_QQ_ZONE,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_QQ_ZONE, null)
         }
         mBind.layoutCopy.setOnClickListener {
             listener?.onCopyClick()
-            EventContext.uMenEvent(EventContext.EVENT_SHARE_COPY,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_COPY, null)
         }
         mBind.layoutWeiChat.setOnClickListener {
             listener?.onWeiChatClick(weiChatFriend)
-            EventContext.uMenEvent(EventContext.EVENT_SHARE_WEICHAT,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_WEICHAT, null)
         }
         mBind.layoutWeiChatCircle.setOnClickListener {
             listener?.onWeiChatClick(weiChatCircle)
-            EventContext.uMenEvent(EventContext.EVENT_SHARE_WEI_CIELE,null)
+            EventContext.uMenEvent(EventContext.EVENT_SHARE_WEI_CIELE, null)
         }
     }
 

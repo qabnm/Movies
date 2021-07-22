@@ -26,7 +26,7 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/3/25 17:37
  * @des:隐私政策的一些弹窗
  */
-class PrivacyDialogFragment(private val listener: OnDialogBtnClickListener?) : DialogFragment() {
+class PrivacyDialogFragment: DialogFragment() {
     private lateinit var mBind: DialogPrivacyBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,6 +37,7 @@ class PrivacyDialogFragment(private val listener: OnDialogBtnClickListener?) : D
         initViews()
         return mBind.root
     }
+    private var listener: OnDialogBtnClickListener?= null
 
     private fun initViews() {
         val spannableString = SpannableString(
@@ -131,6 +132,10 @@ class PrivacyDialogFragment(private val listener: OnDialogBtnClickListener?) : D
         }
         dialog?.setCanceledOnTouchOutside(false)
         dialog?.setCancelable(false)
+    }
+
+    fun setDialogBtnClickListener(listener: OnDialogBtnClickListener?){
+        this.listener = listener
     }
 
     interface OnDialogBtnClickListener {

@@ -328,12 +328,14 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
             hasObserve = true
             LiveDataBus.get().with("wxCode", String::class.java).observe(this, {
                 //请求微信的accessToken
-                viewModel.accessToken(
-                    url = accessTokenUrl,
-                    appId = weiChatAppId,
-                    secret = weiChatSecret,
-                    code = it
-                )
+                if (it != null) {
+                    viewModel.accessToken(
+                        url = accessTokenUrl,
+                        appId = weiChatAppId,
+                        secret = weiChatSecret,
+                        code = it
+                    )
+                }
             })
             viewModel.getAccessToken()
                 .observe(this, { accessToken(viewModel.getAccessToken().value) })

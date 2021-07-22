@@ -184,7 +184,8 @@ class MainActivity : BridgeActivity() {
 
     private var dialogFragment: LogoutDialogFragment? = null
     private fun showAlertDialog() {
-        dialogFragment = LogoutDialogFragment(listener)
+        dialogFragment = LogoutDialogFragment()
+        dialogFragment?.setLogoutSureClickListener(listener)
         dialogFragment?.showNow(supportFragmentManager, "logout")
     }
 

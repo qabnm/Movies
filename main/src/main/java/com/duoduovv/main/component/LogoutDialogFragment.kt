@@ -20,10 +20,11 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/5/17 17:50
  * @des:首页退出广告位
  */
-class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : DialogFragment() {
+class LogoutDialogFragment: DialogFragment() {
     private lateinit var mBind: DialogLogoutBinding
     private var gdtInfoAd: GDTInfoAdForSelfRender? = null
     private var ttInfoAd:TTInfoAd?= null
+    private var listener: OnLogoutSureClickListener? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,6 +97,10 @@ class LogoutDialogFragment(private val listener: OnLogoutSureClickListener?) : D
         }
         dialog?.setCancelable(false)
         dialog?.setCanceledOnTouchOutside(false)
+    }
+
+    fun setLogoutSureClickListener(listener: OnLogoutSureClickListener){
+        this.listener = listener
     }
 
     interface OnLogoutSureClickListener {

@@ -14,12 +14,22 @@ import com.duoduovv.movie.databinding.ItemMovieDetailSelectBinding
  * @date: 2021/3/31 17:19
  * @des:综艺类型的更多选集
  */
-class MovieDetailArtSelectDialog(
-    private val height: Int,
-    private val dataList: List<MovieItem>,
-    private val listener: OnSelectDialogItemClickListener?
-) : DialogFragment() {
+class MovieDetailArtSelectDialog() : DialogFragment() {
     private lateinit var mBind: ItemMovieDetailSelectBinding
+    private var height = 0
+    private lateinit var dataList: List<MovieItem>
+    private var listener: OnSelectDialogItemClickListener? = null
+
+    constructor(
+        height: Int,
+        dataList: List<MovieItem>,
+        listener: OnSelectDialogItemClickListener?
+    ) : this() {
+        this.height = height
+        this.dataList = dataList
+        this.listener = listener
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +53,7 @@ class MovieDetailArtSelectDialog(
             data[position].isSelect = true
             ad.notifyDataSetChanged()
             val vid = data[position].vid
-            listener?.onDialogClick(vid, data[position].title,data[position].vip)
+            listener?.onDialogClick(vid, data[position].title, data[position].vip)
             dismiss()
         }
         mBind.imgCancel.setOnClickListener { dismiss() }
@@ -55,7 +65,7 @@ class MovieDetailArtSelectDialog(
     }
 
     interface OnSelectDialogItemClickListener {
-        fun onDialogClick(vid: String, vidTitle: String,vip:String?)
+        fun onDialogClick(vid: String, vidTitle: String, vip: String?)
     }
 
     /**

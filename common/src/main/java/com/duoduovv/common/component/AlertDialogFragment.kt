@@ -15,12 +15,21 @@ import dc.android.bridge.util.OsUtils
  * @date: 2021/3/23 11:04
  * @des:警示弹窗
  */
-class AlertDialogFragment(
-    private val content: String,
-    private val width: Float = 300f,
-    private var listener: OnDialogSureClickListener? = null
-) : DialogFragment() {
+class AlertDialogFragment() : DialogFragment() {
     private lateinit var mBind: DialogAlertBinding
+    private var content = ""
+    private var width: Float = 300f
+    private var listener: OnDialogSureClickListener? = null
+
+    constructor(
+        content: String,
+        width: Float = 300f,
+        listener: OnDialogSureClickListener? = null
+    ) : this() {
+        this.content = content
+        this.width = width
+        this.listener = listener
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

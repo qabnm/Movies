@@ -75,7 +75,8 @@ class SplashActivity : BaseViewModelActivity<ConfigureViewModel>(),
         }
         when (SharedPreferencesHelper.helper.getValue(AGREEMENT, false) as Boolean) {
             false -> {
-                privacyDialogFragment = PrivacyDialogFragment(this)
+                privacyDialogFragment = PrivacyDialogFragment()
+                privacyDialogFragment?.setDialogBtnClickListener(this)
                 privacyDialogFragment?.showNow(supportFragmentManager, "privacy")
             }
             else -> {

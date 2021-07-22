@@ -39,6 +39,7 @@ class MovieDetailFragment : BaseFragment() {
     private var tvAdapter: MovieEpisodesTvAdapter? = null
     private var albumAdapter: MovieAlbumAdapter? = null
     private var bannerWidth = 0f
+    private var strId = ""
 
     fun setCallback(callback: MovieDetailCallback) {
         this.callback = callback
@@ -52,6 +53,31 @@ class MovieDetailFragment : BaseFragment() {
         bannerWidth =
             OsUtils.px2dip(requireContext(), OsUtils.getScreenWidth(requireContext()).toFloat())
                 .toFloat() - 20
+        tvAdapter = MovieEpisodesTvAdapter()
+        mBind.rvList.adapter = tvAdapter
+        tvAdapter?.setOnItemClickListener { ad, _, position ->
+            val data = (ad as MovieEpisodesTvAdapter).data
+            for (i in data.indices) {
+                data[i].isSelect = false
+            }
+            data[position].isSelect = true
+            ad.notifyDataSetChanged()
+            val vid = data[position].vid
+            callback?.onSelectClick(vid, strId, data[position].title,data[position].vip)
+        }
+
+        albumAdapter = MovieAlbumAdapter()
+        mBind.rvAlbum.adapter = albumAdapter
+        albumAdapter?.setOnItemClickListener { ad, _, position ->
+            val data = (ad as MovieAlbumAdapter).data
+            for (i in data.indices) {
+                data[i].isSelect = false
+            }
+            data[position].isSelect = true
+            ad.notifyDataSetChanged()
+            val vid = data[position].vid
+            callback?.onSelectClick(vid, strId, data[position].title,data[position].vip)
+        }
     }
 
     /**
@@ -88,26 +114,18 @@ class MovieDetailFragment : BaseFragment() {
             } else {
                 mBind.tvWhere.visibility = View.INVISIBLE
             }
-            tvAdapter = MovieEpisodesTvAdapter(detailBean.movieItems as MutableList<MovieItem>)
-            mBind.rvList.adapter = tvAdapter
-            for (i in detailBean.movieItems.indices) {
-                if (detailBean.movieItems[i].isSelect) {
-                    if (i != 0) (mBind.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
-                        i,
-                        0
-                    )
+            tvAdapter?.setList(detailBean.movieItems)
+            if (detailBean.movieItems?.isNotEmpty() == true) {
+                for (i in detailBean.movieItems.indices) {
+                    if (detailBean.movieItems[i].isSelect) {
+                        if (i != 0) (mBind.rvList.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                            i,
+                            0
+                        )
+                    }
                 }
             }
-            tvAdapter?.setOnItemClickListener { ad, _, position ->
-                val data = (ad as MovieEpisodesTvAdapter).data
-                for (i in data.indices) {
-                    data[i].isSelect = false
-                }
-                data[position].isSelect = true
-                ad.notifyDataSetChanged()
-                val vid = data[position].vid
-                callback?.onSelectClick(vid, detailBean.movie.strId, data[position].title,data[position].vip)
-            }
+            strId = detailBean.movie.strId
         } else {
             mBind.layoutContainer.visibility = View.GONE
         }
@@ -115,33 +133,25 @@ class MovieDetailFragment : BaseFragment() {
         if (BridgeContext.TYPE_ALBUM == detailBean.movie.movieFlag) {
             //综艺节目
             mBind.layoutZhuanJi.visibility = View.VISIBLE
-            albumAdapter = MovieAlbumAdapter(detailBean.movieItems as MutableList<MovieItem>)
-            mBind.rvAlbum.adapter = albumAdapter
-            for (i in detailBean.movieItems.indices) {
-                if (detailBean.movieItems[i].isSelect) {
-                    if (i != 0) (mBind.rvAlbum.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
-                        i,
-                        0
-                    )
+            albumAdapter?.setList(detailBean.movieItems)
+            if (detailBean.movieItems?.isNotEmpty() == true) {
+                for (i in detailBean.movieItems.indices) {
+                    if (detailBean.movieItems[i].isSelect) {
+                        if (i != 0) (mBind.rvAlbum.layoutManager as? LinearLayoutManager)?.scrollToPositionWithOffset(
+                            i,
+                            0
+                        )
+                    }
+                }
+                if (detailBean.movieItems.size > 5) {
+                    mBind.tvZWhere.visibility = View.VISIBLE
+                    mBind.tvZWhere.text = detailBean.movie.lastRemark
+                    mBind.tvZWhere.setOnClickListener { callback?.onArtSelectClick(detailBean.movieItems) }
+                } else {
+                    mBind.tvZWhere.visibility = View.INVISIBLE
                 }
             }
-            albumAdapter?.setOnItemClickListener { ad, _, position ->
-                val data = (ad as MovieAlbumAdapter).data
-                for (i in data.indices) {
-                    data[i].isSelect = false
-                }
-                data[position].isSelect = true
-                ad.notifyDataSetChanged()
-                val vid = data[position].vid
-                callback?.onSelectClick(vid, detailBean.movie.strId, data[position].title,data[position].vip)
-            }
-            if (detailBean.movieItems.size > 5) {
-                mBind.tvZWhere.visibility = View.VISIBLE
-                mBind.tvZWhere.text = detailBean.movie.lastRemark
-                mBind.tvZWhere.setOnClickListener { callback?.onArtSelectClick(detailBean.movieItems) }
-            } else {
-                mBind.tvZWhere.visibility = View.INVISIBLE
-            }
+            strId = detailBean.movie.strId
         } else {
             mBind.layoutZhuanJi.visibility = View.GONE
         }

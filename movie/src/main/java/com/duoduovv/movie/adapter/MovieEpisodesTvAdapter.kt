@@ -12,8 +12,7 @@ import com.duoduovv.movie.bean.MovieItem
  * @date: 2021/2/24 11:00
  * @des:影视详情选集
  */
-class MovieEpisodesTvAdapter(list: MutableList<MovieItem>) :
-    BaseQuickAdapter<MovieItem, BaseViewHolder>(R.layout.item_movie_episodes, list) {
+class MovieEpisodesTvAdapter: BaseQuickAdapter<MovieItem, BaseViewHolder>(R.layout.item_movie_episodes) {
     override fun convert(holder: BaseViewHolder, item: MovieItem) {
         val tvTitle:TextView = holder.getView(R.id.tvEpisodes)
         tvTitle.text = item.title
