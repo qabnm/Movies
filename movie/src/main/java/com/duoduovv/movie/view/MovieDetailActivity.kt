@@ -100,6 +100,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
     private var line = ""//播放线路
     private var js = ""
     private var videoAd: GDTVideoAdForSelfRender? = null
+    private var videoAdLand: GDTVideoAdForSelfRender? = null
     private var vip: String? = null
     override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
         super.setLayout(false, ContextCompat.getColor(this, R.color.color000000))
@@ -181,16 +182,27 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
      * 初始化广告
      */
     private fun initGDTVideoAd() {
-        if (null == videoAd) {
-            videoAd = GDTVideoAdForSelfRender()
+        if (resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            if (null == videoAd) {
+                videoAd = GDTVideoAdForSelfRender()
+            }
+            videoAd?.initVideoAd(
+                BaseApplication.baseCtx,
+                BaseApplication.configBean!!.ad!!.videoAd!!.value,
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).adImgCover,
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView,
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd
+            )
+        }else{
+            if (null == videoAdLand) videoAdLand = GDTVideoAdForSelfRender()
+            videoAdLand?.initVideoAd(
+                BaseApplication.baseCtx,
+                BaseApplication.configBean!!.ad!!.videoAd!!.value,
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).adImgCover,
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView,
+                (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd
+            )
         }
-        videoAd?.initVideoAd(
-            BaseApplication.baseCtx,
-            BaseApplication.configBean!!.ad!!.videoAd!!.value,
-            (mBind.videoPlayer.currentPlayer as SampleCoverVideo).adImgCover,
-            (mBind.videoPlayer.currentPlayer as SampleCoverVideo).mediaView,
-            (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd
-        )
     }
 
     /**
@@ -443,6 +455,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
                         View.GONE
                     videoAd?.onDestroy()
+                    videoAdLand?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -454,6 +467,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
                         View.GONE
                     videoAd?.onDestroy()
+                    videoAdLand?.onDestroy()
                     playAdLoading()
                     loadPlayUrl()
                 }
@@ -511,6 +525,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     View.GONE
                 (mBind.videoPlayer.currentPlayer as SampleCoverVideo).tvSkip.text = ""
                 videoAd?.onDestroy()
+                videoAdLand?.onDestroy()
                 playAdLoading()
                 loadPlayUrl()
             }
@@ -833,6 +848,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         mBind.layoutStateError.visibility = View.GONE
         destroyTimer()
         videoAd?.onDestroy()
+        videoAdLand?.onDestroy()
         //清理掉当前正在播放的视频
         mBind.videoPlayer.currentPlayer.onVideoPause()
         fragment?.updateAd()
@@ -861,6 +877,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         GlobalScope.launch(Dispatchers.Main) {
             destroyTimer()
             videoAd?.onDestroy()
+            videoAdLand?.onDestroy()
             if (way == WAY_RELEASE) playAdLoading()
             mBind.videoPlayer.currentPlayer.onVideoPause()
             mBind.layoutStateError.visibility = View.GONE
@@ -928,6 +945,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         GSYVideoManager.releaseAllVideos()
         orientationUtils?.releaseListener()
         videoAd?.onDestroy()
+        videoAdLand?.onDestroy()
     }
 
     override fun onPause() {
@@ -1004,6 +1022,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                 if (skipLength == 0) {
                     timerTask?.cancel()
                     videoAd?.onDestroy()
+                    videoAdLand?.onDestroy()
                     (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd.visibility =
                         View.GONE
                     playAdLoading()
@@ -1013,7 +1032,8 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         }
         videoAd?.onConfigurationChanged(
             (mBind.videoPlayer.currentPlayer as SampleCoverVideo).layoutAd,
-            this
+            this,
+            newConfig.orientation
         )
     }
 

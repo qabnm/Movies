@@ -178,7 +178,9 @@ class GDTVideoAdForSelfRender {
         return builder.build()
     }
 
-    fun onConfigurationChanged(container: FrameLayout, context: Context) {
+    private var orientation = Configuration.ORIENTATION_PORTRAIT
+    fun onConfigurationChanged(container: FrameLayout, context: Context,orientation:Int) {
+        this.orientation = orientation
         val height =
             Resources.getSystem().displayMetrics.widthPixels.coerceAtMost(Resources.getSystem().displayMetrics.heightPixels)
         container.post {
