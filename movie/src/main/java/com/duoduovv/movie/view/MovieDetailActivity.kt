@@ -134,7 +134,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
         fragment = MovieDetailFragment()
         fragment?.let {
             it.setCallback(this)
-            supportFragmentManager.beginTransaction().add(R.id.layoutTop, it).commit()
+            supportFragmentManager.beginTransaction().add(R.id.layoutTop, it).commitAllowingStateLoss()
         }
         detailAdapter = MovieDetailAdapter()
         mBind.rvList.adapter = detailAdapter
