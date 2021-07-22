@@ -23,7 +23,8 @@ import dc.android.bridge.view.BaseViewModelFragment
  * @date: 2021/6/25 10:25
  * @des:专题
  */
-class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>(), OnRefreshListener, OnLoadMoreListener {
+class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>(), OnRefreshListener,
+    OnLoadMoreListener {
     private lateinit var mbind: FragmentSubjectBinding
     private var page = 1
     private var adapter: MovieSubjectListAdapter? = null
@@ -38,7 +39,9 @@ class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>(), OnRefresh
         adapter?.setOnItemClickListener { adapter, _, position ->
             val dataBean = (adapter as MovieSubjectListAdapter).data[position]
             ARouter.getInstance().build(RouterPath.PATH_SUBJECT_DETAIL)
-                .withString(TITLE, dataBean.title).withString(ID, dataBean.subjectId).withString("coverUrl",dataBean.coverUrl).navigation()
+                .withString(TITLE, dataBean.title).withString(ID, dataBean.subjectId)
+                .withString("coverUrl", dataBean.coverUrl).withString("des", dataBean.des?:"")
+                .navigation()
         }
         viewModel.getSubjectList().observe(this, { setList(viewModel.getSubjectList().value) })
         viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
@@ -50,7 +53,7 @@ class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>(), OnRefresh
         }
     }
 
-    companion object{
+    companion object {
         @JvmStatic
         fun newInstance() = SubjectFragment()
     }

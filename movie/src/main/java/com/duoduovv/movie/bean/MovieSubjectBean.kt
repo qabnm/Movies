@@ -14,5 +14,7 @@ data class SubjectListBean(
     val subjectId: String,
     @SerializedName("image_url")
     val coverUrl: String,
-    val title: String
+    val title: String,
+    @SerializedName("blurb")
+    val des:String?
 )

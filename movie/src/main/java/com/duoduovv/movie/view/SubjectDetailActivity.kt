@@ -1,5 +1,10 @@
 package com.duoduovv.movie.view
 
+import android.annotation.TargetApi
+import android.os.Build
+import android.view.View
+import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.alibaba.android.arouter.facade.annotation.Route
 import com.alibaba.android.arouter.launcher.ARouter
 import com.duoduovv.common.component.AppBarStateChangeListener
@@ -17,6 +22,7 @@ import dc.android.bridge.EventContext
 import dc.android.bridge.util.GlideUtils
 import dc.android.bridge.view.BaseViewModelActivity
 
+
 /**
  * @author: jun.liu
  * @date: 2021/6/25 13:32
@@ -30,6 +36,10 @@ class SubjectDetailActivity : BaseViewModelActivity<SubjectDetailViewModel>() {
     private var detailAdapter: MovieSubjectDetailAdapter? = null
     override fun showStatusBarView() = false
     private var coverUrl = ""
+
+    override fun setLayout(isStatusColorDark: Boolean, statusBarColor: Int) {
+        super.setLayout(false, ContextCompat.getColor(this,R.color.colorFFFFFF))
+    }
 
     override fun initView() {
         mBind = ActivitySubjectDetailBinding.bind(layoutView)
@@ -50,8 +60,14 @@ class SubjectDetailActivity : BaseViewModelActivity<SubjectDetailViewModel>() {
     private val appbarListener = object : AppBarStateChangeListener() {
         override fun onStateChanged(appBarLayout: AppBarLayout?, state: State) {
             when (state) {
-                State.EXPANDED -> mBind.ivBack.setImageResource(R.drawable.back_white)
-                State.COLLAPSED -> mBind.ivBack.setImageResource(R.drawable.back)
+                State.EXPANDED -> {
+                    mBind.ivBack.setImageResource(R.drawable.back_white)
+                    setStatusBar(false)
+                }
+                State.COLLAPSED -> {
+                    mBind.ivBack.setImageResource(R.drawable.back)
+                    setStatusBar(true)
+                }
                 else -> mBind.ivBack.setImageResource(R.drawable.back_white)
             }
         }
@@ -70,9 +86,11 @@ class SubjectDetailActivity : BaseViewModelActivity<SubjectDetailViewModel>() {
         val subjectId = intent.getStringExtra(ID) ?: ""
         val title = intent.getStringExtra(TITLE) ?: ""
         coverUrl = intent.getStringExtra("coverUrl") ?: ""
+        val des = intent.getStringExtra("des")?:""
         viewModel.subjectDetail(subjectId)
         GlideUtils.setImg(this, coverUrl, mBind.imgCover)
         mBind.toolBarLayout.title = title
+        mBind.tvDes.text = des
     }
 
     /**
@@ -86,6 +104,16 @@ class SubjectDetailActivity : BaseViewModelActivity<SubjectDetailViewModel>() {
             RouterPath.PATH_MOVIE_DETAIL
         }
         ARouter.getInstance().build(path).withString(ID, movieId).navigation()
-        EventContext.uMenEvent(EventContext.EVENT_SUBJECT_TO_DETAIL,null)
+        EventContext.uMenEvent(EventContext.EVENT_SUBJECT_TO_DETAIL, null)
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private fun setStatusBar(dark: Boolean) {
+        val decor = window.decorView
+        if (dark) {
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+        } else {
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN or View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+        }
     }
 }
