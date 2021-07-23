@@ -27,6 +27,8 @@ import com.shuyu.gsyvideoplayer.utils.GSYVideoType;
 import com.shuyu.gsyvideoplayer.video.StandardGSYVideoPlayer;
 import com.shuyu.gsyvideoplayer.video.base.GSYBaseVideoPlayer;
 
+import java.lang.ref.WeakReference;
+
 import moe.codeest.enviews.ENPlayView;
 
 /**
@@ -67,7 +69,7 @@ public class SampleCoverVideo extends StandardGSYVideoPlayer {
 
     @Override
     protected void init(Context context) {
-        super.init(context);
+        super.init(new WeakReference<>(context).get());
         mCoverImage = findViewById(R.id.thumbImage);
         imgPlayPause = findViewById(R.id.imgPlayPause);
         imgNext = findViewById(R.id.imgPlayNext);

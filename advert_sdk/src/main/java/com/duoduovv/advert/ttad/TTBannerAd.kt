@@ -59,10 +59,8 @@ class TTBannerAd {
                         }
 
                         override fun onRenderSuccess(view: View?, p1: Float, p2: Float) {
-                            view?.let {
-                                container.removeAllViews()
-                                container.addView(it)
-                            }
+                            container.removeAllViews()
+                            view?.let { container.addView(it) }
                         }
                         override fun onAdDismiss() {
                             LiveDataBus.get().with("adClose").value = "adClose"
