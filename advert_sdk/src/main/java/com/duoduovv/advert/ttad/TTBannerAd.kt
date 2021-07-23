@@ -16,20 +16,20 @@ import java.lang.ref.WeakReference
  * @date: 2021/5/21 15:19
  * @des:穿山甲banner广告
  */
-class TTBannerAd {
-    private val TAG = "AD_DEMO"
+class TTBannerAd(activity: Activity?){
+    private val TAG = "TTBannerAd"
     private var ttBannerAd: TTNativeExpressAd? = null
     private var mTTAdNative:TTAdNative?=null
+    init {
+        mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
+    }
 
     fun initBanner(
-        activity: Activity?,
         posId: String,
         width: Float,
         height: Float,
         container: ViewGroup
     ) {
-        //创建TTAdNative对象
-        if (null == mTTAdNative)mTTAdNative = TTAdSdk.getAdManager().createAdNative(activity)
         //创建广告请求AdSlot
         val adSlot = AdSlot.Builder()
             .setCodeId(posId)

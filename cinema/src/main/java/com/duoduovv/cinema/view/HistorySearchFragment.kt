@@ -73,9 +73,9 @@ class HistorySearchFragment : BaseFragment(), IHistoryClickCallback {
      * 请求穿山甲广告
      */
     private fun initTTAd(posId:String) {
-        ttInfoAd = TTBannerAd()
+        ttInfoAd = TTBannerAd(requireActivity())
         val width = OsUtils.px2dip(requireContext(),OsUtils.getScreenWidth(requireContext()).toFloat()).toFloat() -20
-        ttInfoAd?.initBanner(requireActivity(), posId, width, 0f, mBind.adContainer)
+        ttInfoAd?.initBanner(posId, width, 0f, mBind.adContainer)
     }
 
     /**

@@ -157,7 +157,6 @@ class MovieDetailFragment : BaseFragment() {
         } else {
             mBind.layoutZhuanJi.visibility = View.GONE
         }
-        updateAd()
     }
 
     /**
@@ -210,15 +209,16 @@ class MovieDetailFragment : BaseFragment() {
      * @param posId String
      */
     private fun initTTAd(posId: String) {
+        Log.d("TTBannerAd","fragment${ttBanner == null}")
         if (null == ttBanner) {
-            ttBanner = TTBannerAd()
-        }else{
+            ttBanner = TTBannerAd(WeakReference(requireActivity()).get())
+        } else{
             ttBanner?.onDestroy()
         }
         val weakReference = WeakReference(requireActivity())
         val weakContainer = WeakReference(mBind.adContainer)
         weakContainer.get()?.let {
-            ttBanner?.initBanner(weakReference.get(), posId, bannerWidth, 0f, it)
+            ttBanner?.initBanner(posId, bannerWidth, 0f, it)
         }
     }
 

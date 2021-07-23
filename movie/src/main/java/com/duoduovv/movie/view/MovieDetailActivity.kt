@@ -577,6 +577,7 @@ class MovieDetailActivity : BaseViewModelActivity<MovieDetailViewModel>(),
                     ContextCompat.getColor(this@MovieDetailActivity, R.color.color000000)
                 )
                 fragment?.bindDetail(it)
+                fragment?.updateAd()
                 detailAdapter?.setList(it.recommends)
                 val list = it.movieItems
                 if (list?.isNotEmpty() == true) {
