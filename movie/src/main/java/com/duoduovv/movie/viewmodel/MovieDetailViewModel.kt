@@ -123,6 +123,7 @@ class MovieDetailViewModel : BaseViewModel() {
      * @return VideoWatchHistoryBean
      */
     suspend fun queryMovieById(movieId: String) = withContext(Dispatchers.IO) {
+        Log.d("queryMovieById",Thread.currentThread().name)
         WatchHistoryDatabase.getInstance(BaseApplication.baseCtx).history().queryById(movieId)
     }
 

@@ -36,16 +36,21 @@ class TentLoginListener(private val context: Context) : IUiListener {
                         js?.let {
                             Log.d("tent", it.toString())
                             val ret = it.getString("ret")
-                            val nickName = it.getString("nickname")
-                            val sex = it.getString("gender_type")
-                            val msg = it.getString("msg")
-                            var headerUrl = it.getString("figureurl_qq_1")
-                            if (it.has("figureurl_qq_2")) {
-                                val url = it.getString("figureurl_qq_2")
-                                if (!TextUtils.isEmpty(url)) headerUrl = url
+                            if (ret == "0") {
+                                val nickName = it.getString("nickname")
+                                val sex = it.getString("gender_type")
+                                val msg = it.getString("msg")
+                                var headerUrl = it.getString("figureurl_qq_1")
+                                if (it.has("figureurl_qq_2")) {
+                                    val url = it.getString("figureurl_qq_2")
+                                    if (!TextUtils.isEmpty(url)) headerUrl = url
+                                }
+                                val info = TentUserInfo(ret, msg, nickName, sex, headerUrl, openId)
+                                LiveDataBus.get().with("tentUserInfo").value = info
+                            }else{
+                                val msg = if (it.has("msg")) it.getString("msg") else "获取信息失败"
+                                Toast.makeText(context, msg, Toast.LENGTH_SHORT).show()
                             }
-                            val info = TentUserInfo(ret, msg, nickName, sex, headerUrl, openId)
-                            LiveDataBus.get().with("tentUserInfo").value = info
                         }
                     }
 
