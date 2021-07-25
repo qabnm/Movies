@@ -171,6 +171,9 @@ class CinemaListAdapter(
         holder.titleBind.layoutMore.setOnClickListener {
             listener?.onMoreClick(dataList[position].titleName ?: "", dataList[position].id ?: "")
         }
+        holder.titleBind.imgMore.setOnClickListener {
+            listener?.onMoreClick(dataList[position].titleName ?: "", dataList[position].id ?: "")
+        }
     }
 
     /**

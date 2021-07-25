@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layoutMore"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:id="@+id/layoutMore">
+    android:layout_height="wrap_content">
 
     <com.duoduovv.common.view.MediumBoldTextView
         android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="0px"
+        android:gravity="center_vertical"
         android:includeFontPadding="false"
         android:text="今日推荐"
-        android:gravity="center_vertical"
         android:textColor="@color/color000000"
-        android:textSize="@dimen/sp_16"
+        android:textSize="@dimen/sp_17"
         app:layout_constraintBottom_toBottomOf="@+id/tvMore"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="@id/tvMore" />
@@ -22,12 +22,20 @@
         android:id="@+id/tvMore"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
-        app:drawableEndCompat="@drawable/more_icon"
         android:paddingTop="@dimen/dp_18"
         android:paddingBottom="@dimen/dp_18"
         android:text="查看更多"
         android:textColor="@color/color000000"
-        android:textSize="@dimen/sp_11"
-        app:layout_constraintRight_toRightOf="parent"
+        android:textSize="@dimen/sp_12"
+        app:layout_constraintRight_toLeftOf="@+id/imgMore"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgMore"
+        android:layout_width="@dimen/dp_18"
+        android:layout_height="@dimen/dp_18"
+        android:src="@drawable/more_icon"
+        app:layout_constraintBottom_toBottomOf="@+id/tvMore"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/tvMore" />
 </androidx.constraintlayout.widget.ConstraintLayout>
