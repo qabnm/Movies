@@ -59,9 +59,6 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             toWebActivity("隐私政策", URL_PRIVACY)
         }
         mBind.imgIcon.setOnClickListener { onIconClick(0) }
-        mBind.tvLogoName.setOnClickListener {
-            if (OsUtils.isAppDebug())onIconClick(1)
-        }
         if (OsUtils.isAppDebug()) {
             mBind.imgIcon.setOnLongClickListener {
                 mBind.layoutDebug.visibility = View.VISIBLE
@@ -83,6 +80,7 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
                 SharedPreferencesHelper.helper.remove(BridgeContext.DEBUG_WAY)
                 AndroidUtils.toast("清除成功", this)
             }
+            mBind.tvLogoName.setOnClickListener { onIconClick(1) }
         }
     }
 
