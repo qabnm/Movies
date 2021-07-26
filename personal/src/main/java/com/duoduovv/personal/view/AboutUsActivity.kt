@@ -59,7 +59,9 @@ class AboutUsActivity : BaseViewModelActivity<SettingViewModel>() {
             toWebActivity("隐私政策", URL_PRIVACY)
         }
         mBind.imgIcon.setOnClickListener { onIconClick(0) }
-        mBind.tvLogoName.setOnClickListener { onIconClick(1) }
+        mBind.tvLogoName.setOnClickListener {
+            if (OsUtils.isAppDebug())onIconClick(1)
+        }
         if (OsUtils.isAppDebug()) {
             mBind.imgIcon.setOnLongClickListener {
                 mBind.layoutDebug.visibility = View.VISIBLE
