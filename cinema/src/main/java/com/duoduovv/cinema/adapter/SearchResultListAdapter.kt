@@ -11,6 +11,7 @@ import com.duoduovv.cinema.R
 import com.duoduovv.cinema.bean.MovieItem
 import com.duoduovv.cinema.bean.SearchResultList
 import com.duoduovv.cinema.databinding.ItemSearchResultBinding
+import dc.android.bridge.BridgeContext
 import dc.android.bridge.BridgeContext.Companion.TYPE_ALBUM
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV
 import dc.android.bridge.BridgeContext.Companion.TYPE_TV0
@@ -40,6 +41,9 @@ class SearchResultListAdapter(
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val bean = dataList[position]
+        if (bean.way == BridgeContext.WAY_VERIFY) {
+            holder.mBind.tvPlay.visibility = View.INVISIBLE
+        }
         GlideUtils.setMovieImg(context, bean.coverUrl, holder.mBind.imgCover)
         holder.mBind.tvTitle.text = bean.vodName
         holder.mBind.tvScore.text = bean.remark
