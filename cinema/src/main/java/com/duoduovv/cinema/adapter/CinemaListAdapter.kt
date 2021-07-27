@@ -222,9 +222,8 @@ class CinemaListAdapter(
         "category" -> typeCategory
         "title" -> typeTitle
         "video" -> typeList
-        else -> {
-            position
-        }
+        "ad" -> position
+        else -> -500
     }
 
     private class BannerViewHolder(val bannerBind: ItemMainBannerBinding) :
