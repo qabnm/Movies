@@ -62,15 +62,15 @@ class CinemaFragment : BaseViewModelFragment<CinemaViewModel>() {
             ARouter.getInstance().build(RouterPath.PATH_SEARCH_ACTIVITY)
                 .withStringArrayList(BridgeContext.LIST, hotList as? ArrayList).navigation()
         }
-        viewModel.getConfigure().observe(this, {
+        viewModel.getConfigure().observe(viewLifecycleOwner, {
             val result = viewModel.getConfigure().value
             initConfig(result)
         })
-        viewModel.getProgress().observe(this, {
+        viewModel.getProgress().observe(viewLifecycleOwner, {
             val progress = viewModel.getProgress().value
             upgradeDialogFragment?.onProgressUpdate(progress ?: 0)
         })
-        viewModel.getInstallState().observe(this, {
+        viewModel.getInstallState().observe(viewLifecycleOwner, {
             val intent = viewModel.getInstallState().value
             intent?.let {
                 startActivity(it)

@@ -43,8 +43,8 @@ class SubjectFragment : BaseViewModelFragment<SubjectListViewModel>(), OnRefresh
                 .withString("coverUrl", dataBean.coverUrl).withString("des", dataBean.des?:"")
                 .navigation()
         }
-        viewModel.getSubjectList().observe(this, { setList(viewModel.getSubjectList().value) })
-        viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
+        viewModel.getSubjectList().observe(viewLifecycleOwner, { setList(viewModel.getSubjectList().value) })
+        viewModel.getNoMoreData().observe(viewLifecycleOwner, { noMoreData(viewModel.getNoMoreData().value) })
         mbind.refreshLayout.apply {
             setRefreshHeader(ClassicsHeader(context))
             setRefreshFooter(ClassicsFooter(context))

@@ -44,7 +44,7 @@ class MovieFragment : BaseFragment() {
                 .withStringArrayList(BridgeContext.LIST, BaseApplication.hotList as? ArrayList)
                 .navigation()
         }
-        LiveDataBus.get().with(BridgeContext.ID, String::class.java).observe(this, {
+        LiveDataBus.get().with(BridgeContext.ID, String::class.java).observe(viewLifecycleOwner, {
             it?.let {
                 typeId = it
                 Log.i("typeId", "我已经接受到typeId了，$typeId")

@@ -102,8 +102,8 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
         }
         mBind.imgWeiChat.setOnClickListener { weiChatLogin() }
         mBind.imgQQ.setOnClickListener { qqLogin() }
-        viewModel.getUserInfo().observe(this, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
-        LiveDataBus.get().with("logout", Int::class.java).observe(this, {
+        viewModel.getUserInfo().observe(viewLifecycleOwner, { onGetUserInfoSuc(viewModel.getUserInfo().value) })
+        LiveDataBus.get().with("logout", Int::class.java).observe(viewLifecycleOwner, {
             if (it == SUCCESS) {
                 WeiChatTool.mTenCent?.logout(requireContext())
                 viewModel.userInfo()
@@ -326,7 +326,7 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
 
         if (!hasObserve) {
             hasObserve = true
-            LiveDataBus.get().with("wxCode", String::class.java).observe(this, {
+            LiveDataBus.get().with("wxCode", String::class.java).observe(viewLifecycleOwner, {
                 //请求微信的accessToken
                 if (it != null) {
                     viewModel.accessToken(
@@ -338,17 +338,17 @@ class PersonalFragment : BaseViewModelFragment<WeiChatViewModel>() {
                 }
             })
             viewModel.getAccessToken()
-                .observe(this, { accessToken(viewModel.getAccessToken().value) })
+                .observe(viewLifecycleOwner, { accessToken(viewModel.getAccessToken().value) })
             viewModel.getRefreshToken()
-                .observe(this, { refreshToken(viewModel.getRefreshToken().value) })
+                .observe(viewLifecycleOwner, { refreshToken(viewModel.getRefreshToken().value) })
             viewModel.getAccessTokenValid()
-                .observe(this, { accessTokenValid(viewModel.getAccessTokenValid().value) })
+                .observe(viewLifecycleOwner, { accessTokenValid(viewModel.getAccessTokenValid().value) })
             viewModel.getWeiChatUseInfo()
-                .observe(this, { setUserInfo(viewModel.getWeiChatUseInfo().value) })
-            viewModel.getToken().observe(this, { loginSuccess(viewModel.getToken().value) })
+                .observe(viewLifecycleOwner, { setUserInfo(viewModel.getWeiChatUseInfo().value) })
+            viewModel.getToken().observe(viewLifecycleOwner, { loginSuccess(viewModel.getToken().value) })
 
             //注册QQ登录的监听
-            LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(this, {
+            LiveDataBus.get().with("tentUserInfo", TentUserInfo::class.java).observe(viewLifecycleOwner, {
                 qqAuthSuccess(it)
             })
         }

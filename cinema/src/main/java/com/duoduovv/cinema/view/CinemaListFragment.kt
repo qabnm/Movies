@@ -61,8 +61,8 @@ class CinemaListFragment : BaseViewModelFragment<CinemaListViewModel>(), OnRefre
             setOnRefreshListener(this@CinemaListFragment)
             setOnLoadMoreListener(this@CinemaListFragment)
         }
-        viewModel.getCinemaList().observe(this, { setData(viewModel.getCinemaList().value) })
-        viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
+        viewModel.getCinemaList().observe(viewLifecycleOwner, { setData(viewModel.getCinemaList().value) })
+        viewModel.getNoMoreData().observe(viewLifecycleOwner, { noMoreData(viewModel.getNoMoreData().value) })
     }
 
     private fun setData(dataList: List<ColumnBean>?) {

@@ -49,7 +49,7 @@ class MovieDetailFragment : BaseFragment() {
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieDetailBinding
-        LiveDataBus.get().with("adClose", String::class.java).observe(this, {
+        LiveDataBus.get().with("adClose", String::class.java).observe(viewLifecycleOwner, {
             if ("adClose" == it) mBind.adContainer.visibility = View.GONE
         })
         bannerWidth =

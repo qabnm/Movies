@@ -26,7 +26,7 @@ class MovieRankNavFragment : BaseViewModelFragment<ConfigureViewModel>() {
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieRankNavBinding
-        viewModel.getConfigure().observe(this, {
+        viewModel.getConfigure().observe(viewLifecycleOwner, {
             val result = viewModel.getConfigure().value?.columns
             initFragment(result)
         })

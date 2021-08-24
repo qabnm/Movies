@@ -54,11 +54,11 @@ class MovieLibraryFragment : BaseViewModelFragment<MovieLibListViewModel>(),
     override fun initView() {
         mBind = baseBinding as FragmentMovieLibraryBinding
         mBind.rvList.layoutManager = GridLayoutManager(requireActivity(), 3)
-        viewModel.getMovieLibList().observe(this, {
+        viewModel.getMovieLibList().observe(viewLifecycleOwner, {
             val result = viewModel.getMovieLibList().value
             setData(result)
         })
-        viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
+        viewModel.getNoMoreData().observe(viewLifecycleOwner, { noMoreData(viewModel.getNoMoreData().value) })
         mBind.refreshLayout.apply {
             setRefreshHeader(ClassicsHeader(requireActivity()))
             setRefreshFooter(ClassicsFooter(requireActivity()))

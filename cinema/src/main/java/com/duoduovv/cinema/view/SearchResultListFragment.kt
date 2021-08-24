@@ -44,8 +44,8 @@ class SearchResultListFragment : BaseViewModelFragment<SearchResultViewModel>(),
 
     override fun initView() {
         mBind = baseBinding as FragmentSearchResultListBinding
-        viewModel.getSearchResult().observe(this, { setData(viewModel.getSearchResult().value) })
-        viewModel.getNoMoreData().observe(this, { noMoreData(viewModel.getNoMoreData().value) })
+        viewModel.getSearchResult().observe(viewLifecycleOwner, { setData(viewModel.getSearchResult().value) })
+        viewModel.getNoMoreData().observe(viewLifecycleOwner, { noMoreData(viewModel.getNoMoreData().value) })
         mBind.rvList.layoutManager = LinearLayoutManager(requireActivity())
         mBind.refreshLayout.apply {
             setRefreshHeader(ClassicsHeader(context))

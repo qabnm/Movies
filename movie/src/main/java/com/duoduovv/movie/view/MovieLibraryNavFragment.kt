@@ -29,7 +29,7 @@ class MovieLibraryNavFragment : BaseViewModelFragment<MovieLibCategoryViewModel>
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieLibraryNavBinding
-        viewModel.getMovieLibCategory().observe(this,  {
+        viewModel.getMovieLibCategory().observe(viewLifecycleOwner,  {
             val value = viewModel.getMovieLibCategory().value
             initFragment(value?.configs)
         })

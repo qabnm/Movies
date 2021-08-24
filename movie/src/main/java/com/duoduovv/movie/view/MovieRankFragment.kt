@@ -30,7 +30,7 @@ class MovieRankFragment : BaseViewModelFragment<MovieRankListViewModel>() {
 
     override fun initView() {
         mBind = baseBinding as FragmentMovieRankBinding
-        viewModel.getMovieRankList().observe(this, { setData(viewModel.getMovieRankList().value) })
+        viewModel.getMovieRankList().observe(viewLifecycleOwner, { setData(viewModel.getMovieRankList().value) })
         mBind.rvList.layoutManager = LinearLayoutManager(requireActivity())
         rankAdapter = MovieRankAdapter()
         mBind.rvList.adapter = rankAdapter
