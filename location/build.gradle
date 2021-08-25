@@ -41,5 +41,5 @@ android {
 
 dependencies {
     implementation "androidx.core:core-ktx:$ext.core_ktx_version"
-    implementation 'com.amap.api:location:5.3.1'
+    implementation 'com.amap.api:location:5.3.0'
 }

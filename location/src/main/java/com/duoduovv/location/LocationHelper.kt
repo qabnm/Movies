@@ -1,6 +1,7 @@
 package com.duoduovv.location
 
 import android.content.Context
+import android.util.Log
 import com.amap.api.location.AMapLocationClient
 import com.amap.api.location.AMapLocationClientOption
 import com.amap.api.location.AMapLocationListener
@@ -38,6 +39,7 @@ class LocationHelper(private val context: Context, private val lbsListener: OnLo
      */
     private val locationListener = AMapLocationListener { aMapLocation ->
         aMapLocation?.let {
+            Log.d("aMapLocation","errorCode=${it.errorCode}errorInfo=${it.errorInfo}")
             if (it.errorCode == 0) {
                 lbsListener?.onLocationChange(
                     it.latitude,
