@@ -1,7 +1,6 @@
 package dc.android.bridge.view
 
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.ColorInt
@@ -14,8 +13,6 @@ import dc.android.bridge.util.StatusBarWrapper
 open class BridgeActivity : BaseActivity() {
     private lateinit var barWrapper: StatusBarWrapper
     protected lateinit var layoutView: View
-    private var onResumeTime = 0L
-    private var onStopTime = 0L
     override fun initAttach() {
         super.initAttach()
         barWrapper = StatusBarWrapper(this)
@@ -64,18 +61,5 @@ open class BridgeActivity : BaseActivity() {
 
     fun setStatusBarVisible(visible: Int) {
         barWrapper.setStatusBarVisible(visible)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        onResumeTime = System.currentTimeMillis()
-        if (onStopTime > 0) {
-            Log.d("AD_DEMO", "${onResumeTime - onStopTime}")
-        }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        onStopTime = System.currentTimeMillis()
     }
 }
